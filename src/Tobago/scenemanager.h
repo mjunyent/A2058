@@ -35,8 +35,8 @@ public:
 				  float priority,				//priority (lower execute first!)
 				  void (*pre_f)(void),			//pre function (executed just before start)
 				  void (*post_f)(void),			//post function (just after end)
-				  void (*draw_f)(double),			//function called in the main loop.
-				  void (*update_f)(double)			//function called in the timer update.
+				  void (*draw_f)(double),		//function called in the main loop.
+				  void (*update_f)(double)		//function called in the timer update.
 				 );
 
 	void render();
