@@ -1,14 +1,12 @@
 #pragma once
 #ifndef log_h
 #define log_h
-#ifdef DEBUG_LOG
+
 #include <cstring>
 #include <iostream>
-#endif
 #include <fstream>
-//#include <vector>
-#include "GL/glfw.h"
 
+#include "GL/glfw.h"
 
 using namespace std;
 
@@ -24,6 +22,5 @@ private:
     char* filename;
     ofstream *output;
 };
-
 
 #endif

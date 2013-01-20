@@ -1,10 +1,11 @@
 #pragma once
 #include <GL/glew.h>
 #include <GL/glfw.h>
-#include "FBO.h"
-#include "TBO.h"
-#include "Buffer_Object.h"
-#include "shader.h"
+#include "../Objects/FBO.h"
+#include "../Objects/TBO.h"
+#include "../Objects/VBO.h"
+#include "../Objects/shader.h"
+
 /*
 	La intencion de uso de esta estupida clase es crear una diferente para cada fuente, algo del estilo : 
 	FontHandler Calibri("Calibri.png")

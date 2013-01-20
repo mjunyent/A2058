@@ -1,9 +1,9 @@
 #pragma once
 #include <GL/glew.h>
 #include <GL/glfw.h>
-#include "basic/Buffer_Object.h"
-#include "basic/TBO.h"
-#include "basic/global.h"
+#include "Buffer_Object.h"
+#include "TBO.h"
+#include "../basic/global.h"
 
 //Modificarla para poder añadir Coloratachments y depthbuffers y pollas como te de la gana, sin límite.
 class FBO {

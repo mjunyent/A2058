@@ -1,5 +1,4 @@
-#include "scenemanager.h"
-
+#include "SceneManager.h"
 
 SceneManager::SceneManager(double *t) {
 	time = t;

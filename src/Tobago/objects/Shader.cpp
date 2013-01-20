@@ -1,5 +1,4 @@
-#ifdef DEBUG_LOG
-#include "shader.h"
+#include "Shader.h"
 
 Shader::Shader(char *vertex, char *fragment) {
     load(vertex, fragment);
@@ -185,5 +184,3 @@ bool Shader::printProgramInfoLog(GLuint obj)
     
     return !(infologLength > 1);
 }
-
-#endif

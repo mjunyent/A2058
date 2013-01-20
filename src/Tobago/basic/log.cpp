@@ -1,4 +1,3 @@
-#ifdef DEBUG_LOG
 #include "log.h"
 
 using namespace std;
@@ -37,5 +36,3 @@ void Log::close() {
     (*output).close();
     
 }
-
-#endif

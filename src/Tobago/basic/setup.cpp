@@ -1,6 +1,5 @@
 #include "setup.h"
-#include <iostream>
-#include <stdlib.h>
+
 using namespace std;
 
 void OGL::init(int w	, int h , 
@@ -10,7 +9,7 @@ void OGL::init(int w	, int h ,
 {
 	global::width = w;
 	global::height = h;
-	#ifdef DEBUG_LOG 
+
 	if(		!glfwInit()		)
 	{
 		cerr << "glfwInit fail'd" << endl;
@@ -21,7 +20,7 @@ void OGL::init(int w	, int h ,
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, version);
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
 	glfwEnable( GLFW_STICKY_KEYS );
-	if( !glfwOpenWindow( w , h, r,g,b,alpha, depth,stencil, mode ) )
+	if( !glfwOpenWindow( w, h, r, g, b, alpha, depth, stencil, mode ) )
 	{
 		cerr << "glfwOpenWindow fail'd" << endl;
 		glfwTerminate();
@@ -37,20 +36,6 @@ void OGL::init(int w	, int h ,
 		glfwTerminate();
 		exit( EXIT_FAILURE );
 	}
-	#else
-	glfwInit();
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, aa);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, version);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
-	glfwEnable( GLFW_STICKY_KEYS );
-	//glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwOpenWindow(w,h,r,g,b,alpha,depth,stencil,mode);
-	glEnable( GL_DEPTH_TEST);
-	glDepthFunc( GL_LEQUAL );
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glewInit();
-	#endif
 
 	glfwSetWindowSizeCallback(resizecalback);
 

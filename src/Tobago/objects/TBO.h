@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include "lodepng/lodepng.h"
-#include "basic/global.h"
+#include "../basic/global.h"
 
 class TBO {
 public:

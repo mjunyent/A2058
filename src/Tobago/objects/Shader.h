@@ -4,13 +4,12 @@
 //
 
 #pragma once
-#ifdef DEBUG_LOG
 #ifndef shader_h
 #define shader_h
 
 #include "GL/glew.h"
 #include "GL/glfw.h"
-#include "global.h"
+#include "../basic/global.h"
 #include <cstdio>
 #include <cstdlib>
 
@@ -39,5 +38,4 @@ private:
     bool printProgramInfoLog(GLuint obj); //returns true if error.
 };
 
-#endif
 #endif
