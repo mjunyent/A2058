@@ -13,10 +13,140 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Tobago">
+      <UniqueIdentifier>{d1e16012-1cf1-4075-a08b-81989595bf42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Basic">
+      <UniqueIdentifier>{ad7da67a-5519-411b-8248-1b9146650f4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Basic\Headers">
+      <UniqueIdentifier>{4c797724-3b5d-488a-836b-e6ba51a0ad53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Basic\Sources">
+      <UniqueIdentifier>{1fa39859-f581-4f63-bad2-6007ad217156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Objects">
+      <UniqueIdentifier>{8e38d105-74e8-440b-b4eb-fc511afc82f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Objects\lodepng">
+      <UniqueIdentifier>{ebc17c49-6e77-4e9b-8581-7c9f0fd8a19e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Objects\Headers">
+      <UniqueIdentifier>{e1b40aec-4f32-4226-800e-7e52dae3860d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Objects\Sources">
+      <UniqueIdentifier>{b2f1af07-fcb6-4f28-bd81-eca9617896ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Handlers">
+      <UniqueIdentifier>{fd0666f7-c624-4538-94d1-436f672b7272}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tobago\basic\global.cpp">
+      <Filter>Tobago\Basic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\basic\log.cpp">
+      <Filter>Tobago\Basic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\basic\setup.cpp">
+      <Filter>Tobago\Basic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\basic\timer.cpp">
+      <Filter>Tobago\Basic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp">
+      <Filter>Tobago\Objects\lodepng</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\FBO.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\IBO.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\Shader.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\SShader.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\TBO.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\VBO.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\handlers\FontHandler.cpp">
+      <Filter>Tobago\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp">
+      <Filter>Tobago\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\handlers\SceneManager.cpp">
+      <Filter>Tobago\Handlers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Tobago\Tobago.h">
+      <Filter>Tobago</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\basic\global.h">
+      <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\basic\log.h">
+      <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\basic\setup.h">
+      <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\basic\timer.h">
+      <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h">
+      <Filter>Tobago\Objects\lodepng</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\Buffer_Object.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\FBO.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\IBO.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\Shader.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\SShader.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\TBO.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\VBO.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\handlers\FontHandler.h">
+      <Filter>Tobago\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\handlers\SoundHandler.h">
+      <Filter>Tobago\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\handlers\SceneManager.h">
+      <Filter>Tobago\Handlers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tobago\handlers\FontReader_f.glsl">
+      <Filter>Tobago\Handlers</Filter>
+    </None>
+    <None Include="src\Tobago\handlers\FontReader_v.glsl">
+      <Filter>Tobago\Handlers</Filter>
+    </None>
   </ItemGroup>
 </Project>

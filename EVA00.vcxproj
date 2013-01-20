@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)inc;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -49,9 +49,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>NO_SOUND;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;GLFW.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,6 +71,43 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Tobago\basic\global.cpp" />
+    <ClCompile Include="src\Tobago\basic\log.cpp" />
+    <ClCompile Include="src\Tobago\basic\setup.cpp" />
+    <ClCompile Include="src\Tobago\basic\timer.cpp" />
+    <ClCompile Include="src\Tobago\handlers\FontHandler.cpp" />
+    <ClCompile Include="src\Tobago\handlers\SceneManager.cpp" />
+    <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp" />
+    <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp" />
+    <ClCompile Include="src\Tobago\objects\FBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\IBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
+    <ClCompile Include="src\Tobago\objects\Shader.cpp" />
+    <ClCompile Include="src\Tobago\objects\SShader.cpp" />
+    <ClCompile Include="src\Tobago\objects\TBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Tobago\basic\global.h" />
+    <ClInclude Include="src\Tobago\basic\log.h" />
+    <ClInclude Include="src\Tobago\basic\setup.h" />
+    <ClInclude Include="src\Tobago\basic\timer.h" />
+    <ClInclude Include="src\Tobago\handlers\FontHandler.h" />
+    <ClInclude Include="src\Tobago\handlers\SceneManager.h" />
+    <ClInclude Include="src\Tobago\handlers\SoundHandler.h" />
+    <ClInclude Include="src\Tobago\objects\Buffer_Object.h" />
+    <ClInclude Include="src\Tobago\objects\FBO.h" />
+    <ClInclude Include="src\Tobago\objects\IBO.h" />
+    <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h" />
+    <ClInclude Include="src\Tobago\objects\Shader.h" />
+    <ClInclude Include="src\Tobago\objects\SShader.h" />
+    <ClInclude Include="src\Tobago\objects\TBO.h" />
+    <ClInclude Include="src\Tobago\objects\VBO.h" />
+    <ClInclude Include="src\Tobago\Tobago.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tobago\handlers\FontReader_f.glsl" />
+    <None Include="src\Tobago\handlers\FontReader_v.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
