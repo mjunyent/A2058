@@ -1,11 +1,15 @@
 #ifndef NO_SOUND
 
 #pragma once
+#include <iostream>
 #include <cstdlib>
+
 #include <GL/glew.h>
 #include <GL/glfw.h>
+
 #include "fmod.hpp"
 #include "fmod_errors.h"
+
 /*
 	FMOD Ex API :
 		- fmodex_vc.lib

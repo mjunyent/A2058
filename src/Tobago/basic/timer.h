@@ -7,7 +7,7 @@
 #define timer_h
 
 #ifndef NO_SOUND
-#include "SoundHandler.h"
+#include "../Handlers/SoundHandler.h"
 #endif
 #include "global.h"
 

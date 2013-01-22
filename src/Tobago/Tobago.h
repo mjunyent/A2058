@@ -13,12 +13,10 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-
 #include "basic/setup.h"
 #include "basic/global.h"
 #include "basic/log.h"
 #include "basic/timer.h"
-
 
 #include "objects/Buffer_Object.h"
 #include "objects/FBO.h"

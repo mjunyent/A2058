@@ -40,6 +40,12 @@
     <Filter Include="Tobago\Handlers">
       <UniqueIdentifier>{fd0666f7-c624-4538-94d1-436f672b7272}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tobago\Handlers\Headers">
+      <UniqueIdentifier>{07a833d6-0fbb-4cfd-9348-fc401984cb87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tobago\Handlers\Sources">
+      <UniqueIdentifier>{ab6f1dcf-5d9a-40a0-937c-fe0934717751}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -82,13 +88,13 @@
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp">
-      <Filter>Tobago\Handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp">
-      <Filter>Tobago\Handlers</Filter>
+      <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\handlers\SceneManager.cpp">
-      <Filter>Tobago\Handlers</Filter>
+      <Filter>Tobago\Handlers\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp">
+      <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,13 +138,13 @@
       <Filter>Tobago\Objects\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\handlers\FontHandler.h">
-      <Filter>Tobago\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\handlers\SoundHandler.h">
-      <Filter>Tobago\Handlers</Filter>
+      <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\handlers\SceneManager.h">
-      <Filter>Tobago\Handlers</Filter>
+      <Filter>Tobago\Handlers\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\handlers\SoundHandler.h">
+      <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

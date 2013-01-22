@@ -1,7 +1,7 @@
 #ifndef NO_SOUND
 
 #include "SoundHandler.h"
-#include <iostream>
+
 using namespace std;
 
 FMOD::System     *soundsystem; // no me hace ni puta gracia definirlo aqui, pero si no el compilador mete unas petadas ...
