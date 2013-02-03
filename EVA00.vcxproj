@@ -86,6 +86,7 @@
     <ClCompile Include="src\Tobago\objects\SShader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\basic\global.h" />
@@ -104,8 +105,13 @@
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
+    <ClInclude Include="src\Trinidad\Trinidad.h" />
+    <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Shaders\spectrum.frag" />
+    <None Include="bin\Shaders\spectrum.vert" />
+    <None Include="ClassDiagram.cd" />
     <None Include="src\Tobago\handlers\FontReader_f.glsl" />
     <None Include="src\Tobago\handlers\FontReader_v.glsl" />
   </ItemGroup>

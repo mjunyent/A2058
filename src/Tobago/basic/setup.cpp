@@ -40,6 +40,10 @@ void OGL::init(int w	, int h ,
 	glfwSetWindowSizeCallback(resizecalback);
 
 	glfwSetWindowTitle( name );
+
+#ifndef NO_SOUND
+	initSound();
+#endif
 }
 
 void GLFWCALL resizecalback( int width, int height ) {

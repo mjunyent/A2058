@@ -3,12 +3,13 @@
 #ifndef Scene_manager_h
 #define Scene_manager_h
 
-#include "../basic/timer.h"
 #include <map>
 #include <vector>
 #include <queue>
 #include <list>
 #include <algorithm>
+
+using namespace std;
 
 struct happening {
 	double start;

@@ -21,4 +21,11 @@ namespace global {
 	double  dt = 0;
 
 	Log     log         = Log((char *)"log.txt");
+
+	SceneManager *manager;
+
+#ifndef NO_SOUND
+	SoundHandler *song;
+#endif
+
 };

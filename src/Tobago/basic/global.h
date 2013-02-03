@@ -4,6 +4,8 @@
 
 #include "timer.h"
 #include "log.h"
+#include "../Handlers/SoundHandler.h"
+#include "../Handlers/SceneManager.h"
 
 namespace global {
 	extern int      width;
@@ -21,6 +23,13 @@ namespace global {
 
 	//If debugging, log file.
 	extern Log      log;
+
+	extern SceneManager *manager;
+
+#ifndef NO_SOUND
+	extern SoundHandler *song;
+#endif
+
 };
 
 #endif

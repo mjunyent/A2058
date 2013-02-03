@@ -1,12 +1,34 @@
 #include "Tobago/Tobago.h"
+//#include "Trinidad/Trinidad.h"
+#include "Trinidad/Utils/SoundSpectrum.h"
 
 int main(void) {
 	int running = true;
 
 	OGL::init(1280, 720, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, GLFW_WINDOW);
 
+	//Initialize some vars...
+	global::manager = new SceneManager(&global::currentTime);
+	global::song = new SoundHandler("demo.mp3", 1024);
+	Timer timer;
+
+	//Configure some things...
+	timer.getTimeFrom(global::song);
+
+	SoundSpectrum::setup();
+	global::manager->addEvent(0, 10000000, 2001, NULL, NULL, &SoundSpectrum::draw, &SoundSpectrum::update);
+
+	//PLAY!
+	global::song->Play();
+
 	while(running) {
+		timer.update();
+		global::manager->update();
+
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+
+		global::manager->render();
 
 		glfwSwapBuffers();
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );

@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Tobago">
       <UniqueIdentifier>{d1e16012-1cf1-4075-a08b-81989595bf42}</UniqueIdentifier>
     </Filter>
@@ -45,6 +41,19 @@
     </Filter>
     <Filter Include="Tobago\Handlers\Sources">
       <UniqueIdentifier>{ab6f1dcf-5d9a-40a0-937c-fe0934717751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Trinidad">
+      <UniqueIdentifier>{e891cc73-2cdc-4406-ac86-f0fee8e9990d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Trinidad\Utils">
+      <UniqueIdentifier>{22d07e08-4102-4bda-9aec-acd846352aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{7227d436-70d5-4e0d-8ce6-0a751958c0b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +105,9 @@
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp">
+      <Filter>Trinidad\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -108,9 +120,6 @@
       <Filter>Tobago\Basic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\basic\setup.h">
-      <Filter>Tobago\Basic\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\basic\timer.h">
       <Filter>Tobago\Basic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h">
@@ -146,6 +155,15 @@
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h">
+      <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Trinidad.h">
+      <Filter>Trinidad</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\basic\timer.h">
+      <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -153,6 +171,13 @@
     </None>
     <None Include="src\Tobago\handlers\FontReader_v.glsl">
       <Filter>Tobago\Handlers</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="bin\Shaders\spectrum.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\spectrum.frag">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
