@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Tobago\basic\basic.cpp" />
     <ClCompile Include="src\Tobago\basic\global.cpp" />
     <ClCompile Include="src\Tobago\basic\log.cpp" />
     <ClCompile Include="src\Tobago\basic\setup.cpp" />
@@ -86,9 +87,11 @@
     <ClCompile Include="src\Tobago\objects\SShader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Tobago\basic\basic.h" />
     <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
     <ClInclude Include="src\Tobago\basic\setup.h" />
@@ -106,6 +109,7 @@
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
+    <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #include "Tobago/Tobago.h"
 
 namespace SoundSpectrum {
-	extern Shader *theShad;
+	//extern Shader *theShad;
 	void setup();
 	void draw(double time);
 	void update(double time);

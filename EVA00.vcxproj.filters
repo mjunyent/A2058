@@ -108,6 +108,12 @@
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp">
       <Filter>Trinidad\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tobago\basic\basic.cpp">
+      <Filter>Tobago\Basic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp">
+      <Filter>Trinidad\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -163,6 +169,12 @@
     </ClInclude>
     <ClInclude Include="src\Tobago\basic\timer.h">
       <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\basic\basic.h">
+      <Filter>Tobago\Basic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Utils\FrameRate.h">
+      <Filter>Trinidad\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

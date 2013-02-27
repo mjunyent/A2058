@@ -13,6 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+#include "basic/basic.h"
 #include "basic/setup.h"
 #include "basic/global.h"
 #include "basic/log.h"

@@ -1,6 +1,6 @@
 #include "Tobago/Tobago.h"
-//#include "Trinidad/Trinidad.h"
-#include "Trinidad/Utils/SoundSpectrum.h"
+#include "Trinidad/Trinidad.h"
+//#include "Trinidad/Utils/SoundSpectrum.h"
 
 int main(void) {
 	int running = true;
@@ -16,7 +16,10 @@ int main(void) {
 	timer.getTimeFrom(global::song);
 
 	SoundSpectrum::setup();
+	FrameRate::setup(5, 5, 200, 50);
+
 	global::manager->addEvent(0, 10000000, 2001, NULL, NULL, &SoundSpectrum::draw, &SoundSpectrum::update);
+	global::manager->addEvent(0, 10000000, 2000, NULL, NULL, &FrameRate::draw, NULL);
 
 	//PLAY!
 	global::song->Play();
