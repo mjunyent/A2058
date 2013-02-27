@@ -1,9 +1,16 @@
 #include "Tobago/Tobago.h"
 #include "Trinidad/Trinidad.h"
+#include "lib3ds.h"
+
 //#include "Trinidad/Utils/SoundSpectrum.h"
 
 int main(void) {
 	int running = true;
+
+	Lib3dsFile *f = 0;
+	f = lib3ds_file_new();
+
+//	Lib3dsMesh *mesh;
 
 	OGL::init(1280, 720, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, GLFW_WINDOW);
 
