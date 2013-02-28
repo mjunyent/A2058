@@ -19,15 +19,15 @@ Log::Log(char* name) {
     *output << endl << endl  << "A2058 \t Error Log \t " << filename << endl  << endl;
 }
 
-void Log::error(char* message) {
+void Log::error(const char* message) {
     *output << glfwGetTime() << "\t ERROR: " << message << endl;
 }
 
-void Log::warning(char* message) {
+void Log::warning(const char* message) {
     *output << glfwGetTime() << "\t WARNING: " << message << endl;
 }
 
-void Log::message(char* message) {
+void Log::message(const char* message) {
     *output << glfwGetTime() << "\t MESSAGE: " << message << endl;
 }
 

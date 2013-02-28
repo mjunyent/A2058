@@ -76,6 +76,7 @@
     <ClCompile Include="src\Tobago\basic\log.cpp" />
     <ClCompile Include="src\Tobago\basic\setup.cpp" />
     <ClCompile Include="src\Tobago\basic\timer.cpp" />
+    <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp" />
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp" />
     <ClCompile Include="src\Tobago\handlers\SceneManager.cpp" />
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="src\Tobago\basic\log.h" />
     <ClInclude Include="src\Tobago\basic\setup.h" />
     <ClInclude Include="src\Tobago\basic\timer.h" />
+    <ClInclude Include="src\Tobago\handlers\3dsHandler.h" />
     <ClInclude Include="src\Tobago\handlers\FontHandler.h" />
     <ClInclude Include="src\Tobago\handlers\SceneManager.h" />
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h" />

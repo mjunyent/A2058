@@ -114,6 +114,9 @@
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp">
       <Filter>Trinidad\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
+      <Filter>Tobago\Handlers\Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h">
       <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
+      <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

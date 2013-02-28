@@ -30,3 +30,4 @@
 #include "handlers/FontHandler.h"
 #include "handlers/SceneManager.h"
 #include "handlers/SoundHandler.h"
+#include "handlers/3dsHandler.h"
