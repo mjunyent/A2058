@@ -1,5 +1,5 @@
-#include "Tobago/Tobago.h"
-#include "Trinidad/Trinidad.h"
+#include "Tobago/Tobago.h" //Tobago contains basic opengl inicialitzation, object managers and everything you need to ease your code.
+#include "Trinidad/Trinidad.h" //Trinidad contains scenes already done, just to plug & play to an sceneManager or wherever.
 
 int main(void) {
 	int running = true;
@@ -8,7 +8,7 @@ int main(void) {
 
 	A3dsHandler vessel("Models/vessel.3ds", 1);
 
-	glm::perspective(fovy, aspect, znear, zfar);
+//	glm::perspective(fovy, aspect, znear, zfar);
 
 
 	//Initialize some vars...
