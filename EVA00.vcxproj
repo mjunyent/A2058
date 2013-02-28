@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C3C49325-925B-4B4C-BA47-BEBE3054B91C}</ProjectGuid>
+    <RootNamespace>EVA00</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\bin\</OutDir>
+    <IntDir>intermediate\</IntDir>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;GLFW.lib;glew32s.lib;fmodexL_vc.lib;lib3ds.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Tobago\basic\basic.cpp" />
+    <ClCompile Include="src\Tobago\basic\global.cpp" />
+    <ClCompile Include="src\Tobago\basic\log.cpp" />
+    <ClCompile Include="src\Tobago\basic\setup.cpp" />
+    <ClCompile Include="src\Tobago\basic\timer.cpp" />
+    <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp" />
+    <ClCompile Include="src\Tobago\handlers\FontHandler.cpp" />
+    <ClCompile Include="src\Tobago\handlers\SceneManager.cpp" />
+    <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp" />
+    <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp" />
+    <ClCompile Include="src\Tobago\objects\FBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\IBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
+    <ClCompile Include="src\Tobago\objects\Shader.cpp" />
+    <ClCompile Include="src\Tobago\objects\SShader.cpp" />
+    <ClCompile Include="src\Tobago\objects\TBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
+    <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Tobago\basic\basic.h" />
+    <ClInclude Include="src\Tobago\basic\global.h" />
+    <ClInclude Include="src\Tobago\basic\log.h" />
+    <ClInclude Include="src\Tobago\basic\setup.h" />
+    <ClInclude Include="src\Tobago\basic\timer.h" />
+    <ClInclude Include="src\Tobago\handlers\3dsHandler.h" />
+    <ClInclude Include="src\Tobago\handlers\FontHandler.h" />
+    <ClInclude Include="src\Tobago\handlers\SceneManager.h" />
+    <ClInclude Include="src\Tobago\handlers\SoundHandler.h" />
+    <ClInclude Include="src\Tobago\objects\Buffer_Object.h" />
+    <ClInclude Include="src\Tobago\objects\FBO.h" />
+    <ClInclude Include="src\Tobago\objects\IBO.h" />
+    <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h" />
+    <ClInclude Include="src\Tobago\objects\Shader.h" />
+    <ClInclude Include="src\Tobago\objects\SShader.h" />
+    <ClInclude Include="src\Tobago\objects\TBO.h" />
+    <ClInclude Include="src\Tobago\objects\VBO.h" />
+    <ClInclude Include="src\Tobago\Tobago.h" />
+    <ClInclude Include="src\Trinidad\Trinidad.h" />
+    <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
+    <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Shaders\spectrum.frag" />
+    <None Include="bin\Shaders\spectrum.vert" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="src\Tobago\handlers\FontReader_f.glsl" />
+    <None Include="src\Tobago\handlers\FontReader_v.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

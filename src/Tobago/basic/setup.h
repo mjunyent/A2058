@@ -3,15 +3,17 @@
 //  Lynx1
 //
 
-//Arreglar init, usar log para los errores y quitar cerrs y tal. Si no estas en debug no hay antialiasing!
 #pragma once
 #ifndef setup_h
 #define setup_h
+
 #include "GL/glew.h"
 #include "GL/glfw.h"
 #include "global.h"
 
-//Basic setup of the window & stuff, I think 2d donesn't work very well...
+#include <iostream>
+#include <stdlib.h>
+
 namespace OGL {
 	/*init(window width, window height
 		red buffer bits, green buffer bits, blue buffer bits,
@@ -32,7 +34,6 @@ namespace OGL {
 }
 
 void GLFWCALL resizecalback( int width, int height );
-
 
 
 #endif
