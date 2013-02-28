@@ -1,0 +1,11 @@
+/intermediate/
+/*.sln
+/*.sdf
+/*.v11.suo
+/log.txt
+/EVA00.opensdf
+/bin/EVA00.exe
+/bin/EVA00.ilk
+/bin/EVA00.pdb
+/bin/fmod.log
+/bin/log.txt

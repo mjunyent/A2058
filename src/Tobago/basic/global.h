@@ -2,14 +2,11 @@
 #ifndef Base_global_h
 #define Base_global_h
 
-//#include "GL/glfw.h"
 #include "timer.h"
-
-#ifdef DEBUG_LOG
 #include "log.h"
-#endif
+#include "../Handlers/SoundHandler.h"
+#include "../Handlers/SceneManager.h"
 
-//glm::vec3 nos arregla el dia,y tiene overload de operadores para hacer lo que usted quiera con ellos !
 namespace global {
 	extern int      width;
     extern int      height;
@@ -25,9 +22,13 @@ namespace global {
 	extern GLushort quad_I[6];
 
 	//If debugging, log file.
-	#ifdef DEBUG_LOG
 	extern Log      log;
-	#endif
+
+	extern SceneManager *manager;
+
+#ifndef NO_SOUND
+	extern SoundHandler *song;
+#endif
 
 };
 
