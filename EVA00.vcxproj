@@ -115,6 +115,9 @@
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Shaders\paintNormals.frag" />
+    <None Include="bin\Shaders\SimpleTransform.vert" />
+    <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />
     <None Include="bin\Shaders\spectrum.vert" />
     <None Include="ClassDiagram.cd" />

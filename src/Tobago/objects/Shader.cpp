@@ -63,14 +63,13 @@ void Shader::loadmemory(const char *vertex, const char *fragment) {
 bool Shader::compile() {
     glCompileShader(v);
     glCompileShader(f);
-	#ifdef DEBUG_LOG
-    bool cv = printShaderInfoLog(v); //returns true if error
+
+	bool cv = printShaderInfoLog(v); //returns true if error
     bool cf = printShaderInfoLog(f); //returns true if error
 	return !(cv || cf); //returns false if error	
-	#else
+	
 	return 1;
-	#endif
-    
+
 }
 
 bool Shader::link() {
@@ -80,13 +79,10 @@ bool Shader::link() {
     glAttachShader(p, f);
 
     glLinkProgram(p);
-	#ifdef DEBUG_LOG
     bool pl = printProgramInfoLog(p); //returns true if error
 
     return !pl;
-	#else
 	return 1;
-	#endif
 }
 
 void Shader::use() {

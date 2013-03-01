@@ -33,14 +33,10 @@ namespace FrameRate {
 		glm::vec2 c(x+width, y+height);
 		glm::vec2 d(x, y+height);
 
-		cout << a.x << "," << a.y << endl << b.x << "," << b.y << endl << c.x << "," << c.y << endl << d.x << "," << d.y << endl;
-
 		a = pixel2screen(a);
 		b = pixel2screen(b);
 		c = pixel2screen(c);
 		d = pixel2screen(d);
-
-		cout << a.x << "," << a.y << endl << b.x << "," << b.y << endl << c.x << "," << c.y << endl << d.x << "," << d.y << endl;
 
 		fps_box[0] = a.x;
 		fps_box[1] = a.y;
@@ -50,10 +46,6 @@ namespace FrameRate {
 		fps_box[7] = c.y;
 		fps_box[9] = d.x;
 		fps_box[10] = d.y;
-
-		for(int i=0; i<12; i++) {
-			cout << fps_box[i] << endl;
-		}
 
 		fps_shader = new Shader("rendertext.vert", "rendertext.frag");
 		fps_TXT = fps_shader->getUniform("color_tex");

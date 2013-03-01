@@ -27,6 +27,29 @@ static bool sort_happening(list<happening>::iterator i, list<happening>::iterato
 	return (i->priority < j->priority);
 }
 
+class Scene {
+public:
+	bool started;
+	bool ended;
+
+	double start;
+	double end;
+
+	Scene(double s, double e);
+	virtual void setup();
+	virtual void pre();
+	virtual void post();
+	virtual void draw(double t);
+	virtual void update(double t);
+};
+
+/*class MyScene : public Scene {
+
+	MyScene(double s, double e, int ap) : Scene(s, e) {
+
+	}
+};*/
+
 class SceneManager {
 public:
 	SceneManager(double *t);
@@ -40,6 +63,8 @@ public:
 				  void (*update_f)(double)		//function called in the timer update.
 				 );
 
+	void addScene(Scene s);
+
 	void render();
 
 	void update();
@@ -47,6 +72,7 @@ public:
 private:
 	double *time;
 	list<happening> events;
+	list<Scene> scenes;
 };
 
 #endif

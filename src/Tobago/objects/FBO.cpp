@@ -36,9 +36,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, bool qualite)
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) status = false;
 	else status = true;
 
-	#ifdef DEBUG_LOG
 	if(!status) global::log.error("Error creating FBO");
-	#endif
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -74,9 +72,7 @@ FBO::FBO(GLsizei width, GLsizei height, TBO *tex, TBO *depth, bool qualite)
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) status = false;
 	else status = true;
 
-	#ifdef DEBUG_LOG
 	if(!status) global::log.error("Error creating FBO");
-	#endif
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

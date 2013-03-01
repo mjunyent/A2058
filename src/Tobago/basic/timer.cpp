@@ -57,9 +57,7 @@ void Timer::update() {
 		cumulativeTime -= FRAME_LENGHT;
 		iterations++;
 		if(iterations > MAX_ITERATIONS) {
-#ifdef DEBUG_LOG
 			global::log.error("Timer max iterations achieved");
-#endif
 			break;
 		}
 	}

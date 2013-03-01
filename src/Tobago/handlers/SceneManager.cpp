@@ -27,6 +27,10 @@ void SceneManager::addEvent(double start,				//start second
 	events.push_back(t);
 }
 
+void SceneManager::addScene(Scene s) {
+
+}
+
 void SceneManager::render() {
 	//supose events sorted.
 	vector<list<happening>::iterator> sorted;

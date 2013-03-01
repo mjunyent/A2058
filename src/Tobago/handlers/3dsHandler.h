@@ -22,6 +22,7 @@ class A3dsHandler{
 public:
 	IBO *indexs;
 	VBO *vertexs;
+	VBO *normals;
 	Lib3dsFile *f;
 	Lib3dsMesh *mesh;
 	Lib3dsFace *faces;
@@ -29,9 +30,12 @@ public:
 	A3dsHandler(char *filename);
 	A3dsHandler(char *filename, int meshid);
 
+	void makeVBOwithIBO(int id);
+	void makeVBO(int id);
+	void makeNormals();
+
 private:
 	void loadFile(char *filename);
-	void makeSimpleVBO(int id);
 };
 
 #endif

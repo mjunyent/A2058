@@ -197,5 +197,14 @@
     <None Include="bin\Shaders\spectrum.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="bin\Shaders\SingleColor.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\SimpleTransform.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\paintNormals.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
