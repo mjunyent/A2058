@@ -48,12 +48,8 @@ int main(void) {
 	timer.getTimeFrom(global::song);
 
 	//Initialize scenes
-	SoundSpectrum::setup();
-	FrameRate::setup(5, 5, 200, 50);
-
-	//Add them to timeline
-	global::manager->addEvent(0, 10000000, 2001, NULL, NULL, &SoundSpectrum::draw, &SoundSpectrum::update);
-	global::manager->addEvent(0, 10000000, 2000, NULL, NULL, &FrameRate::draw, NULL);
+	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
+	global::manager->addScene(new SoundSpectrum(),			0, 100000000, 20000);
 
 	//PLAY!
 	global::song->Play();

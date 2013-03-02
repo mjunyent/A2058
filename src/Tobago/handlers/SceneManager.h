@@ -3,6 +3,7 @@
 #ifndef Scene_manager_h
 #define Scene_manager_h
 
+#include <iostream>
 #include <map>
 #include <vector>
 #include <queue>
@@ -11,44 +12,37 @@
 
 using namespace std;
 
-struct happening {
-	double start;
-	double end;
-	int priority;
-	void (*pre_f)(void);
-	void (*post_f)(void);
-	void (*draw_f)(double);
-	void (*update_f)(double);
-	bool started;
-	bool ended;
-};
+/*class MyScene : public Scene {
+	MyScene(cosas) {
+	}
 
-static bool sort_happening(list<happening>::iterator i, list<happening>::iterator j) { //lowest priority comes first.
-	return (i->priority < j->priority);
-}
+	void draw(double t) {
+	}
+
+	void update(double t) {
+	}
+};*/
 
 class Scene {
 public:
 	bool started;
 	bool ended;
 
+	int priority;
+
 	double start;
 	double end;
 
-	Scene(double s, double e);
-	virtual void setup();
-	virtual void pre();
-	virtual void post();
-	virtual void draw(double t);
-	virtual void update(double t);
+	Scene() {};
+	virtual void pre() {};				//function called before first draw (in render loop).
+	virtual void post() {};				//function called after last draw (in render loop).
+	virtual void draw(double t) {};		//function called during the render loop.
+	virtual void update(double t) {};	//function called when update.
 };
 
-/*class MyScene : public Scene {
-
-	MyScene(double s, double e, int ap) : Scene(s, e) {
-
-	}
-};*/
+static bool sort_scene(list<Scene*>::iterator i, list<Scene*>::iterator j) { //lowest priority comes first.
+	return ((*i)->priority < (*j)->priority);
+}
 
 class SceneManager {
 public:
@@ -63,7 +57,11 @@ public:
 				  void (*update_f)(double)		//function called in the timer update.
 				 );
 
-	void addScene(Scene s);
+	void addScene(Scene *s,			//scene to render
+				  double start,		//start second
+				  double end,		//end second
+				  float priority	//priority (lower execute first!)		
+				 );
 
 	void render();
 
@@ -71,8 +69,7 @@ public:
 
 private:
 	double *time;
-	list<happening> events;
-	list<Scene> scenes;
+	list<Scene*> scenes;
 };
 
 #endif

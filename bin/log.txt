@@ -2,14 +2,14 @@
 
 A2058 	 Error Log 	 log.txt
 
-0.747369	 ERROR: Shader compiling error:
-0.747478	 ERROR: 0(10) : warning C7555: 'varying' is deprecated, use 'in/out' instead
+0.363729	 ERROR: Shader compiling error:
+0.363775	 ERROR: 0(10) : warning C7555: 'varying' is deprecated, use 'in/out' instead
 
-0.747528	 ERROR: Shader compiling error:
-0.747554	 ERROR: 0(6) : warning C7555: 'varying' is deprecated, use 'in/out' instead
+0.36382	 ERROR: Shader compiling error:
+0.363833	 ERROR: 0(6) : warning C7555: 'varying' is deprecated, use 'in/out' instead
 
-0.748081	 ERROR: Shader program linking error:
-0.748109	 ERROR: Vertex info
+0.364411	 ERROR: Shader program linking error:
+0.364423	 ERROR: Vertex info
 -----------
 0(10) : warning C7555: 'varying' is deprecated, use 'in/out' instead
 

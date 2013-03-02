@@ -4,75 +4,51 @@ SceneManager::SceneManager(double *t) {
 	time = t;
 }
 
-void SceneManager::addEvent(double start,				//start second
-						    double end,					//end second
-						    float priority,				//priority (lower execute first!)
-						    void (*pre_f)(void),		//pre function (executed just before start)
-						    void (*post_f)(void),		//post function (just after end)
-						    void (*draw_f)(double),		//function called in the main loop.
-					 	    void (*update_f)(double)	//function called in the timer update.
-						   ) {
-	happening t;
-
-	t.start = start;
-	t.end = end;
-	t.priority = priority;
-	t.pre_f = pre_f;
-	t.post_f = post_f;
-	t.draw_f = draw_f;
-	t.update_f = update_f;
-	t.started = false;
-	t.ended = false;
-
-	events.push_back(t);
-}
-
-void SceneManager::addScene(Scene s) {
-
+void SceneManager::addScene(Scene *s, double start, double end, float priority) {
+	s->start = start;
+	s->end = end;
+	s->priority = priority;
+	s->started = false;
+	s->ended = false;
+	scenes.push_back(s);
 }
 
 void SceneManager::render() {
-	//supose events sorted.
-	vector<list<happening>::iterator> sorted;
+	vector<list<Scene*>::iterator> render_pipeline;
 
-	for(list<happening>::iterator it=events.begin(); it != events.end(); it++) {
-		if(it->start <= *time && it->end >= *time) { //if event is inside time range, push it!
-			sorted.push_back(it);
-		} else if(it->end < *time && it->ended == false) { //if end already happened but not ended, end it.
-			if(it->post_f != NULL) it->post_f();
-			it->ended = true;
+	for(list<Scene*>::iterator it=scenes.begin(); it != scenes.end(); it++) {
+		if((*it)->start <= *time && (*it)->end >= *time) { //event is inside it's time range, push it to queue.
+			render_pipeline.push_back(it);
+		} else if((*it)->ended == false && (*it)->end < *time) { //if end already happened but ended flag is false, end it.
+			(*it)->post();
+			(*it)->ended = true;
 		}
-		/*
-		if(it->end > time) {	//if event end time is less than actual time we delete it (maybe not necessary, or troublesome).
-			events.erase(it);
-		}*/
+		//maybe we could delete ended events instead of saving them...
 	}
 
-	//Order tasks to do with priority (lowest first).
-	sort(sorted.begin(), sorted.end(), sort_happening);
+	sort(render_pipeline.begin(), render_pipeline.end(), sort_scene);
 
-	//Do the tasks.
-	for(int i=0; i<sorted.size(); i++) {
-		if(sorted[i]->started == false) { //if it has not been started, call PRE function.
-			if(sorted[i]->pre_f != NULL) sorted[i]->pre_f();
-			sorted[i]->started = true;
+	for(int i=0; i<render_pipeline.size(); i++) {
+		if((*render_pipeline[i])->started == false) { //if it's first call (not started), call pre function.
+			(*render_pipeline[i])->pre();
+			(*render_pipeline[i])->started = true;
 		}
-		if(sorted[i]->draw_f != NULL) sorted[i]->draw_f( (*time - sorted[i]->start) / (sorted[i]->end - sorted[i]->start) );
+		(*render_pipeline[i])->draw( (*time - (*render_pipeline[i])->start) / ((*render_pipeline[i])->end - (*render_pipeline[i])->start) );
 	}
 }
 
 void SceneManager::update() {
-	vector<list<happening>::iterator> sorted;
+	vector<list<Scene*>::iterator> update_pipeline;
 
-	for(list<happening>::iterator it=events.begin(); it != events.end(); it++) {
-		if(it->start <= *time &&  it->end >= *time && it->ended == false) {
-			sorted.push_back(it);
+	for(list<Scene*>::iterator it=scenes.begin(); it != scenes.end(); it++) {
+		if((*it)->start <= *time && (*it)->end >= *time && (*it)->ended == false) {
+			update_pipeline.push_back(it);
 		}
 	}
 
-	sort(sorted.begin(), sorted.end(), sort_happening);
+	sort(update_pipeline.begin(), update_pipeline.end(), sort_scene);
 
-	for(int i=0; i<sorted.size(); i++) {
-		if(sorted[i]->update_f != NULL) sorted[i]->update_f( (*time - sorted[i]->start) / (sorted[i]->end - sorted[i]->start) );
+	for(int i=0; i<update_pipeline.size(); i++) {
+		(*update_pipeline[i])->update( (*time - (*update_pipeline[i])->start) / ((*update_pipeline[i])->end - (*update_pipeline[i])->start) );
 	}
 }
