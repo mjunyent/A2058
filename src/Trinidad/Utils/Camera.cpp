@@ -1,79 +1,95 @@
-#include "FrameRate.h"
+#include "Camera.h"
 
-namespace FrameRate {
+Camera::Camera(vec3 position, vec3 direction, vec3 up, float vel, bool verbose, mat4 *Projection) {
+	this->position = position;
+	this->direction = normalize(direction);
+	this->up = normalize(up);
+	this->vel = vel;
 
-//	float fps_box[12];
+	V = lookAt(position, position+direction, up);
 
-	float fps_box[] = { 
-		-0.99f, 1.0f, 0.0f,	//0 UP, LEFT
-		 -0.4f, 1.0f, 0.0f, //1 UP, RIGHT
-		 -0.4f, 0.5f, 0.0f, //2 DOWN, RIGHT
-		-0.99f, 0.5f, 0.0f  //3 DOWN, LEFT
-	};
+	glfwEnable(	GLFW_STICKY_KEYS );
+	px = 0;
+	py = 0;
+	this->verbose = verbose;
 
-	GLushort fps_box_I[] = {
-		0, 3, 1,
-		1, 3, 2
-	};
-
-	char fps_text[255];
-
-	Shader *fps_shader;
-	FontHandler *fps_font;
-	GLuint fps_TXT;
-
-	VBO *fps_texbox;
-	VBO *fps_textexbox;
-	IBO *fps_texbox_I;
-
-	void setup(int x, int y, int width, int height) {
-		fps_box[2] = fps_box[5] = fps_box[8] = fps_box[11] = 0;
-		glm::vec2 a(x, y);
-		glm::vec2 b(x+width, y);
-		glm::vec2 c(x+width, y+height);
-		glm::vec2 d(x, y+height);
-
-		a = pixel2screen(a);
-		b = pixel2screen(b);
-		c = pixel2screen(c);
-		d = pixel2screen(d);
-
-		fps_box[0] = a.x;
-		fps_box[1] = a.y;
-		fps_box[3] = b.x;
-		fps_box[4] = b.y;
-		fps_box[6] = c.x;
-		fps_box[7] = c.y;
-		fps_box[9] = d.x;
-		fps_box[10] = d.y;
-
-		fps_shader = new Shader("rendertext.vert", "rendertext.frag");
-		fps_TXT = fps_shader->getUniform("color_tex");
-
-		fps_font = new FontHandler("Calibri.png");
-
-		fps_texbox = new VBO(fps_box, sizeof(fps_box), 0);
-		fps_textexbox = new VBO(global::quad, sizeof(global::quad), 1);
-		fps_texbox_I = new IBO(fps_box_I, sizeof(fps_box_I));
+	if(verbose) {
+		theShad = new Shader("Shaders/Camera_Line.vert", "Shaders/Camera_Line.frag");
+		MVP_Id = theShad->getUniform("MVP");
+		P = Projection;
 	}
+}
 
-	void draw(double time) {
-		glDisable(GL_DEPTH_TEST);
+void Camera::update(double t) {
+	if(	glfwGetKey( GLFW_KEY_LEFT ) ) move_left();
+	if( glfwGetKey( GLFW_KEY_RIGHT ) ) move_right();
+	if( glfwGetKey( GLFW_KEY_UP ) ) move_front();
+	if( glfwGetKey( GLFW_KEY_DOWN ) ) move_back();
 
-		sprintf(fps_text, "%.2f fps", 1.0f / global::dt);
+	int x, y;
+	glfwGetMousePos(&x, &y);
 
-		TBO fpsTex = fps_font->StringTex(fps_text, strlen(fps_text));
-
-		fps_shader->use();
-			fpsTex.bind(0);
-			glUniform1i(fps_TXT, 0);
-			fps_texbox->enable(3);
-			fps_textexbox->enable(3);
-			fps_texbox_I->draw(GL_TRIANGLES);
-			fps_texbox->disable();
-			fps_textexbox->disable();
-
-		glEnable(GL_DEPTH_TEST);
-		fpsTex.erase();
+	if(glfwGetMouseButton(GLFW_MOUSE_BUTTON_1)) {
+		move_direction(px-x, py-y);
 	}
-};
+	px = x;
+	py = y;
+
+
+	V = lookAt(position, position+direction, up);
+	if(verbose) std::cout << position.x << ", " << position.y << ", " << position.z << " - " << direction.x << ", " << direction.y << ", " << direction.z << endl;
+}
+
+void Camera::move_left() {
+	vec3 increment = cross(direction, up);
+	increment *= vel;
+	position = position-increment;
+}
+
+void Camera::move_right() {
+	vec3 increment = cross(direction, up);
+	increment *= vel;
+	position = position+increment;
+}
+
+void Camera::move_back() {
+	position = position - direction*vel;
+}
+
+void Camera::move_front() {
+	position = position + direction*vel;
+}
+
+void Camera::move_direction(int x, int y) {
+	vec3 v = cross(direction, up);
+	vec3 h = cross(v, direction);
+
+	v *= (x/float(global::width));
+	h *= (y/float(global::height));
+
+	direction += h;
+	direction += v;
+	direction = normalize(direction);
+}
+
+void Camera::draw(double t) {
+/*	if(verbose) {
+		std::cout << "asdf" << endl;
+		vec3 look = position + direction*50.0f;
+		GLfloat theLine[] = {
+			position.x, position.y, position.z,
+			look.x, look.y, look.z };
+
+		VBO line(theLine, sizeof(theLine), 0);
+
+		mat4 MVP = (*P) * V;
+
+		theShad->use();
+			glUniformMatrix4fv(MVP_Id, 1, GL_FALSE, &MVP[0][0]);
+
+			line.enable(3);
+			line.draw(GL_LINES);
+			line.disable();
+			line.destroy();
+	}*/
+}

@@ -29,13 +29,13 @@ FrameRate::FrameRate(int x, int y, int width, int height) {
 	fps_texbox = new VBO(fps_box, sizeof(fps_box), 0);
 	fps_textexbox = new VBO(global::quad, sizeof(global::quad), 1);
 	fps_texbox_I = new IBO(global::quad_I, sizeof(global::quad_I));
+
+	counter = 0;
+	sum_dt = 0.0;
 }
 
 void FrameRate::draw(double time) {
-	char fps_text[255];
 	glDisable(GL_DEPTH_TEST);
-
-	sprintf(fps_text, "%.2f fps", 1.0f / global::dt);
 
 	TBO fpsTex = fps_font->StringTex(fps_text, strlen(fps_text));
 
@@ -50,4 +50,15 @@ void FrameRate::draw(double time) {
 
 	glEnable(GL_DEPTH_TEST);
 	fpsTex.erase();
+}
+
+void FrameRate::update(double time) { //maybe, due to frate function, this doesn't work well, think about it.
+	if(counter < 4) {
+		sum_dt += global::dt;
+		counter++;
+	} else {
+		sprintf(fps_text, "%.2f fps", 4.0f/sum_dt);
+		counter = 0;
+		sum_dt = 0;
+	}
 }

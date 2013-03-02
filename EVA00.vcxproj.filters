@@ -55,6 +55,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{7227d436-70d5-4e0d-8ce6-0a751958c0b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Trinidad\Basic">
+      <UniqueIdentifier>{09dd1cc0-9555-4990-b767-b740a2c90d72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -116,6 +119,15 @@
     </ClCompile>
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Utils\Camera.cpp">
+      <Filter>Trinidad\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +194,15 @@
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\LaunchShader.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\RenderModel.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Utils\Camera.h">
+      <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -204,6 +225,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\paintNormals.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Camera_Line.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Camera_Line.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
