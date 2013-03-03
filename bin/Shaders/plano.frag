@@ -11,7 +11,7 @@ void main(){
 	//color = texture( renderedTexture,vec2(UV.x,UV.y) );
 	//color.xyz = texture( renderedTexture, vec2(1/UV.x, 1/UV.y) ).xyz ;
 	//color.xyz = texture( renderedTexture, UV ).xyz ;
-	color.xyzw = vec3(1.0f,0.0f,0.0f,1.0f);
+	color.xyzw= vec4(1.0f,0.0f,1.0f,1.0f);
 	//color.z = color.x+color.y;
 	//color.w = 1.0f;
 }

@@ -70,7 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NewScena.cpp" />
+    <ClCompile Include="src\cosas\NewScena.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
     <ClCompile Include="src\Tobago\basic\global.cpp" />
@@ -96,7 +96,7 @@
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NewScena.h" />
+    <ClInclude Include="src\cosas\NewScena.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
     <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
@@ -125,7 +125,9 @@
   <ItemGroup>
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
+    <None Include="bin\Shaders\plano.frag" />
     <None Include="bin\Shaders\paintNormals.frag" />
+    <None Include="bin\Shaders\plano.vert" />
     <None Include="bin\Shaders\SimpleTransform.vert" />
     <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />

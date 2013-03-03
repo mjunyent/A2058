@@ -3,15 +3,17 @@
 #define PRUEVA
 
 #include "Tobago/Tobago.h"
-//#include "NewScena.h"
 
 class NewScena : public Scene {
 public:
-	NewScena();
+	NewScena(glm::mat4* MVP);
 	void draw(double time);
 	void update(double time);
+	glm::mat4 *MVP;
+	GLuint MVP_Id;
 private:
-	Shader *theShad;
+	Shader *pint;
+	
 };
 
 #endif

@@ -129,7 +129,7 @@
     <ClCompile Include="src\Trinidad\Utils\Camera.cpp">
       <Filter>Trinidad\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="NewScena.cpp">
+    <ClCompile Include="src\cosas\NewScena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,7 +206,7 @@
     <ClInclude Include="src\Trinidad\Utils\Camera.h">
       <Filter>Trinidad\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="NewScena.h">
+    <ClInclude Include="src\cosas\NewScena.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -237,6 +237,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\Camera_Line.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\plano.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\plano.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
