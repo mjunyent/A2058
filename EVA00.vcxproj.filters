@@ -245,5 +245,8 @@
     <None Include="bin\Shaders\plano.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="bin\Shaders\Fractal.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

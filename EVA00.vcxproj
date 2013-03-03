@@ -125,6 +125,7 @@
   <ItemGroup>
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
+    <None Include="bin\Shaders\Fractal.frag" />
     <None Include="bin\Shaders\plano.frag" />
     <None Include="bin\Shaders\paintNormals.frag" />
     <None Include="bin\Shaders\plano.vert" />

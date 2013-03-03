@@ -3,7 +3,7 @@
 NewScena::NewScena( glm::mat4* MVP) {
 	this->MVP = MVP;
 
-	pint = new Shader("Shaders/plano.vert","Shaders/plano.frag");
+	pint = new Shader("Shaders/plano.vert","Shaders/Fractal.frag");
 	MVP_Id = pint->getUniform("MVP");
 	
 
