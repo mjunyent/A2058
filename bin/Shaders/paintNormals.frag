@@ -7,6 +7,6 @@ in vec4 normal;
 
 void main()
 {
-	// Output color = red 
-	color = vec4(abs(dot(normal.xyz, vec3(0, 1, 0))), 0, 0, 1);
+	float shade = abs(dot(normal.xyz, vec3(0, 1, 0))); 
+	color = vec4(shade, shade, shade, 1);
 }

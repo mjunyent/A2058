@@ -90,8 +90,10 @@
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
     <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp" />
     <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp" />
+    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp" />
     <ClCompile Include="src\Trinidad\Utils\Camera.cpp" />
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
+    <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -115,15 +117,20 @@
     <ClInclude Include="src\Tobago\Tobago.h" />
     <ClInclude Include="src\Trinidad\Basic\LaunchShader.h" />
     <ClInclude Include="src\Trinidad\Basic\RenderModel.h" />
+    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
     <ClInclude Include="src\Trinidad\Utils\Camera.h" />
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
+    <ClInclude Include="src\Trinidad\Utils\Rig.h" />
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Shaders\AnaglyphRC.frag" />
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
     <None Include="bin\Shaders\paintNormals.frag" />
+    <None Include="bin\Shaders\ScreenTexture.frag" />
+    <None Include="bin\Shaders\ScreenTexture.vert" />
     <None Include="bin\Shaders\SimpleTransform.vert" />
     <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />

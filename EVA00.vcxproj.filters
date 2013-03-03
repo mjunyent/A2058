@@ -129,6 +129,12 @@
     <ClCompile Include="src\Trinidad\Utils\Camera.cpp">
       <Filter>Trinidad\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Utils\Rig.cpp">
+      <Filter>Trinidad\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -203,6 +209,12 @@
     <ClInclude Include="src\Trinidad\Utils\Camera.h">
       <Filter>Trinidad\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Trinidad\Utils\Rig.h">
+      <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -231,6 +243,15 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\Camera_Line.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\ScreenTexture.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\ScreenTexture.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\AnaglyphRC.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
