@@ -129,6 +129,9 @@
     <ClCompile Include="src\Trinidad\Utils\Camera.cpp">
       <Filter>Trinidad\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="NewScena.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="src\Trinidad\Utils\Camera.h">
       <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="NewScena.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NewScena.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
     <ClCompile Include="src\Tobago\basic\global.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NewScena.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
     <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
