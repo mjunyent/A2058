@@ -2,8 +2,3 @@
 
 A2058 	 Error Log 	 log.txt
 
-6.61368	 ERROR: Error creating FBO
-6.64545	 ERROR: Error creating FBO
-6.65383	 ERROR: Error creating FBO
-6.66493	 ERROR: Error creating FBO
-6.68155	 ERROR: Error creating FBO
