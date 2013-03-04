@@ -71,10 +71,8 @@ TBO FontHandler::StringTex(char* Message, unsigned len){
 		QuadsCoord.push_back(1.00f);
 
 		//Calcular UVs.
-
 		float uv_x = ( (Message[i] - StartingCharacter) % CharsPerRow ) / float(CharsPerRow);
 		float uv_y = ( (Message[i] - StartingCharacter) / CharsPerRow ) / float(CharsPerRow);
-
 
 		//Inferior izq.
 		QuadsUV.push_back(uv_x);
@@ -95,7 +93,6 @@ TBO FontHandler::StringTex(char* Message, unsigned len){
 		//Superior izq.
 		QuadsUV.push_back(uv_x);
 		QuadsUV.push_back(1.0f - uv_y);
-
 	}
 
 	VBO QuadCoord(QuadsCoord,0);

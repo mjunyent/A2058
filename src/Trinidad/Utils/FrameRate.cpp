@@ -53,6 +53,8 @@ void FrameRate::draw(double time) {
 }
 
 void FrameRate::update(double time) { //maybe, due to frate function, this doesn't work well, think about it.
+	sprintf(fps_text, "%.2f fps", 1.0/global::dt );
+/*
 	if(counter < 4) {
 		sum_dt += global::dt;
 		counter++;
@@ -60,5 +62,5 @@ void FrameRate::update(double time) { //maybe, due to frate function, this doesn
 		sprintf(fps_text, "%.2f fps", 4.0f/sum_dt);
 		counter = 0;
 		sum_dt = 0;
-	}
+	}*/
 }

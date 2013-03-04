@@ -6,6 +6,8 @@ int main(void) {
 
 	OGL::init(1280, 720, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, GLFW_WINDOW);
 
+//	glfwSwapInterval(20);
+
 	glm::mat4 Projection = glm::perspective(75.0f, 4.0f/3.0f, 0.1f, 100.0f);
 	glm::mat4 View		 = glm::lookAt( glm::vec3(-4,-4,-4),
 										glm::vec3(10,10,0),
@@ -13,10 +15,6 @@ int main(void) {
 	glm::mat4 Model      = glm::mat4(1.0);
 	glm::mat4 MVP		 = Projection*View*Model;
 	float angle = 0.0;
-
-	//Shader::Shader
-	
-
 
 	//Initialize some vars...
 	global::manager = new SceneManager(&global::currentTime);

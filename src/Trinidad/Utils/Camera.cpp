@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(vec3 position, vec3 direction, vec3 up, float vel, bool verbose, mat4 *Projection) {
+Camera::Camera(vec3 position, vec3 direction, vec3 up, float vel, bool verbose) {
 	this->position = position;
 	this->direction = normalize(direction);
 	this->up = normalize(up);
@@ -8,23 +8,31 @@ Camera::Camera(vec3 position, vec3 direction, vec3 up, float vel, bool verbose, 
 
 	V = lookAt(position, position+direction, up);
 
-	glfwEnable(	GLFW_STICKY_KEYS );
+	if(verbose)	glfwEnable(	GLFW_STICKY_KEYS );
 	px = 0;
 	py = 0;
 	this->verbose = verbose;
-
-	if(verbose) {
-		theShad = new Shader("Shaders/Camera_Line.vert", "Shaders/Camera_Line.frag");
-		MVP_Id = theShad->getUniform("MVP");
-		P = Projection;
-	}
 }
 
 void Camera::update(double t) {
-	if(	glfwGetKey( GLFW_KEY_LEFT ) ) move_left();
-	if( glfwGetKey( GLFW_KEY_RIGHT ) ) move_right();
-	if( glfwGetKey( GLFW_KEY_UP ) ) move_front();
-	if( glfwGetKey( GLFW_KEY_DOWN ) ) move_back();
+	bool moved = false;
+
+	if(	glfwGetKey( GLFW_KEY_LEFT ) ) {
+		moved = true;
+		move_left();
+	}
+	if( glfwGetKey( GLFW_KEY_RIGHT ) ) {
+		moved = true;
+		move_right();
+	}
+	if( glfwGetKey( GLFW_KEY_UP ) ) {
+		moved = true;
+		move_front();
+	}
+	if( glfwGetKey( GLFW_KEY_DOWN ) ) {
+		moved = true;
+		move_back();
+	}
 
 	int x, y;
 	glfwGetMousePos(&x, &y);
@@ -35,9 +43,8 @@ void Camera::update(double t) {
 	px = x;
 	py = y;
 
-
 	V = lookAt(position, position+direction, up);
-	if(verbose) std::cout << position.x << ", " << position.y << ", " << position.z << " - " << direction.x << ", " << direction.y << ", " << direction.z << endl;
+	if(verbose && moved) std::cout << "Position: " << position.x << ", " << position.y << ", " << position.z << endl <<  " Direction: " << direction.x << ", " << direction.y << ", " << direction.z << endl;
 }
 
 void Camera::move_left() {
@@ -70,26 +77,4 @@ void Camera::move_direction(int x, int y) {
 	direction += h;
 	direction += v;
 	direction = normalize(direction);
-}
-
-void Camera::draw(double t) {
-/*	if(verbose) {
-		std::cout << "asdf" << endl;
-		vec3 look = position + direction*50.0f;
-		GLfloat theLine[] = {
-			position.x, position.y, position.z,
-			look.x, look.y, look.z };
-
-		VBO line(theLine, sizeof(theLine), 0);
-
-		mat4 MVP = (*P) * V;
-
-		theShad->use();
-			glUniformMatrix4fv(MVP_Id, 1, GL_FALSE, &MVP[0][0]);
-
-			line.enable(3);
-			line.draw(GL_LINES);
-			line.disable();
-			line.destroy();
-	}*/
 }
