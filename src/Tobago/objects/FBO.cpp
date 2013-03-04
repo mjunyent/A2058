@@ -33,8 +33,11 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, bool qualite)
 	}
 
 	// Always check that our framebuffer is ok
-	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) status = false;
-	else status = true;
+	GLenum check_result = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if(check_result != GL_FRAMEBUFFER_COMPLETE) {
+		shout_error(check_result);
+		status = false;
+	} else status = true;
 
 	if(!status) global::log.error("Error creating FBO");
 
@@ -69,10 +72,11 @@ FBO::FBO(GLsizei width, GLsizei height, TBO *tex, TBO *depth, bool qualite)
 	}
 
 	// Always check that our framebuffer is ok
-	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) status = false;
-	else status = true;
-
-	if(!status) global::log.error("Error creating FBO");
+	GLenum check_result = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if(check_result != GL_FRAMEBUFFER_COMPLETE) {
+		shout_error(check_result);
+		status = false;
+	} else status = true;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -100,4 +104,62 @@ void FBO::erase() {
 void FBO::bind_texture(int id) 
 {
 	texture->bind(id);
+}
+
+
+void FBO::shout_error(GLenum error) {
+	switch (error)
+	{
+		case GL_FRAMEBUFFER_UNDEFINED:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_UNDEFINED");
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
+			break;
+		case GL_FRAMEBUFFER_UNSUPPORTED:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_UNSUPPORTED");
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS");
+			break;
+		case GL_FRAMEBUFFER_COMPLETE:
+			global::log.error("FBO Creation ok, why is this in LOG?");
+			break;
+		case 0:
+			global::log.error("FBO Creation error: 0 returned");
+		default:
+			global::log.error("FBO Creation error: Error not recognised");
+		break;
+	}
+	/* http://www.opengl.org/sdk/docs/man3/xhtml/glCheckFramebufferStatus.xml
+	GL_FRAMEBUFFER_UNDEFINED is returned if target is the default framebuffer, but the default framebuffer does not exist.
+
+	GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT is returned if any of the framebuffer attachment points are framebuffer incomplete.
+
+	GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT is returned if the framebuffer does not have at least one image attached to it.
+
+	GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER is returned if the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for any color attachment point(s) named by GL_DRAWBUFFERi.
+
+	GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER is returned if GL_READ_BUFFER is not GL_NONE and the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for the color attachment point named by GL_READ_BUFFER.
+
+	GL_FRAMEBUFFER_UNSUPPORTED is returned if the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.
+
+	GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is returned if the value of GL_RENDERBUFFER_SAMPLES is not the same for all attached renderbuffers; if the value of GL_TEXTURE_SAMPLES is the not same for all attached textures; or, if the attached images are a mix of renderbuffers and textures, the value of GL_RENDERBUFFER_SAMPLES does not match the value of GL_TEXTURE_SAMPLES.
+
+	GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is also returned if the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not the same for all attached textures; or, if the attached images are a mix of renderbuffers and textures, the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not GL_TRUE for all attached textures.
+
+	GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS is returned if any framebuffer attachment is layered, and any populated attachment is not layered, or if all populated color attachments are not from textures of the same target.
+	*/
 }

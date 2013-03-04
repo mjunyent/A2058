@@ -2,5 +2,5 @@
 
 A2058 	 Error Log 	 log.txt
 
-4.5399	 ERROR: Error creating FBO
-4.58848	 ERROR: Error creating FBO
+5.37834	 ERROR: FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+5.37844	 ERROR: Error creating FBO

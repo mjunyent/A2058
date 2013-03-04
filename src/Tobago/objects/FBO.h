@@ -11,6 +11,7 @@ private:
 //	GLuint depthrenderbuffer;
 	GLsizei width, height;
 	bool deltex;
+	void shout_error(GLenum error);
 
 public:
 	TBO *texture;
