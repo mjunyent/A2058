@@ -30,6 +30,7 @@ SimpleFBORender::SimpleFBORender(FBO *fbo) {
 }
 
 void SimpleFBORender::draw(double t) {
+	glDisable(GL_DEPTH_TEST);
 	shad->use();
 
 	fbo->bind_texture(0);
@@ -38,4 +39,6 @@ void SimpleFBORender::draw(double t) {
 	screen_quad->enable(3);
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
+
+	glEnable(GL_DEPTH_TEST);
 }

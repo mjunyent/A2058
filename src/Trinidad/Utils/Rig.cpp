@@ -23,6 +23,7 @@ Rig::Rig(vec3 *position, vec3 *direction, vec3 *up, float eye_sep, float center_
 }
 
 void Rig::draw(double t) {
+	glDisable(GL_DEPTH_TEST);
 	shad->use();
 
 	left->bind_texture(0);
@@ -33,7 +34,8 @@ void Rig::draw(double t) {
 	screen_quad->enable(3);
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
-
+	
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Rig::update(double t) {

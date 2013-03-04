@@ -63,9 +63,10 @@ void Timer::update() {
 #endif
 
 	global::dt = global::currentTime-lastTime; //1/dt = x fps
-	fps = 1.0/global::dt;
+	
 	cumulativeTime += global::dt; // * 0.001f;
 	lastTime = global::currentTime;
+
 	while (cumulativeTime > FRAME_LENGHT) {
 		if(manager != NULL) manager->update();
 		if(update_f != NULL) update_f(); // Ya funciona !

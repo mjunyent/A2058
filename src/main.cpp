@@ -6,6 +6,8 @@ int main(void) {
 
 	OGL::init(1280, 720, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, GLFW_WINDOW);
 
+//	glfwSwapInterval(20);
+
 	glm::mat4 Projection = glm::perspective(75.0f, 4.0f/3.0f, 0.1f, 100.0f);
 	glm::mat4 View		 = glm::lookAt( glm::vec3(-4,-4,-4),
 										glm::vec3(10,10,0),
@@ -48,7 +50,7 @@ int main(void) {
 
 //	global::manager->addScene(new SimpleFBORender(&test), 0, 10000000, 4);
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
-	global::manager->addScene(new SoundSpectrum(),			0, 100000000, 20000);
+//	global::manager->addScene(new SoundSpectrum(),			0, 100000000, 20000);
 
 	//PLAY!
 	global::song->Play();
