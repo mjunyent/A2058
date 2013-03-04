@@ -154,6 +154,49 @@ void A3dsHandler::makeVBO(int id) {
 	vertexs = new VBO(vdata, sizeof(float)*mesh->nfaces*3*3, 0);
 }
 
+void A3dsHandler::calculateNormals() {
+
+	//vector of vectors of vec3 (for each vertex we save its normals).
+	vector<vector<glm::vec3> > vertex_normals(mesh->nvertices);
+	float *ndata = new float[mesh->nvertices*3];
+
+	for(int i=0; i<mesh->nfaces; i++) {
+		glm::vec3 v1(mesh->vertices[faces[i].index[0]][0],
+					 mesh->vertices[faces[i].index[0]][1],
+					 mesh->vertices[faces[i].index[0]][2]);
+
+		glm::vec3 v2(mesh->vertices[faces[i].index[1]][0],
+					 mesh->vertices[faces[i].index[1]][1],
+					 mesh->vertices[faces[i].index[1]][2]);
+
+		glm::vec3 v3(mesh->vertices[faces[i].index[2]][0],
+					 mesh->vertices[faces[i].index[2]][1],
+					 mesh->vertices[faces[i].index[2]][2]); 
+
+		glm::vec3 normal = glm::cross(v2-v1, v3-v1);
+
+		vertex_normals[faces[i].index[0]].push_back(normal);
+		vertex_normals[faces[i].index[1]].push_back(normal);
+		vertex_normals[faces[i].index[2]].push_back(normal);
+	}
+
+	for(int i=0; i<mesh->nvertices; i++) {
+		glm::vec3 normal(0, 0, 0);
+
+		for(int j=0; j<vertex_normals[i].size(); j++) {
+			normal += vertex_normals[i][j];
+		}
+
+		normal = glm::normalize(normal);
+
+		ndata[3*i+0] = normal.x;
+		ndata[3*i+1] = normal.y;
+		ndata[3*i+2] = normal.z;
+	}
+
+	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
+}
+
 void A3dsHandler::makeNormals() {
 	float (*pre_normals)[3] = (float (*)[3])malloc(sizeof(float) * 9 * mesh->nfaces);
 	

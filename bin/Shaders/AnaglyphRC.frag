@@ -15,5 +15,4 @@ void main(){
 	rightFrag = vec4(rightFrag.r, 1.0, 1.0, 1.0);
 
 	color = vec4(leftFrag.rgb * rightFrag.rgb, 1.0);
-//	color = vec4(texture( LeftTex, UV ).r, texture( RightTex, UV).r, 0.0, 1.0);
 }
