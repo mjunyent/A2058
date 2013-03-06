@@ -2,5 +2,4 @@
 
 A2058 	 Error Log 	 log.txt
 
-5.37834	 ERROR: FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
-5.37844	 ERROR: Error creating FBO
+8.60696	 ERROR: Timer max iterations achieved

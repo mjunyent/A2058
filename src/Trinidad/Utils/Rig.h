@@ -20,6 +20,7 @@ public:
 	VBO *screen_quad;
 	IBO *screen_quad_I;
 
+	//we render the first texture of the FBO.
 	Rig(vec3 *position, vec3 *direction, vec3 *up, float eye_sep, float center_dist, FBO *left, FBO *right, bool debug=false);
 
 	void draw(double t);
