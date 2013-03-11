@@ -7,9 +7,8 @@ RenderModel::RenderModel(char* vertex_file, char* fragment_file, char* model_fil
 	shader = new Shader(vertex_file, fragment_file);
 	MVP_Id = shader->getUniform("MVP");
 
-	model = new A3dsHandler(model_file);
-	model->makeVBO(meshId);
-	model->makeNormals();
+	model = new A3dsHandler(model_file, meshId);
+	model->calculateNormals();
 }
 
 void RenderModel::draw(double t) {
@@ -18,7 +17,7 @@ void RenderModel::draw(double t) {
 
 	model->vertexs->enable(3);
 	model->normals->enable(3);
-	model->vertexs->draw(GL_TRIANGLES);
+	model->indexs->draw(GL_TRIANGLES);
 	model->vertexs->disable();
 	model->normals->disable();
 }

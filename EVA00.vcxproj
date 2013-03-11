@@ -88,6 +88,7 @@
     <ClCompile Include="src\Tobago\objects\SShader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp" />
     <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp" />
     <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp" />
     <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
+    <ClInclude Include="src\Trinidad\Basic\Deferred.h" />
     <ClInclude Include="src\Trinidad\Basic\LaunchShader.h" />
     <ClInclude Include="src\Trinidad\Basic\RenderModel.h" />
     <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h" />
@@ -131,6 +133,7 @@
     <None Include="bin\Shaders\paintNormals.frag" />
     <None Include="bin\Shaders\ScreenTexture.frag" />
     <None Include="bin\Shaders\ScreenTexture.vert" />
+    <None Include="bin\Shaders\simpleLight.frag" />
     <None Include="bin\Shaders\SimpleTransform.vert" />
     <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />

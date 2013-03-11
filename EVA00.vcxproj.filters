@@ -135,6 +135,9 @@
     <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp">
       <Filter>Trinidad\Basic</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -215,6 +218,9 @@
     <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h">
       <Filter>Trinidad\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\Deferred.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -252,6 +258,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\AnaglyphRC.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\simpleLight.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

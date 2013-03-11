@@ -26,8 +26,8 @@ void Rig::draw(double t) {
 	glDisable(GL_DEPTH_TEST);
 	shad->use();
 
-	left->bind_texture(0);
-	right->bind_texture(1);
+	left->bind_texture(0, 0);
+	right->bind_texture(0, 1);
 	glUniform1i(left_id, 0);
 	glUniform1i(right_id, 1);
 

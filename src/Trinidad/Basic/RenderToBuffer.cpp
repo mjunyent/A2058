@@ -20,8 +20,10 @@ void UnbindFBO::draw(double t) {
 
 
 
-SimpleFBORender::SimpleFBORender(FBO *fbo) {
+SimpleFBORender::SimpleFBORender(FBO *fbo, int id) {
 	this->fbo = fbo;
+	fbo_tex_id = id;
+
 	shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/ScreenTexture.frag");
 	tex_ID = shad->getUniform("tex");
 
@@ -33,7 +35,7 @@ void SimpleFBORender::draw(double t) {
 	glDisable(GL_DEPTH_TEST);
 	shad->use();
 
-	fbo->bind_texture(0);
+	fbo->bind_texture(fbo_tex_id, 0);
 	glUniform1i(tex_ID, 0);
 
 	screen_quad->enable(3);

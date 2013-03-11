@@ -43,7 +43,10 @@ FontHandler::FontHandler(char* FontName, unsigned StartingChar, unsigned CellHei
 
 TBO FontHandler::StringTex(char* Message, unsigned len){
 	TBO rett;
-	ret = new FBO(CWidth * len, CHeight, &rett, NULL, true);
+	vector<TBO*> tmpsent;
+	tmpsent.push_back(&rett);
+	bool tmpsent_bool[] = {true};
+	ret = new FBO(CWidth * len, CHeight, tmpsent, NULL, tmpsent_bool);
 	vector< GLfloat > QuadsCoord;
 	vector< GLfloat > QuadsUV	;
 	float x		 = -1.00f;

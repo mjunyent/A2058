@@ -25,8 +25,9 @@ public:
 	VBO *screen_quad;
 	IBO *screen_quad_I;
 	GLuint tex_ID;
+	int fbo_tex_id;
 
-	SimpleFBORender(FBO *fbo);
+	SimpleFBORender(FBO *fbo, int id);
 	void draw(double t);
 };
 

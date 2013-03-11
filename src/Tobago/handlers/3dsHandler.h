@@ -31,8 +31,9 @@ public:
 	A3dsHandler(char *filename, int meshid);
 
 	void makeVBOwithIBO(int id);
-	void makeVBO(int id);
-	void makeNormals();
+	void makeVBO(int id);		//without IBO, 3 vertex per face.
+	void makeNormals();			//1 normal per face
+	void calculateNormals();	//1 normal per vertex
 
 private:
 	void loadFile(char *filename);
