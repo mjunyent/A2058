@@ -13,6 +13,8 @@ int main(void) {
 										glm::vec3(10,10,0),
 										glm::vec3(0,1,0));
 	glm::mat4 Model      = glm::mat4(1.0);
+	Model = glm::rotate(90.0f, glm::vec3(1, 0, 0));
+
 	glm::mat4 MVP		 = Projection*View*Model;
 	float angle = 0.0;
 
@@ -25,9 +27,9 @@ int main(void) {
 	timer.getTimeFrom(global::song);
 
 	//Initialize scenes
-	Camera cam(glm::vec3(8,8,8), glm::vec3(-1, -1, -1), glm::vec3(0, 1, 0), 0.5, true);
+	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.5, true);
 	global::manager->addScene(&cam, 0, 10000000, 0);
-	global::manager->addScene(new RenderModel("Shaders/SimpleTransform.vert", "Shaders/paintNormals.frag", "Models/vessel.3ds", 1, &MVP),
+	global::manager->addScene(new RenderModel("Shaders/SimpleTransform.vert", "Shaders/simpleLight.frag", "Models/vessel.3ds", 1, &MVP),
 								0,
 								10000000,
 								2);
@@ -40,9 +42,6 @@ int main(void) {
 		timer.update();
 
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-		Model = glm::rotate(angle, glm::vec3(1, 0, 0));
-		angle += 0.5;
 
 		MVP = Projection*cam.V*Model;
 

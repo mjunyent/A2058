@@ -2,4 +2,3 @@
 
 A2058 	 Error Log 	 log.txt
 
-8.60696	 ERROR: Timer max iterations achieved

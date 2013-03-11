@@ -260,5 +260,8 @@
     <None Include="bin\Shaders\AnaglyphRC.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="bin\Shaders\simpleLight.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

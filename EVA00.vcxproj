@@ -133,6 +133,7 @@
     <None Include="bin\Shaders\paintNormals.frag" />
     <None Include="bin\Shaders\ScreenTexture.frag" />
     <None Include="bin\Shaders\ScreenTexture.vert" />
+    <None Include="bin\Shaders\simpleLight.frag" />
     <None Include="bin\Shaders\SimpleTransform.vert" />
     <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />
