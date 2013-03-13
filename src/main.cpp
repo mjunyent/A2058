@@ -1,5 +1,6 @@
 #include "Tobago/Tobago.h" //Tobago contains basic opengl inicialitzation, object managers and everything you need to ease your code.
 #include "Trinidad/Trinidad.h" //Trinidad contains scenes already done, just to plug & play to an sceneManager or wherever.
+#include "Vidian/VesselScene.h"
 
 int main(void) {
 	int running = true;
@@ -28,11 +29,11 @@ int main(void) {
 
 	//Initialize scenes
 	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.5, true);
+	LaunchShader simpleLight("Shaders/MVPTransform.vert", "Shaders/simpleLight.frag");
+
 	global::manager->addScene(&cam, 0, 10000000, 0);
-	global::manager->addScene(new RenderModel("Shaders/SimpleTransform.vert", "Shaders/simpleLight.frag", "Models/vessel.3ds", 1, &MVP),
-								0,
-								10000000,
-								2);
+	global::manager->addScene(&simpleLight, 0, 10000000, 2);
+	global::manager->addScene(new VesselScene(simpleLight.shader, &cam.V), 0, 100000000, 3);
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 
 	//PLAY!

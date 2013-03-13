@@ -58,6 +58,9 @@
     <Filter Include="Trinidad\Basic">
       <UniqueIdentifier>{09dd1cc0-9555-4990-b767-b740a2c90d72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vidian">
+      <UniqueIdentifier>{1011cd4a-b1cc-4057-a345-32bc77ce95e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -137,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="src\Trinidad\Basic\Deferred.cpp">
       <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vidian\VesselScene.cpp">
+      <Filter>Vidian</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +227,9 @@
     <ClInclude Include="src\Trinidad\Basic\Deferred.h">
       <Filter>Trinidad\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vidian\VesselScene.h">
+      <Filter>Vidian</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -261,6 +270,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\simpleLight.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\MVPTransform.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
