@@ -96,6 +96,7 @@
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
     <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
+    <ClCompile Include="src\Vidian\VesselScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\basic\basic.h" />
@@ -125,11 +126,13 @@
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
     <ClInclude Include="src\Trinidad\Utils\Rig.h" />
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
+    <ClInclude Include="src\Vidian\VesselScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\AnaglyphRC.frag" />
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
+    <None Include="bin\Shaders\MVPTransform.vert" />
     <None Include="bin\Shaders\paintNormals.frag" />
     <None Include="bin\Shaders\ScreenTexture.frag" />
     <None Include="bin\Shaders\ScreenTexture.vert" />
