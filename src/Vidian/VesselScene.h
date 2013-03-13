@@ -3,6 +3,7 @@
 #define VIDIAN_VESSELSCENE
 
 #include "../Tobago/Tobago.h"
+#include "../Trinidad/Trinidad.h"
 #include <cstdlib>
 
 /**
@@ -21,9 +22,12 @@ public:
 	vector<glm::mat4> M_Cells;
 	GLuint M_Id, V_Id, P_Id, Scale_Id;
 	Shader *shader;
+	Rig *rig;
 
 	VesselScene(Shader *shader, glm::mat4 *V);
+	VesselScene(Shader *shader, Rig *rig);
 	void draw(double t);
+	void renderiseee(glm::mat4 &V);
 };
 
 #endif
