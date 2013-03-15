@@ -13,7 +13,7 @@ void main()
 	float shade = dot(normalize(normal.xyz), vec3(0, 1, 0)); 
 	color = vec4(0.2+0.6*abs(shade), 0.2+0.6*abs(shade), 0.2+0.6*abs(shade), 1);
 
-	normal_c = vec4(1, 0, 0, 1);
+	normal_c = color;
 	difuse = vec4(0, 1, 0, 1);
 	specular = 	vec4(0, 0, 1, 1);
 }

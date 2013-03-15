@@ -27,11 +27,11 @@ int main(void) {
 
 	global::manager->addScene(&cam, 0, 10000000, 0);
 
-//	global::manager->addScene(&Sdeferred, 0, 1000000, 1);
+	global::manager->addScene(&Sdeferred, 0, 1000000, 1);
 //	global::manager->addScene(&simpleLight, 0, 10000000, 2);
-//	global::manager->addScene(&vessel, 0, 100000000, 4);
+	global::manager->addScene(&vessel, 0, 100000000, 4);
 
-//	global::manager->addScene(&Edeferred, 0, 100000000, 5);
+	global::manager->addScene(&Edeferred, 0, 100000000, 5);
 
 	global::manager->addScene(&Ddeferred, 0, 100000000, 6);
 

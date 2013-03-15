@@ -2,11 +2,3 @@
 
 A2058 	 Error Log 	 log.txt
 
-5.0825	 ERROR: Shader compiling error:
-5.08259	 ERROR: 0(19) : error C1008: undefined variable "vec"
-
-5.09184	 ERROR: Shader program linking error:
-5.09189	 ERROR: Fragment info
--------------
-0(19) : error C1008: undefined variable "vec"
-

@@ -4,7 +4,7 @@
 StartDeferred::StartDeferred() {
 	first = new Shader("Shaders/Deferred/first.vert", "Shaders/Deferred/first.frag");
 	bool calite[] = { true, true, true, true };
-	renderBuffer = new FBO(global::width, global::height, true, 4, calite);
+	renderBuffer = new FBO(global::width, global::height, false, 4, calite);
 }
 
 void StartDeferred::draw(double t) {
@@ -51,7 +51,7 @@ void DebugDeferred::draw(double t) {
 	glUniform1i(tex4, 3);
 
 	squad->enable(3);
-	squad->draw(GL_TRIANGLES);
+	squad_I->draw(GL_TRIANGLES);
 	squad->disable();
 
 	glEnable(GL_DEPTH_TEST);
