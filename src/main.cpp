@@ -16,21 +16,24 @@ int main(void) {
 	//Configure some things...
 	timer.getTimeFrom(global::song);
 
-	bool calite[] =  { true };
-	FBO left(global::width, global::height, true, 1, calite);
-	FBO right(global::width, global::height, true, 1, calite);
-
 	//Initialize scenes
 	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.5, true);
 	LaunchShader simpleLight("Shaders/MVPTransform.vert", "Shaders/simpleLight.frag");
-	Rig rig(&cam.position, &cam.direction, &cam.up, 0.1, 1.0, &left, &right, true);
-	VesselScene vessel(simpleLight.shader, &rig);
+	VesselScene vessel(simpleLight.shader, &cam.V);
+
+	StartDeferred Sdeferred;
+	EndDeferred Edeferred(&Sdeferred);
+	DebugDeferred Ddeferred(&Sdeferred);
 
 	global::manager->addScene(&cam, 0, 10000000, 0);
 
-	global::manager->addScene(&simpleLight, 0, 10000000, 2);
-	global::manager->addScene(&vessel, 0, 100000000, 4);
-	global::manager->addScene(&rig, 0, 10000000, 9);
+//	global::manager->addScene(&Sdeferred, 0, 1000000, 1);
+//	global::manager->addScene(&simpleLight, 0, 10000000, 2);
+//	global::manager->addScene(&vessel, 0, 100000000, 4);
+
+//	global::manager->addScene(&Edeferred, 0, 100000000, 5);
+
+	global::manager->addScene(&Ddeferred, 0, 100000000, 6);
 
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 

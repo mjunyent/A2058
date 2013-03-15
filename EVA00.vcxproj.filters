@@ -61,6 +61,9 @@
     <Filter Include="Vidian">
       <UniqueIdentifier>{1011cd4a-b1cc-4057-a345-32bc77ce95e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Deferred">
+      <UniqueIdentifier>{a6c80dfd-4e73-486c-99a3-a8651a2c9c95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -274,6 +277,18 @@
     </None>
     <None Include="bin\Shaders\MVPTransform.vert">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\first.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\first.vert">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\debug.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\debug.vert">
+      <Filter>Shaders\Deferred</Filter>
     </None>
   </ItemGroup>
 </Project>

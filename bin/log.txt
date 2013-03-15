@@ -2,36 +2,11 @@
 
 A2058 	 Error Log 	 log.txt
 
-31.7534	 ERROR: Timer max iterations achieved
-31.8247	 ERROR: Timer max iterations achieved
-31.8307	 ERROR: Timer max iterations achieved
-102.26	 ERROR: Timer max iterations achieved
-102.373	 ERROR: Timer max iterations achieved
-102.523	 ERROR: Timer max iterations achieved
-102.64	 ERROR: Timer max iterations achieved
-102.673	 ERROR: Timer max iterations achieved
-102.706	 ERROR: Timer max iterations achieved
-168.488	 ERROR: Timer max iterations achieved
-169.076	 ERROR: Timer max iterations achieved
-169.149	 ERROR: Timer max iterations achieved
-169.157	 ERROR: Timer max iterations achieved
-169.811	 ERROR: Timer max iterations achieved
-170.466	 ERROR: Timer max iterations achieved
-170.889	 ERROR: Timer max iterations achieved
-171.26	 ERROR: Timer max iterations achieved
-171.308	 ERROR: Timer max iterations achieved
-171.323	 ERROR: Timer max iterations achieved
-171.34	 ERROR: Timer max iterations achieved
-171.373	 ERROR: Timer max iterations achieved
-171.389	 ERROR: Timer max iterations achieved
-171.423	 ERROR: Timer max iterations achieved
-171.439	 ERROR: Timer max iterations achieved
-171.473	 ERROR: Timer max iterations achieved
-171.489	 ERROR: Timer max iterations achieved
-171.523	 ERROR: Timer max iterations achieved
-171.539	 ERROR: Timer max iterations achieved
-171.951	 ERROR: Timer max iterations achieved
-172.001	 ERROR: Timer max iterations achieved
-172.006	 ERROR: Timer max iterations achieved
-172.04	 ERROR: Timer max iterations achieved
-178.98	 ERROR: Timer max iterations achieved
+5.0825	 ERROR: Shader compiling error:
+5.08259	 ERROR: 0(19) : error C1008: undefined variable "vec"
+
+5.09184	 ERROR: Shader program linking error:
+5.09189	 ERROR: Fragment info
+-------------
+0(19) : error C1008: undefined variable "vec"
+
