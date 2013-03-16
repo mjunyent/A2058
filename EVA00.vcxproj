@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cosas\FBOScene.cpp" />
     <ClCompile Include="src\cosas\NewScena.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
@@ -91,11 +92,13 @@
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
     <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp" />
     <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp" />
+    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp" />
     <ClCompile Include="src\Trinidad\Utils\Camera.cpp" />
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\cosas\FBOScene.h" />
     <ClInclude Include="src\cosas\NewScena.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
     <ClInclude Include="src\Tobago\basic\global.h" />
@@ -117,6 +120,7 @@
     <ClInclude Include="src\Tobago\Tobago.h" />
     <ClInclude Include="src\Trinidad\Basic\LaunchShader.h" />
     <ClInclude Include="src\Trinidad\Basic\RenderModel.h" />
+    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
     <ClInclude Include="src\Trinidad\Utils\Camera.h" />
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
@@ -125,6 +129,8 @@
   <ItemGroup>
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
+    <None Include="bin\Shaders\fboshader.frag" />
+    <None Include="bin\Shaders\fboshader.vert" />
     <None Include="bin\Shaders\Fractal.frag" />
     <None Include="bin\Shaders\plano.frag" />
     <None Include="bin\Shaders\paintNormals.frag" />

@@ -132,6 +132,12 @@
     <ClCompile Include="src\cosas\NewScena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cosas\FBOScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -209,6 +215,12 @@
     <ClInclude Include="src\cosas\NewScena.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\cosas\FBOScene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -246,6 +258,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\Fractal.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\fboshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\fboshader.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
