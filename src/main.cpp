@@ -8,6 +8,11 @@ int main(void) {
 	OGL::init(1280, 720, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, GLFW_WINDOW);
 //	glfwSwapInterval(20);
 
+	int yee;
+	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &yee);
+
+	cout << "Max Draw Buffers: " <<	yee << endl;
+
 	//Initialize some vars...
 	global::manager = new SceneManager(&global::currentTime);
 	global::song = new SoundHandler("demo.mp3", 1024);

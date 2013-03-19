@@ -25,8 +25,8 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	if(dbo) {
 		GLenum *DrawBuffers = new GLenum[ntbo+1];
 		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
-		DrawBuffers[ntbo] = GL_DEPTH_ATTACHMENT;
-		glDrawBuffers(ntbo+1, DrawBuffers); // "ntbo+1" is the size of DrawBuffers
+		//DrawBuffers[0] = GL_DEPTH_ATTACHMENT;
+		glDrawBuffers(ntbo, DrawBuffers); // "ntbo+1" is the size of DrawBuffers
 	} else {
 		GLenum *DrawBuffers = new GLenum[ntbo];
 		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
@@ -71,8 +71,8 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 	if(depth != NULL) {
 		GLenum *DrawBuffers = new GLenum[ntbo+1];
 		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
-		DrawBuffers[ntbo] = GL_DEPTH_ATTACHMENT;
-		glDrawBuffers(ntbo+1, DrawBuffers); // "ntbo+1" is the size of DrawBuffers
+		//DrawBuffers[0] = GL_DEPTH_ATTACHMENT;
+		glDrawBuffers(ntbo, DrawBuffers); // "ntbo+1" is the size of DrawBuffers
 	} else {
 		GLenum *DrawBuffers = new GLenum[ntbo];
 		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
@@ -112,6 +112,11 @@ void FBO::erase() {
 void FBO::bind_texture(int texture, int id) 
 {
 	textures[texture]->bind(id);
+}
+
+void FBO::bind_depth_texture(int id)
+{
+	depthtexture->bind(id);
 }
 
 

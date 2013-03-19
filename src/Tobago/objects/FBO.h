@@ -34,6 +34,8 @@ public:
 
 	void bind_texture(int texture, int id);
 
+	void bind_depth_texture(int id);
+
 	//FBO id
 	GLuint theID;
 };

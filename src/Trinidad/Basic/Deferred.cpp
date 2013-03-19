@@ -3,8 +3,8 @@
 
 StartDeferred::StartDeferred() {
 	first = new Shader("Shaders/Deferred/first.vert", "Shaders/Deferred/first.frag");
-	bool calite[] = { true, true, true, true };
-	renderBuffer = new FBO(global::width, global::height, false, 4, calite);
+	bool calite[] = { true, true, true };
+	renderBuffer = new FBO(global::width, global::height, true, 3, calite);
 }
 
 void StartDeferred::draw(double t) {
@@ -43,7 +43,7 @@ void DebugDeferred::draw(double t) {
 	renderBuffer->bind_texture(0, 0);
 	renderBuffer->bind_texture(1, 1);
 	renderBuffer->bind_texture(2, 2);
-	renderBuffer->bind_texture(3, 3);
+	renderBuffer->bind_depth_texture(3);
 
 	glUniform1i(tex1, 0);
 	glUniform1i(tex2, 1);
