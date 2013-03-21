@@ -15,11 +15,11 @@ int main(void) {
 
 	//Initialize some vars...
 	global::manager = new SceneManager(&global::currentTime);
-	global::song = new SoundHandler("demo.mp3", 1024);
+	//global::song = new SoundHandler("demo.mp3", 1024);
 	Timer timer(global::manager);
 
 	//Configure some things...
-	timer.getTimeFrom(global::song);
+	//timer.getTimeFrom(global::song);
 
 	//Initialize scenes
 	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.5, true);
@@ -43,7 +43,7 @@ int main(void) {
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 
 	//PLAY!
-	global::song->Play();
+	//global::song->Play();
 
 	while(running) {
 		timer.update();
