@@ -89,7 +89,7 @@ void Shader::use() {
     glUseProgram(p);
 }
 
-GLuint Shader::getUniform(char *name) {
+GLint Shader::getUniform(char *name) {
 	return glGetUniformLocation(p, name);
 }
 

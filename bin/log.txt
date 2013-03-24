@@ -2,13 +2,3 @@
 
 A2058 	 Error Log 	 log.txt
 
-1.87087	 ERROR: Timer max iterations achieved
-1.87476	 ERROR: Timer max iterations achieved
-1.88811	 ERROR: Timer max iterations achieved
-1.89127	 ERROR: Timer max iterations achieved
-1.90791	 ERROR: Timer max iterations achieved
-1.92448	 ERROR: Timer max iterations achieved
-1.9413	 ERROR: Timer max iterations achieved
-1.9579	 ERROR: Timer max iterations achieved
-1.97513	 ERROR: Timer max iterations achieved
-1.99143	 ERROR: Timer max iterations achieved

@@ -19,12 +19,17 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 		M_Cells.push_back(t);
 	}
 
+	vessel_model = new Model(shader, vessel->vertexs, vessel->normals, vessel->indexs, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), 0.5f, &M_Vessel, 1.0f);
+
+	cell_model = new Model(shader, cell->vertexs, cell->normals, cell->indexs, glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f), 1.0f, &M_Cells[0], 0.3f);
+
 	this->shader = shader;
 
 	M_Id = shader->getUniform("Model");
 	V_Id = shader->getUniform("View");
 	P_Id = shader->getUniform("Projection");
 	Scale_Id = shader->getUniform("scale");
+
 }
 
 VesselScene::VesselScene(Shader *shader, Rig *rig) {
@@ -52,7 +57,6 @@ VesselScene::VesselScene(Shader *shader, Rig *rig) {
 	V_Id = shader->getUniform("View");
 	P_Id = shader->getUniform("Projection");
 	Scale_Id = shader->getUniform("scale");
-
 }
 
 void VesselScene::draw(double t) {
@@ -70,27 +74,13 @@ void VesselScene::draw(double t) {
 
 
 void VesselScene::renderiseee(glm::mat4 &V) {
-	glUniformMatrix4fv(M_Id, 1, GL_FALSE, &M_Vessel[0][0]);
 	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &V[0][0]);
 	glUniformMatrix4fv(P_Id, 1, GL_FALSE, &P[0][0]);
 
-	glUniform1f(Scale_Id, 1.0f);
+	vessel_model->render();
 
-	vessel->vertexs->enable(3);
-	vessel->normals->enable(3);
-	vessel->indexs->draw(GL_TRIANGLES);
-	vessel->vertexs->disable();
-	vessel->normals->disable();
-
-	glUniform1f(Scale_Id, 0.3f);
-	cell->vertexs->enable(3);
-	cell->normals->enable(3);
 	for(int i=0; i<M_Cells.size(); i++) {
-		glm::mat4 M_Cell = M_Cells[i];
-		glUniformMatrix4fv(M_Id, 1, GL_FALSE, &M_Cell[0][0]);
-	
-		cell->indexs->draw(GL_TRIANGLES);	
+		cell_model->M = &M_Cells[i];
+		cell_model->render();
 	}
-	cell->vertexs->disable();
-	cell->vertexs->disable();	
 }

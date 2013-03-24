@@ -18,6 +18,10 @@ class VesselScene : public Scene {
 public:
 	A3dsHandler *vessel;
 	A3dsHandler *cell;
+
+	Model *vessel_model;
+	Model *cell_model;
+
 	glm::mat4 M_Vessel, *V, P;
 	vector<glm::mat4> M_Cells;
 	GLuint M_Id, V_Id, P_Id, Scale_Id;

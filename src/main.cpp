@@ -11,7 +11,7 @@ int main(void) {
 	int yee;
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &yee);
 
-	cout << "Max Draw Buffers: " <<	yee << endl;
+	cout << "Max Draw NiggerBuffers: " <<	yee << endl;
 
 	//Initialize some vars...
 	global::manager = new SceneManager(&global::currentTime);
