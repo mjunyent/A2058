@@ -26,21 +26,21 @@ Model::Model(Shader *shader,
 	this->M = M;
 	this->scale = scale;
 
-	shininess_id = shader->getUniform("portillo");
+	shininess_id = shader->getUniform("shininess");
 	scale_id = shader->getUniform("scale");
 	M_id = shader->getUniform("Model");
-//	ambient_color_id = shader->getUniform("AmbientColor");
-//	diffuse_color_id = shader->getUniform("DiffuseColor");
-//	specular_color_id = shader->getUniform("SpecularColor");
+	ambient_color_id = shader->getUniform("AmbientColor");
+	diffuse_color_id = shader->getUniform("DiffuseColor");
+	specular_color_id = shader->getUniform("SpecularColor");
 }
 
 void Model::render() {
 	glUniformMatrix4fv(M_id, 1, GL_FALSE, &(*M)[0][0]);
-	//glUniform1f(scale_id, scale);
+	glUniform1f(scale_id, scale);
 	glUniform1f(shininess_id, shininess);
-//	glUniform3fv(ambient_color_id, 1, &ambient_color[0]);
-//	glUniform3fv(diffuse_color_id, 1, &diffuse_color[0]);
-//	glUniform3fv(specular_color_id, 1, &specular_color[0]);
+	glUniform3fv(ambient_color_id, 1, &ambient_color[0]);
+	glUniform3fv(diffuse_color_id, 1, &diffuse_color[0]);
+	glUniform3fv(specular_color_id, 1, &specular_color[0]);
 
 	vertexs->enable(3);
 	normals->enable(3);

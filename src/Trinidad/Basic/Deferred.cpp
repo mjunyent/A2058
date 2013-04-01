@@ -22,9 +22,11 @@ void EndDeferred::draw(double t) {
 
 
 
-DebugDeferred::DebugDeferred(StartDeferred *sd) {
+DebugDeferred::DebugDeferred(StartDeferred *sd, glm::mat4 *invP) {
 	renderBuffer = sd->renderBuffer;
 	debug = new Shader("Shaders/Deferred/debug.vert", "Shaders/Deferred/debug.frag");
+
+	this->invP = invP;
 
 	squad = new VBO(global::quad, sizeof(global::quad), 0);
 	squad_I = new IBO(global::quad_I, sizeof(global::quad_I));
@@ -33,6 +35,7 @@ DebugDeferred::DebugDeferred(StartDeferred *sd) {
 	tex2 = debug->getUniform("tex2");
 	tex3 = debug->getUniform("tex3");
 	tex4 = debug->getUniform("tex4");
+	invP_id = debug->getUniform("invPersp");
 
 }
 
@@ -49,6 +52,7 @@ void DebugDeferred::draw(double t) {
 	glUniform1i(tex2, 1);
 	glUniform1i(tex3, 2);
 	glUniform1i(tex4, 3);
+	glUniformMatrix4fv(invP_id, 1, GL_FALSE, &(*invP)[0][0]);
 
 	squad->enable(3);
 	squad_I->draw(GL_TRIANGLES);

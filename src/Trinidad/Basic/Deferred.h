@@ -38,9 +38,10 @@ public:
 	FBO *renderBuffer;
 	VBO *squad;
 	IBO *squad_I;
-	GLuint tex1, tex2, tex3, tex4;
+	glm::mat4 *invP;
+	GLint tex1, tex2, tex3, tex4, invP_id;
 
-	DebugDeferred(StartDeferred *sd);
+	DebugDeferred(StartDeferred *sd, glm::mat4 *invP);
 
 	void draw(double t);
 };

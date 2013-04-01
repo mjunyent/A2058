@@ -22,7 +22,7 @@ public:
 	Model *vessel_model;
 	Model *cell_model;
 
-	glm::mat4 M_Vessel, *V, P;
+	glm::mat4 M_Vessel, *V, P, invPV;
 	vector<glm::mat4> M_Cells;
 	GLuint M_Id, V_Id, P_Id, Scale_Id;
 	Shader *shader;

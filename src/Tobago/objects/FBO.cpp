@@ -5,6 +5,12 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	this->width = width;
 	this->height = height;
 
+	int maxDrawBuffers;
+	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
+	if(maxDrawBuffers <= ntbo) {
+		global::log.warning("FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!");
+	}
+
 	glGenFramebuffers(1, &theID);
 	glBindFramebuffer(GL_FRAMEBUFFER, theID);
 
@@ -22,16 +28,9 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,  depthtexture->theID, 0);
 	}
 
-	if(dbo) {
-		GLenum *DrawBuffers = new GLenum[ntbo+1];
-		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
-		//DrawBuffers[0] = GL_DEPTH_ATTACHMENT;
-		glDrawBuffers(ntbo, DrawBuffers); // "ntbo+1" is the size of DrawBuffers
-	} else {
-		GLenum *DrawBuffers = new GLenum[ntbo];
-		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
-		glDrawBuffers(ntbo, DrawBuffers); // "ntbo" is the size of DrawBuffers
-	}
+	GLenum *DrawBuffers = new GLenum[ntbo];
+	for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
+	glDrawBuffers(ntbo, DrawBuffers); // "ntbo" is the size of DrawBuffers
 
 	// Always check that our framebuffer is ok
 	GLenum check_result = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -51,6 +50,12 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 	this->height = height;
 	this->ntbo = texs.size();
 
+	int maxDrawBuffers;
+	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
+	if(maxDrawBuffers <= ntbo) {
+		global::log.warning("FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!");
+	}
+
 	glGenFramebuffers(1, &theID);
 	glBindFramebuffer(GL_FRAMEBUFFER, theID);
 
@@ -68,16 +73,9 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 	if(depth != NULL) glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,  depth->theID, 0);
 
 	// Set the list of draw buffers.
-	if(depth != NULL) {
-		GLenum *DrawBuffers = new GLenum[ntbo+1];
-		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
-		//DrawBuffers[0] = GL_DEPTH_ATTACHMENT;
-		glDrawBuffers(ntbo, DrawBuffers); // "ntbo+1" is the size of DrawBuffers
-	} else {
-		GLenum *DrawBuffers = new GLenum[ntbo];
-		for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
-		glDrawBuffers(ntbo, DrawBuffers); // "ntbo" is the size of DrawBuffers
-	}
+	GLenum *DrawBuffers = new GLenum[ntbo];
+	for(int i=0; i<ntbo; i++) DrawBuffers[i] = GL_COLOR_ATTACHMENT0+i;
+	glDrawBuffers(ntbo, DrawBuffers); // "ntbo" is the size of DrawBuffers
 
 	// Always check that our framebuffer is ok
 	GLenum check_result = glCheckFramebufferStatus(GL_FRAMEBUFFER);

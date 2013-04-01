@@ -2,20 +2,23 @@
 
 // Ouput data
 layout(location = 0) out vec4 normal_c;
-layout(location = 1) out vec4 difuse;
+layout(location = 1) out vec4 diffuse;
 layout(location = 2) out vec4 specular;
 
 in vec4 normal;
 in vec4 position;
+in vec4 deletethis;
 
-uniform float portillo;
+uniform float shininess;
+uniform vec3 AmbientColor;
+uniform vec3 DiffuseColor;
+uniform vec3 SpecularColor;
 
 void main()
 {	
-	normal_c = vec4(normal.xyz, 1.0);
-	difuse = vec4(position.xyz, 1.0);
-	//specular = 	vec4(0, 0, 1, 1);
-
-	float shade = dot(normalize(normal.xyz), vec3(0, 1, 0));
-	specular = vec4(0.0, portillo, 1.0, 1.0);
+	normal_c = vec4(normalize(normal.xyz), 1.0);
+	diffuse  = vec4(DiffuseColor.rgb, 1.0);
+	diffuse  = vec4(position.xyz, 1.0);
+	specular = vec4(SpecularColor.rgb, shininess);
+	specular = vec4(deletethis.xyz, 1.0);
 }

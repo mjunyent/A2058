@@ -7,7 +7,8 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 	cell = new A3dsHandler("Models/cell.3ds", 0);
 	cell->calculateNormals();
 
-	P = glm::perspective(75.0f, 4.0f/3.0f, 0.1f, 100.0f);
+	P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 100.0f);
+
 	this->rig = NULL;
 	this->V = V;
 	M_Vessel = glm::rotate(90.0f, glm::vec3(1, 0, 0));
@@ -78,6 +79,8 @@ void VesselScene::renderiseee(glm::mat4 &V) {
 	glUniformMatrix4fv(P_Id, 1, GL_FALSE, &P[0][0]);
 
 	vessel_model->render();
+
+	invPV = glm::inverse(P*V);
 
 	for(int i=0; i<M_Cells.size(); i++) {
 		cell_model->M = &M_Cells[i];
