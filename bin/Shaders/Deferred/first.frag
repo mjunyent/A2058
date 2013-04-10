@@ -18,7 +18,7 @@ void main()
 {	
 	normal_c = vec4(normalize(normal.xyz), 1.0);
 	diffuse  = vec4(DiffuseColor.rgb, 1.0);
-	diffuse  = vec4(position.xyz, 1.0);
+	//diffuse  = vec4(position.xyz, 1.0);
 	specular = vec4(SpecularColor.rgb, shininess);
-	specular = vec4(deletethis.xyz, 1.0);
+	//specular = vec4(deletethis.xyz, 1.0);
 }

@@ -33,8 +33,8 @@ void main(){
 	if(UV.x > 0.5 && UV.y > 0.5) color.rgb = texture( tex2, 2*UV ).rgb;						//superior der.
 	if(UV.x < 0.5 && UV.y < 0.5) color.rgb = abs(texture( tex3, 2*UV ).rgb);						//inferior iqz.
 	if(UV.x > 0.5 && UV.y < 0.5) {
-	//	color.rgb = texture( tex4, 2*UV ).rgb;						//inferior der.
-		color.rgb = getFragmentPosition();
+		color.rgb = texture( tex4, 2*UV ).rgb;						//inferior der.
+	//	color.rgb = getFragmentPosition();
 	}
 
 	//color.rgb = getFragmentPosition();

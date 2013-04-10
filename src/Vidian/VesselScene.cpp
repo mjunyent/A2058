@@ -20,9 +20,27 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 		M_Cells.push_back(t);
 	}
 
-	vessel_model = new Model(shader, vessel->vertexs, vessel->normals, vessel->indexs, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), 0.5f, &M_Vessel, 1.0f);
+	vessel_model = new Model(shader,
+							 vessel->vertexs,
+							 vessel->normals,
+							 vessel->indexs,
+							 glm::vec3(1.0f, 0.0f, 0.0f),
+							 glm::vec3(156.0/255.0f, 9.0/255.0f, 9.0/255.0f),
+							 glm::vec3(0.5f, 0.5f, 0.5f),
+							 0.5f,
+							 &M_Vessel,
+							 1.0f);
 
-	cell_model = new Model(shader, cell->vertexs, cell->normals, cell->indexs, glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f), 1.0f, &M_Cells[0], 0.3f);
+	cell_model = new Model(shader,
+						   cell->vertexs,
+						   cell->normals,
+						   cell->indexs,
+						   glm::vec3(1.0f, 1.0f, 0.0f),
+						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
+						   glm::vec3(1.0f, 1.0f, 1.0f),
+						   1.0f,
+						   &M_Cells[0],
+						   0.3f);
 
 	this->shader = shader;
 
