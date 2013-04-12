@@ -99,6 +99,7 @@ void VesselScene::renderiseee(glm::mat4 &V) {
 	vessel_model->render();
 
 	invPV = glm::inverse(P*V);
+	cout << invPV[1][1] << endl;
 
 	for(int i=0; i<M_Cells.size(); i++) {
 		cell_model->M = &M_Cells[i];

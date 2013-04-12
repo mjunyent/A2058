@@ -296,5 +296,14 @@
     <None Include="bin\Shaders\Deferred\debug.vert">
       <Filter>Shaders\Deferred</Filter>
     </None>
+    <None Include="bin\Shaders\Deferred\second.vert">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\second.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\log.txt" />
   </ItemGroup>
 </Project>

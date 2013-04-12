@@ -8,9 +8,11 @@ StartDeferred::StartDeferred() {
 }
 
 void StartDeferred::draw(double t) {
+	glDisable(GL_BLEND); //we have to disable blending! (we want alpha channel for other things...)
 	renderBuffer->bind();
 	first->use();
 }
+
 
 EndDeferred::EndDeferred(StartDeferred *sd) {
 	renderBuffer = sd->renderBuffer;
@@ -18,9 +20,47 @@ EndDeferred::EndDeferred(StartDeferred *sd) {
 
 void EndDeferred::draw(double t) {
 	renderBuffer->unbind();
+	glEnable(GL_BLEND); //we enable blending again!
 }
 
 
+RenderDeferred::RenderDeferred(StartDeferred *sd, glm::mat4 *invPV) {
+	renderBuffer = sd->renderBuffer;
+	second = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
+
+	this->invPV = invPV;
+
+	squad = new VBO(global::quad, sizeof(global::quad), 0);
+	squad_I = new IBO(global::quad_I, sizeof(global::quad_I));
+
+	normals = second->getUniform("Normal");
+	diffuse = second->getUniform("Diffuse");
+	specular = second->getUniform("Specular");
+	depth = second->getUniform("Depth");
+	invPV_id = second->getUniform("invPV");
+}
+
+void RenderDeferred::draw(double t) {
+	glDisable(GL_DEPTH_TEST);
+
+	second->use();
+	renderBuffer->bind_texture(0, 0);
+	renderBuffer->bind_texture(1, 1);
+	renderBuffer->bind_texture(2, 2);
+	renderBuffer->bind_depth_texture(3);
+
+	glUniform1i(normals, 0);
+	glUniform1i(diffuse, 1);
+	glUniform1i(specular, 2);
+	glUniform1i(depth, 3);
+	glUniformMatrix4fv(invPV_id, 1, GL_FALSE, &(*invPV)[0][0]);
+
+	squad->enable(3);
+	squad_I->draw(GL_TRIANGLES);
+	squad->disable();
+
+	glEnable(GL_DEPTH_TEST);
+}
 
 DebugDeferred::DebugDeferred(StartDeferred *sd, glm::mat4 *invP) {
 	renderBuffer = sd->renderBuffer;

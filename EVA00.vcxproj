@@ -138,6 +138,8 @@
     <None Include="bin\Shaders\Deferred\debug.vert" />
     <None Include="bin\Shaders\Deferred\first.frag" />
     <None Include="bin\Shaders\Deferred\first.vert" />
+    <None Include="bin\Shaders\Deferred\second.frag" />
+    <None Include="bin\Shaders\Deferred\second.vert" />
     <None Include="bin\Shaders\MVPTransform.vert" />
     <None Include="bin\Shaders\paintNormals.frag" />
     <None Include="bin\Shaders\ScreenTexture.frag" />
@@ -150,6 +152,9 @@
     <None Include="ClassDiagram.cd" />
     <None Include="src\Tobago\handlers\FontReader_f.glsl" />
     <None Include="src\Tobago\handlers\FontReader_v.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

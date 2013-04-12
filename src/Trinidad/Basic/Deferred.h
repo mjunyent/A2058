@@ -26,7 +26,14 @@ public:
 
 class RenderDeferred : public Scene {
 public:
-	RenderDeferred(StartDeferred *sd);
+	Shader *second;
+	FBO *renderBuffer;
+	VBO *squad;
+	IBO *squad_I;
+	glm::mat4 *invPV;
+	GLint normals, diffuse, specular, depth, invPV_id;
+
+	RenderDeferred(StartDeferred *sd, glm::mat4 *invPV);
 
 	void draw(double t);
 };

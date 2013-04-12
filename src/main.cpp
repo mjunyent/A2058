@@ -17,13 +17,14 @@ int main(void) {
 	StartDeferred Sdeferred;
 	EndDeferred Edeferred(&Sdeferred);
 	VesselScene vessel(Sdeferred.first, &cam.V);
-	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);
+	RenderDeferred Rdeferred(&Sdeferred, &vessel.invPV);
+//	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);
 
 	global::manager->addScene(&cam,			0,		100000000,		0);
 	global::manager->addScene(&Sdeferred,	0,		100000000,		1);
 	global::manager->addScene(&vessel,		0,		100000000,		4);
 	global::manager->addScene(&Edeferred,	0,		100000000,		5);
-	global::manager->addScene(&Ddeferred,	0,		100000000,		6);
+	global::manager->addScene(&Rdeferred,	0,		100000000,		6);
 
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 
