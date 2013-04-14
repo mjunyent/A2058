@@ -1,0 +1,7 @@
+A2058 Programming Log
+
+Take notes:
+
+Warning: You should make Cam class to also calculate the inverse of PV or make all the PV info global, to avoid the pointer pass and make the other classes carry that weight.
+
+Warning: In the deferred engine you have a problem with GL_BLEND. Now it works but it can be a pain in the ass in the future.
