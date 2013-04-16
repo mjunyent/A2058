@@ -26,8 +26,8 @@ void Rig::draw(double t) {
 	glDisable(GL_DEPTH_TEST);
 	shad->use();
 
-	left->bind_texture(0);
-	right->bind_texture(1);
+	left->bind_texture(0, 0);
+	right->bind_texture(0, 1);
 	glUniform1i(left_id, 0);
 	glUniform1i(right_id, 1);
 
@@ -61,6 +61,16 @@ void Rig::update(double t) {
 		if(print) {
 			vec3 ctr = *position + *direction*center_dist;
 			cout << "Eye sep: " << eye_sep << ", Center dist: " << center_dist << ", Center: " << ctr.x << "," << ctr.y << "," << ctr.z << endl;
+
+			cout << V_Left[0][0] << " " << V_Left[0][1] << " " << V_Left[0][2] << " " << V_Left[0][3] << endl;
+			cout << V_Left[1][0] << " " << V_Left[1][1] << " " << V_Left[1][2] << " " << V_Left[1][3] << endl;
+			cout << V_Left[2][0] << " " << V_Left[2][1] << " " << V_Left[2][2] << " " << V_Left[2][3] << endl;
+			cout << V_Left[3][0] << " " << V_Left[3][1] << " " << V_Left[3][2] << " " << V_Left[3][3] << endl;
+			cout << endl;
+			cout << V_Right[0][0] << " " << V_Right[0][1] << " " << V_Right[0][2] << " " << V_Right[0][3] << endl;
+			cout << V_Right[1][0] << " " << V_Right[1][1] << " " << V_Right[1][2] << " " << V_Right[1][3] << endl;
+			cout << V_Right[2][0] << " " << V_Right[2][1] << " " << V_Right[2][2] << " " << V_Right[2][3] << endl;
+			cout << V_Right[3][0] << " " << V_Right[3][1] << " " << V_Right[3][2] << " " << V_Right[3][3] << endl;
 		}
 	}
 

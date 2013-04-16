@@ -70,8 +70,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\cosas\FBOScene.cpp" />
-    <ClCompile Include="src\cosas\NewScena.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
     <ClCompile Include="src\Tobago\basic\global.cpp" />
@@ -86,20 +84,22 @@
     <ClCompile Include="src\Tobago\objects\FBO.cpp" />
     <ClCompile Include="src\Tobago\objects\IBO.cpp" />
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
+    <ClCompile Include="src\Tobago\objects\Model.cpp" />
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
     <ClCompile Include="src\Tobago\objects\SShader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp" />
     <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp" />
     <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp" />
     <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp" />
     <ClCompile Include="src\Trinidad\Utils\Camera.cpp" />
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
+    <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
+    <ClCompile Include="src\Vidian\VesselScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\cosas\FBOScene.h" />
-    <ClInclude Include="src\cosas\NewScena.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
     <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
@@ -113,28 +113,38 @@
     <ClInclude Include="src\Tobago\objects\FBO.h" />
     <ClInclude Include="src\Tobago\objects\IBO.h" />
     <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h" />
+    <ClInclude Include="src\Tobago\objects\Model.h" />
     <ClInclude Include="src\Tobago\objects\Shader.h" />
     <ClInclude Include="src\Tobago\objects\SShader.h" />
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
+    <ClInclude Include="src\Trinidad\Basic\Deferred.h" />
     <ClInclude Include="src\Trinidad\Basic\LaunchShader.h" />
     <ClInclude Include="src\Trinidad\Basic\RenderModel.h" />
     <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
     <ClInclude Include="src\Trinidad\Utils\Camera.h" />
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
+    <ClInclude Include="src\Trinidad\Utils\Rig.h" />
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
+    <ClInclude Include="src\Vidian\VesselScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Shaders\AnaglyphRC.frag" />
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
-    <None Include="bin\Shaders\fboshader.frag" />
-    <None Include="bin\Shaders\fboshader.vert" />
-    <None Include="bin\Shaders\Fractal.frag" />
-    <None Include="bin\Shaders\plano.frag" />
+    <None Include="bin\Shaders\Deferred\debug.frag" />
+    <None Include="bin\Shaders\Deferred\debug.vert" />
+    <None Include="bin\Shaders\Deferred\first.frag" />
+    <None Include="bin\Shaders\Deferred\first.vert" />
+    <None Include="bin\Shaders\Deferred\second.frag" />
+    <None Include="bin\Shaders\Deferred\second.vert" />
+    <None Include="bin\Shaders\MVPTransform.vert" />
     <None Include="bin\Shaders\paintNormals.frag" />
-    <None Include="bin\Shaders\plano.vert" />
+    <None Include="bin\Shaders\ScreenTexture.frag" />
+    <None Include="bin\Shaders\ScreenTexture.vert" />
+    <None Include="bin\Shaders\simpleLight.frag" />
     <None Include="bin\Shaders\SimpleTransform.vert" />
     <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />
@@ -142,6 +152,9 @@
     <None Include="ClassDiagram.cd" />
     <None Include="src\Tobago\handlers\FontReader_f.glsl" />
     <None Include="src\Tobago\handlers\FontReader_v.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
