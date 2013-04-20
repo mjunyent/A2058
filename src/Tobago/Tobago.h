@@ -33,3 +33,4 @@
 #include "handlers/3dsHandler.h" //3ds file importer, generates VBOs and IBOs.
 
 #include "objects/Model.h" //Handles a model with normals and material properties.
+#include "objects/Light.h" //Handles light struct and pass to shader.

@@ -25,6 +25,7 @@ int main(void) {
 	global::manager->addScene(&vessel,		0,		100000000,		4);
 	global::manager->addScene(&Edeferred,	0,		100000000,		5);
 	global::manager->addScene(&Rdeferred,	0,		100000000,		6);
+//	global::manager->addScene(&Ddeferred,	0,		100000000,		7);
 
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 

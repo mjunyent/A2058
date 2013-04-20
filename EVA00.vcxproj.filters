@@ -150,6 +150,9 @@
     <ClCompile Include="src\Tobago\objects\Model.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tobago\objects\Light.cpp">
+      <Filter>Tobago\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="src\Tobago\objects\Model.h">
       <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\Light.h">
+      <Filter>Tobago\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

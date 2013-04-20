@@ -25,7 +25,7 @@ public:
 	//void getV(GLuint BID , char *name_t);
     void use();
     //void unuse();
-	GLint getUniform(char *name);
+	GLint getUniform(const char *name);
 
     void uni_float(char *name, float value);
     void uni_int(char *name, int value);

@@ -1,8 +1,24 @@
 #version 330 core
+//#pragma optimize(off)
 
 in vec2 UV;
 
 layout(location = 0) out vec4 color;
+
+struct LightSource
+{
+	int type;
+    vec3 Position;
+    vec3 Attenuation;
+    vec3 Direction;
+    vec3 Colour;
+    float OuterCutoff;
+    float InnerCutoff;
+    float Exponent;
+};
+
+uniform LightSource lights[8];
+int nlights;
 
 uniform sampler2D Normal;
 uniform sampler2D Diffuse;
@@ -22,9 +38,20 @@ vec4 get3dPoint(in vec2 p) {
 }
 
 void main(){
-	if(UV.x < 0.5 && UV.y > 0.5) color = texture( Normal, 2*UV );						//superior izq.
-	if(UV.x > 0.5 && UV.y > 0.5) color = texture( Diffuse, 2*UV );						//superior der.
-	if(UV.x < 0.5 && UV.y < 0.5) color = texture( Specular, 2*UV );						//inferior iqz.
-	if(UV.x > 0.5 && UV.y < 0.5) color.rgb = get3dPoint(vec2(2*UV.x-1, 2*UV.y)).rgb;	//inferior der.
+	float ambientFactor = texture(Normal, UV).w;
+	vec3 diffuseColor = texture( Diffuse, UV ).rgb;
+	vec3 specularColor = texture( Specular, UV ).rgb;
+	vec3 normal = texture( Normal, UV ).xyz; //check normalization
+	vec3 position = get3dPoint(UV).xyz;
+
+	color.rgb = diffuseColor*ambientFactor;
+
+//	for(int i=0; i<nlights; i++) {
+
+
+//	}
+
+//	color.rgb = diffuseColor*0.2 + 0.5*diffuseColor*normal.x + 0.0*diffuseColor*normal.y;
+
 	color.w = 1.0;
 }
