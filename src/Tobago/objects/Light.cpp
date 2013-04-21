@@ -14,31 +14,6 @@ Light::Light(Shader *shader, std::string name) {
 	OCutName = name + "[0].OuterCutoff";
 	InCutName = name + "[0].InnerCutoff";
 	ExpName = name + "[0].Exponent";
-/*
-	strcpy(typeName, name);
-    strcat(typeName, "[0].type");
-	
-	strcpy(posName, name);
-    strcat(posName, "[0].Position");
-
-	strcpy(attName, name);
-    strcat(attName, "[0].Attenuation");
-
-	strcpy(dirName, name);
-    strcat(dirName, "[0].Direction");
-
-	strcpy(colourName, name);
-    strcat(colourName, "[0].Colour");
-
-	strcpy(OCutName, name);
-    strcat(OCutName, "[0].OuterCutoff");
-
-	strcpy(InCutName, name);
-    strcat(InCutName, "[0].InnerCutoff");
-
-	strcpy(ExpName, name);
-    strcat(ExpName, "[0].Exponent");
-	*/
 }
 
 void Light::addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour) {
@@ -113,6 +88,64 @@ void Light::addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour) {
 	lights.push_back(tmp);
 }
 
+void Light::addSpotLight(vec3 Position,
+			  			  vec3 Attenuation,
+						  vec3 Direction,
+						  vec3 Colour,
+						  float OuterCutoff,
+						  float InnerCutoff,
+						  float Exponent) {
+	int id = lights.size();
+	if(id >= MAX_LIGHTS) {
+		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
+		return;
+	}
+
+	//create temporal lamp struct
+	lamp tmp;
+	//add the data
+	tmp.type = SPOTLIGHT;
+	tmp.Position = Position;
+	tmp.Attenuation = Attenuation;
+	tmp.Direction = Direction;
+	tmp.Colour = Colour;
+	tmp.OuterCutoff = OuterCutoff;
+	tmp.InnerCutoff = InnerCutoff;
+	tmp.Exponent = Exponent;
+
+	//Get the uniforms ids
+	//first we generate the correct names
+	int pLoc = name.length() + 1;
+	typeName[pLoc]   += id;
+	posName[pLoc]    += id;
+	attName[pLoc]    += id;
+	dirName[pLoc]    += id;
+	colourName[pLoc] += id;
+	OCutName[pLoc]   += id;
+	InCutName[pLoc]  += id;
+	ExpName[pLoc]    += id;
+
+	tmp.typeId = shader->getUniform(typeName.c_str());
+	tmp.posId = shader->getUniform(posName.c_str());
+	tmp.attId = shader->getUniform(attName.c_str());
+	tmp.dirId = shader->getUniform(dirName.c_str());
+	tmp.colourId = shader->getUniform(colourName.c_str());
+	tmp.OCutId = shader->getUniform(OCutName.c_str());
+	tmp.InCutId = shader->getUniform(InCutName.c_str());
+	tmp.ExpId = shader->getUniform(ExpName.c_str());
+
+	typeName[pLoc]   += '0';
+	posName[pLoc]    += '0';
+	attName[pLoc]    += '0';
+	dirName[pLoc]    += '0';
+	colourName[pLoc] += '0';
+	OCutName[pLoc]   += '0';
+	InCutName[pLoc]  += '0';
+	ExpName[pLoc]    += '0';
+
+	lights.push_back(tmp);
+}
+
 void Light::passLightToGPU() {
 	for(lamp l : lights) {
 		if(l.type == DIRECTIONAL) {
@@ -125,6 +158,15 @@ void Light::passLightToGPU() {
 			glUniform3fv(l.attId, 1, &l.Attenuation[0]);
 			glUniform3fv(l.posId, 1, &l.Position[0]);
 			glUniform3fv(l.colourId, 1, &l.Colour[0]);
+		} else if(l.type == SPOTLIGHT) {
+			glUniform1i(l.typeId, POINT);
+			glUniform3fv(l.posId, 1, &l.Position[0]);
+			glUniform3fv(l.attId, 1, &l.Attenuation[0]);
+			glUniform3fv(l.dirId, 1, &l.Direction[0]);
+			glUniform3fv(l.colourId, 1, &l.Colour[0]);
+			glUniform1f(l.OCutId, l.OuterCutoff);
+			glUniform1f(l.InCutId, l.InnerCutoff);
+			glUniform1f(l.ExpId, l.Exponent);
 		}
 	}
 	glUniform1i(numLightsId, lights.size());

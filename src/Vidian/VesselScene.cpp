@@ -27,7 +27,7 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 							 0.2,
 							 glm::vec3(156.0/255.0f, 9.0/255.0f, 9.0/255.0f),
 							 glm::vec3(0.4f, 0.4f, 0.4f),
-							 164.0f,
+							 0.512f,
 							 &M_Vessel,
 							 1.0f);
 
@@ -38,7 +38,7 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 						   0.2,
 						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
 						   glm::vec3(1.0f, 1.0f, 1.0f),
-						   64.0f,
+						   0.256f,
 						   &M_Cells[0],
 						   0.3f);
 

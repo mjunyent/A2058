@@ -71,14 +71,14 @@ class Light {
 
 		void addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour);
 		void addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour);
-	/*	void addSpotLight(vec3 Position,
+		void addSpotLight(vec3 Position,
 			  			  vec3 Attenuation,
 						  vec3 Direction,
 						  vec3 Colour,
 						  float OuterCutoff,
 						  float InnerCutoff,
 						  float Exponent);
-						  */
+						  
 		void passLightToGPU();
 
 		//Implement it if you really need it.

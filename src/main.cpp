@@ -22,8 +22,8 @@ int main(void) {
 	Light *lights = Rdeferred.lights;
 
 	//Add lights! (maybe this should go inside vessel.
-	lights->addDirectionalLight(glm::vec3(4, 0.0, 0.0),	-cam.direction, glm::vec3(1.0,1.0,1.0));
-//	lights->addPointLight(glm::vec3(20.4f,-10, 20.16f), glm::vec3(2, 0.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+//	lights->addDirectionalLight(glm::vec3(4, 0.0, 0.0),	-cam.direction, glm::vec3(1.0,1.0,1.0));
+	lights->addPointLight(cam.position, glm::vec3(2, 0.2, 0.05), glm::vec3(1.0, 1.0, 1.0));
 //	lights->addDirectionalLight(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
 
 //	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);

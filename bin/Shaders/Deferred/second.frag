@@ -43,7 +43,7 @@ void main(){
 	vec3 normal = texture( Normal, UV ).xyz; //check normalization
 	float ambientFactor = texture(Normal, UV).w;
 	vec3 position = get3dPoint(UV).xyz;
-	float shininess = texture(Specular, UV).a;
+	float shininess = 100.0*texture(Specular, UV).a;
 
 	color.rgb = diffuseColor*ambientFactor;
 
@@ -54,12 +54,14 @@ void main(){
 		if(lights[i].type == 0) { //Directional
 			lightDir = lights[i].Direction;
 			d = 0;
-		}
-
-		if(lights[i].type == 1) { //Point
+		} else if(lights[i].type == 1) { //Point
+			lightDir = normalize(lights[i].Position - position);
+			d = distance(position, lights[i].Position);
+		} else if(lights[i].type == 2) { //Spotlight
 			lightDir = normalize(lights[i].Position - position);
 			d = distance(position, lights[i].Position);
 		}
+
 
 		float l  = dot(normal, lightDir);
 		if(l >= 0.0) {
@@ -69,10 +71,7 @@ void main(){
             float a = 1.0 / (lights[i].Attenuation.x + (lights[i].Attenuation.y * d) + (lights[i].Attenuation.z * d * d));
 
 			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a;
-		} else {
-		//	color.b = 1.0;
-			}
-
+		}
 	}
 
 	color.w = 1.0;
