@@ -7,7 +7,7 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 	cell = new A3dsHandler("Models/cell.3ds", 0);
 	cell->calculateNormals();
 
-	P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 100.0f);
+	P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 20.0f);
 
 	this->rig = NULL;
 	this->V = V;
@@ -24,10 +24,10 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 							 vessel->vertexs,
 							 vessel->normals,
 							 vessel->indexs,
-							 glm::vec3(1.0f, 0.0f, 0.0f),
+							 0.2,
 							 glm::vec3(156.0/255.0f, 9.0/255.0f, 9.0/255.0f),
-							 glm::vec3(0.5f, 0.5f, 0.5f),
-							 0.5f,
+							 glm::vec3(0.4f, 0.4f, 0.4f),
+							 164.0f,
 							 &M_Vessel,
 							 1.0f);
 
@@ -35,10 +35,10 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 						   cell->vertexs,
 						   cell->normals,
 						   cell->indexs,
-						   glm::vec3(1.0f, 1.0f, 0.0f),
+						   0.2,
 						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
 						   glm::vec3(1.0f, 1.0f, 1.0f),
-						   1.0f,
+						   64.0f,
 						   &M_Cells[0],
 						   0.3f);
 

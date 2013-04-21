@@ -18,7 +18,8 @@ struct LightSource
 };
 
 uniform LightSource lights[8];
-int nlights;
+uniform int nlights;
+uniform vec3 camera_position;
 
 uniform sampler2D Normal;
 uniform sampler2D Diffuse;
@@ -35,23 +36,45 @@ vec4 get3dPoint(in vec2 p) {
 
 	point = invPV*point;
 	return point/point.w;
-}
-
+} 
 void main(){
-	float ambientFactor = texture(Normal, UV).w;
 	vec3 diffuseColor = texture( Diffuse, UV ).rgb;
 	vec3 specularColor = texture( Specular, UV ).rgb;
 	vec3 normal = texture( Normal, UV ).xyz; //check normalization
+	float ambientFactor = texture(Normal, UV).w;
 	vec3 position = get3dPoint(UV).xyz;
+	float shininess = texture(Specular, UV).a;
 
 	color.rgb = diffuseColor*ambientFactor;
 
-//	for(int i=0; i<nlights; i++) {
+	for(int i=0; i<nlights; i++) {
+		vec3 lightDir;
+		float d;
 
+		if(lights[i].type == 0) { //Directional
+			lightDir = lights[i].Direction;
+			d = 0;
+		}
 
-//	}
+		if(lights[i].type == 1) { //Point
+			lightDir = normalize(lights[i].Position - position);
+			d = distance(position, lights[i].Position);
+		}
 
-//	color.rgb = diffuseColor*0.2 + 0.5*diffuseColor*normal.x + 0.0*diffuseColor*normal.y;
+		float l  = dot(normal, lightDir);
+		if(l >= 0.0) {
+            vec3 r = normalize(reflect(lightDir, normal));
+            float s = pow(max(dot(r, normalize(position-camera_position)), 0.0), shininess);
+
+            float a = 1.0 / (lights[i].Attenuation.x + (lights[i].Attenuation.y * d) + (lights[i].Attenuation.z * d * d));
+
+			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a;
+		} else {
+		//	color.b = 1.0;
+			}
+
+	}
 
 	color.w = 1.0;
+	color = clamp(color, 0.0, 1.0);
 }

@@ -151,7 +151,7 @@
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\objects\Light.cpp">
-      <Filter>Tobago\Objects</Filter>
+      <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,7 +243,7 @@
       <Filter>Tobago\Objects\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\objects\Light.h">
-      <Filter>Tobago\Objects</Filter>
+      <Filter>Tobago\Objects\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

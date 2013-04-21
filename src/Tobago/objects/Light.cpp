@@ -53,7 +53,7 @@ void Light::addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour) {
 	//add the data
 	tmp.type = DIRECTIONAL;
 	tmp.Attenuation = Attenuation;
-	tmp.Direction = Direction;
+	tmp.Direction = normalize(Direction);
 	tmp.Colour = Colour;
 
 	//Get the uniforms ids
@@ -73,6 +73,44 @@ void Light::addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour) {
 	attName[pLoc] = '0';
 	dirName[pLoc] = '0';
 	colourName[pLoc] = '0';
+
+	lights.push_back(tmp);
+}
+
+void Light::addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour) {
+	int id = lights.size();
+	if(id >= MAX_LIGHTS) {
+		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
+		return;
+	}
+
+	//create temporal lamp struct
+	lamp tmp;
+	//add the data
+	tmp.type = POINT;
+	tmp.Attenuation = Attenuation;
+	tmp.Position = Position;
+	tmp.Colour = Colour;
+
+	//Get the uniforms ids
+	//first we generate the correct names
+	int pLoc = name.length() + 1;
+	typeName[pLoc] += id;
+	attName[pLoc] += id;
+	posName[pLoc] += id;
+	colourName[pLoc] += id;
+
+	tmp.typeId = shader->getUniform(typeName.c_str());
+	tmp.attId = shader->getUniform(attName.c_str());
+	tmp.posId = shader->getUniform(posName.c_str());
+	tmp.colourId = shader->getUniform(colourName.c_str());
+
+	typeName[pLoc] = '0';
+	attName[pLoc] = '0';
+	posName[pLoc] = '0';
+	colourName[pLoc] = '0';
+
+	lights.push_back(tmp);
 }
 
 void Light::passLightToGPU() {
@@ -81,6 +119,11 @@ void Light::passLightToGPU() {
 			glUniform1i(l.typeId, DIRECTIONAL);
 			glUniform3fv(l.attId, 1, &l.Attenuation[0]);
 			glUniform3fv(l.dirId, 1, &l.Direction[0]);
+			glUniform3fv(l.colourId, 1, &l.Colour[0]);
+		} else if(l.type == POINT) {
+			glUniform1i(l.typeId, POINT);
+			glUniform3fv(l.attId, 1, &l.Attenuation[0]);
+			glUniform3fv(l.posId, 1, &l.Position[0]);
 			glUniform3fv(l.colourId, 1, &l.Colour[0]);
 		}
 	}

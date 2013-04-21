@@ -16,7 +16,7 @@ class Model {
 
 		TBO *diffuse_texture;
 
-		vec3 ambient_color;
+		float ambient_factor;
 		vec3 diffuse_color;
 		vec3 specular_color;
 		float shininess;
@@ -24,13 +24,13 @@ class Model {
 		float scale;
 		mat4 *M;
 
-		GLint M_id, ambient_color_id, diffuse_color_id, specular_color_id, shininess_id, scale_id;
+		GLint M_id, ambient_factor_id, diffuse_color_id, specular_color_id, shininess_id, scale_id;
 
 		Model(Shader *shader,				//Shader that will render the object.
 			  VBO *vertexs,					//Vertex info.
 			  VBO *normals,					//Normals info.
 			  IBO *indexs,					//Faces indexs.
-			  vec3 ambient_color,			//Ambient color.
+			  float ambient_factor,			//Ambient color.
 			  vec3 diffuse_color,			//Difuse color.
 			  vec3 specular_color,			//Specular color.
 			  float shininess,				//Shininess factor.

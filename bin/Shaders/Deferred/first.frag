@@ -10,13 +10,13 @@ in vec4 position;
 in vec4 deletethis;
 
 uniform float shininess;
-uniform vec3 AmbientColor;
+uniform float AmbientFactor;
 uniform vec3 DiffuseColor;
 uniform vec3 SpecularColor;
 
 void main()
 {	
-	normal_c = vec4(normalize(normal.xyz), 0.5);
+	normal_c = vec4(normalize(normal.xyz), AmbientFactor);
 	diffuse  = vec4(DiffuseColor.rgb, 0.0);
 	specular = vec4(SpecularColor.rgb, shininess);
 }

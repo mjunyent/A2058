@@ -24,11 +24,14 @@ void EndDeferred::draw(double t) {
 }
 
 
-RenderDeferred::RenderDeferred(StartDeferred *sd, glm::mat4 *invPV) {
+RenderDeferred::RenderDeferred(StartDeferred *sd, glm::mat4 *invPV, glm::vec3 *cam_position) {
 	renderBuffer = sd->renderBuffer;
 	second = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
 
 	this->invPV = invPV;
+	this->cam_position = cam_position;
+
+	lights = new Light(second, "lights");
 
 	squad = new VBO(global::quad, sizeof(global::quad), 0);
 	squad_I = new IBO(global::quad_I, sizeof(global::quad_I));
@@ -38,9 +41,7 @@ RenderDeferred::RenderDeferred(StartDeferred *sd, glm::mat4 *invPV) {
 	specular = second->getUniform("Specular");
 	depth = second->getUniform("Depth");
 	invPV_id = second->getUniform("invPV");
-
-	Light test(second, "lights");
-	test.addDirectionalLight(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
+	camPosId = second->getUniform("camera_position");
 }
 
 void RenderDeferred::draw(double t) {
@@ -52,11 +53,14 @@ void RenderDeferred::draw(double t) {
 	renderBuffer->bind_texture(2, 2);
 	renderBuffer->bind_depth_texture(3);
 
+	lights->passLightToGPU();
+
 	glUniform1i(normals, 0);
 	glUniform1i(diffuse, 1);
 	glUniform1i(specular, 2);
 	glUniform1i(depth, 3);
 	glUniformMatrix4fv(invPV_id, 1, GL_FALSE, &(*invPV)[0][0]);
+	glUniform3fv(camPosId, 1, &(*cam_position)[0]);
 
 	squad->enable(3);
 	squad_I->draw(GL_TRIANGLES);

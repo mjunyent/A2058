@@ -70,8 +70,8 @@ class Light {
 			 );
 
 		void addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour);
-	/*	void addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour);
-		void addSpotLight(vec3 Position,
+		void addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour);
+	/*	void addSpotLight(vec3 Position,
 			  			  vec3 Attenuation,
 						  vec3 Direction,
 						  vec3 Colour,

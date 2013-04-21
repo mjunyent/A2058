@@ -13,11 +13,19 @@ int main(void) {
 	Timer timer(global::manager);
 
 	//Initialize scenes
-	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.5, true);
+	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.1, true);
 	StartDeferred Sdeferred;
 	EndDeferred Edeferred(&Sdeferred);
 	VesselScene vessel(Sdeferred.first, &cam.V);
-	RenderDeferred Rdeferred(&Sdeferred, &vessel.invPV);
+	RenderDeferred Rdeferred(&Sdeferred, &vessel.invPV, &cam.position);
+
+	Light *lights = Rdeferred.lights;
+
+	//Add lights! (maybe this should go inside vessel.
+	lights->addDirectionalLight(glm::vec3(4, 0.0, 0.0),	-cam.direction, glm::vec3(1.0,1.0,1.0));
+//	lights->addPointLight(glm::vec3(20.4f,-10, 20.16f), glm::vec3(2, 0.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+//	lights->addDirectionalLight(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
+
 //	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);
 
 	global::manager->addScene(&cam,			0,		100000000,		0);

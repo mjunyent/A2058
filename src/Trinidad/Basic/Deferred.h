@@ -30,10 +30,12 @@ public:
 	FBO *renderBuffer;
 	VBO *squad;
 	IBO *squad_I;
+	Light *lights;
+	glm::vec3 *cam_position;
 	glm::mat4 *invPV;
-	GLint normals, diffuse, specular, depth, invPV_id;
+	GLint normals, diffuse, specular, depth, invPV_id, camPosId;
 
-	RenderDeferred(StartDeferred *sd, glm::mat4 *invPV);
+	RenderDeferred(StartDeferred *sd, glm::mat4 *invPV, glm::vec3 *cam_position);
 
 	void draw(double t);
 };
