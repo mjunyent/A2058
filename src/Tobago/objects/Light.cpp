@@ -159,7 +159,7 @@ void Light::passLightToGPU() {
 			glUniform3fv(l.posId, 1, &l.Position[0]);
 			glUniform3fv(l.colourId, 1, &l.Colour[0]);
 		} else if(l.type == SPOTLIGHT) {
-			glUniform1i(l.typeId, POINT);
+			glUniform1i(l.typeId, SPOTLIGHT);
 			glUniform3fv(l.posId, 1, &l.Position[0]);
 			glUniform3fv(l.attId, 1, &l.Attenuation[0]);
 			glUniform3fv(l.dirId, 1, &l.Direction[0]);

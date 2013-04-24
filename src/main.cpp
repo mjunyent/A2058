@@ -23,7 +23,9 @@ int main(void) {
 
 	//Add lights! (maybe this should go inside vessel.
 //	lights->addDirectionalLight(glm::vec3(4, 0.0, 0.0),	-cam.direction, glm::vec3(1.0,1.0,1.0));
-	lights->addPointLight(cam.position, glm::vec3(2, 0.2, 0.05), glm::vec3(1.0, 1.0, 1.0));
+//	lights->addPointLight(cam.position, glm::vec3(2, 0.2, 0.05), glm::vec3(1.0, 1.0, 1.0));
+
+			lights->addSpotLight(cam.position, glm::vec3(2, 0.2, 0.05), cam.direction, glm::vec3(1.0, 1.0, 1.0), cos(25.0 * 3.141592 / 180.0), cos(15.0 * 3.141592 / 180.0), 2);
 //	lights->addDirectionalLight(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
 
 //	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);

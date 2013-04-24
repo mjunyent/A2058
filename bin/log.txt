@@ -2,24 +2,44 @@
 
 A2058 	 Error Log 	 log.txt
 
-1.8916	 ERROR: Shader program linking error:
-1.89165	 ERROR: Fragment info
+5.61317	 ERROR: Shader program linking error:
+5.61333	 ERROR: Fragment info
 -------------
 0(51) : warning C7050: "lightDir" might be used before being initialized
 0(52) : warning C7050: "d" might be used before being initialized
+0(53) : warning C7050: "spotlight" might be used before being initialized
 
-1.9088	 ERROR: Timer max iterations achieved
-2.68035	 ERROR: Timer max iterations achieved
-2.68762	 ERROR: Timer max iterations achieved
-2.71226	 ERROR: Timer max iterations achieved
-2.72622	 ERROR: Timer max iterations achieved
-2.74292	 ERROR: Timer max iterations achieved
-2.75982	 ERROR: Timer max iterations achieved
-2.77607	 ERROR: Timer max iterations achieved
-2.7928	 ERROR: Timer max iterations achieved
-2.80935	 ERROR: Timer max iterations achieved
-2.82607	 ERROR: Timer max iterations achieved
-2.8428	 ERROR: Timer max iterations achieved
-2.85937	 ERROR: Timer max iterations achieved
-2.87595	 ERROR: Timer max iterations achieved
-2.89257	 ERROR: Timer max iterations achieved
+5.66161	 ERROR: Timer max iterations achieved
+5.73158	 ERROR: Timer max iterations achieved
+5.73705	 ERROR: Timer max iterations achieved
+5.74505	 ERROR: Timer max iterations achieved
+5.78287	 ERROR: Timer max iterations achieved
+5.79686	 ERROR: Timer max iterations achieved
+5.81347	 ERROR: Timer max iterations achieved
+5.83024	 ERROR: Timer max iterations achieved
+5.84623	 ERROR: Timer max iterations achieved
+5.86382	 ERROR: Timer max iterations achieved
+5.88008	 ERROR: Timer max iterations achieved
+5.89631	 ERROR: Timer max iterations achieved
+5.91276	 ERROR: Timer max iterations achieved
+5.93131	 ERROR: Timer max iterations achieved
+5.94701	 ERROR: Timer max iterations achieved
+5.96485	 ERROR: Timer max iterations achieved
+5.97977	 ERROR: Timer max iterations achieved
+6.00131	 ERROR: Timer max iterations achieved
+6.01256	 ERROR: Timer max iterations achieved
+6.04564	 ERROR: Timer max iterations achieved
+6.06206	 ERROR: Timer max iterations achieved
+6.07997	 ERROR: Timer max iterations achieved
+6.09687	 ERROR: Timer max iterations achieved
+6.11263	 ERROR: Timer max iterations achieved
+6.12901	 ERROR: Timer max iterations achieved
+6.15085	 ERROR: Timer max iterations achieved
+6.16328	 ERROR: Timer max iterations achieved
+6.19494	 ERROR: Timer max iterations achieved
+6.21224	 ERROR: Timer max iterations achieved
+6.22921	 ERROR: Timer max iterations achieved
+6.24803	 ERROR: Timer max iterations achieved
+6.26518	 ERROR: Timer max iterations achieved
+6.27902	 ERROR: Timer max iterations achieved
+6.29865	 ERROR: Timer max iterations achieved

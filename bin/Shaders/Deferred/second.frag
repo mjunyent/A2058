@@ -50,16 +50,24 @@ void main(){
 	for(int i=0; i<nlights; i++) {
 		vec3 lightDir;
 		float d;
+		float spotlight;
 
 		if(lights[i].type == 0) { //Directional
 			lightDir = lights[i].Direction;
 			d = 0;
+			spotlight = 1.0;
 		} else if(lights[i].type == 1) { //Point
 			lightDir = normalize(lights[i].Position - position);
 			d = distance(position, lights[i].Position);
+			spotlight = 1.0;
 		} else if(lights[i].type == 2) { //Spotlight
 			lightDir = normalize(lights[i].Position - position);
 			d = distance(position, lights[i].Position);
+
+            spotlight = max(-dot(lightDir, lights[i].Direction), 0.0);
+            float spotlightFade = clamp((lights[i].OuterCutoff - spotlight) / (lights[i].OuterCutoff - lights[i].InnerCutoff), 0.0, 1.0);
+		//	spotlightFade = 1.0-spotlightFade;
+            spotlight = pow(spotlight * spotlightFade, lights[i].Exponent);
 		}
 
 
@@ -70,7 +78,8 @@ void main(){
 
             float a = 1.0 / (lights[i].Attenuation.x + (lights[i].Attenuation.y * d) + (lights[i].Attenuation.z * d * d));
 
-			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a;
+			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a*spotlight;
+		//	color.rgb = vec3(spotlight, spotlight, spotlight);
 		}
 	}
 
