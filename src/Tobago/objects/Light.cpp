@@ -4,88 +4,70 @@ Light::Light(Shader *shader, std::string name) {
 	this->name = name;
 	this->shader = shader;
 
+	lights = vector<lamp>(MAX_LIGHTS);
+	numLights = 0;
 	numLightsId = shader->getUniform("nlights");
 
-	typeName = name + "[0].type";
-	posName = name + "[0].Position";
-	attName = name + "[0].Attenuation";
-	dirName = name + "[0].Direction";
-	colourName = name + "[0].Colour";
-	OCutName = name + "[0].OuterCutoff";
-	InCutName = name + "[0].InnerCutoff";
-	ExpName = name + "[0].Exponent";
+	std::string typeName = name + "[0].type";
+	std::string posName = name + "[0].Position";
+	std::string attName = name + "[0].Attenuation";
+	std::string dirName = name + "[0].Direction";
+	std::string colourName = name + "[0].Colour";
+	std::string OCutName = name + "[0].OuterCutoff";
+	std::string InCutName = name + "[0].InnerCutoff";
+	std::string ExpName = name + "[0].Exponent";
+
+	int pLoc = name.length() + 1;
+
+	for(int i=0; i<MAX_LIGHTS; i++) {
+		lights[i].typeId = shader->getUniform(typeName.c_str());
+		lights[i].posId = shader->getUniform(posName.c_str());
+		lights[i].attId = shader->getUniform(attName.c_str());
+		lights[i].dirId = shader->getUniform(dirName.c_str());
+		lights[i].colourId = shader->getUniform(colourName.c_str());
+		lights[i].OCutId = shader->getUniform(OCutName.c_str());
+		lights[i].InCutId = shader->getUniform(InCutName.c_str());
+		lights[i].ExpId = shader->getUniform(ExpName.c_str());
+
+		typeName[pLoc]++;
+		posName[pLoc]++;
+		attName[pLoc]++;
+		dirName[pLoc]++;
+		colourName[pLoc]++;
+		OCutName[pLoc]++;
+		InCutName[pLoc]++;
+		ExpName[pLoc]++;
+	}
 }
 
 void Light::addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour) {
-	int id = lights.size();
-	if(id >= MAX_LIGHTS) {
+	if(numLights >= MAX_LIGHTS) {
 		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
 		return;
 	}
 
-	//create temporal lamp struct
-	lamp tmp;
 	//add the data
-	tmp.type = DIRECTIONAL;
-	tmp.Attenuation = Attenuation;
-	tmp.Direction = normalize(Direction);
-	tmp.Colour = Colour;
+	lights[numLights].type = DIRECTIONAL;
+	lights[numLights].Attenuation = Attenuation;
+	lights[numLights].Direction = normalize(Direction);
+	lights[numLights].Colour = Colour;
 
-	//Get the uniforms ids
-	//first we generate the correct names
-	int pLoc = name.length() + 1;
-	typeName[pLoc] += id;
-	attName[pLoc] += id;
-	dirName[pLoc] += id;
-	colourName[pLoc] += id;
-
-	tmp.typeId = shader->getUniform(typeName.c_str());
-	tmp.attId = shader->getUniform(attName.c_str());
-	tmp.dirId = shader->getUniform(dirName.c_str());
-	tmp.colourId = shader->getUniform(colourName.c_str());
-
-	typeName[pLoc] = '0';
-	attName[pLoc] = '0';
-	dirName[pLoc] = '0';
-	colourName[pLoc] = '0';
-
-	lights.push_back(tmp);
+	numLights++;
 }
 
 void Light::addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour) {
-	int id = lights.size();
-	if(id >= MAX_LIGHTS) {
+	if(numLights >= MAX_LIGHTS) {
 		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
 		return;
 	}
 
-	//create temporal lamp struct
-	lamp tmp;
 	//add the data
-	tmp.type = POINT;
-	tmp.Attenuation = Attenuation;
-	tmp.Position = Position;
-	tmp.Colour = Colour;
+	lights[numLights].type = POINT;
+	lights[numLights].Attenuation = Attenuation;
+	lights[numLights].Position = Position;
+	lights[numLights].Colour = Colour;
 
-	//Get the uniforms ids
-	//first we generate the correct names
-	int pLoc = name.length() + 1;
-	typeName[pLoc] += id;
-	attName[pLoc] += id;
-	posName[pLoc] += id;
-	colourName[pLoc] += id;
-
-	tmp.typeId = shader->getUniform(typeName.c_str());
-	tmp.attId = shader->getUniform(attName.c_str());
-	tmp.posId = shader->getUniform(posName.c_str());
-	tmp.colourId = shader->getUniform(colourName.c_str());
-
-	typeName[pLoc] = '0';
-	attName[pLoc] = '0';
-	posName[pLoc] = '0';
-	colourName[pLoc] = '0';
-
-	lights.push_back(tmp);
+	numLights++;
 }
 
 void Light::addSpotLight(vec3 Position,
@@ -95,59 +77,28 @@ void Light::addSpotLight(vec3 Position,
 						  float OuterCutoff,
 						  float InnerCutoff,
 						  float Exponent) {
-	int id = lights.size();
-	if(id >= MAX_LIGHTS) {
+	if(numLights >= MAX_LIGHTS) {
 		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
 		return;
 	}
 
-	//create temporal lamp struct
-	lamp tmp;
 	//add the data
-	tmp.type = SPOTLIGHT;
-	tmp.Position = Position;
-	tmp.Attenuation = Attenuation;
-	tmp.Direction = Direction;
-	tmp.Colour = Colour;
-	tmp.OuterCutoff = OuterCutoff;
-	tmp.InnerCutoff = InnerCutoff;
-	tmp.Exponent = Exponent;
+	lights[numLights].type = SPOTLIGHT;
+	lights[numLights].Position = Position;
+	lights[numLights].Attenuation = Attenuation;
+	lights[numLights].Direction = Direction;
+	lights[numLights].Colour = Colour;
+	lights[numLights].OuterCutoff = OuterCutoff;
+	lights[numLights].InnerCutoff = InnerCutoff;
+	lights[numLights].Exponent = Exponent;
 
-	//Get the uniforms ids
-	//first we generate the correct names
-	int pLoc = name.length() + 1;
-	typeName[pLoc]   += id;
-	posName[pLoc]    += id;
-	attName[pLoc]    += id;
-	dirName[pLoc]    += id;
-	colourName[pLoc] += id;
-	OCutName[pLoc]   += id;
-	InCutName[pLoc]  += id;
-	ExpName[pLoc]    += id;
-
-	tmp.typeId = shader->getUniform(typeName.c_str());
-	tmp.posId = shader->getUniform(posName.c_str());
-	tmp.attId = shader->getUniform(attName.c_str());
-	tmp.dirId = shader->getUniform(dirName.c_str());
-	tmp.colourId = shader->getUniform(colourName.c_str());
-	tmp.OCutId = shader->getUniform(OCutName.c_str());
-	tmp.InCutId = shader->getUniform(InCutName.c_str());
-	tmp.ExpId = shader->getUniform(ExpName.c_str());
-
-	typeName[pLoc]   += '0';
-	posName[pLoc]    += '0';
-	attName[pLoc]    += '0';
-	dirName[pLoc]    += '0';
-	colourName[pLoc] += '0';
-	OCutName[pLoc]   += '0';
-	InCutName[pLoc]  += '0';
-	ExpName[pLoc]    += '0';
-
-	lights.push_back(tmp);
+	numLights++;
 }
 
 void Light::passLightToGPU() {
-	for(lamp l : lights) {
+	for(int i=0; i<numLights; i++) {
+		lamp l = lights[i];
+
 		if(l.type == DIRECTIONAL) {
 			glUniform1i(l.typeId, DIRECTIONAL);
 			glUniform3fv(l.attId, 1, &l.Attenuation[0]);

@@ -48,20 +48,12 @@ class Light {
 				  ExpId;
 		};
 
-		std::string typeName,
-					posName,
-					attName,
-					dirName,
-					colourName,
-					OCutName,
-					InCutName,
-					ExpName;
-
 		Shader *shader;
 		std::string name;
 
 		static const int MAX_LIGHTS = 8;
 		vector<lamp> lights;
+		int numLights;
 
 		GLint numLightsId;
 
