@@ -120,5 +120,5 @@ void Light::passLightToGPU() {
 			glUniform1f(l.ExpId, l.Exponent);
 		}
 	}
-	glUniform1i(numLightsId, lights.size());
+	glUniform1i(numLightsId, numLights);
 };
