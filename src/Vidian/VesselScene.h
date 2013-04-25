@@ -32,6 +32,9 @@ public:
 	VesselScene(Shader *shader, Rig *rig);
 	void draw(double t);
 	void renderiseee(glm::mat4 &V);
+
+private:
+	glm::vec3 bezier(double t);
 };
 
 #endif

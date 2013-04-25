@@ -21,6 +21,6 @@ void main() {
 	gl_Position =  MVP * vec4(scale*vertexPosition_modelspace,1);
 
 //	normal = MVP*vec4(vertexNormal_modelspace, 0);
-	normal = vec4(vertexNormal_modelspace, 0);
+	normal = Model*vec4(vertexNormal_modelspace, 0);
 }
 

@@ -2,36 +2,20 @@
 
 A2058 	 Error Log 	 log.txt
 
-4.22013	 ERROR: Shader program linking error:
-4.22021	 ERROR: Fragment info
+1.81157	 ERROR: Shader program linking error:
+1.81162	 ERROR: Fragment info
 -------------
 0(51) : warning C7050: "lightDir" might be used before being initialized
 0(52) : warning C7050: "d" might be used before being initialized
 0(53) : warning C7050: "spotlight" might be used before being initialized
 
-4.25385	 ERROR: Timer max iterations achieved
-4.26395	 ERROR: Timer max iterations achieved
-4.29249	 ERROR: Timer max iterations achieved
-4.30437	 ERROR: Timer max iterations achieved
-4.32495	 ERROR: Timer max iterations achieved
-4.35505	 ERROR: Timer max iterations achieved
-4.37117	 ERROR: Timer max iterations achieved
-4.39097	 ERROR: Timer max iterations achieved
-4.40696	 ERROR: Timer max iterations achieved
-4.42245	 ERROR: Timer max iterations achieved
-4.45636	 ERROR: Timer max iterations achieved
-4.47429	 ERROR: Timer max iterations achieved
-4.49034	 ERROR: Timer max iterations achieved
-4.50665	 ERROR: Timer max iterations achieved
-4.55846	 ERROR: Timer max iterations achieved
-4.5716	 ERROR: Timer max iterations achieved
-4.6067	 ERROR: Timer max iterations achieved
-4.62106	 ERROR: Timer max iterations achieved
-4.64335	 ERROR: Timer max iterations achieved
-4.67107	 ERROR: Timer max iterations achieved
-4.69091	 ERROR: Timer max iterations achieved
-4.70702	 ERROR: Timer max iterations achieved
-4.73897	 ERROR: Timer max iterations achieved
-4.75551	 ERROR: Timer max iterations achieved
-4.77161	 ERROR: Timer max iterations achieved
-4.78865	 ERROR: Timer max iterations achieved
+1.82886	 ERROR: Timer max iterations achieved
+1.86096	 ERROR: Timer max iterations achieved
+1.87598	 ERROR: Timer max iterations achieved
+1.88079	 ERROR: Timer max iterations achieved
+1.88564	 ERROR: Timer max iterations achieved
+1.90247	 ERROR: Timer max iterations achieved
+1.91916	 ERROR: Timer max iterations achieved
+1.93697	 ERROR: Timer max iterations achieved
+1.95251	 ERROR: Timer max iterations achieved
+1.96898	 ERROR: Timer max iterations achieved

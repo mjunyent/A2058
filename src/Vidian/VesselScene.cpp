@@ -4,7 +4,7 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 	vessel = new A3dsHandler("Models/vessel.3ds", 1);
 	vessel->calculateNormals();
 
-	cell = new A3dsHandler("Models/cell.3ds", 0);
+	cell = new A3dsHandler("Models/cell2.3ds", 0);
 	cell->calculateNormals();
 
 	P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 20.0f);
@@ -13,9 +13,15 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 	this->V = V;
 	M_Vessel = glm::rotate(90.0f, glm::vec3(1, 0, 0));
 
-	for(int i=0; i<12; i++) {
-	//	glm::mat4 r = glm::rotate(float(rand()%180), rand()%1000/1000.0f,rand()%1000/1000.0f,rand()%1000/1000.0f);
-		glm::mat4 t = glm::translate(rand()%1000/200.0f-3.2f, -1.5f+rand()%1000/1000.0f, 6.0f+rand()%1000/1000.0f);
+	for(int i=0; i<22; i++) {
+		glm::mat4 r = glm::rotate(float(rand()%360), rand()%1000/1000.0f, rand()%1000/1000.0f, rand()%1000/1000.0f);
+//		glm::mat4 t = glm::translate(rand()%1000/200.0f-3.2f, -1.5f+rand()%1000/1000.0f, 6.0f+rand()%1000/1000.0f);
+
+		glm::vec3 pos = bezier(double(i)/22.0);
+		pos.z = 1.1;
+		glm::mat4 t = glm::translate(pos);
+
+		t = M_Vessel*t*r;
 
 		M_Cells.push_back(t);
 	}
@@ -40,7 +46,7 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 						   glm::vec3(1.0f, 1.0f, 1.0f),
 						   0.256f,
 						   &M_Cells[0],
-						   0.3f);
+						   0.2f);
 
 	this->shader = shader;
 
@@ -65,7 +71,13 @@ VesselScene::VesselScene(Shader *shader, Rig *rig) {
 
 	for(int i=0; i<12; i++) {
 	//	glm::mat4 r = glm::rotate(float(rand()%180), rand()%1000/1000.0f,rand()%1000/1000.0f,rand()%1000/1000.0f);
-		glm::mat4 t = glm::translate(rand()%1000/200.0f-3.2f, -1.5f+rand()%1000/1000.0f, 6.0f+rand()%1000/1000.0f);
+	//	glm::mat4 t = glm::translate(rand()%1000/200.0f-3.2f, -1.5f+rand()%1000/1000.0f, 6.0f+rand()%1000/1000.0f);
+
+		glm::vec3 pos = bezier(double(i)/12.0);
+
+		glm::mat4 t = glm::translate(pos);
+
+		t = M_Vessel*t;
 
 		M_Cells.push_back(t);
 	}
@@ -99,10 +111,27 @@ void VesselScene::renderiseee(glm::mat4 &V) {
 	vessel_model->render();
 
 	invPV = glm::inverse(P*V);
-	cout << invPV[1][1] << endl;
 
 	for(int i=0; i<M_Cells.size(); i++) {
 		cell_model->M = &M_Cells[i];
 		cell_model->render();
 	}
+}
+
+glm::vec3 VesselScene::bezier(double t) {
+	glm::vec2 p1(-3, 0);
+	glm::vec2 p2(-6, 7.2);
+	glm::vec2 p3(1, 2);
+	glm::vec2 p4(3, 7.2);
+
+	glm::vec2 r;
+
+	p1 *= pow(1-t, 3);
+	p2 *= 3*pow(1-t, 2)*t;
+	p3 *= 3*(1-t)*t*t;
+	p4 *= pow(t, 3);
+
+	r = p1 + p2 + p3 + p4;
+
+	return vec3(r.x, r.y, 0.0);
 }
