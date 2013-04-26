@@ -39,3 +39,11 @@ glm::vec2 screen2normalized(glm::vec2 screenCoords) {
 	screenCoords /= 2.0;
 	return screenCoords;
 }
+
+double randValue(float min, float max) {
+	float val = rand(); //0-RAND_MAX
+	val /= RAND_MAX; //0, 1
+	val *= (max-min); //0, (max-min)
+	val += min; //min, max
+	return val;
+}

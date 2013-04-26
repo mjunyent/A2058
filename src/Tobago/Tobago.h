@@ -3,6 +3,7 @@
 
 #include "glm/glm.hpp" //GLM Libs...
 #include "glm/gtx/transform.hpp"
+#include "glm/gtx/vector_angle.hpp"
 
 
 #ifdef GLEWLIB

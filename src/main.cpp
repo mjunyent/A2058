@@ -45,7 +45,7 @@ int main(void) {
 		timer.update();
 		global::manager->render();
 		glfwSwapBuffers();
-		
+		randValue(100, 200);
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
 	}
 
