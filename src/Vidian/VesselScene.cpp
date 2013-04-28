@@ -13,13 +13,14 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 	this->V = V;
 	M_Vessel = glm::rotate(90.0f, glm::vec3(1, 0, 0));
 
-	for(int i=0; i<10; i++) {
+	for(int i=0; i<40; i++) {
 //		Erythrocyte t(0.5, 0.7*(float(rand()%20000)/10000.0-1.0), float(rand()%20000)/10000.0-0.5);
 		float dist = 10E6;
+		int count = 0;
 		glm::vec3 p;
 		do {
 			p.x = randValue(0.0, 1.0);
-			p.y = randValue(0.0, 0.5);
+			p.y = randValue(0.1, 0.55);
 			p.z = randValue(0.0, 2*3.1415);
 			Erythrocyte xx(p.x, p.y*sin(p.z), p.y*cos(p.z));
 
@@ -27,12 +28,29 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 				float ddist = glm::length(xx.position-globuline[j].position);
 				if(ddist < dist) dist = ddist;
 			}
-		} while(dist < 0.02 && i >= 1);
+			count++;
+		} while(dist < 0.034 && i >= 1 && count < 1000);
+		if(count >= 1000) { 
+			cout << "PIPE BROKE, no more Erythrocytes fit!" << endl;
+			break;
+		}
 
 		Erythrocyte t(p.x, p.y*sin(p.z), p.y*cos(p.z));
 
 		globuline.push_back(t);
 	}
+
+	cout << "Number of erythrocytes: " << globuline.size() << endl;
+
+	Beat = false;
+	BeatDecay = 0;
+	BeatSkip = false;
+
+	beatThresholdVolume = 0.28f;    // The threshold over which to recognize a beat
+	beatThresholdBar = 1;            // The bar in the volume distribution to examine
+	beatPostIgnore = 200;   // Number of ms to ignore track for after a beat is recognized
+	beatLastTick = 0;                // Time when last beat occurred
+
 
 	vessel_model = new Model(shader,
 							 vessel->vertexs,
@@ -104,8 +122,104 @@ void VesselScene::draw(double t) {
 }
 
 void VesselScene::update(double t) {
+	//cout << global::song->FFT[1] << endl;
+
+
+	bool beatDetected = false;
+ 
+	// Test for threshold volume being exceeded (if not currently ignoring track)
+	if (global::song->FFT[beatThresholdBar] >= beatThresholdVolume && beatLastTick == 0) {
+	  beatLastTick = GetTickCount();
+	  beatDetected = true;
+	}
+ 
+	if (beatDetected) {
+		// A beat has occurred, do something here
+//		Beat = !Beat;
+		Beat = true;
+//		if(Beat) cout << "PU";
+//		else cout << "PUM" << endl;
+	}
+ 
+	// If the ignore time has expired, allow testing for a beat again
+	if (GetTickCount() - beatLastTick >= beatPostIgnore)
+	  beatLastTick = 0;
+
+	if(Beat && GetTickCount() - beatLastTick >= 600) Beat = false; 
+/*	double e = global::song->getEnergy();
+	if(e > 0.02) {
+		if(!Beat) {
+			BeatDecay++;
+			if(BeatDecay >= 1) {
+				Beat = true;
+				BeatDecay = 0;
+				if(BeatSkip) cout << "TA" << endl;
+				else cout << "PUM";
+				BeatSkip = !BeatSkip;
+			}
+		} else {
+			BeatDecay = 0;
+		}
+	}
+	else {
+		if(Beat) {
+			BeatDecay++;
+			if(BeatDecay >= 4) {
+				Beat = false;
+				BeatDecay = 0;
+			}
+		} else {
+			BeatDecay = 0;
+		}
+	}*/
+
+//	float k = global::song->FFT[2];
+//	if(global::song->FFT[2] < global::song->FFT[1]) k = global::song->FFT[1];
+//	if(global::song->FFT[1] > 0.1) Beat = true;
+//	else Beat = false;
+
+
+
 	for(int i=0; i<globuline.size(); i++) {
+		if(Beat) {
+			globuline[i].a = 0.0012;
+			VelSet = false;
+		} else {
+			if(globuline[i].v > 0.005 && !VelSet) {
+				globuline[i].a = -0.0008;
+			} else {
+				VelSet = true;
+				globuline[i].v = 0.005;
+				globuline[i].a = 0;
+			}
+		}
+
+		//globuline[i].v = global::song->FFT[2]/10.0;
 		globuline[i].update();
+		if(globuline[i].p > 1.0) {
+			float dist = 10E6;
+			int count = 0;
+			glm::vec3 p;
+			do {
+				p.x = randValue(-0.4, 0.2);
+				p.y = randValue(0.1, 0.55);
+				p.z = randValue(0.0, 2*3.1415);
+				Erythrocyte xx(p.x, p.y*sin(p.z), p.y*cos(p.z));
+
+				for(int j=0; j<globuline.size(); j++) {
+					float ddist = glm::length(xx.position-globuline[j].position);
+					if(ddist < dist) dist = ddist;
+				}
+				count++;
+			} while(dist < 0.03 && i >= 1 && count < 1000);
+			if(count >= 1000) { 
+	//			cout << "PIPE BROKE, not enought space to update erythrocytes" << endl;
+				break;
+			}
+			globuline[i].p = p.x;
+			globuline[i].pY = p.y*sin(p.z);
+			globuline[i].pZ = p.y*cos(p.z);
+		}
 	}
 }
 
@@ -160,8 +274,7 @@ void Erythrocyte::update() {
 //Update values
 	p += v;
 	v += a;
-	angle += angv;
-	if(p > 1.0) p = 0;
+	angle += v*100 + angv;//*angv;
 
 //Calculate new matrix
 	position = bezier(p);

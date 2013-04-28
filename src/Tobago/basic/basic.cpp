@@ -47,3 +47,16 @@ double randValue(float min, float max) {
 	val += min; //min, max
 	return val;
 }
+
+float maxBeat(int loIndex, int hiIndex) {
+	float max = -1;
+	for(int i=loIndex; i<hiIndex; i++) {
+		if(global::song->FFT[i] > max) max = global::song->FFT[i];
+	}
+	return max;
+}
+
+bool beatDetect(int loIndex, int hiIndex, float cutOff) {
+	if(maxBeat(loIndex, hiIndex) > cutOff) return true;
+	return false;
+}

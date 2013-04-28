@@ -29,5 +29,7 @@ glm::vec2 screen2normalized(glm::vec2 screenCoords);
 
 double randValue(float min, float max);
 
+float maxBeat(int loIndex, int hiIndex);
+bool beatDetect(int loIndex, int hiIndex, float cutOff);
 
 #endif

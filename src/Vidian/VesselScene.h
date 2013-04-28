@@ -5,6 +5,7 @@
 #include "../Tobago/Tobago.h"
 #include "../Trinidad/Trinidad.h"
 #include <cstdlib>
+#include <windows.h>
 
 /**
 	Prerequisites:
@@ -50,6 +51,17 @@ public:
 	GLuint M_Id, V_Id, P_Id, Scale_Id;
 	Shader *shader;
 	Rig *rig;
+
+	float accel;
+	bool Beat;
+	bool VelSet;
+	bool BeatSkip;
+	int BeatDecay;
+
+	float beatThresholdVolume;    // The threshold over which to recognize a beat
+	int beatThresholdBar;            // The bar in the volume distribution to examine
+	unsigned int beatPostIgnore;   // Number of ms to ignore track for after a beat is recognized
+	int beatLastTick;                // Time when last beat occurred
 
 	VesselScene(Shader *shader, glm::mat4 *V);
 	VesselScene(Shader *shader, Rig *rig);

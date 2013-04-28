@@ -23,15 +23,20 @@ void initSound(){
 
 SoundHandler::SoundHandler(char* SongFile, unsigned FFTLEN){
 	FFT = (float*)malloc(FFTLEN*sizeof(float) );
+	WAVE = (float*)malloc(FFTLEN*sizeof(float) );
 	len = FFTLEN;
 	thechannel = 0;
 	soundsystem->createSound(SongFile, FMOD_DEFAULT, 0, &theSound);
 	theSound->setMode( FMOD_LOOP_NORMAL );
+
 	//ERRCHECK(debugme);
 }
 
 void SoundHandler::Play(){
 	soundsystem->playSound(FMOD_CHANNEL_FREE,theSound,0,&thechannel);
+
+	thechannel->getFrequency(&playFreq);
+	setVel(1);
 	//ERRCHECK(debugme);
 }
 
@@ -39,6 +44,10 @@ void SoundHandler::getSpectrum(){
 	thechannel->getSpectrum( &FFT[0], len, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE );
 	soundsystem->update();
 	//ERRCHECK(debugme);
+}
+
+void SoundHandler::getWave() {
+	thechannel->getWaveData( &WAVE[0], len, 0);
 }
 
 double SoundHandler::SoundTime(){
@@ -59,6 +68,22 @@ void SoundHandler::PlotWave(){
 		x += offs;
 	}
 	glEnd();
+}
+
+void SoundHandler::setVel(float v) {
+	thechannel->setFrequency(v*playFreq);
+}
+
+double SoundHandler::getEnergy() {
+	getWave();
+	double sum = 0.0;
+	for(int i=0; i<len; i++) {
+		sum += WAVE[i]*WAVE[i];
+	}
+
+	sum /= double(len);
+
+	return sum;
 }
 
 #endif

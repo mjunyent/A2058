@@ -9,6 +9,7 @@ int main(void) {
 //	glfwSwapInterval(20);
 
 	//Initialize some vars...
+	global::song = new SoundHandler("hearth2.mp3", 1024);
 	global::manager = new SceneManager(&global::currentTime);
 	Timer timer(global::manager);
 
@@ -36,8 +37,11 @@ int main(void) {
 	global::manager->addScene(&Edeferred,	0,		100000000,		5);
 	global::manager->addScene(&Rdeferred,	0,		100000000,		6);
 //	global::manager->addScene(&Ddeferred,	0,		100000000,		7);
+	global::manager->addScene(new SoundSpectrum, 0, 100000000,      8);
 
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
+
+	global::song->Play();
 
 	while(running) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
