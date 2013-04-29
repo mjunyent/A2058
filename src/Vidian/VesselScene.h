@@ -52,14 +52,12 @@ public:
 	Shader *shader;
 	Rig *rig;
 
-	float accel;
 	bool Beat;
 	bool VelSet;
-	bool BeatSkip;
-	int BeatDecay;
+	float Global_acc;
+	float Global_vel;
 
 	float beatThresholdVolume;    // The threshold over which to recognize a beat
-	int beatThresholdBar;            // The bar in the volume distribution to examine
 	unsigned int beatPostIgnore;   // Number of ms to ignore track for after a beat is recognized
 	int beatLastTick;                // Time when last beat occurred
 

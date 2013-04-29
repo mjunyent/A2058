@@ -42,14 +42,13 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 
 	cout << "Number of erythrocytes: " << globuline.size() << endl;
 
+	Global_acc = 0.0;
+	Global_vel = 0.0;
 	Beat = false;
-	BeatDecay = 0;
-	BeatSkip = false;
 
-	beatThresholdVolume = 0.28f;    // The threshold over which to recognize a beat
-	beatThresholdBar = 1;            // The bar in the volume distribution to examine
-	beatPostIgnore = 200;   // Number of ms to ignore track for after a beat is recognized
-	beatLastTick = 0;                // Time when last beat occurred
+	beatThresholdVolume = 0.03f;	// The threshold over which to recognize a beat
+	beatPostIgnore = 250;			// Number of ms to ignore track for after a beat is recognized
+	beatLastTick = 0;				// Time when last beat occurred
 
 
 	vessel_model = new Model(shader,
@@ -122,77 +121,59 @@ void VesselScene::draw(double t) {
 }
 
 void VesselScene::update(double t) {
-	//cout << global::song->FFT[1] << endl;
-
+	global::song->getSpectrum();
 
 	bool beatDetected = false;
- 
-	// Test for threshold volume being exceeded (if not currently ignoring track)
-	if (global::song->FFT[beatThresholdBar] >= beatThresholdVolume && beatLastTick == 0) {
+	if(maxBeat(0, 10) >= beatThresholdVolume && beatLastTick == 0) {
 	  beatLastTick = GetTickCount();
 	  beatDetected = true;
 	}
  
 	if (beatDetected) {
-		// A beat has occurred, do something here
-//		Beat = !Beat;
-		Beat = true;
-//		if(Beat) cout << "PU";
-//		else cout << "PUM" << endl;
+	//	Beat = !Beat;
+//		if(Beat) cout << "PU: " << global::song->SoundTime() << endl;
+//		else cout << "PUM: " << global::song->SoundTime() << endl;
 	}
  
 	// If the ignore time has expired, allow testing for a beat again
 	if (GetTickCount() - beatLastTick >= beatPostIgnore)
 	  beatLastTick = 0;
 
-	if(Beat && GetTickCount() - beatLastTick >= 600) Beat = false; 
-/*	double e = global::song->getEnergy();
-	if(e > 0.02) {
-		if(!Beat) {
-			BeatDecay++;
-			if(BeatDecay >= 1) {
-				Beat = true;
-				BeatDecay = 0;
-				if(BeatSkip) cout << "TA" << endl;
-				else cout << "PUM";
-				BeatSkip = !BeatSkip;
-			}
+	if(global::song->SoundTime() > 0.40) Beat = false;
+	else if(global::song->SoundTime() > 0.1) Beat = true;
+//	if(Beat && GetTickCount() - beatLastTick >= 600) Beat = false; 
+
+	if(Beat) {
+		Global_acc = 0.0012;
+		VelSet = false;
+	} else {
+		if(Global_vel > -0.000 && !VelSet) {
+			Global_acc = -0.0008;
 		} else {
-			BeatDecay = 0;
+			VelSet = true;
+			Global_acc = 0;
 		}
 	}
-	else {
-		if(Beat) {
-			BeatDecay++;
-			if(BeatDecay >= 4) {
-				Beat = false;
-				BeatDecay = 0;
-			}
-		} else {
-			BeatDecay = 0;
-		}
-	}*/
 
-//	float k = global::song->FFT[2];
-//	if(global::song->FFT[2] < global::song->FFT[1]) k = global::song->FFT[1];
-//	if(global::song->FFT[1] > 0.1) Beat = true;
-//	else Beat = false;
-
+	Global_vel += Global_acc;
 
 
 	for(int i=0; i<globuline.size(); i++) {
-		if(Beat) {
+/*		if(Beat) {
 			globuline[i].a = 0.0012;
 			VelSet = false;
 		} else {
-			if(globuline[i].v > 0.005 && !VelSet) {
-				globuline[i].a = -0.0008;
+			if(globuline[i].v > -0.005 && !VelSet) {
+				globuline[i].a = -0.0015;
 			} else {
 				VelSet = true;
-				globuline[i].v = 0.005;
 				globuline[i].a = 0;
+				//globuline[i].v = 0.002;
 			}
-		}
+		}*/
+
+		globuline[i].a = Global_acc;
+		globuline[i].v = Global_vel;
 
 		//globuline[i].v = global::song->FFT[2]/10.0;
 		globuline[i].update();
@@ -213,12 +194,15 @@ void VesselScene::update(double t) {
 				count++;
 			} while(dist < 0.03 && i >= 1 && count < 1000);
 			if(count >= 1000) { 
-	//			cout << "PIPE BROKE, not enought space to update erythrocytes" << endl;
-				break;
+		//		cout << "PIPE BROKE, not enought space to update erythrocytes" << endl;
+		//		break;
+			} else {
+				globuline[i].p = p.x;
+				globuline[i].pY = p.y*sin(p.z);
+				globuline[i].pZ = p.y*cos(p.z);
+				globuline[i].a = Global_acc;
+				globuline[i].v = Global_vel;
 			}
-			globuline[i].p = p.x;
-			globuline[i].pY = p.y*sin(p.z);
-			globuline[i].pZ = p.y*cos(p.z);
 		}
 	}
 }
@@ -260,10 +244,9 @@ Erythrocyte::Erythrocyte(float start_position, float p_Z, float p_Y) {
 	pY = p_Y;
 	pZ = p_Z;
 
-	a = v = 0;
-	v = 0.005;
+	v = 0.0;
 	angle = 0;
-	angv = randValue(0.5,2.5);
+	angv = randValue(0.1,1.0);
 
 	rotateV = glm::vec3(randValue(0,1), randValue(0,1), randValue(0,1));
 
@@ -273,7 +256,7 @@ Erythrocyte::Erythrocyte(float start_position, float p_Z, float p_Y) {
 void Erythrocyte::update() {
 //Update values
 	p += v;
-	v += a;
+//	v += a;
 	angle += v*100 + angv;//*angv;
 
 //Calculate new matrix

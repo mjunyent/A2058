@@ -9,7 +9,7 @@ int main(void) {
 //	glfwSwapInterval(20);
 
 	//Initialize some vars...
-	global::song = new SoundHandler("hearth2.mp3", 1024);
+	global::song = new SoundHandler("hearthShort5.mp3", 1024);
 	global::manager = new SceneManager(&global::currentTime);
 	Timer timer(global::manager);
 

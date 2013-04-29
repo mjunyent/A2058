@@ -6,19 +6,20 @@ SoundSpectrum::SoundSpectrum() {
 
 void SoundSpectrum::update(double t) {
 	global::song->getSpectrum();
-	global::song->getWave();
+//	global::song->getWave();
 }
 
 void SoundSpectrum::draw(double t) {
-	GLfloat YAY[2048];
+	const int size = 40;
+	GLfloat YAY[2*size];
 	float max = 0;
 	float maxID = 0;
 
-	for(int i=0; i<1024; i++) {
-		YAY[2*i+1] = global::song->WAVE[i] + 1;
-		YAY[2*i] = 2*float(i)/1024.0 - 1;
-		if(global::song->WAVE[i] > max) {
-			max = global::song->WAVE[i];
+	for(int i=0; i<size; i++) {
+		YAY[2*i+1] = global::song->FFT[i];
+		YAY[2*i] = 2*float(i)/float(size) - 1;
+		if(global::song->FFT[i] > max) {
+			max = global::song->FFT[i];
 			maxID = i;
 		}
 	}
