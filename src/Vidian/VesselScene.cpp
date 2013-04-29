@@ -144,11 +144,11 @@ void VesselScene::update(double t) {
 //	if(Beat && GetTickCount() - beatLastTick >= 600) Beat = false; 
 
 	if(Beat) {
-		Global_acc = 0.0012;
+		Global_acc = 0.0015*global::song->playVel;
 		VelSet = false;
 	} else {
-		if(Global_vel > -0.000 && !VelSet) {
-			Global_acc = -0.0008;
+		if(Global_vel > (global::song->playVel-1.0)/50.0 && !VelSet) {
+			Global_acc = -0.0008*global::song->playVel;
 		} else {
 			VelSet = true;
 			Global_acc = 0;

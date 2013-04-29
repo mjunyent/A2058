@@ -71,6 +71,7 @@ void SoundHandler::PlotWave(){
 }
 
 void SoundHandler::setVel(float v) {
+	playVel = v;
 	thechannel->setFrequency(v*playFreq);
 }
 

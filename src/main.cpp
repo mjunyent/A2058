@@ -31,14 +31,13 @@ int main(void) {
 
 //	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);
 
-	global::manager->addScene(&cam,			0,		100000000,		0);
-	global::manager->addScene(&Sdeferred,	0,		100000000,		1);
-	global::manager->addScene(&vessel,		0,		100000000,		4);
-	global::manager->addScene(&Edeferred,	0,		100000000,		5);
-	global::manager->addScene(&Rdeferred,	0,		100000000,		6);
+	global::manager->addScene(&cam,			4,		100000000,		0);
+	global::manager->addScene(&Sdeferred,	4,		100000000,		1);
+	global::manager->addScene(&vessel,		4,		100000000,		4);
+	global::manager->addScene(&Edeferred,	4,		100000000,		5);
+	global::manager->addScene(&Rdeferred,	4,		100000000,		6);
 //	global::manager->addScene(&Ddeferred,	0,		100000000,		7);
-	global::manager->addScene(new SoundSpectrum, 0, 100000000,      8);
-
+	global::manager->addScene(new SoundSpectrum, 0, 100000000,			  20000);
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 
 	global::song->Play();
@@ -50,6 +49,9 @@ int main(void) {
 		global::manager->render();
 		glfwSwapBuffers();
 		randValue(100, 200);
+		if(glfwGetKey( 'Z' ))  global::song->setVel(global::song->playVel - 0.05);
+		if(glfwGetKey( 'X' )) global::song->setVel(global::song->playVel + 0.05);
+		cout << global::song->playVel << endl;
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
 	}
 

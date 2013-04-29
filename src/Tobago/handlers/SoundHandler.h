@@ -26,6 +26,7 @@ class SoundHandler{
 		FMOD::Sound* theSound;
 		FMOD::Channel* thechannel;
 		float playFreq;
+		float playVel;
 
 		SoundHandler(char *SongFile, unsigned FFTLEN);
 		void Play();
