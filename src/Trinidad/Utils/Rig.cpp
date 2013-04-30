@@ -12,7 +12,10 @@ Rig::Rig(vec3 *position, vec3 *direction, vec3 *up, float *eye_sep, float *cente
 
 	this->debug = debug;
 
-	shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/AnaglyphRC.frag");
+	if(mode == SIDEBYSIDE)   shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/SidebySide.frag");
+	else if(mode == UPNDOWN) shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/UpnDown.frag");
+	else                     shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphRC.frag");
+
 	left_id  = shad->getUniform("LeftTex");
 	right_id = shad->getUniform("RightTex");
 

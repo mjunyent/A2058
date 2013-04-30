@@ -64,6 +64,9 @@
     <Filter Include="Shaders\Deferred">
       <UniqueIdentifier>{a6c80dfd-4e73-486c-99a3-a8651a2c9c95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\3D">
+      <UniqueIdentifier>{0651ba0f-1d26-4344-bc90-bc44c5c7988c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -293,9 +296,6 @@
     <None Include="bin\Shaders\ScreenTexture.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="bin\Shaders\AnaglyphRC.frag">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="bin\Shaders\simpleLight.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -319,6 +319,15 @@
     </None>
     <None Include="bin\Shaders\Deferred\second.frag">
       <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\3D\UpnDown.frag">
+      <Filter>Shaders\3D</Filter>
+    </None>
+    <None Include="bin\Shaders\3D\SidebySide.frag">
+      <Filter>Shaders\3D</Filter>
+    </None>
+    <None Include="bin\Shaders\3D\AnaglyphRC.frag">
+      <Filter>Shaders\3D</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

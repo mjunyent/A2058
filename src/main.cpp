@@ -29,7 +29,6 @@ int main(void) {
 	FBO RightBuffer(global::width, global::height, true, 1, qalite);
 
 	//Initialize scenes
-//	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.05, true);
 	Rig rig(&Config.position, &Config.direction, &Config.up, &Config.EyeSep, &Config.CenterDist, &LeftBuffer, &RightBuffer, Config.mode3d); 
 
 	StartDeferred RightSdeferred;
@@ -59,7 +58,6 @@ int main(void) {
 
 	//Add scenes to queue
 	//Basic Setup:
-//	global::manager->addScene(&cam,							4,		100000000,		0);
 	global::manager->addScene(&vessel,						4,		100000000,		1);
 	
 	//Render Right
@@ -81,8 +79,7 @@ int main(void) {
 	//Render final image
 	global::manager->addScene(&rig,							4,		100000000,	   14);
 
-	global::manager->addScene(new SoundSpectrum, 0, 100000000,			  20000);
-	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
+	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0,		100000000,  20001);
 
 	//PLAY!
 	global::song->Play();

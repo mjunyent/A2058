@@ -137,7 +137,9 @@
     <ClInclude Include="src\Vidian\VesselScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Shaders\AnaglyphRC.frag" />
+    <None Include="bin\Shaders\3D\AnaglyphRC.frag" />
+    <None Include="bin\Shaders\3D\SidebySide.frag" />
+    <None Include="bin\Shaders\3D\UpnDown.frag" />
     <None Include="bin\Shaders\Camera_Line.frag" />
     <None Include="bin\Shaders\Camera_Line.vert" />
     <None Include="bin\Shaders\Deferred\debug.frag" />
