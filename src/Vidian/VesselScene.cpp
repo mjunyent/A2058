@@ -1,6 +1,6 @@
 #include "VesselScene.h"
 
-VesselScene::VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *status, int *command) {
+VesselScene::VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *command) {
 	this->mutex = mutex;
 	this->status = status;
 	this->command = command;
@@ -13,8 +13,6 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *sta
 
 	P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 20.0f);
 
-	this->rig = NULL;
-	this->V = V;
 	M_Vessel = glm::rotate(90.0f, glm::vec3(1, 0, 0));
 
 	for(int i=0; i<40; i++) {
@@ -34,10 +32,7 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *sta
 			}
 			count++;
 		} while(dist < 0.034 && i >= 1 && count < 1000);
-		if(count >= 1000) { 
-			cout << "PIPE BROKE, no more Erythrocytes fit!" << endl;
-			break;
-		}
+		if(count >= 1000)	break;
 
 		Erythrocyte t(p.x, p.y*sin(p.z), p.y*cos(p.z));
 
@@ -66,7 +61,8 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *sta
 						   cell->normals,
 						   cell->indexs,
 						   0.2,
-						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
+						   glm::vec3(0.8f, 0.8f, 0.8f),
+//						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
 						   glm::vec3(1.0f, 1.0f, 1.0f),
 						   0.256f,
 						   NULL,
@@ -79,44 +75,6 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *sta
 	P_Id = shader->getUniform("Projection");
 	Scale_Id = shader->getUniform("scale");
 
-}
-
-VesselScene::VesselScene(Shader *shader, Rig *rig) {
-	vessel = new A3dsHandler("Models/vessel.3ds", 1);
-	vessel->calculateNormals();
-
-	cell = new A3dsHandler("Models/cell.3ds", 0);
-	cell->calculateNormals();
-
-	P = glm::perspective(75.0f, 4.0f/3.0f, 0.1f, 100.0f);
-	this->rig = rig;
-	this->V = NULL;
-	M_Vessel = glm::rotate(90.0f, glm::vec3(1, 0, 0));
-
-	for(int i=0; i<12; i++) {
-		Erythrocyte t(double(i)/22.0, 0, 0);
-		globuline.push_back(t);
-	}
-
-	this->shader = shader;
-
-	M_Id = shader->getUniform("Model");
-	V_Id = shader->getUniform("View");
-	P_Id = shader->getUniform("Projection");
-	Scale_Id = shader->getUniform("scale");
-}
-
-void VesselScene::draw(double t) {
-	if(V != NULL) renderiseee(*V);
-	else if(rig != NULL) {
-		rig->right->bind();
-		renderiseee(rig->V_Right);
-		rig->right->unbind();
-
-		rig->left->bind();
-		renderiseee(rig->V_Left);
-		rig->left->unbind();
-	}
 }
 
 void VesselScene::update(double t) {
@@ -216,13 +174,13 @@ void VesselScene::updateStop() {
 }
 
 
-void VesselScene::renderiseee(glm::mat4 &V) {
-	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &V[0][0]);
+void VesselScene::renderiseee(glm::mat4 &VA) {
+	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &VA[0][0]);
 	glUniformMatrix4fv(P_Id, 1, GL_FALSE, &P[0][0]);
 
 	vessel_model->render();
 
-	invPV = glm::inverse(P*V);
+	invPV = glm::inverse(P*VA);
 
 	for(int i=0; i<globuline.size(); i++) {
 		cell_model->M = &(globuline[i].M);
@@ -312,4 +270,16 @@ glm::vec2 Erythrocyte::dbezier(double t) {
 	r = p1 + p2 + p3 + p4;
 
 	return r;
+}
+
+
+
+VesselRender::VesselRender(VesselScene* Vs, glm::mat4 *V) {
+	this->Vs = Vs;
+	this->V = V;
+}
+
+void VesselRender::draw(double t) {
+	invPV = glm::inverse(Vs->P * *V);
+	Vs->renderiseee(*V);
 }

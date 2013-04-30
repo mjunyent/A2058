@@ -1,6 +1,6 @@
 #include "Rig.h"
 
-Rig::Rig(vec3 *position, vec3 *direction, vec3 *up, float eye_sep, float center_dist, FBO *left, FBO *right, bool debug) {
+Rig::Rig(vec3 *position, vec3 *direction, vec3 *up, float *eye_sep, float *center_dist, FBO *left, FBO *right, THREEDMODES mode, bool debug) {
 	this->position = position;
 	this->direction = direction;
 	this->up = up;
@@ -19,7 +19,7 @@ Rig::Rig(vec3 *position, vec3 *direction, vec3 *up, float eye_sep, float center_
 	screen_quad = new VBO(global::quad, sizeof(global::quad), 0);
 	screen_quad_I  = new IBO(global::quad_I, sizeof(global::quad_I));
 
-	if(debug)	glfwEnable( GLFW_STICKY_KEYS );
+	if(debug) glfwEnable( GLFW_STICKY_KEYS );
 }
 
 void Rig::draw(double t) {
@@ -42,25 +42,25 @@ void Rig::update(double t) {
 	if(debug) {
 		bool print = false;
 		if(	glfwGetKey( 'A' ) ) {
-			eye_sep -= 0.005;
+			*eye_sep -= 0.005;
 			print = true;
 		}
 		if(	glfwGetKey( 'D' ) ) {
-			eye_sep += 0.005;
+			*eye_sep += 0.005;
 			print = true;
 		}
 		if(	glfwGetKey( 'W' ) ) {
-			center_dist += 0.02;
+			*center_dist += 0.02;
 			print = true;
 		}
 		if(	glfwGetKey( 'S' ) ) {
-			center_dist -= 0.02;
+			*center_dist -= 0.02;
 			print = true;
 		}
 
 		if(print) {
-			vec3 ctr = *position + *direction*center_dist;
-			cout << "Eye sep: " << eye_sep << ", Center dist: " << center_dist << ", Center: " << ctr.x << "," << ctr.y << "," << ctr.z << endl;
+			vec3 ctr = *position + *direction*(*center_dist);
+			cout << "Eye sep: " << *eye_sep << ", Center dist: " << *center_dist << ", Center: " << ctr.x << "," << ctr.y << "," << ctr.z << endl;
 
 			cout << V_Left[0][0] << " " << V_Left[0][1] << " " << V_Left[0][2] << " " << V_Left[0][3] << endl;
 			cout << V_Left[1][0] << " " << V_Left[1][1] << " " << V_Left[1][2] << " " << V_Left[1][3] << endl;
@@ -76,10 +76,10 @@ void Rig::update(double t) {
 
 	vec3 axis = normalize(cross(*up, *direction)); //axis is the vector perpendicular to up & direction, pointing to the left (from where we are looking).
 
-	p_left  = *position + axis*(eye_sep/2.0f);
-	p_right = *position - axis*(eye_sep/2.0f);
+	p_left  = *position + axis*(*eye_sep/2.0f);
+	p_right = *position - axis*(*eye_sep/2.0f);
 
-	center = *position + *direction*center_dist;
+	center = *position + *direction*(*center_dist);
 
 	V_Left = lookAt(p_left, center, *up);
 	V_Right = lookAt(p_right, center, *up);

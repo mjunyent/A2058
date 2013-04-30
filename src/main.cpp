@@ -2,18 +2,20 @@
 #include "Trinidad/Trinidad.h" //Trinidad contains scenes already done, just to plug & play to an sceneManager or wherever.
 #include "Vidian/VesselScene.h"
 #include "Vidian/OscListener.h"
+#include "Vidian/ConfRead.h"
 
 int main(void) {
 	int running = true;
 
-	OGL::init(1280, 720, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, GLFW_WINDOW);
-	
+	ConfRead Config("conf.txt");
+
+	OGL::init(Config.ResX, Config.ResY, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, Config.WindowMode);
+
 	//OSC Listener
 	GLFWmutex mutex = glfwCreateMutex();
 	int status = 0;
     int command = -1;
-	vector<float> costs(6, 0.3);
-	GestureReceiver CatchnRun(mutex, &status, &command, &costs);
+	GestureReceiver CatchnRun(mutex, &status, &command, &Config.costs);
 	glfwCreateThread(RunGestureReceiver, &CatchnRun);
 
 	//Initialize some vars...
@@ -21,29 +23,64 @@ int main(void) {
 	global::manager = new SceneManager(&global::currentTime);
 	Timer timer(global::manager);
 
+	//Initialize RenderBuffers.
+	bool qalite[1] = { true };
+	FBO LeftBuffer(global::width, global::height, true, 1, qalite);
+	FBO RightBuffer(global::width, global::height, true, 1, qalite);
+
 	//Initialize scenes
-	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.05, true);
-	StartDeferred Sdeferred;
-	EndDeferred Edeferred(&Sdeferred);
-	VesselScene vessel(Sdeferred.first, &cam.V, mutex, &status, &command);
-	RenderDeferred Rdeferred(&Sdeferred, &vessel.invPV, &cam.position);
-//	DebugDeferred Ddeferred(&Sdeferred, &vessel.invPV);
+//	Camera cam(glm::vec3(2.4f,-1, 5.16f), glm::vec3(-0.99, 0.0556, 0.123), glm::vec3(0, 1, 0), 0.05, true);
+	Rig rig(&Config.position, &Config.direction, &Config.up, &Config.EyeSep, &Config.CenterDist, &LeftBuffer, &RightBuffer, Config.mode3d); 
+
+	StartDeferred RightSdeferred;
+	StartDeferred LeftSdeferred;
+
+	EndDeferred RightEdeferred(&RightSdeferred);
+	EndDeferred LeftEdeferred(&LeftSdeferred);
+
+	VesselScene vessel(RightSdeferred.first, mutex, &status, &command);
+
+	VesselRender right(&vessel, &rig.V_Right);
+	VesselRender left(&vessel, &rig.V_Left);
+	
+	RenderDeferred RightRdeferred(&RightSdeferred, &right.invPV, &rig.p_right);
+	RenderDeferred LeftRdeferred(&LeftSdeferred, &left.invPV, &rig.p_left);
+
+
 
 	//Initialize lights
-	Light *lights = Rdeferred.lights;
+	Light *lights = RightRdeferred.lights;
+	LeftRdeferred.lights = lights; //TOOOOOOMA GUARRADA
 	//Add lights! (maybe this should go inside vessel.
-	lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	-cam.direction, glm::vec3(1.0,1.0,1.0));
+	lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	-Config.direction, glm::vec3(1.0,1.0,1.0));
 //	lights->addPointLight(cam.position, glm::vec3(2, 0.2, 0.05), glm::vec3(1.0, 1.0, 1.0));
 //	lights->addSpotLight(cam.position, glm::vec3(2, 0.2, 0.05), cam.direction, glm::vec3(1.0, 1.0, 1.0), cos(25.0 * 3.141592 / 180.0), cos(15.0 * 3.141592 / 180.0), 2);
 //	lights->addDirectionalLight(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
 
 	//Add scenes to queue
-	global::manager->addScene(&cam,			4,		100000000,		0);
-	global::manager->addScene(&Sdeferred,	4,		100000000,		1);
-	global::manager->addScene(&vessel,		4,		100000000,		4);
-	global::manager->addScene(&Edeferred,	4,		100000000,		5);
-	global::manager->addScene(&Rdeferred,	4,		100000000,		6);
-//	global::manager->addScene(&Ddeferred,	0,		100000000,		7);
+	//Basic Setup:
+//	global::manager->addScene(&cam,							4,		100000000,		0);
+	global::manager->addScene(&vessel,						4,		100000000,		1);
+	
+	//Render Right
+	global::manager->addScene(&RightSdeferred,				4,		100000000,		2);
+	global::manager->addScene(&right,						4,		100000000,	    3);
+	global::manager->addScene(&RightEdeferred,				4,		100000000,		4);
+	global::manager->addScene(new BindFBO(&RightBuffer),	4,		100000000,		5);
+	global::manager->addScene(&RightRdeferred,				4,		100000000,		6);
+	global::manager->addScene(new UnbindFBO(&RightBuffer),	4,		100000000,		7);
+
+	//Render Left
+	global::manager->addScene(&LeftSdeferred,				4,		100000000,		8);
+	global::manager->addScene(&left,						4,		100000000,	    9);
+	global::manager->addScene(&LeftEdeferred,				4,		100000000,	   10);
+	global::manager->addScene(new BindFBO(&LeftBuffer),		4,		100000000,	   11);
+	global::manager->addScene(&LeftRdeferred,				4,		100000000,	   12);
+	global::manager->addScene(new UnbindFBO(&LeftBuffer),	4,		100000000,	   13);
+	
+	//Render final image
+	global::manager->addScene(&rig,							4,		100000000,	   14);
+
 	global::manager->addScene(new SoundSpectrum, 0, 100000000,			  20000);
 	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 100000000, 20001);
 
@@ -56,10 +93,12 @@ int main(void) {
 		timer.update();
 		global::manager->render();
 		glfwSwapBuffers();
-		randValue(100, 200);
-		if(glfwGetKey( 'Z' )) global::song->setVel(global::song->playVel - 0.05);
-		if(glfwGetKey( 'X' )) global::song->setVel(global::song->playVel + 0.05);
-		//cout << global::song->playVel << endl;
+
+//		if(glfwGetKey( 'Z' )) global::song->setVel(global::song->playVel - 0.05);
+//		if(glfwGetKey( 'X' )) global::song->setVel(global::song->playVel + 0.05);
+
+		if(glfwGetKey( GLFW_KEY_SPACE ) || Config.MODE == "DEBUG") Config.read();
+
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
 	}
 

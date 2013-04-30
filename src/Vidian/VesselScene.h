@@ -61,9 +61,8 @@ public:
 	int *status;
 	int *command;
 
-	VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *status, int *command);
-	VesselScene(Shader *shader, Rig *rig);
-	void draw(double t);
+	VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *command);
+
 	void update(double t);
 		void updatePlay();
 		void updateStop();
@@ -71,6 +70,19 @@ public:
 
 private:
 	glm::vec3 bezier(double t);
+};
+
+
+class VesselRender : public Scene {
+public:
+	Shader *shader;
+	glm::mat4 invPV;
+	glm::mat4 *V;
+	VesselScene *Vs;
+
+	VesselRender(VesselScene* Vs, glm::mat4 *V);
+
+	void draw(double t);
 };
 
 #endif
