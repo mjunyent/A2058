@@ -153,6 +153,9 @@
     <ClCompile Include="src\Tobago\objects\Light.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vidian\OscListener.cpp">
+      <Filter>Vidian</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="src\Tobago\objects\Light.h">
       <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vidian\OscListener.h">
+      <Filter>Vidian</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

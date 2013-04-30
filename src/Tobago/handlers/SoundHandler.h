@@ -30,6 +30,7 @@ class SoundHandler{
 
 		SoundHandler(char *SongFile, unsigned FFTLEN);
 		void Play();
+		void Stop();
 		void getSpectrum();
 		void getWave();
 		double SoundTime();

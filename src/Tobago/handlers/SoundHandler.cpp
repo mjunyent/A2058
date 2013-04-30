@@ -28,7 +28,7 @@ SoundHandler::SoundHandler(char* SongFile, unsigned FFTLEN){
 	thechannel = 0;
 	soundsystem->createSound(SongFile, FMOD_DEFAULT, 0, &theSound);
 	theSound->setMode( FMOD_LOOP_NORMAL );
-
+	playVel = 1;
 	//ERRCHECK(debugme);
 }
 
@@ -36,7 +36,7 @@ void SoundHandler::Play(){
 	soundsystem->playSound(FMOD_CHANNEL_FREE,theSound,0,&thechannel);
 
 	thechannel->getFrequency(&playFreq);
-	setVel(1);
+	setVel(playVel);
 	//ERRCHECK(debugme);
 }
 

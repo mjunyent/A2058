@@ -1,6 +1,10 @@
 #include "VesselScene.h"
 
-VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
+VesselScene::VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *status, int *command) {
+	this->mutex = mutex;
+	this->status = status;
+	this->command = command;
+
 	vessel = new A3dsHandler("Models/vessel.3ds", 1);
 	vessel->calculateNormals();
 
@@ -45,11 +49,6 @@ VesselScene::VesselScene(Shader *shader, glm::mat4 *V) {
 	Global_acc = 0.0;
 	Global_vel = 0.0;
 	Beat = false;
-
-	beatThresholdVolume = 0.03f;	// The threshold over which to recognize a beat
-	beatPostIgnore = 250;			// Number of ms to ignore track for after a beat is recognized
-	beatLastTick = 0;				// Time when last beat occurred
-
 
 	vessel_model = new Model(shader,
 							 vessel->vertexs,
@@ -121,27 +120,25 @@ void VesselScene::draw(double t) {
 }
 
 void VesselScene::update(double t) {
-	global::song->getSpectrum();
+	glfwLockMutex(mutex);
+	if(*status == 0) {
+		if(*command == 0) {
+			if(global::song->playVel < 1.6) global::song->setVel(global::song->playVel+0.02);
+			*command = -1;
+			cout << "Velocity: " << global::song->playVel << endl;
+		} else if(*command == 1) {
+			if(global::song->playVel > 0.9) global::song->setVel(global::song->playVel-0.02);
+			*command = -1;
+			cout << "Velocity: " << global::song->playVel << endl;
+		} else if(*command == 2) {
+			global::song->setVel(0);
+		}
+	}
+	glfwUnlockMutex(mutex);
 
-	bool beatDetected = false;
-	if(maxBeat(0, 10) >= beatThresholdVolume && beatLastTick == 0) {
-	  beatLastTick = GetTickCount();
-	  beatDetected = true;
-	}
- 
-	if (beatDetected) {
-	//	Beat = !Beat;
-//		if(Beat) cout << "PU: " << global::song->SoundTime() << endl;
-//		else cout << "PUM: " << global::song->SoundTime() << endl;
-	}
- 
-	// If the ignore time has expired, allow testing for a beat again
-	if (GetTickCount() - beatLastTick >= beatPostIgnore)
-	  beatLastTick = 0;
 
 	if(global::song->SoundTime() > 0.40) Beat = false;
 	else if(global::song->SoundTime() > 0.1) Beat = true;
-//	if(Beat && GetTickCount() - beatLastTick >= 600) Beat = false; 
 
 	if(Beat) {
 		Global_acc = 0.0015*global::song->playVel;
@@ -157,25 +154,10 @@ void VesselScene::update(double t) {
 
 	Global_vel += Global_acc;
 
-
 	for(int i=0; i<globuline.size(); i++) {
-/*		if(Beat) {
-			globuline[i].a = 0.0012;
-			VelSet = false;
-		} else {
-			if(globuline[i].v > -0.005 && !VelSet) {
-				globuline[i].a = -0.0015;
-			} else {
-				VelSet = true;
-				globuline[i].a = 0;
-				//globuline[i].v = 0.002;
-			}
-		}*/
-
 		globuline[i].a = Global_acc;
 		globuline[i].v = Global_vel;
 
-		//globuline[i].v = global::song->FFT[2]/10.0;
 		globuline[i].update();
 		if(globuline[i].p > 1.0) {
 			float dist = 10E6;
@@ -194,8 +176,7 @@ void VesselScene::update(double t) {
 				count++;
 			} while(dist < 0.03 && i >= 1 && count < 1000);
 			if(count >= 1000) { 
-		//		cout << "PIPE BROKE, not enought space to update erythrocytes" << endl;
-		//		break;
+				cout << "PIPE BROKE, not enought space to update erythrocytes" << endl;
 			} else {
 				globuline[i].p = p.x;
 				globuline[i].pY = p.y*sin(p.z);

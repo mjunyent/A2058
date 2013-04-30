@@ -98,6 +98,7 @@
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
     <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
+    <ClCompile Include="src\Vidian\OscListener.cpp" />
     <ClCompile Include="src\Vidian\VesselScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +131,7 @@
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
     <ClInclude Include="src\Trinidad\Utils\Rig.h" />
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
+    <ClInclude Include="src\Vidian\OscListener.h" />
     <ClInclude Include="src\Vidian\VesselScene.h" />
   </ItemGroup>
   <ItemGroup>

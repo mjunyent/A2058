@@ -57,11 +57,11 @@ public:
 	float Global_acc;
 	float Global_vel;
 
-	float beatThresholdVolume;    // The threshold over which to recognize a beat
-	unsigned int beatPostIgnore;   // Number of ms to ignore track for after a beat is recognized
-	int beatLastTick;                // Time when last beat occurred
+	GLFWmutex mutex;
+	int *status;
+	int *command;
 
-	VesselScene(Shader *shader, glm::mat4 *V);
+	VesselScene(Shader *shader, glm::mat4 *V, GLFWmutex mutex, int *status, int *command);
 	VesselScene(Shader *shader, Rig *rig);
 	void draw(double t);
 	void update(double t);
