@@ -40,6 +40,10 @@ void SoundHandler::Play(){
 	//ERRCHECK(debugme);
 }
 
+void SoundHandler::Stop() {
+	thechannel->stop();
+}
+
 void SoundHandler::getSpectrum(){
 	thechannel->getSpectrum( &FFT[0], len, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE );
 	soundsystem->update();

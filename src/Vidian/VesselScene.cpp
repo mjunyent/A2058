@@ -131,12 +131,26 @@ void VesselScene::update(double t) {
 			*command = -1;
 			cout << "Velocity: " << global::song->playVel << endl;
 		} else if(*command == 2) {
-			global::song->setVel(0);
+			global::song->Stop();
+			*status = 1;
+			*command = -1;
+		}
+	} else if(*status == 1) {
+		if(*command == 0) {
+			*status = 0;
+			*command = -1;
+			global::song->Play();
 		}
 	}
 	glfwUnlockMutex(mutex);
 
 
+	if(*status == 0) updatePlay();
+	if(*status == 1) updateStop();
+
+}
+
+void VesselScene::updatePlay() {
 	if(global::song->SoundTime() > 0.40) Beat = false;
 	else if(global::song->SoundTime() > 0.1) Beat = true;
 
@@ -157,8 +171,8 @@ void VesselScene::update(double t) {
 	for(int i=0; i<globuline.size(); i++) {
 		globuline[i].a = Global_acc;
 		globuline[i].v = Global_vel;
-
 		globuline[i].update();
+
 		if(globuline[i].p > 1.0) {
 			float dist = 10E6;
 			int count = 0;
@@ -174,10 +188,8 @@ void VesselScene::update(double t) {
 					if(ddist < dist) dist = ddist;
 				}
 				count++;
-			} while(dist < 0.03 && i >= 1 && count < 1000);
-			if(count >= 1000) { 
-				cout << "PIPE BROKE, not enought space to update erythrocytes" << endl;
-			} else {
+			} while(dist < 0.03 && count < 1000);
+			if(count < 1000) {
 				globuline[i].p = p.x;
 				globuline[i].pY = p.y*sin(p.z);
 				globuline[i].pZ = p.y*cos(p.z);
@@ -187,6 +199,22 @@ void VesselScene::update(double t) {
 		}
 	}
 }
+
+void VesselScene::updateStop() {
+	Global_vel = 0.0;
+	Global_acc = 0.0;
+
+	for(int i=0; i<globuline.size(); i++) {
+		globuline[i].a = Global_acc;
+		globuline[i].v = Global_vel;
+
+		if(globuline[i].p < 1.1 && globuline[i].p > 0.82) { //the erythrocites too near keep advancing...
+			globuline[i].v = 0.005;
+		}
+		globuline[i].update();
+	}
+}
+
 
 void VesselScene::renderiseee(glm::mat4 &V) {
 	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &V[0][0]);

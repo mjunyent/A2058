@@ -65,6 +65,8 @@ public:
 	VesselScene(Shader *shader, Rig *rig);
 	void draw(double t);
 	void update(double t);
+		void updatePlay();
+		void updateStop();
 	void renderiseee(glm::mat4 &V);
 
 private:

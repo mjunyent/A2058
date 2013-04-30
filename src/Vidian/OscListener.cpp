@@ -43,6 +43,10 @@ void GestureReceiver::ProcessMessage(const osc::ReceivedMessage& m, const IpEndp
 						if(neu == 1) *command = 1;
 						if(neu == 2) *command = 2;
 					glfwUnlockMutex(mutex);
+				} else if(*status == 1) { //STOP
+					glfwLockMutex(mutex);
+						if(neu == 0 ||  neu == 1 || neu == 2) *command = 0;
+					glfwUnlockMutex(mutex);
 				}
 			}
 		}
