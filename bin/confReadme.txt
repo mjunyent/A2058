@@ -35,7 +35,7 @@ ANAGLYPH		  <- 3D Mode ANAGLYPH/SIDEBYSIDE/UPNDOWN/NONE
 
 2					<- Number of lights
 
-DIRECTONAL				<- Type (DIRECTIONAl/POINT/SPOTLIGHT)
+DIRECTIONAL				<- Type (DIRECTIONAl/POINT/SPOTLIGHT)
 0.3	0.5	0.6			<- Position
 0.2	0.1	0.01			<- Attenuation (constant, linear, quadratic)
 0.0	1.0	1.0			<- Direction
