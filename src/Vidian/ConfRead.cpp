@@ -14,6 +14,10 @@ void ConfRead::read() {
 
 	fs >> MODE;
 
+	fs >> tmp;
+	if(tmp == "FRAMERATE") frate = true;
+	else frate = false;
+
 	fs >> ResX >> ResY;
 	fs >> tmp;
 	if(tmp == "FULLSCREEN") WindowMode = GLFW_FULLSCREEN;

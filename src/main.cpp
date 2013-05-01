@@ -86,8 +86,7 @@ int main(void) {
 
 	//Render final image
 	global::manager->addScene(&rig,							4,		100000000,	   14);
-
-	global::manager->addScene(new FrameRate(5, 5, 200, 50), 0,		100000000,  20001);
+	if(Config.frate) global::manager->addScene(new FrameRate(5, 5, 200, 50), 0,		100000000,  20001);
 
 	//PLAY!
 	global::song->Play();

@@ -25,6 +25,7 @@ public:
 	std::string filename;
 
 	std::string MODE;
+	bool frate;
 	int ResX, ResY;
 	int WindowMode;
 	vector<float> costs;

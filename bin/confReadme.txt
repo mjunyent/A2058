@@ -1,5 +1,7 @@
 DEBUG			  <- DEBUG / RELEASE if mode is DEBUG config will be automatically updated every frame.
 
+FRAMERATE		  <- To appear or not appear framerate (FRAMERATE/NOFRAMERATE).
+
 1280 720		  <- RESOLUTION X Y
 
 WINDOWED		  <- EXECUTION MODE can be WINDOWED or FULLSCREEN
