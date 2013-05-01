@@ -31,7 +31,7 @@ int main(void) {
 	FBO RightBuffer(global::width, global::height, true, 1, qalite);
 
 	//Initialize scenes
-	Rig rig(&Config.position, &Config.direction, &Config.up, &Config.EyeSep, &Config.CenterDist, &LeftBuffer, &RightBuffer, Config.mode3d); 
+	Rig rig(&Config.position, &Config.direction, &Config.up, &Config.EyeSep, &Config.CenterDist, &LeftBuffer, &RightBuffer, Config.mode3d, true); 
 
 	StartDeferred RightSdeferred;
 	StartDeferred LeftSdeferred;

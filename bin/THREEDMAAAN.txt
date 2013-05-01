@@ -1,0 +1,2 @@
+Eye_Sep        Center_dist
+0.185        0.720001
