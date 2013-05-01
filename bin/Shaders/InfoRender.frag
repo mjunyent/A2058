@@ -12,12 +12,13 @@ uniform float down;
 uniform float left;
 uniform float right;
 uniform int draw;
+uniform float appear;
 
 void main(){
 	color = texture( background, UV );
 	if(draw == 1 && UV.y <= top && UV.y >= down && UV.x >= left && UV.x <= right) {
 		vec4 imgColor = texture(image, vec2((UV.x-left)/(right-left), 1-(UV.y-down)/(top-down) ));
-		color.rgb += imgColor.rgb*imgColor.a;
+		color.rgb += imgColor.rgb*imgColor.a*appear;
 	}
 
 	color.w = 1;

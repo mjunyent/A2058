@@ -60,6 +60,11 @@ public:
 
 	int nearestRBC;
 
+	float appear;
+	bool appearing;
+	bool disappearing;
+	bool skipNoInfo;
+
 	GLFWmutex mutex;
 	int *status;
 	int *command;
@@ -69,6 +74,7 @@ public:
 	void update(double t);
 		void updatePlay();
 		void updateStop();
+		void updateInfo();
 
 	void renderiseee(glm::mat4 &V);
 	void getNearest();
@@ -100,7 +106,7 @@ public:
 	VBO *Box;
 	IBO *BoxI;
 
-	GLint bg_Id, im_Id, topId, downId, leftId, rightId, drawId;
+	GLint bg_Id, im_Id, topId, downId, leftId, rightId, drawId, appearId;
 
 	VesselScene *Vs;
 	glm::mat4 *V;
@@ -108,7 +114,6 @@ public:
 	InfoRender(VesselScene* Vs, glm::mat4 *V, FBO *background, FBO *target);
 
 	void draw(double t);
-
 };
 
 #endif

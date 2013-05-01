@@ -48,6 +48,11 @@ VesselScene::VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *comm
 	Beat = false;
 	nearestRBC = 0;
 
+	appear = 0;
+	appearing = false;
+	disappearing = false;
+	skipNoInfo = false;
+
 	vessel_model = new Model(shader,
 							 vessel->vertexs,
 							 vessel->normals,
@@ -64,8 +69,7 @@ VesselScene::VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *comm
 						   cell->normals,
 						   cell->indexs,
 						   0.2,
-						   glm::vec3(0.8f, 0.8f, 0.8f),
-//						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
+						   glm::vec3(214.0f/255.0f, 34.0/255.0f, 6.0/255.0f),
 						   glm::vec3(1.0f, 1.0f, 1.0f),
 						   0.256f,
 						   NULL,
@@ -84,11 +88,11 @@ void VesselScene::update(double t) {
 	glfwLockMutex(mutex);
 	if(*status == 0) {
 		if(*command == 0) {
-			if(global::song->playVel < 1.6) global::song->setVel(global::song->playVel+0.02);
+			if(global::song->playVel < 1.75) global::song->setVel(global::song->playVel+0.05);
 			*command = -1;
 			cout << "Velocity: " << global::song->playVel << endl;
 		} else if(*command == 1) {
-			if(global::song->playVel > 0.9) global::song->setVel(global::song->playVel-0.02);
+			if(global::song->playVel > 0.85) global::song->setVel(global::song->playVel-0.05);
 			*command = -1;
 			cout << "Velocity: " << global::song->playVel << endl;
 		} else if(*command == 2) {
@@ -101,12 +105,32 @@ void VesselScene::update(double t) {
 			*status = 0;
 			*command = -1;
 			global::song->Play();
+		} else if(*command == 1) {
+			*status = 2;
+			appear = 0.0;
+			appearing = true;
+			*command = -1;
+		}
+	} else if(*status == 2) {
+		if(*command == 0) {
+			appearing = false;
+			disappearing = true;
+			skipNoInfo = true;
+			appear = 1.0;
+			*command = -1;
+		} else if(*command == 1) {
+			appearing = false;
+			disappearing = true;
+			skipNoInfo = false;
+			appear = 1.0;
+			*command = -1;
 		}
 	}
 	glfwUnlockMutex(mutex);
 
 	if(*status == 0) updatePlay();
 	if(*status == 1) updateStop();
+	if(*status == 2) updateInfo();
 
 }
 
@@ -177,12 +201,34 @@ void VesselScene::updateStop() {
 	getNearest();
 }
 
+void VesselScene::updateInfo() {
+	updateStop();
+
+	if(appearing) appear += 0.02;
+	if(disappearing) appear -= 0.05;
+
+	if(appear >= 1.0) {
+		appear = 1.0;
+		appearing = false;
+	}
+	if(appear < 0.0) {
+		appear = 0.0;
+		disappearing = false;
+		glfwLockMutex(mutex);
+			if(skipNoInfo) { 
+				*status = 0;
+				global::song->Play();
+			} else *status = 1;
+		glfwUnlockMutex(mutex);
+	}
+}
+
 void VesselScene::getNearest() {
 	int nearestId = 0;
 	float nearestP = -1;
 
 	for(int i=0; i<globuline.size(); i++) {
-		if(globuline[i].p >= nearestP && globuline[i].p <= 0.9) {
+		if(globuline[i].p >= nearestP && globuline[i].p <= 0.82) {
 			nearestId = i;
 			nearestP = globuline[i].p;
 		}
@@ -324,7 +370,7 @@ InfoRender::InfoRender(VesselScene* Vs, glm::mat4 *V, FBO *background, FBO *targ
 	leftId = third->getUniform("left");
 	rightId = third->getUniform("right");
 	drawId = third->getUniform("draw");
-	
+	appearId = third->getUniform("appear");
 }
 
 
@@ -339,23 +385,23 @@ void InfoRender::draw(double t) {
 		glUniform1i(bg_Id, 0);
 		glUniform1i(im_Id, 1);
 
-		if(*(Vs->status) == 1) glUniform1i(drawId, 1);
+		if(*(Vs->status) == 2) glUniform1i(drawId, 1);
 		else glUniform1i(drawId, 0);
 		
-		if(*(Vs->status) == 1) {
+		if(*(Vs->status) == 2) {
 			glm::vec4 p = Vs->P  * (*V) * Vs->globuline[Vs->nearestRBC].M * glm::vec4(0,0,0,1);
 
 			glm::vec2 np(p.x/p.w, p.y/p.w);
 
 			np = screen2normalized(np);
 
-
-
 			glUniform1f(topId, np.y);
 			glUniform1f(downId, np.y-0.4);
 
 			glUniform1f(leftId, np.x-0.4);
 			glUniform1f(rightId, np.x);
+
+			glUniform1f(appearId, Vs->appear);
 		}
 		Box->enable(3);
 		BoxI->draw(GL_TRIANGLES);

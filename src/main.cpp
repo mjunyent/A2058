@@ -48,15 +48,17 @@ int main(void) {
 	RenderDeferred LeftRdeferred(&LeftSdeferred, &left.invPV, &rig.p_left);
 
 
-
 	//Initialize lights
 	Light *lights = RightRdeferred.lights;
 	LeftRdeferred.lights = lights; //TOOOOOOMA GUARRADA
 	//Add lights! (maybe this should go inside vessel.
-	lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	-Config.direction, glm::vec3(1.0,1.0,1.0));
+//	lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	-Config.direction, glm::vec3(1.0,1.0,1.0));
 //	lights->addPointLight(cam.position, glm::vec3(2, 0.2, 0.05), glm::vec3(1.0, 1.0, 1.0));
 //	lights->addSpotLight(cam.position, glm::vec3(2, 0.2, 0.05), cam.direction, glm::vec3(1.0, 1.0, 1.0), cos(25.0 * 3.141592 / 180.0), cos(15.0 * 3.141592 / 180.0), 2);
 //	lights->addDirectionalLight(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
+
+	Config.UpdateModels(&vessel);
+	Config.UpdateLights(lights);
 
 	//Add scenes to queue
 	//Basic Setup:
@@ -100,7 +102,11 @@ int main(void) {
 //		if(glfwGetKey( 'Z' )) global::song->setVel(global::song->playVel - 0.05);
 //		if(glfwGetKey( 'X' )) global::song->setVel(global::song->playVel + 0.05);
 
-		if(glfwGetKey( GLFW_KEY_SPACE ) || Config.MODE == "DEBUG") Config.read();
+		if(glfwGetKey( GLFW_KEY_SPACE ) || Config.MODE == "DEBUG") {
+			Config.read();
+			Config.UpdateModels(&vessel);
+			Config.UpdateLights(lights);
+		}
 
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
 	}
