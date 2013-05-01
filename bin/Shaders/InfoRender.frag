@@ -17,8 +17,11 @@ uniform float appear;
 void main(){
 	color = texture( background, UV );
 	if(draw == 1 && UV.y <= top && UV.y >= down && UV.x >= left && UV.x <= right) {
-		vec4 imgColor = texture(image, vec2((UV.x-left)/(right-left), 1-(UV.y-down)/(top-down) ));
-		color.rgb += imgColor.rgb*imgColor.a*appear;
+		vec2 NU = vec2((UV.x-left)/(right-left), 1-(UV.y-down)/(top-down) );
+		if(1-NU.x < appear) {
+			vec4 imgColor = texture(image, NU);
+			color.rgb += imgColor.rgb*imgColor.a*appear;
+		}
 	}
 
 	color.w = 1;

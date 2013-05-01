@@ -33,7 +33,7 @@ VesselScene::VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *comm
 				if(ddist < dist) dist = ddist;
 			}
 			count++;
-		} while(dist < 0.034 && i >= 1 && count < 1000);
+		} while(dist < 0.036 && i >= 1 && count < 1000);
 		if(count >= 1000)	break;
 
 		Erythrocyte t(p.x, p.y*sin(p.z), p.y*cos(p.z));
@@ -172,7 +172,7 @@ void VesselScene::updatePlay() {
 					if(ddist < dist) dist = ddist;
 				}
 				count++;
-			} while(dist < 0.03 && count < 1000);
+			} while(dist < 0.04 && count < 1000);
 			if(count < 1000) {
 				globuline[i].p = p.x;
 				globuline[i].pY = p.y*sin(p.z);
