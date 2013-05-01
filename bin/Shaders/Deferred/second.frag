@@ -48,9 +48,9 @@ void main(){
 	color.rgb = diffuseColor*ambientFactor;
 
 	for(int i=0; i<nlights; i++) {
-		vec3 lightDir;
-		float d;
-		float spotlight;
+		vec3 lightDir = vec3(0.0, 0.0, 0.0);
+		float d = 0.0;
+		float spotlight = 0.0;
 
 		if(lights[i].type == 0) { //Directional
 			lightDir = lights[i].Direction;

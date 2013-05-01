@@ -11,6 +11,8 @@ VesselScene::VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *comm
 	cell = new A3dsHandler("Models/cell2.3ds", 0);
 	cell->calculateNormals();
 
+//	crossSection = new A3dsHandler("Models/cellCrossSection.3ds");
+
 	P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 20.0f);
 
 	M_Vessel = glm::rotate(90.0f, glm::vec3(1, 0, 0));
@@ -44,6 +46,7 @@ VesselScene::VesselScene(Shader *shader, GLFWmutex mutex, int *status, int *comm
 	Global_acc = 0.0;
 	Global_vel = 0.0;
 	Beat = false;
+	nearestRBC = 0;
 
 	vessel_model = new Model(shader,
 							 vessel->vertexs,
@@ -101,7 +104,6 @@ void VesselScene::update(double t) {
 		}
 	}
 	glfwUnlockMutex(mutex);
-
 
 	if(*status == 0) updatePlay();
 	if(*status == 1) updateStop();
@@ -171,6 +173,22 @@ void VesselScene::updateStop() {
 		}
 		globuline[i].update();
 	}
+
+	getNearest();
+}
+
+void VesselScene::getNearest() {
+	int nearestId = 0;
+	float nearestP = -1;
+
+	for(int i=0; i<globuline.size(); i++) {
+		if(globuline[i].p >= nearestP && globuline[i].p <= 0.9) {
+			nearestId = i;
+			nearestP = globuline[i].p;
+		}
+	}
+
+	nearestRBC = nearestId;
 }
 
 
@@ -282,4 +300,68 @@ VesselRender::VesselRender(VesselScene* Vs, glm::mat4 *V) {
 void VesselRender::draw(double t) {
 	invPV = glm::inverse(Vs->P * *V);
 	Vs->renderiseee(*V);
+}
+
+
+
+InfoRender::InfoRender(VesselScene* Vs, glm::mat4 *V, FBO *background, FBO *target) {
+	this->Vs = Vs;
+	this->V = V;
+	this->background = background;
+	this->renderTarget = target;
+
+	image = new TBO("Images/RBCInfo.png", true);
+
+	Box = new VBO(global::quad, sizeof(global::quad), 0);
+	BoxI = new IBO(global::quad_I, sizeof(global::quad_I));
+
+	third = new Shader("Shaders/InfoRender.vert", "Shaders/Inforender.frag");
+	bg_Id = third->getUniform("background");
+	im_Id = third->getUniform("image");
+
+	topId = third->getUniform("top");
+	downId = third->getUniform("down");
+	leftId = third->getUniform("left");
+	rightId = third->getUniform("right");
+	drawId = third->getUniform("draw");
+	
+}
+
+
+void InfoRender::draw(double t) {
+	glDisable(GL_DEPTH_TEST);
+
+	renderTarget->bind();
+
+	third->use();
+		background->bind_texture(0, 0);
+		image->bind(1);
+		glUniform1i(bg_Id, 0);
+		glUniform1i(im_Id, 1);
+
+		if(*(Vs->status) == 1) glUniform1i(drawId, 1);
+		else glUniform1i(drawId, 0);
+		
+		if(*(Vs->status) == 1) {
+			glm::vec4 p = Vs->P  * (*V) * Vs->globuline[Vs->nearestRBC].M * glm::vec4(0,0,0,1);
+
+			glm::vec2 np(p.x/p.w, p.y/p.w);
+
+			np = screen2normalized(np);
+
+
+
+			glUniform1f(topId, np.y);
+			glUniform1f(downId, np.y-0.4);
+
+			glUniform1f(leftId, np.x-0.4);
+			glUniform1f(rightId, np.x);
+		}
+		Box->enable(3);
+		BoxI->draw(GL_TRIANGLES);
+		Box->disable();
+
+	renderTarget->unbind();
+
+	glEnable(GL_DEPTH_TEST);
 }

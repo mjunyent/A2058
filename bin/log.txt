@@ -2,31 +2,14 @@
 
 A2058 	 Error Log 	 log.txt
 
-2.4801	 ERROR: Shader program linking error:
-2.48015	 ERROR: Fragment info
--------------
-0(51) : warning C7050: "lightDir" might be used before being initialized
-0(52) : warning C7050: "d" might be used before being initialized
-0(53) : warning C7050: "spotlight" might be used before being initialized
-
-2.48299	 ERROR: Shader program linking error:
-2.48302	 ERROR: Fragment info
--------------
-0(51) : warning C7050: "lightDir" might be used before being initialized
-0(52) : warning C7050: "d" might be used before being initialized
-0(53) : warning C7050: "spotlight" might be used before being initialized
-
-2.50026	 ERROR: Timer max iterations achieved
-2.55769	 ERROR: Timer max iterations achieved
-2.57549	 ERROR: Timer max iterations achieved
-2.58121	 ERROR: Timer max iterations achieved
-2.58684	 ERROR: Timer max iterations achieved
-2.59129	 ERROR: Timer max iterations achieved
-2.59509	 ERROR: Timer max iterations achieved
-2.61126	 ERROR: Timer max iterations achieved
-2.62702	 ERROR: Timer max iterations achieved
-2.64355	 ERROR: Timer max iterations achieved
-2.66056	 ERROR: Timer max iterations achieved
-2.6764	 ERROR: Timer max iterations achieved
-2.69275	 ERROR: Timer max iterations achieved
-2.70958	 ERROR: Timer max iterations achieved
+1.92233	 ERROR: Timer max iterations achieved
+1.9442	 ERROR: Timer max iterations achieved
+1.94672	 ERROR: Timer max iterations achieved
+1.94899	 ERROR: Timer max iterations achieved
+1.96148	 ERROR: Timer max iterations achieved
+1.9661	 ERROR: Timer max iterations achieved
+1.98322	 ERROR: Timer max iterations achieved
+1.99967	 ERROR: Timer max iterations achieved
+2.01625	 ERROR: Timer max iterations achieved
+2.03348	 ERROR: Timer max iterations achieved
+2.04959	 ERROR: Timer max iterations achieved

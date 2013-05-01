@@ -42,6 +42,7 @@ class VesselScene : public Scene {
 public:
 	A3dsHandler *vessel;
 	A3dsHandler *cell;
+	A3dsHandler *crossSection;
 
 	Model *vessel_model;
 	Model *cell_model;
@@ -57,6 +58,8 @@ public:
 	float Global_acc;
 	float Global_vel;
 
+	int nearestRBC;
+
 	GLFWmutex mutex;
 	int *status;
 	int *command;
@@ -66,7 +69,9 @@ public:
 	void update(double t);
 		void updatePlay();
 		void updateStop();
+
 	void renderiseee(glm::mat4 &V);
+	void getNearest();
 
 private:
 	glm::vec3 bezier(double t);
@@ -83,6 +88,27 @@ public:
 	VesselRender(VesselScene* Vs, glm::mat4 *V);
 
 	void draw(double t);
+};
+
+class InfoRender : public Scene {
+public:
+	FBO *renderTarget;
+	FBO *background;
+	TBO *image;
+	Shader *third;
+	float boxCoords[12];
+	VBO *Box;
+	IBO *BoxI;
+
+	GLint bg_Id, im_Id, topId, downId, leftId, rightId, drawId;
+
+	VesselScene *Vs;
+	glm::mat4 *V;
+
+	InfoRender(VesselScene* Vs, glm::mat4 *V, FBO *background, FBO *target);
+
+	void draw(double t);
+
 };
 
 #endif

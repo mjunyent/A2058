@@ -148,6 +148,8 @@
     <None Include="bin\Shaders\Deferred\first.vert" />
     <None Include="bin\Shaders\Deferred\second.frag" />
     <None Include="bin\Shaders\Deferred\second.vert" />
+    <None Include="bin\Shaders\InfoRender.frag" />
+    <None Include="bin\Shaders\InfoRender.vert" />
     <None Include="bin\Shaders\MVPTransform.vert" />
     <None Include="bin\Shaders\paintNormals.frag" />
     <None Include="bin\Shaders\ScreenTexture.frag" />

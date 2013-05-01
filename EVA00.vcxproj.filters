@@ -329,6 +329,12 @@
     <None Include="bin\Shaders\3D\AnaglyphRC.frag">
       <Filter>Shaders\3D</Filter>
     </None>
+    <None Include="bin\Shaders\InfoRender.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\InfoRender.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\log.txt" />

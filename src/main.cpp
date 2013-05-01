@@ -25,6 +25,8 @@ int main(void) {
 
 	//Initialize RenderBuffers.
 	bool qalite[1] = { true };
+	FBO PreLeftBuffer(global::width, global::height, true, 1, qalite);
+	FBO PreRightBuffer(global::width, global::height, true, 1, qalite);
 	FBO LeftBuffer(global::width, global::height, true, 1, qalite);
 	FBO RightBuffer(global::width, global::height, true, 1, qalite);
 
@@ -64,18 +66,22 @@ int main(void) {
 	global::manager->addScene(&RightSdeferred,				4,		100000000,		2);
 	global::manager->addScene(&right,						4,		100000000,	    3);
 	global::manager->addScene(&RightEdeferred,				4,		100000000,		4);
-	global::manager->addScene(new BindFBO(&RightBuffer),	4,		100000000,		5);
+	global::manager->addScene(new BindFBO(&PreRightBuffer),	4,		100000000,		5);
 	global::manager->addScene(&RightRdeferred,				4,		100000000,		6);
-	global::manager->addScene(new UnbindFBO(&RightBuffer),	4,		100000000,		7);
+	global::manager->addScene(new UnbindFBO(&PreRightBuffer),	4,		100000000,		7);
+
+	global::manager->addScene(new InfoRender(&vessel, &rig.V_Right, &PreRightBuffer, &RightBuffer), 4, 1000000, 7.5);
 
 	//Render Left
 	global::manager->addScene(&LeftSdeferred,				4,		100000000,		8);
 	global::manager->addScene(&left,						4,		100000000,	    9);
 	global::manager->addScene(&LeftEdeferred,				4,		100000000,	   10);
-	global::manager->addScene(new BindFBO(&LeftBuffer),		4,		100000000,	   11);
+	global::manager->addScene(new BindFBO(&PreLeftBuffer),		4,		100000000,	   11);
 	global::manager->addScene(&LeftRdeferred,				4,		100000000,	   12);
-	global::manager->addScene(new UnbindFBO(&LeftBuffer),	4,		100000000,	   13);
+	global::manager->addScene(new UnbindFBO(&PreLeftBuffer),	4,		100000000,	   13);
 	
+	global::manager->addScene(new InfoRender(&vessel, &rig.V_Left, &PreLeftBuffer, &LeftBuffer), 4, 10000000, 13.5);
+
 	//Render final image
 	global::manager->addScene(&rig,							4,		100000000,	   14);
 
