@@ -4,7 +4,5 @@
     <LocalDebuggerWorkingDirectory>$(ProjectDir)bin</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerDebuggerType>Auto</LocalDebuggerDebuggerType>
-    <LocalDebuggerCommandArguments>
-    </LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>
