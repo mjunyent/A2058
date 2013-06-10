@@ -1,2 +1,396 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BindFBO" Collapsed="true">
+    <Position X="2.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAIAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>src\Trinidad\Basic\RenderToBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buffer_Object" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAABAAAAAAAAAEBAAAIAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>src\Tobago\objects\Buffer_Object.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FBO" Collapsed="true">
+    <Position X="3.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAAMCAAAUAQAAIAAAAAAAAQAAAAAAQBAAABgQ=</HashCode>
+      <FileName>src\Tobago\objects\FBO.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Log" Collapsed="true">
+    <Position X="51.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAEAAAAACAgQAAAAAIAAAAAAACA=</HashCode>
+      <FileName>src\Tobago\basic\log.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Timer" Collapsed="true">
+    <Position X="50" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAYAABggEAIAAAAAAABAAAAAFAAA=</HashCode>
+      <FileName>src\Tobago\basic\timer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IBO" Collapsed="true">
+    <Position X="45.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIBQAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>src\Tobago\objects\IBO.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Light" Collapsed="true">
+    <Position X="50" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAJAgAAACIEAAAIgAEIAEAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model" Collapsed="true">
+    <Position X="53.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACAAAEAABAFECAAAAgCAAAAAEAAAAoEAEIRAIA=</HashCode>
+      <FileName>src\Tobago\objects\Model.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="50" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQAAAAJAAQAAAAAAAgACAAAAAAAAYBFQACABAAMA=</HashCode>
+      <FileName>src\Tobago\objects\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SShader" Collapsed="true">
+    <Position X="53.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAIAAAAAABEAAAAAAAAI=</HashCode>
+      <FileName>src\Tobago\objects\SShader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TBO" Collapsed="true">
+    <Position X="48.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAIAAAAAEAAAIAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>src\Tobago\objects\TBO.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VBO" Collapsed="true">
+    <Position X="43.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgIAAIAgBAAAAAAAAAAAAAAAAAEIAA=</HashCode>
+      <FileName>src\Tobago\objects\VBO.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="A3dsHandler" Collapsed="true">
+    <Position X="48.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAEEAAAAAAAABAAACgAABQAAAABAAAQAAIAAAABAAA=</HashCode>
+      <FileName>src\Tobago\handlers\3dsHandler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FontHandler" Collapsed="true">
+    <Position X="53.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAABAAAAgQIAAAAAEAAACAAAAAAIAAAAAAA=</HashCode>
+      <FileName>src\Tobago\handlers\FontHandler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAQQAAAAggAIAAgAAAAAAAQgAAAAAAAAEAAA=</HashCode>
+      <FileName>src\Tobago\handlers\SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneManager" Collapsed="true">
+    <Position X="48.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAUAAQ=</HashCode>
+      <FileName>src\Tobago\handlers\SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundHandler" Collapsed="true">
+    <Position X="51.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAEAAAgAQAAAAACEAAAEIAIAEAAAoAAAAgQIAAA=</HashCode>
+      <FileName>src\Tobago\handlers\SoundHandler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACgIAgAAIAIACEACQAIAIAAAAAAAAAAAAAAgAUAAQ=</HashCode>
+      <FileName>src\Trinidad\Utils\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FrameRate" Collapsed="true">
+    <Position X="15.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAQAAAAIAAAAAAAIAAAAAAAAAKAEAACAAAAAGCAA=</HashCode>
+      <FileName>src\Trinidad\Utils\FrameRate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rig" Collapsed="true">
+    <Position X="26.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgQAAQAAAACIAAQ4AKMIAQAAAAIAAAAAAAIAgAEgAA=</HashCode>
+      <FileName>src\Trinidad\Utils\Rig.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundSpectrum" Collapsed="true">
+    <Position X="31.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAIAAAIAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>src\Trinidad\Utils\SoundSpectrum.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StartDeferred" Collapsed="true">
+    <Position X="35.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAMAAAEAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Trinidad\Basic\Deferred.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EndDeferred" Collapsed="true">
+    <Position X="38" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Trinidad\Basic\Deferred.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderDeferred" Collapsed="true">
+    <Position X="40.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAQBAAAiIEAAMAAAIAAAAgAABAIABAAAg=</HashCode>
+      <FileName>src\Trinidad\Basic\Deferred.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DebugDeferred" Collapsed="true">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAKEaAEAAABAAAAQACAAAAAAAAA=</HashCode>
+      <FileName>src\Trinidad\Basic\Deferred.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LaunchShader" Collapsed="true">
+    <Position X="17.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAEAAQAA=</HashCode>
+      <FileName>src\Trinidad\Basic\LaunchShader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderModel" Collapsed="true">
+    <Position X="22.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAkAIAAI=</HashCode>
+      <FileName>src\Trinidad\Basic\RenderModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnbindFBO" Collapsed="true">
+    <Position X="29" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAABAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Trinidad\Basic\RenderToBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleFBORender" Collapsed="true">
+    <Position X="33.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAABBAAAAIAIEAAAAAAAAAAAIAAAIAAAAAAA=</HashCode>
+      <FileName>src\Trinidad\Basic\RenderToBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConfRead" Collapsed="true">
+    <Position X="50" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABEAQAAICKAACABIAAAAAIAAA5ACIBAAgAAAIQ=</HashCode>
+      <FileName>src\Vidian\ConfRead.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestureReceiver" Collapsed="true">
+    <Position X="48.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAAAAAAAAAAAAAAAAAAAAQEAgAAAAAAIAAAIAA=</HashCode>
+      <FileName>src\Vidian\OscListener.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Erythrocyte" Collapsed="true">
+    <Position X="51.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAIAAEAQAAAICgAFAQAIJEAAA=</HashCode>
+      <FileName>src\Vidian\VesselScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VesselScene" Collapsed="true">
+    <Position X="13.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KgQAAoAAgApAAEiCACAAAAAiMAQAAECAAAQFQMBUIFA=</HashCode>
+      <FileName>src\Vidian\VesselScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VesselRender" Collapsed="true">
+    <Position X="20" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAACIAAAAAAIAAAAAAAAAAAEAQAAA=</HashCode>
+      <FileName>src\Vidian\VesselScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InfoRender" Collapsed="true">
+    <Position X="24.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAEAAhAQAIAAIAAAAAEIIABAEAAAAQAAYQKEA=</HashCode>
+      <FileName>src\Vidian\VesselScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LodePNG::Decoder" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABAAAgAAEIAAgIEACAAABAAgIAwAFAACAwgAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LodePNG::Encoder" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAgAAEKAA4IAAAAAQAAAAIAgAABACAgpAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="vector" Collapsed="true">
+    <Position X="53.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAQAQAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="uivector" Collapsed="true">
+    <Position X="51.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAQAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ucvector" Collapsed="true">
+    <Position X="50" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAQAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="HuffmanTree" Collapsed="true">
+    <Position X="50" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAEAAAAAAAAAICAAAAAAAAACAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Coin" Collapsed="true">
+    <Position X="48.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_DecompressSettings" Collapsed="true">
+    <Position X="48.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_CompressSettings" Collapsed="true">
+    <Position X="51.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAQAIAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_InfoColor" Collapsed="true">
+    <Position X="51.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAIAAIAAAAAAEAABAIEAAAAAIAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_Time" Collapsed="true">
+    <Position X="53.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAkAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAiAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_Text" Collapsed="true">
+    <Position X="51.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAIAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_IText" Collapsed="true">
+    <Position X="50" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAIAAAAAAAAAAAAAAMAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_UnknownChunks" Collapsed="true">
+    <Position X="48.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_InfoPng" Collapsed="true">
+    <Position X="53.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQBAQAAAAgAQASAAAAAQAAAAAIACIAwCAAAAAAgA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_InfoRaw" Collapsed="true">
+    <Position X="48.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_DecodeSettings" Collapsed="true">
+    <Position X="53.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAQAAAAAAEAAAAAAAIAAAQAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_Decoder" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAIACAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_EncodeSettings" Collapsed="true">
+    <Position X="50" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAQAAAAAAAAAAAAAAAAAIAAQCAAQAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNG_Encoder" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAIACAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Tobago\objects\lodepng\lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="THREEDMODES" Collapsed="true">
+    <Position X="48.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>src\Trinidad\Utils\Rig.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="System" Size="8.01" />
+</ClassDiagram>

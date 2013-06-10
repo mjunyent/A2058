@@ -11,6 +11,10 @@ int main(void) {
 
 	OGL::init(Config.ResX, Config.ResY, 0, 0, 0, 32, 64, 1, "A2058", 3, 4, Config.WindowMode);
 
+	GLuint vertex_array;
+	glGenVertexArrays(1, &vertex_array);
+	glBindVertexArray(vertex_array);
+
 	//OSC Listener
 	GLFWmutex mutex = glfwCreateMutex();
 	int status = 0;
