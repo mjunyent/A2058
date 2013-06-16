@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ShaderToy\ShaderToy.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
     <ClCompile Include="src\Tobago\basic\global.cpp" />
     <ClCompile Include="src\Tobago\basic\log.cpp" />
@@ -98,11 +99,9 @@
     <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
     <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
     <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
-    <ClCompile Include="src\Vidian\ConfRead.cpp" />
-    <ClCompile Include="src\Vidian\OscListener.cpp" />
-    <ClCompile Include="src\Vidian\VesselScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ShaderToy\ShaderToy.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
     <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
@@ -132,9 +131,6 @@
     <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
     <ClInclude Include="src\Trinidad\Utils\Rig.h" />
     <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
-    <ClInclude Include="src\Vidian\ConfRead.h" />
-    <ClInclude Include="src\Vidian\OscListener.h" />
-    <ClInclude Include="src\Vidian\VesselScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\3D\AnaglyphRC.frag" />
@@ -159,7 +155,6 @@
     <None Include="bin\Shaders\SingleColor.frag" />
     <None Include="bin\Shaders\spectrum.frag" />
     <None Include="bin\Shaders\spectrum.vert" />
-    <None Include="ClassDiagram.cd" />
     <None Include="src\Tobago\handlers\FontReader_f.glsl" />
     <None Include="src\Tobago\handlers\FontReader_v.glsl" />
   </ItemGroup>

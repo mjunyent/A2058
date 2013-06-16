@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(char *vertex, char *fragment) {
+Shader::Shader(const char *vertex, const char *fragment) {
     load(vertex, fragment);
     compile();
     link();
@@ -12,7 +12,7 @@ Shader::Shader(const char *vertex, const char *fragment, bool verbose) {
     link();
 }
 
-bool Shader::load(char *vertex, char *fragment) {
+bool Shader::load(const char *vertex, const char *fragment) {
     char *vs, *fs;
     bool ret = true;
 
@@ -117,7 +117,7 @@ void setShaders() {
 }*/
 
 
-char *Shader::textFileRead(char *fn) {
+char *Shader::textFileRead(const char *fn) {
     FILE *fp;
     char *content = NULL;
     

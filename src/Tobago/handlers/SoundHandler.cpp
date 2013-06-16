@@ -21,7 +21,7 @@ void initSound(){
 	soundsystem->init(32, FMOD_INIT_NORMAL, 0);
 }
 
-SoundHandler::SoundHandler(char* SongFile, unsigned FFTLEN){
+SoundHandler::SoundHandler(const char* SongFile, unsigned FFTLEN){
 	FFT = (float*)malloc(FFTLEN*sizeof(float) );
 	WAVE = (float*)malloc(FFTLEN*sizeof(float) );
 	len = FFTLEN;
@@ -38,6 +38,12 @@ void SoundHandler::Play(){
 	thechannel->getFrequency(&playFreq);
 	setVel(playVel);
 	//ERRCHECK(debugme);
+}
+
+void SoundHandler::Pause(){
+	bool isPaused;
+	thechannel->getPaused(&isPaused);
+	thechannel->setPaused(!isPaused);
 }
 
 void SoundHandler::Stop() {

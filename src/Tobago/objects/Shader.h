@@ -16,9 +16,9 @@
 class Shader {
 public:
     Shader() { };
-    Shader(char *vertex, char *fragment); //load, compile and link the shaders at one call.
+    Shader(const char *vertex, const char *fragment); //load, compile and link the shaders at one call.
     Shader(const char *vertex, const char *fragment, bool verbose); //load, compile and link the shaders LOAD FROM MEMORY, VERBOSE NOT IMPLEMENTED.
-    bool load(char *vertex, char *fragment); //returns true if everything is ok.
+    bool load(const char *vertex, const char *fragment); //returns true if everything is ok.
 	void loadmemory(const char *vertex, const char *fragment);
     bool compile(); //returns true if everything ok.
     bool link(); //returns true if everything ok.
@@ -33,7 +33,7 @@ public:
 private:
     GLuint v, f;
     const char *vv, *ff;
-    char *textFileRead(char *fn);
+    char *textFileRead(const char *fn);
     bool printShaderInfoLog(GLuint obj); //returns true if error.
     bool printProgramInfoLog(GLuint obj); //returns true if error.
 };

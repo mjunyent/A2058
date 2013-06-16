@@ -21,10 +21,10 @@ FrameRate::FrameRate(int x, int y, int width, int height) {
 	fps_box[9] = d.x;
 	fps_box[10] = d.y;
 
-	fps_shader = new Shader("rendertext.vert", "rendertext.frag");
+	fps_shader = new Shader("Shaders/fpsRender.vert", "Shaders/fpsRender.frag");
 	fps_TXT = fps_shader->getUniform("color_tex");
 
-	fps_font = new FontHandler("Calibri.png");
+	fps_font = new FontHandler("Images/Calibri.png");
 
 	fps_texbox = new VBO(fps_box, sizeof(fps_box), 0);
 	fps_textexbox = new VBO(global::quad, sizeof(global::quad), 1);

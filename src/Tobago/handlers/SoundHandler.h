@@ -28,8 +28,9 @@ class SoundHandler{
 		float playFreq;
 		float playVel;
 
-		SoundHandler(char *SongFile, unsigned FFTLEN);
+		SoundHandler(const char *SongFile, unsigned FFTLEN);
 		void Play();
+		void Pause();
 		void Stop();
 		void getSpectrum();
 		void getWave();
