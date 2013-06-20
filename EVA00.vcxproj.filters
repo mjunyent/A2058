@@ -55,6 +55,18 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{7227d436-70d5-4e0d-8ce6-0a751958c0b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Trinidad\Basic">
+      <UniqueIdentifier>{09dd1cc0-9555-4990-b767-b740a2c90d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Deferred">
+      <UniqueIdentifier>{a6c80dfd-4e73-486c-99a3-a8651a2c9c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\3D">
+      <UniqueIdentifier>{0651ba0f-1d26-4344-bc90-bc44c5c7988c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderToy">
+      <UniqueIdentifier>{ae51d426-c26f-4446-82cf-d708ec79560e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -116,6 +128,33 @@
     </ClCompile>
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Utils\Camera.cpp">
+      <Filter>Trinidad\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Utils\Rig.cpp">
+      <Filter>Trinidad\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp">
+      <Filter>Trinidad\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\Model.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\objects\Light.cpp">
+      <Filter>Tobago\Objects\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderToy\ShaderToy.cpp">
+      <Filter>ShaderToy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +221,33 @@
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\LaunchShader.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\RenderModel.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Utils\Camera.h">
+      <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Utils\Rig.h">
+      <Filter>Trinidad\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Basic\Deferred.h">
+      <Filter>Trinidad\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\Model.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\Light.h">
+      <Filter>Tobago\Objects\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderToy\ShaderToy.h">
+      <Filter>ShaderToy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tobago\handlers\FontReader_f.glsl">
@@ -190,12 +256,74 @@
     <None Include="src\Tobago\handlers\FontReader_v.glsl">
       <Filter>Tobago\Handlers</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
     <None Include="bin\Shaders\spectrum.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="bin\Shaders\spectrum.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="bin\Shaders\SingleColor.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\SimpleTransform.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\paintNormals.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Camera_Line.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Camera_Line.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\ScreenTexture.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\ScreenTexture.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\simpleLight.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\MVPTransform.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\first.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\first.vert">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\debug.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\debug.vert">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\second.vert">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\second.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\3D\UpnDown.frag">
+      <Filter>Shaders\3D</Filter>
+    </None>
+    <None Include="bin\Shaders\3D\SidebySide.frag">
+      <Filter>Shaders\3D</Filter>
+    </None>
+    <None Include="bin\Shaders\3D\AnaglyphRC.frag">
+      <Filter>Shaders\3D</Filter>
+    </None>
+    <None Include="bin\Shaders\InfoRender.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\InfoRender.frag">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\log.txt" />
   </ItemGroup>
 </Project>

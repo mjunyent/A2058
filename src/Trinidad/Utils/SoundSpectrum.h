@@ -4,11 +4,13 @@
 
 #include "Tobago/Tobago.h"
 
-namespace SoundSpectrum {
-	//extern Shader *theShad;
-	void setup();
+class SoundSpectrum : public Scene {
+public:
+	SoundSpectrum();
 	void draw(double time);
 	void update(double time);
+private:
+	Shader *theShad;
 };
 
 #endif

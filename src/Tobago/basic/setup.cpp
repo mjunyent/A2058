@@ -18,11 +18,20 @@ void OGL::init(int w	, int h ,
 
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, aa);
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, version);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+
+//	glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+
+	glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
 	glfwEnable( GLFW_STICKY_KEYS );
 	if( !glfwOpenWindow( w, h, r, g, b, alpha, depth, stencil, mode ) )
 	{
 		cerr << "glfwOpenWindow fail'd" << endl;
+		int t;
+		cin >> t;
 		glfwTerminate();
 		exit( EXIT_FAILURE );
 	}
@@ -30,6 +39,9 @@ void OGL::init(int w	, int h ,
 	glDepthFunc( GL_LESS );
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glewExperimental=GL_TRUE;
+
 	if( glewInit()!=GLEW_OK )
 	{
 		cerr << "glewInit fail'd" << endl;
@@ -40,6 +52,10 @@ void OGL::init(int w	, int h ,
 	glfwSetWindowSizeCallback(resizecalback);
 
 	glfwSetWindowTitle( name );
+
+	int major, minor, rev;
+	glfwGetGLVersion(&major, &minor, &rev);
+	cout << major << "-" << minor << "-" << rev << endl;
 
 #ifndef NO_SOUND
 	initSound();

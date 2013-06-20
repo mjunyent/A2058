@@ -11,6 +11,6 @@ class IBO : public Buffer_Object
 	IBO() {};
 	IBO( GLushort *theArray , GLuint theSizeof );
 	IBO( vector<GLushort> theArray );
-	void draw( GLushort );
+	void draw( GLushort theDraw );
 	~IBO();
 };

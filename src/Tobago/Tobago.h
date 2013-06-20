@@ -3,6 +3,7 @@
 
 #include "glm/glm.hpp" //GLM Libs...
 #include "glm/gtx/transform.hpp"
+#include "glm/gtx/vector_angle.hpp"
 
 
 #ifdef GLEWLIB
@@ -32,3 +33,5 @@
 #include "handlers/SoundHandler.h" //Sound manager, loads and plays a song, includes FFT.
 #include "handlers/3dsHandler.h" //3ds file importer, generates VBOs and IBOs.
 
+#include "objects/Model.h" //Handles a model with normals and material properties.
+#include "objects/Light.h" //Handles light struct and pass to shader.

@@ -10,6 +10,7 @@
 #include "../Handlers/SoundHandler.h"
 #endif
 #include "global.h"
+#include "../handlers/SceneManager.h"
 
 //Implements a basic timer to control framerate & updates.
 class Timer {
@@ -18,14 +19,17 @@ public:
 	Timer();
 
 	//Constructor, creates a timer, the function specified will be called every FRAME_LENGHT time.
-	Timer(int (*update_foo)(void));
+	Timer(void (*update_foo)(void));
+
+	//Ignores the message, uses the global::manager update function.
+	Timer(SceneManager* manager);
 
 #ifndef NO_SOUND
 	//Song to get time from (instead of global time).
 	void getTimeFrom(SoundHandler *f);
 #endif
 
-	void setUpdateF(int (*update_foo)(void));
+	void setUpdateF(void (*update_foo)(void));
 
 	//Updates the timer and calls update function if needed. This should be called every frame.
 	void update();
@@ -35,7 +39,8 @@ public:
 	double lastTime;
 	double cumulativeTime;
 	double FRAME_LENGHT;
-	int (*update_f)(void);
+	void (*update_f)(void);
+	SceneManager *manager;
 
 #ifndef NO_SOUND
 	SoundHandler *somelier;
