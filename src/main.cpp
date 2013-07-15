@@ -45,7 +45,7 @@ int main(void) {
 			conf.read();
 			toy.reload(conf.vertex_file.c_str(), conf.fragment_file.c_str());
 		}
-	//	running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
+		if(glfwGetKey(global::MainWindow, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(global::MainWindow, GL_TRUE);
 	}
 
 	glfwDestroyWindow(global::MainWindow);
