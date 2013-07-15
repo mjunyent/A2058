@@ -13,7 +13,7 @@ class VBO : public Buffer_Object
 	VBO( GLfloat *theArray, GLuint theSizeof , GLuint theIx );
 	VBO( vector<float> theArray, GLuint theIx );
 	//Habilitar puntero.
-	void enable( GLubyte);
+	void enable( GLubyte Rn );
 	void draw( GLushort );
 	//Deshabilitar puntero.
 	void disable();

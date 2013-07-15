@@ -53,9 +53,7 @@ void TBO::load(char* filename, bool goodfiltering) {
 	unsigned error;
 	
 	error = LodePNG_decode32_file(&image, &w, &h, filename);
-	#ifdef DEBUG_LOG
 	if(error) global::log.error("Error loading PNG");
-	#endif
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 
 	glEnable(GL_TEXTURE_2D);

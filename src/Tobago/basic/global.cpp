@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include <GLFW/glfw3.h>
+
 namespace global {
 	int      width;
 	int      height;
@@ -28,4 +30,5 @@ namespace global {
 	SoundHandler *song;
 #endif
 
+	GLFWwindow *MainWindow;
 };

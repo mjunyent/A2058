@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(char *vertex, char *fragment) {
+Shader::Shader(const char *vertex, const char *fragment) {
     load(vertex, fragment);
     compile();
     link();
@@ -12,7 +12,7 @@ Shader::Shader(const char *vertex, const char *fragment, bool verbose) {
     link();
 }
 
-bool Shader::load(char *vertex, char *fragment) {
+bool Shader::load(const char *vertex, const char *fragment) {
     char *vs, *fs;
     bool ret = true;
 
@@ -63,14 +63,13 @@ void Shader::loadmemory(const char *vertex, const char *fragment) {
 bool Shader::compile() {
     glCompileShader(v);
     glCompileShader(f);
-	#ifdef DEBUG_LOG
-    bool cv = printShaderInfoLog(v); //returns true if error
+
+	bool cv = printShaderInfoLog(v); //returns true if error
     bool cf = printShaderInfoLog(f); //returns true if error
 	return !(cv || cf); //returns false if error	
-	#else
+	
 	return 1;
-	#endif
-    
+
 }
 
 bool Shader::link() {
@@ -80,20 +79,17 @@ bool Shader::link() {
     glAttachShader(p, f);
 
     glLinkProgram(p);
-	#ifdef DEBUG_LOG
     bool pl = printProgramInfoLog(p); //returns true if error
 
     return !pl;
-	#else
 	return 1;
-	#endif
 }
 
 void Shader::use() {
     glUseProgram(p);
 }
 
-GLuint Shader::getUniform(char *name) {
+GLint Shader::getUniform(const char *name) {
 	return glGetUniformLocation(p, name);
 }
 
@@ -121,7 +117,7 @@ void setShaders() {
 }*/
 
 
-char *Shader::textFileRead(char *fn) {
+char *Shader::textFileRead(const char *fn) {
     FILE *fp;
     char *content = NULL;
     

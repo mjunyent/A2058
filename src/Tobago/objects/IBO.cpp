@@ -23,7 +23,7 @@ IBO::IBO( vector<GLushort> theArray)
     glBufferData( BUFFER, theArray.size()*sizeof(GLushort), &theArray[0], GL_STATIC_DRAW);		
 }
 
-void IBO::draw( GLushort theDraw)
+void IBO::draw( GLushort theDraw )
 {
 	glBindBuffer(BUFFER, theID);
 	glDrawElements(theDraw,theBytes/2,TYPE,(void*)0 );

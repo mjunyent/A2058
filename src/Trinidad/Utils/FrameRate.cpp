@@ -1,87 +1,66 @@
 #include "FrameRate.h"
 
-namespace FrameRate {
+FrameRate::FrameRate(int x, int y, int width, int height) {
+	fps_box[2] = fps_box[5] = fps_box[8] = fps_box[11] = 0;
+	glm::vec2 a(x, y);
+	glm::vec2 b(x+width, y);
+	glm::vec2 c(x+width, y+height);
+	glm::vec2 d(x, y+height);
 
-//	float fps_box[12];
+	a = pixel2screen(a);
+	b = pixel2screen(b);
+	c = pixel2screen(c);
+	d = pixel2screen(d);
 
-	float fps_box[] = { 
-		-0.99f, 1.0f, 0.0f,	//0 UP, LEFT
-		 -0.4f, 1.0f, 0.0f, //1 UP, RIGHT
-		 -0.4f, 0.5f, 0.0f, //2 DOWN, RIGHT
-		-0.99f, 0.5f, 0.0f  //3 DOWN, LEFT
-	};
+	fps_box[0] = a.x;
+	fps_box[1] = a.y;
+	fps_box[3] = b.x;
+	fps_box[4] = b.y;
+	fps_box[6] = c.x;
+	fps_box[7] = c.y;
+	fps_box[9] = d.x;
+	fps_box[10] = d.y;
 
-	GLushort fps_box_I[] = {
-		0, 3, 1,
-		1, 3, 2
-	};
+	fps_shader = new Shader("Shaders/fpsRender.vert", "Shaders/fpsRender.frag");
+	fps_TXT = fps_shader->getUniform("color_tex");
 
-	char fps_text[255];
+	fps_font = new FontHandler("Images/Calibri.png");
 
-	Shader *fps_shader;
-	FontHandler *fps_font;
-	GLuint fps_TXT;
+	fps_texbox = new VBO(fps_box, sizeof(fps_box), 0);
+	fps_textexbox = new VBO(global::quad, sizeof(global::quad), 1);
+	fps_texbox_I = new IBO(global::quad_I, sizeof(global::quad_I));
 
-	VBO *fps_texbox;
-	VBO *fps_textexbox;
-	IBO *fps_texbox_I;
+	counter = 0;
+	sum_dt = 0.0;
+}
 
-	void setup(int x, int y, int width, int height) {
-		fps_box[2] = fps_box[5] = fps_box[8] = fps_box[11] = 0;
-		glm::vec2 a(x, y);
-		glm::vec2 b(x+width, y);
-		glm::vec2 c(x+width, y+height);
-		glm::vec2 d(x, y+height);
+void FrameRate::draw(double time) {
+	glDisable(GL_DEPTH_TEST);
 
-		cout << a.x << "," << a.y << endl << b.x << "," << b.y << endl << c.x << "," << c.y << endl << d.x << "," << d.y << endl;
+	TBO fpsTex = fps_font->StringTex(fps_text, strlen(fps_text));
 
-		a = pixel2screen(a);
-		b = pixel2screen(b);
-		c = pixel2screen(c);
-		d = pixel2screen(d);
+	fps_shader->use();
+		fpsTex.bind(0);
+		glUniform1i(fps_TXT, 0);
+		fps_texbox->enable(3);
+		fps_textexbox->enable(3);
+		fps_texbox_I->draw(GL_TRIANGLES);
+		fps_texbox->disable();
+		fps_textexbox->disable();
 
-		cout << a.x << "," << a.y << endl << b.x << "," << b.y << endl << c.x << "," << c.y << endl << d.x << "," << d.y << endl;
+	glEnable(GL_DEPTH_TEST);
+	fpsTex.erase();
+}
 
-		fps_box[0] = a.x;
-		fps_box[1] = a.y;
-		fps_box[3] = b.x;
-		fps_box[4] = b.y;
-		fps_box[6] = c.x;
-		fps_box[7] = c.y;
-		fps_box[9] = d.x;
-		fps_box[10] = d.y;
-
-		for(int i=0; i<12; i++) {
-			cout << fps_box[i] << endl;
-		}
-
-		fps_shader = new Shader("rendertext.vert", "rendertext.frag");
-		fps_TXT = fps_shader->getUniform("color_tex");
-
-		fps_font = new FontHandler("Calibri.png");
-
-		fps_texbox = new VBO(fps_box, sizeof(fps_box), 0);
-		fps_textexbox = new VBO(global::quad, sizeof(global::quad), 1);
-		fps_texbox_I = new IBO(fps_box_I, sizeof(fps_box_I));
-	}
-
-	void draw(double time) {
-		glDisable(GL_DEPTH_TEST);
-
-		sprintf(fps_text, "%.2f fps", 1.0f / global::dt);
-
-		TBO fpsTex = fps_font->StringTex(fps_text, strlen(fps_text));
-
-		fps_shader->use();
-			fpsTex.bind(0);
-			glUniform1i(fps_TXT, 0);
-			fps_texbox->enable(3);
-			fps_textexbox->enable(3);
-			fps_texbox_I->draw(GL_TRIANGLES);
-			fps_texbox->disable();
-			fps_textexbox->disable();
-
-		glEnable(GL_DEPTH_TEST);
-		fpsTex.erase();
-	}
-};
+void FrameRate::update(double time) { //maybe, due to frate function, this doesn't work well, think about it.
+	sprintf(fps_text, "%.2f fps", 1.0/global::dt );
+/*
+	if(counter < 4) {
+		sum_dt += global::dt;
+		counter++;
+	} else {
+		sprintf(fps_text, "%.2f fps", 4.0f/sum_dt);
+		counter = 0;
+		sum_dt = 0;
+	}*/
+}

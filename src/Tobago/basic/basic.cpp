@@ -39,3 +39,24 @@ glm::vec2 screen2normalized(glm::vec2 screenCoords) {
 	screenCoords /= 2.0;
 	return screenCoords;
 }
+
+double randValue(float min, float max) {
+	float val = rand(); //0-RAND_MAX
+	val /= RAND_MAX; //0, 1
+	val *= (max-min); //0, (max-min)
+	val += min; //min, max
+	return val;
+}
+
+float maxBeat(int loIndex, int hiIndex) {
+	float max = -1;
+	for(int i=loIndex; i<hiIndex; i++) {
+		if(global::song->FFT[i] > max) max = global::song->FFT[i];
+	}
+	return max;
+}
+
+bool beatDetect(int loIndex, int hiIndex, float cutOff) {
+	if(maxBeat(loIndex, hiIndex) > cutOff) return true;
+	return false;
+}

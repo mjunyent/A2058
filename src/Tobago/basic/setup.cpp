@@ -5,49 +5,73 @@ using namespace std;
 void OGL::init(int w	, int h , 
 	int r , int g , int b , 
 	int alpha , int depth , int stencil , 
-	char *name , int version , int aa , int mode ) 
+	char *name , int major , int minor ,
+	int aa , GLFWmonitor *monitor ) 
 {
 	global::width = w;
 	global::height = h;
 
-	if(		!glfwInit()		)
-	{
+	//////////
+	// GLFW //
+	//////////
+	if( !glfwInit() ) {
 		cerr << "glfwInit fail'd" << endl;
 		exit ( EXIT_FAILURE );
 	}
-
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, aa);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, version);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
-	glfwEnable( GLFW_STICKY_KEYS );
-	if( !glfwOpenWindow( w, h, r, g, b, alpha, depth, stencil, mode ) )
+	glfwSetErrorCallback(error_callback);
+	glfwWindowHint(GLFW_SAMPLES, aa);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor); 
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	//	glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	//	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+	global::MainWindow = glfwCreateWindow(w, h, name, monitor, NULL);
+	if( !global::MainWindow )
 	{
-		cerr << "glfwOpenWindow fail'd" << endl;
+		global::log.error("GLFW could not create main window");
 		glfwTerminate();
 		exit( EXIT_FAILURE );
 	}
+	glfwSetInputMode(global::MainWindow, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetWindowSizeCallback(global::MainWindow, resize_callback);
+	
+	glfwMakeContextCurrent(global::MainWindow);
+
 	glEnable( GL_DEPTH_TEST );
 	glDepthFunc( GL_LESS );
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	if( glewInit()!=GLEW_OK )
-	{
+	glViewport(0, 0, w, h); //dunou if necessary.
+
+
+	//////////
+	// GLEW //
+	//////////
+	glewExperimental=GL_TRUE;
+	if( glewInit()!=GLEW_OK ) {
 		cerr << "glewInit fail'd" << endl;
 		glfwTerminate();
 		exit( EXIT_FAILURE );
 	}
 
-	glfwSetWindowSizeCallback(resizecalback);
-
-	glfwSetWindowTitle( name );
 
 #ifndef NO_SOUND
 	initSound();
 #endif
 }
 
-void GLFWCALL resizecalback( int width, int height ) {
+void resize_callback( GLFWwindow *window, int width, int height ) {
 	global::width = width;
 	global::height = height;
 	glViewport(0, 0, width, height); //dunou if necessary.
+	cout << "UEUEUEUEUEUE" << endl;
 }
+
+void error_callback(int error, const char* description) {
+	global::log.error(description);
+}
+
+/*void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+
+}*/

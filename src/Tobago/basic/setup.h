@@ -8,7 +8,7 @@
 #define setup_h
 
 #include "GL/glew.h"
-#include "GL/glfw.h"
+#include "GLFW/glfw3.h"
 #include "global.h"
 
 #include <iostream>
@@ -28,12 +28,13 @@ namespace OGL {
 		int r , int g , int b , 
 		int alpha , int depth , int stencil , 
 		char *name ,
-		int version , int aa , int mode
+		int major , int minor ,
+		int aa , GLFWmonitor *monitor
 		 );
 
 }
 
-void GLFWCALL resizecalback( int width, int height );
-
+void resize_callback( GLFWwindow *window, int width, int height );
+void error_callback(int error, const char* description);
 
 #endif
