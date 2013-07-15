@@ -4,13 +4,12 @@
 #include "ShaderToy/ShaderToy.h"
 
 int main(void) {
-	int running = true;
 	double lastSpace = 0;
 	double lastReload = 0;
 
 	ConfRead conf("conf.txt");
 
-	OGL::init(conf.resX, conf.resY, 0, 0, 0, 32, 64, 1, "A2058 - ShaderToy", 3, 4, GLFW_WINDOW);
+	OGL::init(conf.resX, conf.resY, 0, 0, 0, 32, 64, 1, "A2058 - ShaderToy", 3, 2, 4, NULL);
 
 	GLuint vertex_array;
 	glGenVertexArrays(1, &vertex_array);
@@ -30,14 +29,15 @@ int main(void) {
 	//PLAY!
 	global::song->Play();
 
-	while(running) {
+	while(!glfwWindowShouldClose(global::MainWindow)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		
 		timer.update();
 		global::manager->render();
-		glfwSwapBuffers();
+		glfwSwapBuffers(global::MainWindow);
+		glfwPollEvents();
 
-		if(global::currentTime-lastSpace > 0.2 && glfwGetKey( GLFW_KEY_SPACE )) {
+		if(global::currentTime-lastSpace > 0.2 && glfwGetKey(global::MainWindow, GLFW_KEY_SPACE )) {
 			global::song->Pause();
 			lastSpace = global::currentTime;
 		}
@@ -45,9 +45,10 @@ int main(void) {
 			conf.read();
 			toy.reload(conf.vertex_file.c_str(), conf.fragment_file.c_str());
 		}
-		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
+	//	running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
 	}
 
+	glfwDestroyWindow(global::MainWindow);
 	glfwTerminate();
-	return 0;
+	exit(EXIT_SUCCESS);
 }

@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 
 #include "fmod.hpp"
 #include "fmod_errors.h"

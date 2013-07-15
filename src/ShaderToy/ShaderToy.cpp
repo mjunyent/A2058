@@ -1,16 +1,19 @@
 #include "ShaderToy.h"
 
 ShaderToy::ShaderToy(const char *vertex_file, const char *fragment_file) {
-	glfwEnable(GLFW_STICKY_MOUSE_BUTTONS);
+	glfwSetInputMode(global::MainWindow, GLFW_STICKY_MOUSE_BUTTONS, GL_TRUE);
 	load(vertex_file, fragment_file);
 	quad = new VBO(global::quad, sizeof(global::quad), 0);
 	quad_I = new IBO(global::quad_I, sizeof(global::quad_I));
 }
 
 void ShaderToy::draw(double time) {
+	double dx, dy;
 	int x, y, button;
-	glfwGetMousePos(&x, &y);
-	button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_1);
+	glfwGetCursorPos(global::MainWindow, &dx, &dy);
+	x = int(dx);
+	y = int(dy);
+	button = glfwGetMouseButton(global::MainWindow, GLFW_MOUSE_BUTTON_1);
 
 	shader->use();
 	glUniform1f(globalTime_id, global::currentTime);

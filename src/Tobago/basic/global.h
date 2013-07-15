@@ -30,6 +30,7 @@ namespace global {
 	extern SoundHandler *song;
 #endif
 
+	extern GLFWwindow *MainWindow;
 };
 
 #endif

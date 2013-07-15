@@ -8,7 +8,7 @@ Camera::Camera(vec3 position, vec3 direction, vec3 up, float vel, bool verbose) 
 
 	V = lookAt(position, position+direction, up);
 
-	if(verbose)	glfwEnable(	GLFW_STICKY_KEYS );
+//	if(verbose)	glfwEnable( GLFW_STICKY_KEYS );
 	px = 0;
 	py = 0;
 	this->verbose = verbose;
@@ -17,27 +17,30 @@ Camera::Camera(vec3 position, vec3 direction, vec3 up, float vel, bool verbose) 
 void Camera::update(double t) {
 	bool moved = false;
 
-	if(	glfwGetKey( GLFW_KEY_LEFT ) ) {
+	if(	glfwGetKey( global::MainWindow, GLFW_KEY_LEFT ) ) {
 		moved = true;
 		move_left();
 	}
-	if( glfwGetKey( GLFW_KEY_RIGHT ) ) {
+	if( glfwGetKey( global::MainWindow, GLFW_KEY_RIGHT ) ) {
 		moved = true;
 		move_right();
 	}
-	if( glfwGetKey( GLFW_KEY_UP ) ) {
+	if( glfwGetKey( global::MainWindow, GLFW_KEY_UP ) ) {
 		moved = true;
 		move_front();
 	}
-	if( glfwGetKey( GLFW_KEY_DOWN ) ) {
+	if( glfwGetKey( global::MainWindow, GLFW_KEY_DOWN ) ) {
 		moved = true;
 		move_back();
 	}
 
+	double dx, dy;
 	int x, y;
-	glfwGetMousePos(&x, &y);
+	glfwGetCursorPos(global::MainWindow, &dx, &dy);
+	x = int(dx);
+	y = int(dy);
 
-	if(glfwGetMouseButton(GLFW_MOUSE_BUTTON_1)) {
+	if(glfwGetMouseButton(global::MainWindow, GLFW_MOUSE_BUTTON_1)) {
 		move_direction(px-x, py-y);
 	}
 	px = x;

@@ -1,6 +1,6 @@
 #pragma once
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 #include "Buffer_Object.h"
 #include "TBO.h"
 #include "../basic/global.h"

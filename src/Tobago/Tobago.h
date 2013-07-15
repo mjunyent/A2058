@@ -1,5 +1,5 @@
 #include "GL/glew.h" //OPENGL Libs...
-#include "GL/glfw.h"
+#include "GLFW/glfw3.h"
 
 #include "glm/glm.hpp" //GLM Libs...
 #include "glm/gtx/transform.hpp"

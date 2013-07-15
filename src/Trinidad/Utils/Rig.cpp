@@ -22,7 +22,7 @@ Rig::Rig(vec3 *position, vec3 *direction, vec3 *up, float *eye_sep, float *cente
 	screen_quad = new VBO(global::quad, sizeof(global::quad), 0);
 	screen_quad_I  = new IBO(global::quad_I, sizeof(global::quad_I));
 
-	if(debug) glfwEnable( GLFW_STICKY_KEYS );
+//	if(debug) glfwEnable( GLFW_STICKY_KEYS );
 }
 
 void Rig::draw(double t) {
@@ -44,24 +44,24 @@ void Rig::draw(double t) {
 void Rig::update(double t) {
 	if(debug) {
 		bool print = false;
-		if(	glfwGetKey( 'A' ) ) {
-			*eye_sep -= 0.005;
+		if(	glfwGetKey(global::MainWindow, 'A' ) ) {
+			*eye_sep -= 0.005f;
 			print = true;
 		}
-		if(	glfwGetKey( 'D' ) ) {
-			*eye_sep += 0.005;
+		if(	glfwGetKey(global::MainWindow, 'D' ) ) {
+			*eye_sep += 0.005f;
 			print = true;
 		}
-		if(	glfwGetKey( 'W' ) ) {
-			*center_dist += 0.02;
+		if(	glfwGetKey(global::MainWindow, 'W' ) ) {
+			*center_dist += 0.02f;
 			print = true;
 		}
-		if(	glfwGetKey( 'S' ) ) {
-			*center_dist -= 0.02;
+		if(	glfwGetKey(global::MainWindow, 'S' ) ) {
+			*center_dist -= 0.02f;
 			print = true;
 		}
 
-		if( glfwGetKey( 'P' ) ) {
+		if( glfwGetKey(global::MainWindow, 'P' ) ) {
 			ofstream of("THREEDMAAAN.txt");
 
 			of << "Eye_Sep        Center_dist" << endl;

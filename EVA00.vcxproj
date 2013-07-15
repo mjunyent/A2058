@@ -42,7 +42,7 @@
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>intermediate\</IntDir>
     <IncludePath>$(SolutionDir)src;$(SolutionDir)inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)lib\win32;$(SolutionDir)lib\win32\debug;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -53,7 +53,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;GLFW.lib;glew32s.lib;fmodexL_vc.lib;lib3ds.lib;oscpack.lib;Ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;fmodexL_vc.lib;lib3ds.lib;oscpack.lib;Ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
