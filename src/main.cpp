@@ -3,17 +3,17 @@
 
 #include "ShaderToy/ShaderToy.h"
 
+#include <boost/property_tree/ptree.hpp>
+
 int main(void) {
 	double lastSpace = 0;
 	double lastReload = 0;
+	//http://stackoverflow.com/questions/5700466/c-c-unix-configuration-file-library
+	boost::property_tree::ptree pTree;
 
 	ConfRead conf("conf.txt");
 
-	OGL::init(conf.resX, conf.resY, 0, 0, 0, 32, 64, 1, "A2058 - ShaderToy", 3, 2, 4, NULL);
-
-	GLuint vertex_array;
-	glGenVertexArrays(1, &vertex_array);
-	glBindVertexArray(vertex_array);
+	OGL::init(conf.resX, conf.resY, "A2058 - ShaderToy", 3, 2, 4, NULL);
 
 	//Initialize some vars...
 	global::song = new SoundHandler(conf.song_file.c_str(), 1024);

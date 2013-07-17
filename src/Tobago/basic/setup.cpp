@@ -3,8 +3,6 @@
 using namespace std;
 
 void OGL::init(int w	, int h , 
-	int r , int g , int b , 
-	int alpha , int depth , int stencil , 
 	char *name , int major , int minor ,
 	int aa , GLFWmonitor *monitor ) 
 {
@@ -18,6 +16,18 @@ void OGL::init(int w	, int h ,
 		cerr << "glfwInit fail'd" << endl;
 		exit ( EXIT_FAILURE );
 	}
+
+	int count,t;
+	GLFWmonitor** monitors = glfwGetMonitors(&count);
+	cout << count << endl;
+	cin >> t;
+
+	const GLFWvidmode* mode = glfwGetVideoMode(monitors[t]);
+	
+	cout << mode->width << ", " << mode->height << " - " << mode->refreshRate << endl;
+	w = mode->width;
+	h = mode->height;
+
 	glfwSetErrorCallback(error_callback);
 	glfwWindowHint(GLFW_SAMPLES, aa);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
@@ -26,7 +36,7 @@ void OGL::init(int w	, int h ,
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	//	glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	//	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-	global::MainWindow = glfwCreateWindow(w, h, name, monitor, NULL);
+	global::MainWindow = glfwCreateWindow(w, h, name, monitors[t], NULL);
 	if( !global::MainWindow )
 	{
 		global::log.error("GLFW could not create main window");
@@ -35,16 +45,9 @@ void OGL::init(int w	, int h ,
 	}
 	glfwSetInputMode(global::MainWindow, GLFW_STICKY_KEYS, GL_TRUE);
 	glfwSetWindowSizeCallback(global::MainWindow, resize_callback);
-	
 	glfwMakeContextCurrent(global::MainWindow);
 
-	glEnable( GL_DEPTH_TEST );
-	glDepthFunc( GL_LESS );
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glViewport(0, 0, w, h); //dunou if necessary.
-
-
+	glfwSwapInterval(0);
 	//////////
 	// GLEW //
 	//////////
@@ -55,6 +58,15 @@ void OGL::init(int w	, int h ,
 		exit( EXIT_FAILURE );
 	}
 
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LESS );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glViewport(0, 0, w, h); //dunou if necessary.
+
+	GLuint vertex_array;
+	glGenVertexArrays(1, &vertex_array);
+	glBindVertexArray(vertex_array);
 
 #ifndef NO_SOUND
 	initSound();

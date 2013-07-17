@@ -25,8 +25,6 @@ namespace OGL {
 	*/
     void init(
 		int w	, int h , 
-		int r , int g , int b , 
-		int alpha , int depth , int stencil , 
 		char *name ,
 		int major , int minor ,
 		int aa , GLFWmonitor *monitor

@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Tobago">
       <UniqueIdentifier>{d1e16012-1cf1-4075-a08b-81989595bf42}</UniqueIdentifier>
     </Filter>
@@ -42,10 +38,6 @@
     <Filter Include="Tobago\Handlers\Sources">
       <UniqueIdentifier>{ab6f1dcf-5d9a-40a0-937c-fe0934717751}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Trinidad">
       <UniqueIdentifier>{e891cc73-2cdc-4406-ac86-f0fee8e9990d}</UniqueIdentifier>
     </Filter>
@@ -66,6 +58,9 @@
     </Filter>
     <Filter Include="ShaderToy">
       <UniqueIdentifier>{ae51d426-c26f-4446-82cf-d708ec79560e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vladivostok">
+      <UniqueIdentifier>{15316fea-ea28-4f67-80d8-beb29eba95cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
