@@ -23,10 +23,16 @@ GLFWwindow* TOBAGO::createWindow(int w, int h, const char* name, GLFWmonitor *mo
 	GLFWwindow *ret;
 	ret = glfwCreateWindow(w, h, name, monitor, window);
 	if(!ret) {
-		TOBAGO::log.write(ERROR) << "GLFW could not create main window";
+		TOBAGO::log.write(ERROR) << "GLFW could not create window";
 		glfwTerminate();
 		exit( EXIT_FAILURE );
 	}
+
+	glfwMakeContextCurrent(ret);
+	GLuint vertex_array;
+	glGenVertexArrays(1, &vertex_array);
+	glBindVertexArray(vertex_array);
+
 	return ret;
 }
 
@@ -43,9 +49,21 @@ void TOBAGO::initGLEW() {
 GLFWwindow* TOBAGO::setup(int w, int h, int major, int minor, const char* name, GLFWmonitor *monitor) {
 	initGLFW(major, minor);
 	GLFWwindow *ret;
-	ret = createWindow(w, h, name, monitor, NULL);
+
+	ret = glfwCreateWindow(w, h, name, monitor, NULL);
+	if(!ret) {
+		TOBAGO::log.write(ERROR) << "GLFW could not create main window";
+		glfwTerminate();
+		exit( EXIT_FAILURE );
+	}
+
 	glfwMakeContextCurrent(ret);
 	initGLEW();
+
+	GLuint vertex_array;
+	glGenVertexArrays(1, &vertex_array);
+	glBindVertexArray(vertex_array);
+
 	return ret;
 }
 

@@ -1,6 +1,6 @@
-#include "global.h"
+#include "director.h"
 
-namespace DIRECTOR {
+namespace director {
 	std::vector<GLFWwindow*> windows;
 	int currentWindow = 0;
 

@@ -3,7 +3,7 @@
 #define TRINIDAD_TIMER
 
 #include "Tobago/Tobago.h"
-#include "global.h"
+#include "director.h"
 
 //Implements a basic timer to control framerate & updates.
 class Timer {
@@ -14,11 +14,11 @@ public:
 	//Constructor, creates a timer, the function specified will be called every FRAME_LENGHT time.
 	Timer(void (*update_foo)(void));
 
-	//Ignores the message, uses the global::manager update function.
+	//Ignores the message, uses the director::manager update function.
 	Timer(SceneManager* manager);
 
 #ifndef NO_SOUND
-	//Song to get time from (instead of global time).
+	//Song to get time from (instead of director time).
 	void getTimeFrom(SoundHandler *f);
 #endif
 

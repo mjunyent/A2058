@@ -46,7 +46,7 @@ static bool sort_scene(list<Scene*>::iterator i, list<Scene*>::iterator j) { //l
 
 class SceneManager {
 public:
-	SceneManager(double *t); //number of windows is the DIRECTOR windows size.
+	SceneManager(double *t); //number of windows is the director windows size.
 	SceneManager(double *t, int maxWindows);
 
 	void addScene(Scene *s,			//scene to render

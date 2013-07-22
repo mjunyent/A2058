@@ -106,9 +106,6 @@
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Trinidad\Director\global.cpp">
-      <Filter>Trinidad\Director</Filter>
-    </ClCompile>
     <ClCompile Include="src\Trinidad\Director\timer.cpp">
       <Filter>Trinidad\Director</Filter>
     </ClCompile>
@@ -117,6 +114,9 @@
     </ClCompile>
     <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp">
       <Filter>Trinidad\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Director\director.cpp">
+      <Filter>Trinidad\Director</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +162,6 @@
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Trinidad\Director\global.h">
-      <Filter>Trinidad\Director</Filter>
-    </ClInclude>
     <ClInclude Include="src\Trinidad\Director\timer.h">
       <Filter>Trinidad\Director</Filter>
     </ClInclude>
@@ -176,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\FrameRate.h">
       <Filter>Trinidad\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Director\director.h">
+      <Filter>Trinidad\Director</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

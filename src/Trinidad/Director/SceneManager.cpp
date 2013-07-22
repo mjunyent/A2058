@@ -1,9 +1,9 @@
 #include "SceneManager.h"
-#include "global.h"
+#include "director.h"
 
 SceneManager::SceneManager(double *t) {
 	time = t;
-	this->maxWindows = DIRECTOR::windows.size();
+	this->maxWindows = director::windows.size();
 }
 
 SceneManager::SceneManager(double *t, int maxWindows) {
@@ -35,7 +35,7 @@ void SceneManager::render(int w) {
 
 	if(w == -1) {
 		for(int win=0; win<maxWindows; win++) {
-			glfwMakeContextCurrent(DIRECTOR::windows[win]);
+			glfwMakeContextCurrent(director::windows[win]);
 			for(int i=0; i<render_pipeline.size(); i++) {
 				if((*render_pipeline[i])->started == false) { //if it's first call (not started), call pre function.
 					(*render_pipeline[i])->pre();
@@ -43,9 +43,8 @@ void SceneManager::render(int w) {
 				}
 				(*render_pipeline[i])->draw( win, (*time - (*render_pipeline[i])->start) / ((*render_pipeline[i])->end - (*render_pipeline[i])->start) );
 			}
+			glfwSwapBuffers(director::windows[win]);
 		}
-					glfwSwapBuffers(DIRECTOR::windows[0]);
-					glfwSwapBuffers(DIRECTOR::windows[1]);
 	} else {
 		for(int i=0; i<render_pipeline.size(); i++) {
 				if((*render_pipeline[i])->started == false) { //if it's first call (not started), call pre function.

@@ -84,7 +84,7 @@
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
-    <ClCompile Include="src\Trinidad\Director\global.cpp" />
+    <ClCompile Include="src\Trinidad\Director\director.cpp" />
     <ClCompile Include="src\Trinidad\Director\SceneManager.cpp" />
     <ClCompile Include="src\Trinidad\Director\timer.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp" />
@@ -104,7 +104,7 @@
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
-    <ClInclude Include="src\Trinidad\Director\global.h" />
+    <ClInclude Include="src\Trinidad\Director\director.h" />
     <ClInclude Include="src\Trinidad\Director\SceneManager.h" />
     <ClInclude Include="src\Trinidad\Director\timer.h" />
     <ClInclude Include="src\Trinidad\Scenes\FrameRate.h" />

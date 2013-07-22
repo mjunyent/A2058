@@ -1,4 +1,4 @@
-#include "Director/global.h"
+#include "Director/director.h"
 #include "Director/timer.h"
 #include "Director/SceneManager.h"
 

@@ -1,5 +1,5 @@
 #include "FrameRate.h"
-#include "../Director/global.h"
+#include "../Director/director.h"
 
 FrameRate::FrameRate(int x, int y, int width, int height) {
 	fps_box[2] = fps_box[5] = fps_box[8] = fps_box[11] = 0;
@@ -8,10 +8,10 @@ FrameRate::FrameRate(int x, int y, int width, int height) {
 	glm::vec2 c(x+width, y+height);
 	glm::vec2 d(x, y+height);
 
-	a = pixel2screen(a, DIRECTOR::windows[0]);
-	b = pixel2screen(b, DIRECTOR::windows[0]);
-	c = pixel2screen(c, DIRECTOR::windows[0]);
-	d = pixel2screen(d, DIRECTOR::windows[0]);
+	a = pixel2screen(a, director::windows[0]);
+	b = pixel2screen(b, director::windows[0]);
+	c = pixel2screen(c, director::windows[0]);
+	d = pixel2screen(d, director::windows[0]);
 
 	fps_box[0] = a.x;
 	fps_box[1] = a.y;
@@ -28,8 +28,8 @@ FrameRate::FrameRate(int x, int y, int width, int height) {
 	fps_font = new FontHandler("Images/Calibri.png");
 
 	fps_texbox = new VBO(fps_box, sizeof(fps_box), 0);
-	fps_textexbox = new VBO(DIRECTOR::quad, sizeof(DIRECTOR::quad), 1);
-	fps_texbox_I = new IBO(DIRECTOR::quad_I, sizeof(DIRECTOR::quad_I));
+	fps_textexbox = new VBO(director::quad, sizeof(director::quad), 1);
+	fps_texbox_I = new IBO(director::quad_I, sizeof(director::quad_I));
 
 	counter = 0;
 	sum_dt = 0.0;
@@ -53,10 +53,10 @@ void FrameRate::draw(int s, double time) {
 }
 
 void FrameRate::update(double time) { //maybe, due to frate function, this doesn't work well, think about it.
-	sprintf(fps_text, "%.2f fps", 1.0/DIRECTOR::dt );
+	sprintf(fps_text, "%.2f fps", 1.0/director::dt );
 /*
 	if(counter < 4) {
-		sum_dt += global::dt;
+		sum_dt += director::dt;
 		counter++;
 	} else {
 		sprintf(fps_text, "%.2f fps", 4.0f/sum_dt);

@@ -1,11 +1,11 @@
 #pragma once
-#ifndef TRINIDAD_GLOBAL
-#define TRINIDAD_GLOBAL
+#ifndef TRINIDAD_DIRECTOR
+#define TRINIDAD_DIRECTOR
 
 #include "Tobago/Tobago.h"
 #include "SceneManager.h"
 
-namespace DIRECTOR {
+namespace director {
 	extern std::vector<GLFWwindow*> windows;
 	extern int						currentWindow;
 

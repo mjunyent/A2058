@@ -6,7 +6,7 @@ Timer::Timer()
 	this->update_f = NULL;
 	lastTime = 0.0f;
 	cumulativeTime = 0.0f;
-	FRAME_LENGHT = 1.0f/DIRECTOR::fps;
+	FRAME_LENGHT = 1.0f/director::fps;
 	MAX_ITERATIONS = 10;
 #ifndef NO_SOUND
 	somelier = NULL;
@@ -18,7 +18,7 @@ Timer::Timer(void (*update_foo)(void)) {
 	this->update_f = update_foo;
 	lastTime = 0.0f;
 	cumulativeTime = 0.0f;
-	FRAME_LENGHT = 1.0f/DIRECTOR::fps;
+	FRAME_LENGHT = 1.0f/director::fps;
 	MAX_ITERATIONS = 10;
 #ifndef NO_SOUND
 	somelier = NULL;
@@ -30,7 +30,7 @@ Timer::Timer(SceneManager* manager) {
 	this->manager = manager;
 	lastTime = 0.0f;
 	cumulativeTime = 0.0f;
-	FRAME_LENGHT = 1.0f/DIRECTOR::fps;
+	FRAME_LENGHT = 1.0f/director::fps;
 	MAX_ITERATIONS = 10;
 #ifndef NO_SOUND
 	somelier = NULL;
@@ -51,20 +51,20 @@ void Timer::update() {
 	int iterations = 0;
 
 #ifndef NO_SOUND
-	if(somelier == NULL) DIRECTOR::currentTime = glfwGetTime();
+	if(somelier == NULL) director::currentTime = glfwGetTime();
 	else {
-		DIRECTOR::currentTime = somelier->SoundTime();
+		director::currentTime = somelier->SoundTime();
 	}
 #endif
 
 #ifdef NO_SOUND
-	global::currentTime = glfwGetTime();
+	director::currentTime = glfwGetTime();
 #endif
 
-	DIRECTOR::dt = DIRECTOR::currentTime-lastTime; //1/dt = x fps
+	director::dt = director::currentTime-lastTime; //1/dt = x fps
 	
-	cumulativeTime += DIRECTOR::dt; // * 0.001f;
-	lastTime = DIRECTOR::currentTime;
+	cumulativeTime += director::dt; // * 0.001f;
+	lastTime = director::currentTime;
 
 	while (cumulativeTime > FRAME_LENGHT) {
 		if(manager != NULL) manager->update();
