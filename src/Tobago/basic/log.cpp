@@ -24,5 +24,5 @@ ofstream& Log::write(LogLevel ERRNO) {
 }
 
 namespace TOBAGO {
-	Log log = Log("log.txt");
+	Log log = Log("logTobago.txt");
 }

@@ -84,6 +84,10 @@
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Director\global.cpp" />
+    <ClCompile Include="src\Trinidad\Director\SceneManager.cpp" />
+    <ClCompile Include="src\Trinidad\Director\timer.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\basic\basic.h" />
@@ -100,6 +104,11 @@
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
+    <ClInclude Include="src\Trinidad\Director\global.h" />
+    <ClInclude Include="src\Trinidad\Director\SceneManager.h" />
+    <ClInclude Include="src\Trinidad\Director\timer.h" />
+    <ClInclude Include="src\Trinidad\Scenes\FrameRate.h" />
+    <ClInclude Include="src\Trinidad\Trinidad.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\3D\AnaglyphRC.frag" />
