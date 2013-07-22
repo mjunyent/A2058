@@ -38,26 +38,14 @@
     <Filter Include="Tobago\Handlers\Sources">
       <UniqueIdentifier>{ab6f1dcf-5d9a-40a0-937c-fe0934717751}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Trinidad">
-      <UniqueIdentifier>{e891cc73-2cdc-4406-ac86-f0fee8e9990d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Trinidad\Utils">
-      <UniqueIdentifier>{22d07e08-4102-4bda-9aec-acd846352aba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{7227d436-70d5-4e0d-8ce6-0a751958c0b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Trinidad\Basic">
-      <UniqueIdentifier>{09dd1cc0-9555-4990-b767-b740a2c90d72}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders\Deferred">
       <UniqueIdentifier>{a6c80dfd-4e73-486c-99a3-a8651a2c9c95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders\3D">
       <UniqueIdentifier>{0651ba0f-1d26-4344-bc90-bc44c5c7988c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShaderToy">
-      <UniqueIdentifier>{ae51d426-c26f-4446-82cf-d708ec79560e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Vladivostok">
       <UniqueIdentifier>{15316fea-ea28-4f67-80d8-beb29eba95cc}</UniqueIdentifier>
@@ -67,16 +55,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tobago\basic\global.cpp">
-      <Filter>Tobago\Basic\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\basic\log.cpp">
       <Filter>Tobago\Basic\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\basic\setup.cpp">
-      <Filter>Tobago\Basic\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\basic\timer.cpp">
       <Filter>Tobago\Basic\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp">
@@ -94,9 +76,6 @@
     <ClCompile Include="src\Tobago\objects\Shader.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tobago\objects\SShader.cpp">
-      <Filter>Tobago\Objects\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\objects\TBO.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
@@ -106,58 +85,19 @@
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tobago\handlers\SceneManager.cpp">
-      <Filter>Tobago\Handlers\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp">
-      <Filter>Trinidad\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\basic\basic.cpp">
       <Filter>Tobago\Basic\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp">
-      <Filter>Trinidad\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp">
-      <Filter>Trinidad\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp">
-      <Filter>Trinidad\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Utils\Camera.cpp">
-      <Filter>Trinidad\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Utils\Rig.cpp">
-      <Filter>Trinidad\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp">
-      <Filter>Trinidad\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp">
-      <Filter>Trinidad\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\objects\Model.cpp">
-      <Filter>Tobago\Objects\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\objects\Light.cpp">
-      <Filter>Tobago\Objects\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ShaderToy\ShaderToy.cpp">
-      <Filter>ShaderToy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
       <Filter>Tobago</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\basic\global.h">
-      <Filter>Tobago\Basic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\basic\log.h">
       <Filter>Tobago\Basic\Headers</Filter>
@@ -180,9 +120,6 @@
     <ClInclude Include="src\Tobago\objects\Shader.h">
       <Filter>Tobago\Objects\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tobago\objects\SShader.h">
-      <Filter>Tobago\Objects\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tobago\objects\TBO.h">
       <Filter>Tobago\Objects\Headers</Filter>
     </ClInclude>
@@ -192,56 +129,14 @@
     <ClInclude Include="src\Tobago\handlers\FontHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tobago\handlers\SceneManager.h">
-      <Filter>Tobago\Handlers\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h">
-      <Filter>Trinidad\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Trinidad.h">
-      <Filter>Trinidad</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\basic\timer.h">
-      <Filter>Tobago\Basic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\basic\basic.h">
       <Filter>Tobago\Basic\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Trinidad\Utils\FrameRate.h">
-      <Filter>Trinidad\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Basic\LaunchShader.h">
-      <Filter>Trinidad\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Basic\RenderModel.h">
-      <Filter>Trinidad\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Utils\Camera.h">
-      <Filter>Trinidad\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Utils\Rig.h">
-      <Filter>Trinidad\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h">
-      <Filter>Trinidad\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Basic\Deferred.h">
-      <Filter>Trinidad\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\objects\Model.h">
-      <Filter>Tobago\Objects\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\objects\Light.h">
-      <Filter>Tobago\Objects\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ShaderToy\ShaderToy.h">
-      <Filter>ShaderToy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

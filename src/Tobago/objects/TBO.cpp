@@ -53,7 +53,7 @@ void TBO::load(char* filename, bool goodfiltering) {
 	unsigned error;
 	
 	error = LodePNG_decode32_file(&image, &w, &h, filename);
-	if(error) global::log.error("Error loading PNG");
+	if(error) TOBAGO::log.write(ERROR) << "Error loading PNG";
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 
 	glEnable(GL_TEXTURE_2D);

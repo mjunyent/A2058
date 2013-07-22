@@ -71,66 +71,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ShaderToy\ShaderToy.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
-    <ClCompile Include="src\Tobago\basic\global.cpp" />
     <ClCompile Include="src\Tobago\basic\log.cpp" />
     <ClCompile Include="src\Tobago\basic\setup.cpp" />
-    <ClCompile Include="src\Tobago\basic\timer.cpp" />
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp" />
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp" />
-    <ClCompile Include="src\Tobago\handlers\SceneManager.cpp" />
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp" />
     <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp" />
     <ClCompile Include="src\Tobago\objects\FBO.cpp" />
     <ClCompile Include="src\Tobago\objects\IBO.cpp" />
-    <ClCompile Include="src\Tobago\objects\Light.cpp" />
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
-    <ClCompile Include="src\Tobago\objects\Model.cpp" />
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
-    <ClCompile Include="src\Tobago\objects\SShader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\Camera.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ShaderToy\ShaderToy.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
-    <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
     <ClInclude Include="src\Tobago\basic\setup.h" />
-    <ClInclude Include="src\Tobago\basic\timer.h" />
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h" />
     <ClInclude Include="src\Tobago\handlers\FontHandler.h" />
-    <ClInclude Include="src\Tobago\handlers\SceneManager.h" />
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h" />
     <ClInclude Include="src\Tobago\objects\Buffer_Object.h" />
     <ClInclude Include="src\Tobago\objects\FBO.h" />
     <ClInclude Include="src\Tobago\objects\IBO.h" />
-    <ClInclude Include="src\Tobago\objects\Light.h" />
     <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h" />
-    <ClInclude Include="src\Tobago\objects\Model.h" />
     <ClInclude Include="src\Tobago\objects\Shader.h" />
-    <ClInclude Include="src\Tobago\objects\SShader.h" />
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
-    <ClInclude Include="src\Trinidad\Basic\Deferred.h" />
-    <ClInclude Include="src\Trinidad\Basic\LaunchShader.h" />
-    <ClInclude Include="src\Trinidad\Basic\RenderModel.h" />
-    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h" />
-    <ClInclude Include="src\Trinidad\Trinidad.h" />
-    <ClInclude Include="src\Trinidad\Utils\Camera.h" />
-    <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
-    <ClInclude Include="src\Trinidad\Utils\Rig.h" />
-    <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\3D\AnaglyphRC.frag" />

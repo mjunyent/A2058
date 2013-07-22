@@ -1,14 +1,13 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "Buffer_Object.h"
-#include "TBO.h"
-#include "../basic/global.h"
 #include <iostream>
+
+#include "../basic/log.h"
+#include "TBO.h"
 
 using namespace std;
 
-//Modificarla para poder añadir Coloratachments y depthbuffers y pollas como te de la gana, sin límite.
 class FBO {
 private:
 //	GLuint depthrenderbuffer;

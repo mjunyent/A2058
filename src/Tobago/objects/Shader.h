@@ -7,9 +7,9 @@
 #ifndef shader_h
 #define shader_h
 
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
-#include "../basic/global.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "../basic/log.h"
 #include <cstdio>
 #include <cstdlib>
 

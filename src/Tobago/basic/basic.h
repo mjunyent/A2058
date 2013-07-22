@@ -2,7 +2,7 @@
 //  setup.h
 //  Lynx1
 //
-
+/*
 #pragma once
 #ifndef TOVAGO_basic_h
 #define TOVAGO_basic_h
@@ -33,3 +33,4 @@ float maxBeat(int loIndex, int hiIndex);
 bool beatDetect(int loIndex, int hiIndex, float cutOff);
 
 #endif
+*/

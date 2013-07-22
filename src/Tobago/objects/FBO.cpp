@@ -8,7 +8,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	int maxDrawBuffers;
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
 	if(maxDrawBuffers <= ntbo) {
-		global::log.warning("FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!");
+		TOBAGO::log.write(WARNING) << "FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!";
 	}
 
 	glGenFramebuffers(1, &theID);
@@ -39,7 +39,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 		status = false;
 	} else status = true;
 
-	if(!status) global::log.error("Error creating FBO");
+	if(!status) TOBAGO::log.write(ERROR) << "Error creating FBO";
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -53,7 +53,7 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 	int maxDrawBuffers;
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
 	if(maxDrawBuffers <= ntbo) {
-		global::log.warning("FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!");
+		TOBAGO::log.write(WARNING) << "FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!";
 	}
 
 	glGenFramebuffers(1, &theID);
@@ -84,20 +84,23 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 		status = false;
 	} else status = true;
 
+	if(!status) TOBAGO::log.write(ERROR) << "Error creating FBO";
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void FBO::bind() 
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, theID);				//bind buffer
+	glPushAttrib(GL_VIEWPORT_BIT | GL_ENABLE_BIT);			//push viewport and enable config
 	glViewport(0, 0, width, height);						//set viewport
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clean things
 }
 
 void FBO::unbind() 
 {
+	glPopAttrib();											//pop config
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, global::width, global::height);
 }
 
 void FBO::erase() {
@@ -122,36 +125,36 @@ void FBO::shout_error(GLenum error) {
 	switch (error)
 	{
 		case GL_FRAMEBUFFER_UNDEFINED:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_UNDEFINED");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_UNDEFINED";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
 			break;
 		case GL_FRAMEBUFFER_UNSUPPORTED:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_UNSUPPORTED");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_UNSUPPORTED";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS";
 			break;
 		case GL_FRAMEBUFFER_COMPLETE:
-			global::log.error("FBO Creation ok, why is this in LOG?");
+			TOBAGO::log.write(ERROR) << "FBO Creation ok, why is this in LOG?";
 			break;
 		case 0:
-			global::log.error("FBO Creation error: 0 returned");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: 0 returned";
 		default:
-			global::log.error("FBO Creation error: Error not recognised");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: Error not recognised";
 		break;
 	}
 	/* http://www.opengl.org/sdk/docs/man3/xhtml/glCheckFramebufferStatus.xml

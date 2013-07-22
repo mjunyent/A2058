@@ -11,8 +11,8 @@ void ERRCHECK(FMOD_RESULT result)
 {
     if (result != FMOD_OK)
     {
-        printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
-        exit(-1);
+		TOBAGO::log.write(ERROR) << "FMOD Error!" << result << FMOD_ErrorString(result);
+		exit(EXIT_FAILURE);
     }
 }
 

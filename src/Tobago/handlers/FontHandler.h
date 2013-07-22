@@ -1,6 +1,7 @@
 #pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+
+#include <vector>
+
 #include "../Objects/FBO.h"
 #include "../Objects/TBO.h"
 #include "../Objects/VBO.h"

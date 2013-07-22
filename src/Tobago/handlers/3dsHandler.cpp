@@ -48,9 +48,9 @@ fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg)
 {
     //    "ERROR", "WARN", "INFO", "DEBUG" (info and debug not displayed).
 	if(level == 0) { //Error
-		global::log.error(msg);
+		TOBAGO::log.write(ERROR) << msg;
 	} else if(level == 1) { //Warning
-		global::log.warning(msg);
+		TOBAGO::log.write(WARNING) << msg;
 	}
 }
 
@@ -63,7 +63,6 @@ A3dsHandler::A3dsHandler(char *filename, int meshid) {
 	makeVBOwithIBO(meshid);
 }
 
-
 void A3dsHandler::loadFile(char *filename) {
 	FILE *file;
 	Lib3dsIo io;
@@ -71,7 +70,7 @@ void A3dsHandler::loadFile(char *filename) {
 
 	file = fopen(filename, "rb");
 	if(!file) {
-		global::log.error("3ds Handler FILE NOT FOUND");
+		TOBAGO::log.write(ERROR) << "3ds Handler: FILE NOT FOUND" << filename;
 		exit(1);
 	}
 
@@ -90,14 +89,14 @@ void A3dsHandler::loadFile(char *filename) {
 	fclose(file);
 
 	if(!result) {
-		global::log.error("Load 3ds file failed");
+		TOBAGO::log.write(ERROR) << "Load 3ds file" << filename << " failed!";
 		exit(1);
 	}
 }
 
 void A3dsHandler::makeVBOwithIBO(int id) {
 	if(id >= f->nmeshes) {
-		global::log.error("Mesh out of bounds!");
+		TOBAGO::log.write(ERROR) << "Mesh out of bounds!" << id;
 		return;
 	}
 
@@ -105,7 +104,7 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 	faces = mesh->faces;
 
 	GLfloat *vdata = new float[3*mesh->nvertices];
-	cout << "MESH size: " << mesh->nvertices << endl;
+//	cout << "MESH size: " << mesh->nvertices << endl;
 
 	for(int i=0, e=0; i<3*mesh->nvertices; i+=3, e++) {
 		vdata[i]   = mesh->vertices[e][0];
@@ -115,7 +114,7 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 	vertexs = new VBO(vdata, sizeof(float)*mesh->nvertices*3, 0);
 
 	GLushort *fdata = new GLushort[mesh->nfaces*3];
-	cout << "Number of faces: " << mesh->nfaces << endl;
+//	cout << "Number of faces: " << mesh->nfaces << endl;
 	for(int i=0, e=0; i<3*mesh->nfaces; i+=3, e++) {
 		fdata[i]   = faces[e].index[0];
 		fdata[i+1] = faces[e].index[1];
@@ -127,15 +126,15 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 
 void A3dsHandler::makeVBO(int id) {
 	if(id >= f->nmeshes) {
-		global::log.error("Mesh out of bounds!");
+		TOBAGO::log.write(ERROR) << "Mesh out of bounds!" << id;
 		return;
 	}
 
 	mesh = f->meshes[id];
 	faces = mesh->faces;
 
-	cout << "MESH size: " << mesh->nvertices << endl;
-	cout << "Number of faces: " << mesh->nfaces << endl;
+//	cout << "MESH size: " << mesh->nvertices << endl;
+//	cout << "Number of faces: " << mesh->nfaces << endl;
 
 	float *vdata = new float[mesh->nfaces*3*3]; //3 vertex per face & 3 coords per vertex;
 
@@ -155,7 +154,6 @@ void A3dsHandler::makeVBO(int id) {
 }
 
 void A3dsHandler::calculateNormals() {
-
 	//vector of vectors of vec3 (for each vertex we save its normals).
 	vector<vector<glm::vec3> > vertex_normals(mesh->nvertices);
 	float *ndata = new float[mesh->nvertices*3];

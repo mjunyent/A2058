@@ -22,8 +22,7 @@ bool Shader::load(const char *vertex, const char *fragment) {
     //Loading vertex shader.
     vs = textFileRead(vertex);
     if (vs == NULL) {
-        global::log.error("Vertex shader file wasn't read correctly:");
-        global::log.error(vertex);
+		TOBAGO::log.write(ERROR) << "Vertex shader wasn't read correctly: " << vertex;
         ret = false;
     }
 
@@ -32,11 +31,10 @@ bool Shader::load(const char *vertex, const char *fragment) {
     //Loading fragment shader.
     fs = textFileRead(fragment);
     if(fs == NULL) {
-        global::log.error("Fragment shader file wasn't read correctly:");
-        global::log.error(fragment);
+		TOBAGO::log.write(ERROR) << "Fragment shader file wasn't read correctly:" << fragment;
         ret = false;
     }
-    
+
     ff = fs;
 
     if(ret) {
@@ -153,11 +151,10 @@ bool Shader::printShaderInfoLog(GLuint obj)
     {
         infoLog = (char *)malloc(infologLength);
         glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
-        global::log.error("Shader compiling error:");
-        global::log.error(infoLog);
-        free(infoLog); 
+		TOBAGO::log.write(ERROR) << "Shader compiling error:" << infoLog;
+        free(infoLog);
     }
-	
+
     return !(infologLength > 1);
 }
 
@@ -173,10 +170,9 @@ bool Shader::printProgramInfoLog(GLuint obj)
     {
         infoLog = (char *)malloc(infologLength);
         glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
-        global::log.error("Shader program linking error:");
-        global::log.error(infoLog);
+		TOBAGO::log.write(ERROR) << "Shader program linking error:" << infoLog;
         free(infoLog);
     }
-    
+
     return !(infologLength > 1);
 }

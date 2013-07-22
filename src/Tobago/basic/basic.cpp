@@ -1,3 +1,4 @@
+/*
 #include "basic.h"
 
 glm::vec2 screen2pixel(glm::vec2 screenCoords) {
@@ -60,3 +61,4 @@ bool beatDetect(int loIndex, int hiIndex, float cutOff) {
 	if(maxBeat(loIndex, hiIndex) > cutOff) return true;
 	return false;
 }
+*/

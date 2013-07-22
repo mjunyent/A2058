@@ -14,7 +14,7 @@ VBO::VBO( GLfloat *theArray, GLuint theSizeof , GLuint theIx)
     glBufferData( BUFFER, theBytes, &this->theFloats[0], GL_STATIC_DRAW);
 }
 
-VBO::VBO( vector<float> theArray, GLuint theIx)
+VBO::VBO( std::vector<float> theArray, GLuint theIx)
 {
 	theIndex = theIx;
 	BUFFER = GL_ARRAY_BUFFER;

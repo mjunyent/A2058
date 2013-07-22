@@ -1,12 +1,19 @@
 #ifndef NO_3DS
 
 #pragma once
-#include "../Tobago.h"
-#include "lib3ds.h"
+#include "../objects/VBO.h"
+#include "../objects/IBO.h"
+#include "../basic/log.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <vector>
+
+#include <glm/glm.hpp>
+#include <lib3ds.h>
+
 
 static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin);
 
