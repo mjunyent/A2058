@@ -88,7 +88,7 @@ void SoundHandler::setVel(float v) {
 double SoundHandler::getEnergy() {
 	getWave();
 	double sum = 0.0;
-	for(int i=0; i<len; i++) {
+	for(unsigned int i=0; i<len; i++) {
 		sum += WAVE[i]*WAVE[i];
 	}
 

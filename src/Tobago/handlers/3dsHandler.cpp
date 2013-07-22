@@ -181,7 +181,7 @@ void A3dsHandler::calculateNormals() {
 	for(int i=0; i<mesh->nvertices; i++) {
 		glm::vec3 normal(0, 0, 0);
 
-		for(int j=0; j<vertex_normals[i].size(); j++) {
+		for(unsigned int j=0; j<vertex_normals[i].size(); j++) {
 			normal += vertex_normals[i][j];
 		}
 

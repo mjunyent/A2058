@@ -61,13 +61,13 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 
 	depthtexture = NULL;
 
-	for(int i=0; i<texs.size(); i++) {
-		texs[i]->load(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite);
+	for(unsigned int i=0; i<texs.size(); i++) {
+		texs[i]->load(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite[i]);
 	}
 	if(depth != NULL) depth->load(GL_DEPTH_COMPONENT24, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0, false);
 
 	// Set "renderedTexture" as our colour attachement #0
-	for(int i=0; i<texs.size(); i++) {
+	for(unsigned int i=0; i<texs.size(); i++) {
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D, texs[i]->theID, 0);
 	}
 	if(depth != NULL) glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,  depth->theID, 0);
@@ -104,7 +104,7 @@ void FBO::unbind()
 }
 
 void FBO::erase() {
-	for(int i=0; i<textures.size(); i++) textures[i]->erase();
+	for(unsigned int i=0; i<textures.size(); i++) textures[i]->erase();
 	if(depthtexture != NULL) depthtexture->erase();
 //	glDeleteRenderbuffers(1, &depthrenderbuffer);
 	glDeleteFramebuffers(1, &theID);
