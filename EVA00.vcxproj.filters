@@ -118,6 +118,18 @@
     <ClCompile Include="src\Trinidad\Director\director.cpp">
       <Filter>Trinidad\Director</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Corella\Model.cpp">
+      <Filter>Trinidad\Corella</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Corella\Light.cpp">
+      <Filter>Trinidad\Corella</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Corella\Deferred.cpp">
+      <Filter>Trinidad\Corella</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\SimpleCells.cpp">
+      <Filter>Vladivostok</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -176,6 +188,18 @@
     </ClInclude>
     <ClInclude Include="src\Trinidad\Director\director.h">
       <Filter>Trinidad\Director</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Corella\Model.h">
+      <Filter>Trinidad\Corella</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Corella\Light.h">
+      <Filter>Trinidad\Corella</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Corella\Deferred.h">
+      <Filter>Trinidad\Corella</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\SimpleCells.h">
+      <Filter>Vladivostok</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ Light::Light(Shader *shader, std::string name) {
 
 void Light::addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour) {
 	if(numLights >= MAX_LIGHTS) {
-		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
+		TOBAGO::log.write(WARNING) << "No more lights can be added: " << this->name;
 		return;
 	}
 
@@ -57,7 +57,7 @@ void Light::addDirectionalLight(vec3 Attenuation, vec3 Direction, vec3 Colour) {
 
 void Light::addPointLight(vec3 Position, vec3 Attenuation, vec3 Colour) {
 	if(numLights >= MAX_LIGHTS) {
-		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
+		TOBAGO::log.write(WARNING) << "No more lights can be added: " << this->name;
 		return;
 	}
 
@@ -78,7 +78,7 @@ void Light::addSpotLight(vec3 Position,
 						  float InnerCutoff,
 						  float Exponent) {
 	if(numLights >= MAX_LIGHTS) {
-		global::log.warning("NO MORE LIGHTS CAN BE ADDED!");
+		TOBAGO::log.write(WARNING) << "No more lights can be added: " << this->name;
 		return;
 	}
 

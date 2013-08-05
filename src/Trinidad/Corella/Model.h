@@ -1,28 +1,28 @@
 #pragma once
 
-#include "../Tobago.h"
+#include "Tobago/Tobago.h"
 
 using namespace glm;
 
 class Model {
 	public :
-		Shader *shader;
+		Shader *shader;		//shader that renders the model
 
-		VBO *vertexs;
-		VBO *normals;
-		VBO *texCoords;
+		VBO *vertexs;		//vertex VBO
+		VBO *normals;		//Normals VBO
+		VBO *texCoords;		//Texture coordinates VBO
 
-		IBO *indexs;
+		IBO *indexs;		//Indexs...
 
-		TBO *diffuse_texture;
+		TBO *diffuse_texture;	//Texture for diffuse
 
-		float ambient_factor;
+		float ambient_factor;	//Color parameters.
 		vec3 diffuse_color;
 		vec3 specular_color;
 		float shininess;
 
 		float scale;
-		mat4 *M;
+		mat4 *M;				//Model matrix (pointer)
 
 		GLint M_id, ambient_factor_id, diffuse_color_id, specular_color_id, shininess_id, scale_id;
 

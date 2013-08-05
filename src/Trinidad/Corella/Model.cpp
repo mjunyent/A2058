@@ -47,5 +47,4 @@ void Model::render() {
 	indexs->draw(GL_TRIANGLES);
 	vertexs->disable();
 	normals->disable();
-
 }

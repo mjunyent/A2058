@@ -70,7 +70,7 @@ void A3dsHandler::loadFile(char *filename) {
 
 	file = fopen(filename, "rb");
 	if(!file) {
-		TOBAGO::log.write(ERROR) << "3ds Handler: FILE NOT FOUND" << filename;
+		TOBAGO::log.write(ERROR) << "3ds Handler: FILE NOT FOUND " << filename;
 		exit(1);
 	}
 

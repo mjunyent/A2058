@@ -100,7 +100,7 @@ void FBO::bind()
 void FBO::unbind() 
 {
 	glPopAttrib();											//pop config
-	glViewport(0, 0, 1200, 800);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void FBO::erase() {

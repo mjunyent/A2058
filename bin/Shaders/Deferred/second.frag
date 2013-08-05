@@ -85,4 +85,5 @@ void main(){
 
 	color.w = 1.0;
 	color = clamp(color, 0.0, 1.0);
+//	color = vec4(1.0, 0.0, 0.0, 1.0);
 }

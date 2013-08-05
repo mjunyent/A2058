@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Tobago.h"
+#include "Tobago/Tobago.h"
 #include <vector>
 #include <cstring>
 
@@ -53,8 +53,8 @@ class Light {
 
 		static const int MAX_LIGHTS = 8;
 		vector<lamp> lights;
-		int numLights;
 
+		int numLights;
 		GLint numLightsId;
 
 		Light(Shader *shader,				//Shader that will render the object.
