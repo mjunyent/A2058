@@ -1,4 +1,0 @@
-A2058 	 Error Log 	 logTobago.txt
-
-0.393618	 WARNING: Timer max iteration achieved
-0.400383	 WARNING: Timer max iteration achieved
