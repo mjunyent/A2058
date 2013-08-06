@@ -48,9 +48,9 @@ fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg)
 {
     //    "ERROR", "WARN", "INFO", "DEBUG" (info and debug not displayed).
 	if(level == 0) { //Error
-		TOBAGO::log.write(ERROR) << msg;
+		TOBAGO::log.write(ERROR) << "3dsHandler error when reading: " << msg;
 	} else if(level == 1) { //Warning
-		TOBAGO::log.write(WARNING) << msg;
+		TOBAGO::log.write(WARNING) << "3dsHandler error when reading: " << msg;
 	}
 }
 
@@ -104,6 +104,7 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 	faces = mesh->faces;
 
 	GLfloat *vdata = new float[3*mesh->nvertices];
+
 //	cout << "MESH size: " << mesh->nvertices << endl;
 
 	for(int i=0, e=0; i<3*mesh->nvertices; i+=3, e++) {
@@ -153,7 +154,7 @@ void A3dsHandler::makeVBO(int id) {
 	vertexs = new VBO(vdata, sizeof(float)*mesh->nfaces*3*3, 0);
 }
 
-void A3dsHandler::calculateNormals() {
+void A3dsHandler::makeNormalsPerVertex() {
 	//vector of vectors of vec3 (for each vertex we save its normals).
 	vector<vector<glm::vec3> > vertex_normals(mesh->nvertices);
 	float *ndata = new float[mesh->nvertices*3];
@@ -195,7 +196,7 @@ void A3dsHandler::calculateNormals() {
 	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
 }
 
-void A3dsHandler::makeNormals() {
+void A3dsHandler::makeNormalsPerFace() {
 	float (*pre_normals)[3] = (float (*)[3])malloc(sizeof(float) * 9 * mesh->nfaces);
 	
 	float *ndata = new float[3*3*mesh->nfaces];
@@ -239,6 +240,24 @@ void A3dsHandler::makeNormals() {
 			i++;
 		}
 	}*/
+}
+
+void A3dsHandler::makeUVs() {
+	float *ndata = new float[mesh->nvertices*2];
+
+	for(int i=0; i<mesh->nvertices; i++) {
+		ndata[2*i] = mesh->texcos[i][0];
+		ndata[2*i+1] = mesh->texcos[i][1];
+	}
+
+	UVs = new VBO(ndata, sizeof(float)*mesh->nvertices*2, 2);
+}
+
+glm::mat4 A3dsHandler::getModelMatrix() {
+	return glm::mat4(mesh->matrix[0][0], mesh->matrix[1][0], mesh->matrix[2][0], mesh->matrix[3][0],
+					 mesh->matrix[0][1], mesh->matrix[1][1], mesh->matrix[2][1], mesh->matrix[3][1], 
+					 mesh->matrix[0][2], mesh->matrix[1][2], mesh->matrix[2][2], mesh->matrix[3][2], 
+					 mesh->matrix[0][3], mesh->matrix[1][3], mesh->matrix[2][3], mesh->matrix[3][3]);
 }
 
 #endif

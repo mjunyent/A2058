@@ -16,17 +16,17 @@ int main(void) {
 	win = setup(1200, 800, 3, 2, "WdASAAAAAA", NULL);
 	windows.push_back(win);
 
-//	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
+	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
 
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
 
-	glm::mat4 P = glm::perspective(75.0f, 16.0f/9.0f, 0.1f, 20.0f);
+	glm::mat4 P = glm::perspective(75.0f, 16.0f/9.0f, 20.0f, 1000.0f);
 	//glm::vec3 cp = glm::vec3(10, 0, 10);
 	//glm::mat4 V = glm::lookAt(cp, glm::vec3(0,0,0), glm::vec3(0,1,0));
 	
-	glm::vec3 cp = glm::vec3(2.4, -1, 5.16);
-	glm::mat4 V = glm::lookAt(cp, glm::vec3(2.0, -1, 5.16), glm::vec3(0,1,0));
+	glm::vec3 cp = glm::vec3(50, 0, 150);
+	glm::mat4 V = glm::lookAt(cp, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0,1,0));
 
 	MyCells yep(1200, 800, &P, &V, &cp);
 
@@ -34,10 +34,10 @@ int main(void) {
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
 
 //	yep.lights->addDirectionalLight(glm::vec3(0.2, 0.1, 0.01), glm::vec3(0.0, 1.0, 1.0), glm::vec3(0.3, 0.5, 0.6));
-//	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	-cp, glm::vec3(1.0,1.0,1.0));
+	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	cp, glm::vec3(1.0,1.0,1.0));
 
-	yep.lights->addPointLight(glm::vec3(2.4, -1, 5.16), glm::vec3(2.0, 0.0, 0.5), glm::vec3(1.0, 1.0, 1.0));
-	yep.lights->addSpotLight(glm::vec3(0.4, -1, 0.16), glm::vec3(2.0, 0.01, 0.01), glm::vec3(-0.8, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);
+//	yep.lights->addPointLight(glm::vec3(2.4, -1, 5.16), glm::vec3(2.0, 0.0, 0.5), glm::vec3(1.0, 1.0, 1.0));
+//	yep.lights->addSpotLight(glm::vec3(0.4, -1, 0.16), glm::vec3(2.0, 0.01, 0.01), glm::vec3(-0.8, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

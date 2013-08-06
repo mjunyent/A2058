@@ -30,6 +30,7 @@ public:
 	IBO *indexs;
 	VBO *vertexs;
 	VBO *normals;
+	VBO *UVs;
 	Lib3dsFile *f;
 	Lib3dsMesh *mesh;
 	Lib3dsFace *faces;
@@ -38,9 +39,13 @@ public:
 	A3dsHandler(char *filename, int meshid);
 
 	void makeVBOwithIBO(int id);
-	void makeVBO(int id);		//without IBO, 3 vertex per face.
-	void makeNormals();			//1 normal per face
-	void calculateNormals();	//1 normal per vertex
+	void makeVBO(int id);			//without IBO, 3 vertex per face.
+	void makeNormalsPerFace();		//1 normal per face
+	void makeNormalsPerVertex();	//1 normal per vertex
+
+	void makeUVs();
+
+	glm::mat4 getModelMatrix();
 
 private:
 	void loadFile(char *filename);

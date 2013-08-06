@@ -16,6 +16,7 @@ class Deferred : public Scene {
 public: 
 	Shader *firstShad;
 	Shader *secondShad;
+	Shader *debugShad;
 	FBO *renderBuffer;
 
 	Light *lights;
@@ -27,9 +28,11 @@ public:
 
 	GLint P_Id, V_Id;
 	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID;
+	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID;
 
+	int debScreen;
 
-	Deferred(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position);
+	Deferred(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position, int debScreen=-1);
 
 	virtual void draw(int s, double t);
 	virtual void render(int s, double t) {};
@@ -37,7 +40,7 @@ public:
 	void PreFirstPass();
 	void PostFirstPass();
 	void SecondPass();
-	//void SecondDebug();
+	void Debug();
 };
 
 #endif

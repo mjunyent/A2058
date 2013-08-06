@@ -10,11 +10,11 @@ class Model {
 
 		VBO *vertexs;		//vertex VBO
 		VBO *normals;		//Normals VBO
-		VBO *texCoords;		//Texture coordinates VBO
-
+		VBO *UVs;		//Texture coordinates VBO
 		IBO *indexs;		//Indexs...
 
 		TBO *diffuse_texture;	//Texture for diffuse
+		TBO bumpMap;
 
 		float ambient_factor;	//Color parameters.
 		vec3 diffuse_color;
@@ -24,19 +24,25 @@ class Model {
 		float scale;
 		mat4 *M;				//Model matrix (pointer)
 
-		GLint M_id, ambient_factor_id, diffuse_color_id, specular_color_id, shininess_id, scale_id;
+		bool isBump;
+
+		GLint M_id, ambient_factor_id, diffuse_color_id, specular_color_id, shininess_id, scale_id, diffuse_texture_id,
+			  bumpMap_id, isTexture_id, isBumpMap_id;
 
 		Model(Shader *shader,				//Shader that will render the object.
 			  VBO *vertexs,					//Vertex info.
 			  VBO *normals,					//Normals info.
+			  VBO *UVs,						//Texture coordinates VBO.
 			  IBO *indexs,					//Faces indexs.
 			  float ambient_factor,			//Ambient color.
 			  vec3 diffuse_color,			//Difuse color.
 			  vec3 specular_color,			//Specular color.
 			  float shininess,				//Shininess factor.
 			  mat4 *M,						//Model matrix.
-			  float scale					//Object scale factor.
-			 );
+			  float scale,					//Object scale factor.
+			  TBO *diffuse_texture,			//Texture object.
+			  char* bumpMap					//Bump map.
+			  );
 
 		void render();
 };

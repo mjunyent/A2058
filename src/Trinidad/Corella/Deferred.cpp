@@ -1,8 +1,10 @@
 #include "Deferred.h"
 
-Deferred::Deferred(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position) {
+Deferred::Deferred(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position, int debScreen) {
 	firstShad  = new Shader("Shaders/Deferred/first.vert",  "Shaders/Deferred/first.frag");
 	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
+	debugShad  = new Shader("Shaders/Deferred/debug.vert",  "Shaders/Deferred/debug.frag");
+
 	bool calite[] = { true, true, true };
 	renderBuffer = new FBO(width, height, true, 3, calite);
 
@@ -23,6 +25,16 @@ Deferred::Deferred(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 
 	depthID		= secondShad->getUniform("Depth");
 	invPVID		= secondShad->getUniform("invPV");
 	camPosID	= secondShad->getUniform("camera_position");
+
+	this->debScreen = debScreen;
+
+	if(debScreen != -1) {
+		tex1ID = debugShad->getUniform("tex1");
+		tex2ID = debugShad->getUniform("tex2");
+		tex3ID = debugShad->getUniform("tex3");
+		tex4ID = debugShad->getUniform("tex4");
+		debInvID = debugShad->getUniform("invPersp");
+	}
 }
 
 void Deferred::PreFirstPass() {
@@ -70,5 +82,30 @@ void Deferred::draw(int s, double t) {
 	PreFirstPass();
 	render(s, t);
 	PostFirstPass();
-	SecondPass();
+	if(s == debScreen) Debug();
+	else SecondPass();
+}
+
+void Deferred::Debug() {
+	glm::mat4 invPV = glm::inverse(*P * *V);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
+
+	glDisable(GL_DEPTH_TEST);
+
+	debugShad->use();
+	renderBuffer->bind_texture(0, 0);
+	renderBuffer->bind_texture(1, 1);
+	renderBuffer->bind_texture(2, 2);
+	renderBuffer->bind_depth_texture(3);
+
+	glUniform1i(tex1ID, 0);
+	glUniform1i(tex2ID, 1);
+	glUniform1i(tex3ID, 2);
+	glUniform1i(tex4ID, 3);
+	glUniformMatrix4fv(debInvID, 1, GL_FALSE, &invPV[0][0]);
+
+	screen_quad->enable(3);
+	screen_quad_I->draw(GL_TRIANGLES);
+	screen_quad->disable();
+
+	glEnable(GL_DEPTH_TEST);
 }
