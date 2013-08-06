@@ -18,17 +18,9 @@ MyCells::MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *c
 							 1.0f);
 };
 
-void MyCells::draw(int s, double time) {
-	PreFirstPass();
-	vessel_model->render();
-	PostFirstPass();
-	SecondPass();
-	/*
-	secondShad->use();
-	screen_quad->enable(3);
-	screen_quad_I->draw(GL_TRIANGLES);
-	screen_quad->disable();*/
+void MyCells::update(double time) {
 }
 
-void MyCells::update(double time) {
+void MyCells::render(int s, double t) {
+	vessel_model->render();
 }

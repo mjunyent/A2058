@@ -65,3 +65,10 @@ void Deferred::SecondPass() {
 
 	glEnable(GL_DEPTH_TEST);
 }
+
+void Deferred::draw(int s, double t) {
+	PreFirstPass();
+	render(s, t);
+	PostFirstPass();
+	SecondPass();
+}

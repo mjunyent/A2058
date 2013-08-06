@@ -11,8 +11,9 @@ public:
 
 	MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position);
 
-	void draw(int s, double time);
 	void update(double time);
+
+	void render(int s, double t);
 
 private:
 
