@@ -5,7 +5,7 @@ MyCells::MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *c
 	vessel->makeNormalsPerVertex();
 	vessel->makeUVs();
 
-	M_Vessel = glm::translate(-15, -655, 0);
+	M_Vessel = glm::translate(-100, -655, 0);
 //	M_Vessel = vessel->getModelMatrix();// glm:: glm::rotate(1.0f, glm::vec3(1, 0, 0));
 
 	vessel_model = new Model(firstShad,

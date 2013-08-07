@@ -1,14 +1,14 @@
 #include "TBO.h"
 
 TBO::TBO() {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
@@ -18,7 +18,7 @@ TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLe
 }
 
 TBO::TBO(char* filename, bool goodfiltering) {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
@@ -28,7 +28,7 @@ TBO::TBO(char* filename, bool goodfiltering) {
 }
 
 void TBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
-	glEnable(GL_TEXTURE_2D); //just in case...
+//	glEnable(GL_TEXTURE_2D); //just in case...
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(goodfiltering) {
@@ -56,7 +56,7 @@ void TBO::load(char* filename, bool goodfiltering) {
 	if(error) TOBAGO::log.write(ERROR) << "Error loading PNG";
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(goodfiltering) {
@@ -83,7 +83,7 @@ void TBO::bind(int id) {
 }
 
 void TBO::qualite(bool qualite) {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(qualite) {

@@ -14,6 +14,7 @@ private:
 	GLsizei width, height;
 	bool deltex;
 	void shout_error(GLenum error);
+	int viewport[4];
 
 public:
 	int ntbo;

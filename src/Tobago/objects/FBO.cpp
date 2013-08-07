@@ -92,14 +92,16 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 void FBO::bind() 
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, theID);				//bind buffer
-	glPushAttrib(GL_VIEWPORT_BIT | GL_ENABLE_BIT);			//push viewport and enable config
+	glGetIntegerv(GL_VIEWPORT, viewport);
+//	glPushAttrib(GL_VIEWPORT_BIT | GL_ENABLE_BIT);			//push viewport and enable config
 	glViewport(0, 0, width, height);						//set viewport
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clean things
 }
 
 void FBO::unbind() 
 {
-	glPopAttrib();											//pop config
+//	glPopAttrib();											//pop config
+	glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);	//set viewport
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

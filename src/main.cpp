@@ -13,10 +13,9 @@ int main(void) {
 
 	GLFWwindow *win;
 
-	win = setup(1200, 800, 3, 2, "WdASAAAAAA", NULL);
+	win = setup(1200, 800, 4, 2, "WdASAAAAAA", NULL);
 	windows.push_back(win);
-
-	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
+//	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
 
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
@@ -25,12 +24,12 @@ int main(void) {
 	//glm::vec3 cp = glm::vec3(10, 0, 10);
 	//glm::mat4 V = glm::lookAt(cp, glm::vec3(0,0,0), glm::vec3(0,1,0));
 	
-	glm::vec3 cp = glm::vec3(50, 0, 150);
+	glm::vec3 cp = glm::vec3(50, 0, 120);
 	glm::mat4 V = glm::lookAt(cp, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0,1,0));
 
 	MyCells yep(1200, 800, &P, &V, &cp);
 
-	//director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
+	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
 
 //	yep.lights->addDirectionalLight(glm::vec3(0.2, 0.1, 0.01), glm::vec3(0.0, 1.0, 1.0), glm::vec3(0.3, 0.5, 0.6));
