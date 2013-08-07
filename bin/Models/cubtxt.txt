@@ -1,0 +1,38 @@
+ INFO : M3D_VERSION (0x2) size=10
+ INFO : MDATA (0x3D3D) size=289
+ INFO : 	NAMED_OBJECT (0x4000) size=283
+ INFO : 		  NAME=Cube.001
+ INFO : 		N_TRI_OBJECT (0x4100) size=268
+ INFO : 			POINT_ARRAY (0x4110) size=104
+ INFO : 			FACE_ARRAY (0x4120) size=104
+ INFO : 			MESH_MATRIX (0x4160) size=54
+Dumping meshes:
+  Cube.001 vertices=8 faces=12
+  matrix:
+-2.039325 0.000000 0.000000 -0.719920 
+0.000000 -2.039325 0.000000 0.852479 
+0.000000 0.000000 -2.039325 0.671681 
+0.000000 0.000000 0.000000 1.000000 
+  vertices (x, y, z, u, v):
+      -2.75924    2.89180    2.71101
+      -2.75924   -1.18685    2.71101
+       1.31941   -1.18685    2.71101
+       1.31941    2.89180    2.71101
+      -2.75924    2.89180   -1.36764
+      -2.75924   -1.18685   -1.36764
+       1.31941   -1.18685   -1.36764
+       1.31941    2.89180   -1.36764
+  facelist:
+       1    0    4  flags:0  smoothing:0  material:"-1"
+       1    4    5  flags:0  smoothing:0  material:"-1"
+       5    6    2  flags:0  smoothing:0  material:"-1"
+       5    2    1  flags:0  smoothing:0  material:"-1"
+       6    7    3  flags:0  smoothing:0  material:"-1"
+       6    3    2  flags:0  smoothing:0  material:"-1"
+       0    3    7  flags:0  smoothing:0  material:"-1"
+       0    7    4  flags:0  smoothing:0  material:"-1"
+       0    1    2  flags:0  smoothing:0  material:"-1"
+       0    2    3  flags:0  smoothing:0  material:"-1"
+       7    6    5  flags:0  smoothing:0  material:"-1"
+       7    5    4  flags:0  smoothing:0  material:"-1"
+

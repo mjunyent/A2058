@@ -55,10 +55,24 @@ fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg)
 }
 
 A3dsHandler::A3dsHandler(char *filename) {
+	indexs = NULL;
+	vertexs = NULL;
+	normals = NULL;
+	UVs = NULL;
+	tangents = NULL;
+	bitangents = NULL;
+
 	loadFile(filename);
 }
 
 A3dsHandler::A3dsHandler(char *filename, int meshid) {
+	indexs = NULL;
+	vertexs = NULL;
+	normals = NULL;
+	UVs = NULL;
+	tangents = NULL;
+	bitangents = NULL;
+
 	loadFile(filename);
 	makeVBOwithIBO(meshid);
 }
@@ -157,7 +171,7 @@ void A3dsHandler::makeVBO(int id) {
 void A3dsHandler::makeNormalsPerVertex() {
 	//vector of vectors of vec3 (for each vertex we save its normals).
 	vector<vector<glm::vec3> > vertex_normals(mesh->nvertices);
-	float *ndata = new float[mesh->nvertices*3];
+	ndata = new float[mesh->nvertices*3];
 
 	for(int i=0; i<mesh->nfaces; i++) {
 		glm::vec3 v1(mesh->vertices[faces[i].index[0]][0],
@@ -258,6 +272,88 @@ glm::mat4 A3dsHandler::getModelMatrix() {
 					 mesh->matrix[0][1], mesh->matrix[1][1], mesh->matrix[2][1], mesh->matrix[3][1], 
 					 mesh->matrix[0][2], mesh->matrix[1][2], mesh->matrix[2][2], mesh->matrix[3][2], 
 					 mesh->matrix[0][3], mesh->matrix[1][3], mesh->matrix[2][3], mesh->matrix[3][3]);
+}
+
+void A3dsHandler::makeTBNSpace() {
+	float *tdata = new float[mesh->nvertices*3];
+	float *bdata = new float[mesh->nvertices*3];
+
+	for(int i=0; i<mesh->nfaces; i++) {
+		glm::vec3 v1(mesh->vertices[faces[i].index[0]][0],
+					 mesh->vertices[faces[i].index[0]][1],
+					 mesh->vertices[faces[i].index[0]][2]);
+
+		glm::vec3 v2(mesh->vertices[faces[i].index[1]][0],
+					 mesh->vertices[faces[i].index[1]][1],
+					 mesh->vertices[faces[i].index[1]][2]);
+
+		glm::vec3 v3(mesh->vertices[faces[i].index[2]][0],
+					 mesh->vertices[faces[i].index[2]][1],
+					 mesh->vertices[faces[i].index[2]][2]);
+
+		glm::vec2 uv1(mesh->texcos[faces[i].index[0]][0],
+					 mesh->texcos[faces[i].index[0]][1]);
+
+		glm::vec2 uv2(mesh->texcos[faces[i].index[1]][0],
+					 mesh->texcos[faces[i].index[1]][1]);
+
+		glm::vec2 uv3(mesh->texcos[faces[i].index[2]][0],
+					 mesh->texcos[faces[i].index[2]][1]);
+
+		glm::vec3 deltaPos1 = v2-v1;
+		glm::vec3 deltaPos2 = v3-v1;
+
+
+		glm::vec2 deltaUV1 = uv2-uv1;
+		glm::vec2 deltaUV2 = uv3-uv1;
+
+		float r = 1.0f / (deltaUV1.x*deltaUV2.y - deltaUV1.y*deltaUV2.x);
+		glm::vec3 tangent = (deltaPos1*deltaUV2.y - deltaPos2*deltaUV1.y)*r;
+		glm::vec3 bitangent = (deltaPos2*deltaUV1.x - deltaPos1*deltaUV2.x)*r;
+
+		tdata[faces[i].index[0]*3+0] += tangent.x;
+		tdata[faces[i].index[0]*3+1] += tangent.y;
+		tdata[faces[i].index[0]*3+2] += tangent.z;
+
+		tdata[faces[i].index[1]*3+0] += tangent.x;
+		tdata[faces[i].index[1]*3+1] += tangent.y;
+		tdata[faces[i].index[1]*3+2] += tangent.z;
+
+		tdata[faces[i].index[2]*3+0] += tangent.x;
+		tdata[faces[i].index[2]*3+1] += tangent.y;
+		tdata[faces[i].index[2]*3+2] += tangent.z;
+
+
+		bdata[faces[i].index[0]*3+0] += bitangent.x;
+		bdata[faces[i].index[0]*3+1] += bitangent.y;
+		bdata[faces[i].index[0]*3+2] += bitangent.z;
+
+		bdata[faces[i].index[1]*3+0] += bitangent.x;
+		bdata[faces[i].index[1]*3+1] += bitangent.y;
+		bdata[faces[i].index[1]*3+2] += bitangent.z;
+
+		bdata[faces[i].index[2]*3+0] += bitangent.x;
+		bdata[faces[i].index[2]*3+1] += bitangent.y;
+		bdata[faces[i].index[2]*3+2] += bitangent.z;
+	}
+
+	for(int i=0; i<mesh->nvertices; i++) {
+		glm::vec3 n(ndata[3*i+0], ndata[3*i+1], ndata[3*i+2]);
+		glm::vec3 t(tdata[3*i+0], tdata[3*i+1], tdata[3*i+2]);
+		glm::vec3 b(bdata[3*i+0], bdata[3*i+1], bdata[3*i+2]);
+
+		t = glm::normalize(t - n*glm::dot(n,t));
+
+		if(glm::dot(glm::cross(n,t), b) < 0.0f)
+			t = t*-1.0f;
+
+		tdata[3*i+0] = t.x;
+		tdata[3*i+1] = t.y;
+		tdata[3*i+2] = t.z;
+	}
+
+	tangents = new VBO(tdata, sizeof(float)*mesh->nvertices*3, 3);
+	bitangents = new VBO(bdata, sizeof(float)*mesh->nvertices*3, 4);
 }
 
 #endif

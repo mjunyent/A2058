@@ -4,6 +4,8 @@ Model::Model(Shader *shader,
 			  VBO *vertexs,
 			  VBO *normals,
 			  VBO *UVs,
+  			  VBO *tangents,
+			  VBO *bitangents,
 			  IBO *indexs,
 			  float ambient_factor,
 			  vec3 diffuse_color,
@@ -19,6 +21,8 @@ Model::Model(Shader *shader,
 	this->vertexs = vertexs;
 	this->normals = normals;
 	this->UVs = UVs;
+	this->tangents = tangents;
+	this->bitangents = bitangents;
 	this->indexs = indexs;
 
 	this->diffuse_texture = diffuse_texture;
@@ -65,7 +69,11 @@ void Model::render() {
 	vertexs->enable(3);
 	normals->enable(3);
 	if(UVs != NULL) UVs->enable(2);
+	if(tangents != NULL) tangents->enable(3);
+	if(bitangents != NULL) bitangents->enable(3);
 	indexs->draw(GL_TRIANGLES);
+	if(bitangents != NULL) bitangents->disable();
+	if(tangents != NULL) tangents->disable();
 	if(UVs != NULL) UVs->disable();
 	vertexs->disable();
 	normals->disable();

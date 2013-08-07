@@ -31,19 +31,26 @@ public:
 	VBO *vertexs;
 	VBO *normals;
 	VBO *UVs;
+	VBO *tangents;
+	VBO *bitangents;
 	Lib3dsFile *f;
 	Lib3dsMesh *mesh;
 	Lib3dsFace *faces;
 
+	float *ndata;
+
 	A3dsHandler(char *filename);
 	A3dsHandler(char *filename, int meshid);
 
+	//Per vertex things
 	void makeVBOwithIBO(int id);
+	void makeNormalsPerVertex();	//1 normal per vertex
+	void makeUVs();
+	void makeTBNSpace();
+
+	//Per face things
 	void makeVBO(int id);			//without IBO, 3 vertex per face.
 	void makeNormalsPerFace();		//1 normal per face
-	void makeNormalsPerVertex();	//1 normal per vertex
-
-	void makeUVs();
 
 	glm::mat4 getModelMatrix();
 

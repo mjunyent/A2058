@@ -11,6 +11,8 @@ class Model {
 		VBO *vertexs;		//vertex VBO
 		VBO *normals;		//Normals VBO
 		VBO *UVs;		//Texture coordinates VBO
+		VBO *tangents;
+		VBO *bitangents;
 		IBO *indexs;		//Indexs...
 
 		TBO *diffuse_texture;	//Texture for diffuse
@@ -33,6 +35,8 @@ class Model {
 			  VBO *vertexs,					//Vertex info.
 			  VBO *normals,					//Normals info.
 			  VBO *UVs,						//Texture coordinates VBO.
+			  VBO *tangents,
+			  VBO *bitangents,
 			  IBO *indexs,					//Faces indexs.
 			  float ambient_factor,			//Ambient color.
 			  vec3 diffuse_color,			//Difuse color.

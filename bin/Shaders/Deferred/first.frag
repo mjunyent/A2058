@@ -7,6 +7,7 @@ layout(location = 2) out vec4 specular;
 
 in vec4 normal;
 in vec2 UV;
+in mat3 TBN;
 
 uniform float shininess;
 uniform float AmbientFactor;
@@ -20,7 +21,7 @@ uniform sampler2D NormalTex;
 void main()
 {
 	if(isNormalTex) {
-		normal_c = vec4(texture( NormalTex, UV ).xyz, AmbientFactor);
+		normal_c = vec4(TBN*(texture( NormalTex, UV ).xyz*2-1.0), AmbientFactor);
 	} else {
 		normal_c = vec4(normalize(normal.xyz), AmbientFactor);
 	}
