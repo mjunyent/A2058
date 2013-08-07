@@ -24,7 +24,7 @@ int main(void) {
 	//glm::vec3 cp = glm::vec3(10, 0, 10);
 	//glm::mat4 V = glm::lookAt(cp, glm::vec3(0,0,0), glm::vec3(0,1,0));
 	
-	glm::vec3 cp = glm::vec3(50, 0, 120);
+	glm::vec3 cp = glm::vec3(-50, 0, 120);
 	glm::mat4 V = glm::lookAt(cp, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0,1,0));
 
 	MyCells yep(1200, 800, &P, &V, &cp);
@@ -33,7 +33,7 @@ int main(void) {
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
 
 //	yep.lights->addDirectionalLight(glm::vec3(0.2, 0.1, 0.01), glm::vec3(0.0, 1.0, 1.0), glm::vec3(0.3, 0.5, 0.6));
-	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	cp, glm::vec3(1.0,1.0,1.0));
+	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	glm::vec3(0.0, 0.0, 1.0), glm::vec3(1.0,1.0,1.0));
 
 //	yep.lights->addPointLight(glm::vec3(2.4, -1, 5.16), glm::vec3(2.0, 0.0, 0.5), glm::vec3(1.0, 1.0, 1.0));
 //	yep.lights->addSpotLight(glm::vec3(0.4, -1, 0.16), glm::vec3(2.0, 0.01, 0.01), glm::vec3(-0.8, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);
