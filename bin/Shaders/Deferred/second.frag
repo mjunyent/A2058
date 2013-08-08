@@ -89,7 +89,7 @@ void main(){
 	color.rgb += 0.6*mix(vec3(0.1, 0.18, 0.28), vec3(1,1,1), abs(dot(normalize(position-camera_position), normal)));
 
 	float depth = texture(Depth, UV).x;
-	if(depth == 1.0) color.rgb = texture(Background, UV).rgb;
+	if(depth == 1.0) color.rgb = texture(Background, vec2(UV.x*2.3, UV.y*1.5)).rgb;
 
 	color.w = 1.0;
 	color = clamp(color, 0.0, 1.0);

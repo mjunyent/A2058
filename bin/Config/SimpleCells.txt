@@ -24,7 +24,7 @@ Camera {
 Virus1 {
 	tx -14.8
 	ty -624.9
-	tz 0.0
+	tz 20.0
 
 	rx 0.0
 	ry 1.0

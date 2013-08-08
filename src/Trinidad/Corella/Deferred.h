@@ -16,8 +16,11 @@ class Deferred : public Scene {
 public: 
 	Shader *firstShad;
 	Shader *secondShad;
+	Shader *thirdShad;
 	Shader *debugShad;
+
 	FBO *renderBuffer;
+	FBO *finalRender;
 
 	Light *lights;
 	glm::mat4 *P, *V;
@@ -29,6 +32,12 @@ public:
 	GLint P_Id, V_Id;
 	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID;
 	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID;
+	GLint finalNID, finalDID, finalID, widthID, heightID;
+
+	GLint bgID;
+	TBO bg;
+
+	int width, height;
 
 	int debScreen;
 
@@ -40,6 +49,7 @@ public:
 	void PreFirstPass();
 	void PostFirstPass();
 	void SecondPass();
+	void ThirdPass();
 	void Debug();
 };
 
