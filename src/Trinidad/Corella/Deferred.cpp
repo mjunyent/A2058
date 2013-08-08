@@ -124,6 +124,7 @@ void Deferred::ThirdPass() {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 }
+
 void Deferred::draw(int s, double t) {
 	PreFirstPass();
 	render(s, t);

@@ -27,6 +27,15 @@ MyCells::MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *c
 							 1.01,
 							 NULL,
 							 "Images/flagella.png");
+
+	bool lecalite[] = { true };
+
+	left  = new FBO(width, height, false, 1, lecalite);
+	right = new FBO(width, height, false, 1, lecalite);
+	Anaglyph = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphRC.frag");
+
+	lID  = Anaglyph->getUniform("LeftTex");
+	rID =  Anaglyph->getUniform("RightTex");
 }
 
 void MyCells::update(double time) {
@@ -111,6 +120,18 @@ void MyCells::update(double time) {
   vessel_model->specular_color.r = properties.get<float>("Virus1.specr");
   vessel_model->specular_color.g = properties.get<float>("Virus1.specg");
   vessel_model->specular_color.b = properties.get<float>("Virus1.specb");
+  
+  glm::vec3 direction = normalize(target-pos);
+
+  glm::vec3 axis = normalize(cross(up, direction));  //axis is the vector perpendicular to up & direction, pointing to the left (from where we are looking).
+
+  glm::vec3 positionLEFT  = pos + axis*(properties.get<float>("Camera.eyesep")/2.0f);
+  glm::vec3 positionRIGHT = pos - axis*(properties.get<float>("Camera.eyesep")/2.0f);
+
+  glm::vec3 center = pos + direction*properties.get<float>("Camera.center_dist");
+
+  V_L = lookAt(positionLEFT,  center, up);
+  V_R = lookAt(positionRIGHT, center, up);
 }
 
 void MyCells::render(int s, double t) {
@@ -122,4 +143,46 @@ void MyCells::render(int s, double t) {
 
 	vessel_model->M = &Virus3;
 	vessel_model->render();
+}
+
+void MyCells::draw(int s, double t) {
+	V = &V_L;
+	PreFirstPass();
+	render(s, t);
+	PostFirstPass();
+	
+	finalRender->bind();
+	SecondPass();
+	finalRender->unbind();
+	
+	left->bind();
+	ThirdPass();
+	left->unbind();
+
+	V = &V_R;
+	PreFirstPass();
+	render(s, t);
+	PostFirstPass();
+	
+	finalRender->bind();
+	SecondPass();
+	finalRender->unbind();
+	
+	right->bind();
+	ThirdPass();
+	right->unbind();
+
+	glDisable(GL_DEPTH_TEST);
+	Anaglyph->use();
+
+	left->bind_texture(0, 0);
+	right->bind_texture(0, 1);
+	glUniform1i(lID, 0);
+	glUniform1i(rID, 1);
+
+	screen_quad->enable(3);
+	screen_quad_I->draw(GL_TRIANGLES);
+	screen_quad->disable();
+	
+	glEnable(GL_DEPTH_TEST);
 }

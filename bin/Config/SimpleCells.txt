@@ -4,11 +4,11 @@ Perspective {
 	fov 90.0
 	ratio 1.777778
 	znear 20.0000
-	zfar 1000.0
+	zfar 500.0
 }
 
 Camera {
-	px -103.241394
+	px -100.241394
 	py 73.874359
 	pz 60.264313
 
@@ -19,18 +19,22 @@ Camera {
 	ux 0.0
 	uy 1.0
 	uz 0.0
+	
+	eyesep -0.5
+;	eyesep 0.0
+	center_dist 300.0
 }
 
 Virus1 {
-	tx -14.8
-	ty -624.9
-	tz 20.0
+	tx -44.8
+	ty -628.9
+	tz 0.0
 
 	rx 0.0
 	ry 1.0
 	rz 0.0
 
-	angle 0.0
+	angle -35.0
 
 	ambient 0.6
 
@@ -42,12 +46,12 @@ Virus1 {
 	specg 0.9
 	specb 0.9
 
-	shininess 0.112
+	shininess 0.212
 }
 
 Virus2 {
-	tx 60.8
-	ty -774.9
+	tx 80.8
+	ty -804.9
 	tz 100.0
 
 	rx 0.0
@@ -58,13 +62,13 @@ Virus2 {
 }
 
 Virus3 {
-	tx 6.8
+	tx -150.8
 	ty -864.9
-	tz -100.0
+	tz -350.0
 
 	rx 0.0
 	ry 1.0
 	rz 0.0
 
-	angle 57.0
+	angle 47.0
 }

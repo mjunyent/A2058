@@ -13,7 +13,7 @@ int main(void) {
 
 	GLFWwindow *win;
 
-	win = setup(1200, 800, 4, 2, "WdASAAAAAA", NULL);
+	win = setup(1920, 1080, 4, 2, "WdASAAAAAA", NULL);
 	windows.push_back(win);
 //	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
 
@@ -27,7 +27,7 @@ int main(void) {
 	glm::vec3 cp = glm::vec3(-50, 0, 120);
 	glm::mat4 V = glm::lookAt(cp, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0,1,0));
 
-	MyCells yep(1200, 800, &P, &V, &cp);
+	MyCells yep(1920, 1080, &P, &V, &cp);
 
 	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
