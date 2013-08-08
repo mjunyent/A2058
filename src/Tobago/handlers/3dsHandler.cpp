@@ -168,12 +168,71 @@ void A3dsHandler::makeVBO(int id) {
 	vertexs = new VBO(vdata, sizeof(float)*mesh->nfaces*3*3, 0);
 }
 
-void A3dsHandler::makeNormalsPerVertex() {
-	//vector of vectors of vec3 (for each vertex we save its normals).
-	vector<vector<glm::vec3> > vertex_normals(mesh->nvertices);
+void A3dsHandler::makeFuckingNormals() {
+
+	for(int i=0; i<mesh->nvertices; i++) {
+		for(int j=i+1; j<mesh->nvertices; j++) {
+			if(mesh->vertices[i][0] == mesh->vertices[j][0] &&
+			   mesh->vertices[i][1] == mesh->vertices[j][1] &&
+			   mesh->vertices[i][2] == mesh->vertices[j][2])
+			   TOBAGO::log.write(DEBUG) << "Vertex " << i << " equals " << j << endl <<
+			                 ndata[3*i+0] << " " << ndata[3*i+1] << " " << ndata[3*i+2] << endl <<
+							 ndata[3*j+0] << " " << ndata[3*j+1] << " " << ndata[3*j+2];
+		}
+	}
+
+/*	float (*pre_normals)[3] = (float (*)[3])malloc(sizeof(float) * 9 * mesh->nfaces);
+
 	ndata = new float[mesh->nvertices*3];
+	for(int i=0; i<mesh->nvertices*3; i++) ndata[i] = 0.0f;
+
+	lib3ds_mesh_calculate_vertex_normals(mesh, pre_normals);
 
 	for(int i=0; i<mesh->nfaces; i++) {
+		ndata[3*faces[i].index[0]+0] = pre_normals[3*i+0][0];
+		ndata[3*faces[i].index[0]+1] = pre_normals[3*i+0][1];
+		ndata[3*faces[i].index[0]+2] = pre_normals[3*i+0][2];
+
+		ndata[3*faces[i].index[1]+0] = pre_normals[3*i+1][0];
+		ndata[3*faces[i].index[1]+1] = pre_normals[3*i+1][1];
+		ndata[3*faces[i].index[1]+2] = pre_normals[3*i+1][2];
+
+		ndata[3*faces[i].index[2]+0] = pre_normals[3*i+2][0];
+		ndata[3*faces[i].index[2]+1] = pre_normals[3*i+2][1];
+		ndata[3*faces[i].index[2]+2] = pre_normals[3*i+2][2];
+	}
+
+	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);*/
+}
+
+void A3dsHandler::makeNormalsPerVertex() {
+	//vector of vectors of vec3 (for each vertex we save its normals).
+	ndata = new float[mesh->nvertices*3];
+
+	for(int i=0; i<mesh->nvertices; i++) {
+		glm::vec3 normal(0,0,0);
+
+		for(int j=0; j<mesh->nfaces; j++) {
+			if( (mesh->vertices[faces[j].index[0]][0] == mesh->vertices[i][0] && mesh->vertices[faces[j].index[0]][1] == mesh->vertices[i][1] && mesh->vertices[faces[j].index[0]][2] == mesh->vertices[i][2]) ||
+			    (mesh->vertices[faces[j].index[1]][0] == mesh->vertices[i][0] && mesh->vertices[faces[j].index[1]][1] == mesh->vertices[i][1] && mesh->vertices[faces[j].index[1]][2] == mesh->vertices[i][2]) ||
+			    (mesh->vertices[faces[j].index[2]][0] == mesh->vertices[i][0] && mesh->vertices[faces[j].index[2]][1] == mesh->vertices[i][1] && mesh->vertices[faces[j].index[2]][2] == mesh->vertices[i][2]) ) {
+				   normal += calcFaceNormal(j);
+			}
+		}
+
+		normal = glm::normalize(normal);
+		
+//		TOBAGO::log.write(DEBUG) << "Normal: " << normal.x << ", " << normal.y << ", " << normal.z;
+
+		ndata[3*i+0] = normal.x;
+		ndata[3*i+1] = normal.y;
+		ndata[3*i+2] = normal.z;
+	}
+
+	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
+}
+
+glm::vec3 A3dsHandler::calcFaceNormal(int i) {
 		glm::vec3 v1(mesh->vertices[faces[i].index[0]][0],
 					 mesh->vertices[faces[i].index[0]][1],
 					 mesh->vertices[faces[i].index[0]][2]);
@@ -188,26 +247,7 @@ void A3dsHandler::makeNormalsPerVertex() {
 
 		glm::vec3 normal = glm::cross(v2-v1, v3-v1);
 
-		vertex_normals[faces[i].index[0]].push_back(normal);
-		vertex_normals[faces[i].index[1]].push_back(normal);
-		vertex_normals[faces[i].index[2]].push_back(normal);
-	}
-
-	for(int i=0; i<mesh->nvertices; i++) {
-		glm::vec3 normal(0, 0, 0);
-
-		for(unsigned int j=0; j<vertex_normals[i].size(); j++) {
-			normal += vertex_normals[i][j];
-		}
-
-		normal = glm::normalize(normal);
-
-		ndata[3*i+0] = normal.x;
-		ndata[3*i+1] = normal.y;
-		ndata[3*i+2] = normal.z;
-	}
-
-	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
+		return normal;
 }
 
 void A3dsHandler::makeNormalsPerFace() {

@@ -21,7 +21,8 @@ uniform sampler2D NormalTex;
 void main()
 {
 	if(isNormalTex) {
-		normal_c = vec4(normalize(TBN*(texture( NormalTex, vec2(UV.x, -UV.y) ).xyz*2.0-1.0)), AmbientFactor);
+		normal_c = vec4(TBN*(texture( NormalTex, vec2(UV.x, -UV.y) ).xyz*2.0-1.0), AmbientFactor);
+		//normal_c = vec4(normalize(normal.xyz), AmbientFactor);
 	} else {
 		normal_c = vec4(normalize(normal.xyz), AmbientFactor);
 	}

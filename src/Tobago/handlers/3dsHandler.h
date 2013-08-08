@@ -44,6 +44,7 @@ public:
 
 	//Per vertex things
 	void makeVBOwithIBO(int id);
+	void makeFuckingNormals();
 	void makeNormalsPerVertex();	//1 normal per vertex
 	void makeUVs();
 	void makeTBNSpace();
@@ -56,6 +57,7 @@ public:
 
 private:
 	void loadFile(char *filename);
+	glm::vec3 calcFaceNormal(int i); //face index
 };
 
 #endif
