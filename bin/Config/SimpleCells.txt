@@ -1,0 +1,70 @@
+; Simple cells config file
+
+Perspective {
+	fov 90.0
+	ratio 1.777778
+	znear 20.0000
+	zfar 1000.0
+}
+
+Camera {
+	px -103.241394
+	py 73.874359
+	pz 60.264313
+
+	tx 0.0
+	ty 0.0
+	tz 0.0
+
+	ux 0.0
+	uy 1.0
+	uz 0.0
+}
+
+Virus1 {
+	tx -14.8
+	ty -624.9
+	tz 0.0
+
+	rx 0.0
+	ry 1.0
+	rz 0.0
+
+	angle 0.0
+
+	ambient 0.6
+
+	diffr 0.10
+	diffg 0.18
+	diffb 0.28
+
+	specr 0.9
+	specg 0.9
+	specb 0.9
+
+	shininess 0.112
+}
+
+Virus2 {
+	tx 60.8
+	ty -774.9
+	tz 100.0
+
+	rx 0.0
+	ry 1.0
+	rz 0.0
+
+	angle -50.0
+}
+
+Virus3 {
+	tx 6.8
+	ty -864.9
+	tz -100.0
+
+	rx 0.0
+	ry 1.0
+	rz 0.0
+
+	angle 57.0
+}
