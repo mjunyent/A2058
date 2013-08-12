@@ -1,6 +1,6 @@
 #include "SimpleCells.h"
 
-MyCells::MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position) : Deferred(width, height, P, V, cam_position, 1) {
+MyCells::MyCells(Camera *cam) : Deferred(cam) {
 	vessel = new A3dsHandler("Models/flagella.3DS", 0);
 //	vessel = new A3dsHandler("Models/sphere.3DS", 0);
 	vessel->makeNormalsPerVertex();
@@ -30,8 +30,8 @@ MyCells::MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *c
 
 	bool lecalite[] = { true };
 
-	left  = new FBO(width, height, false, 1, lecalite);
-	right = new FBO(width, height, false, 1, lecalite);
+	left  = new FBO(cam->width, cam->height, false, 1, lecalite);
+	right = new FBO(cam->width, cam->height, false, 1, lecalite);
 	Anaglyph = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphRC.frag");
 
 	lID  = Anaglyph->getUniform("LeftTex");
@@ -53,7 +53,7 @@ void MyCells::update(double time) {
   znear = properties.get<float>("Perspective.znear");
   zfar	= properties.get<float>("Perspective.zfar");
 
-  *P = glm::perspective(fov, ratio, znear, zfar);
+  cam->P = glm::perspective(fov, ratio, znear, zfar);
 
   glm::vec3 pos, dir, up, target;
 
@@ -69,7 +69,7 @@ void MyCells::update(double time) {
   up.y = properties.get<float>("Camera.uy");
   up.z = properties.get<float>("Camera.uz");
 
-  *V = glm::lookAt(pos, target, up);
+  cam->V = glm::lookAt(pos, target, up);
 
   glm::vec3 translate1, rotate1;
   float angle1;
@@ -146,7 +146,7 @@ void MyCells::render(int s, double t) {
 }
 
 void MyCells::draw(int s, double t) {
-	V = &V_L;
+	cam->V = V_L;
 	PreFirstPass();
 	render(s, t);
 	PostFirstPass();
@@ -159,7 +159,7 @@ void MyCells::draw(int s, double t) {
 	ThirdPass();
 	left->unbind();
 
-	V = &V_R;
+	cam->V = V_R;
 	PreFirstPass();
 	render(s, t);
 	PostFirstPass();

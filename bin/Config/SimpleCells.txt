@@ -20,9 +20,9 @@ Camera {
 	uy 1.0
 	uz 0.0
 	
-	eyesep -0.5
+	eyesep 0.0
 ;	eyesep 0.0
-	center_dist 300.0
+	center_dist 400.0
 }
 
 Virus1 {

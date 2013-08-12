@@ -3,7 +3,9 @@
 #include "Director/SceneManager.h"
 
 #include "Scenes/FrameRate.h"
+#include "Scenes/Sphere.h"
 
 #include "Corella/Light.h"
+#include "Corella/Camera.h"
 #include "Corella/Model.h"
 #include "Corella/Deferred.h"

@@ -142,6 +142,7 @@
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Camera.cpp" />
     <ClCompile Include="src\Trinidad\Corella\Deferred.cpp" />
     <ClCompile Include="src\Trinidad\Corella\Light.cpp" />
     <ClCompile Include="src\Trinidad\Corella\Model.cpp" />
@@ -149,7 +150,9 @@
     <ClCompile Include="src\Trinidad\Director\SceneManager.cpp" />
     <ClCompile Include="src\Trinidad\Director\timer.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp" />
     <ClCompile Include="src\Vladivostok\SimpleCells.cpp" />
+    <ClCompile Include="src\Vladivostok\Spheres.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\basic\basic.h" />
@@ -166,6 +169,7 @@
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
+    <ClInclude Include="src\Trinidad\Corella\Camera.h" />
     <ClInclude Include="src\Trinidad\Corella\Deferred.h" />
     <ClInclude Include="src\Trinidad\Corella\Light.h" />
     <ClInclude Include="src\Trinidad\Corella\Model.h" />
@@ -173,8 +177,10 @@
     <ClInclude Include="src\Trinidad\Director\SceneManager.h" />
     <ClInclude Include="src\Trinidad\Director\timer.h" />
     <ClInclude Include="src\Trinidad\Scenes\FrameRate.h" />
+    <ClInclude Include="src\Trinidad\Scenes\Sphere.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
     <ClInclude Include="src\Vladivostok\SimpleCells.h" />
+    <ClInclude Include="src\Vladivostok\Spheres.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\3D\AnaglyphRC.frag" />
@@ -188,6 +194,8 @@
     <None Include="bin\Shaders\Deferred\first.vert" />
     <None Include="bin\Shaders\Deferred\second.frag" />
     <None Include="bin\Shaders\Deferred\second.vert" />
+    <None Include="bin\Shaders\Deferred\third.frag" />
+    <None Include="bin\Shaders\Deferred\third.vert" />
     <None Include="bin\Shaders\InfoRender.frag" />
     <None Include="bin\Shaders\InfoRender.vert" />
     <None Include="bin\Shaders\MVPTransform.vert" />

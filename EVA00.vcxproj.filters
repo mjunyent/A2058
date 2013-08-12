@@ -130,6 +130,15 @@
     <ClCompile Include="src\Vladivostok\SimpleCells.cpp">
       <Filter>Vladivostok</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Corella\Camera.cpp">
+      <Filter>Trinidad\Corella</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Spheres.cpp">
+      <Filter>Vladivostok</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -199,6 +208,15 @@
       <Filter>Trinidad\Corella</Filter>
     </ClInclude>
     <ClInclude Include="src\Vladivostok\SimpleCells.h">
+      <Filter>Vladivostok</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Corella\Camera.h">
+      <Filter>Trinidad\Corella</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Scenes\Sphere.h">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Spheres.h">
       <Filter>Vladivostok</Filter>
     </ClInclude>
   </ItemGroup>
@@ -274,6 +292,12 @@
     </None>
     <None Include="bin\Shaders\InfoRender.frag">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\third.frag">
+      <Filter>Shaders\Deferred</Filter>
+    </None>
+    <None Include="bin\Shaders\Deferred\third.vert">
+      <Filter>Shaders\Deferred</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -26,9 +26,11 @@ uniform sampler2D Diffuse;
 uniform sampler2D Specular;
 uniform sampler2D Depth;
 
-uniform sampler2D Background;
-
 uniform mat4 invPV;
+
+uniform sampler2D Background;
+uniform vec3 bgColor;
+uniform bool isBgTex;
 
 //http://webglfactory.blogspot.com.es/2011/05/how-to-convert-world-to-screen.html
 vec4 get3dPoint(in vec2 p) {
@@ -88,8 +90,12 @@ void main(){
 	//Selfilumination HARDCODED MAN!
 	color.rgb += 0.6*mix(vec3(0.1, 0.18, 0.28), vec3(1,1,1), abs(dot(normalize(position-camera_position), normal)));
 
+	//Background coloring.
 	float depth = texture(Depth, UV).x;
-	if(depth == 1.0) color.rgb = texture(Background, vec2(UV.x*2.3, UV.y*1.5)).rgb;
+	if(depth == 1.0) {
+		if(isBgTex) color.rgb = texture(Background, vec2(UV.x, -UV.y)).rgb;
+		else color.rgb = bgColor;
+	}
 
 	color.w = 1.0;
 	color = clamp(color, 0.0, 1.0);

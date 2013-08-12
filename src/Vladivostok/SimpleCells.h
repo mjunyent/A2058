@@ -20,7 +20,7 @@ public:
 	GLint lID, rID;
 
 
-	MyCells(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position);
+	MyCells(Camera *cam);
 
 	void draw(int s, double time);
 	void update(double time);

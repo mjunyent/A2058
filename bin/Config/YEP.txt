@@ -1,0 +1,9 @@
+Depth Of Field http://devmaster.net/posts/3021/shader-effects-depth-of-field
+Glow
+Edge glow (colors espectrals).
+
+Cilindre que surt de la pantalla.
+Antialiasing MSAA Deferred.
+
+Ambient Occlusion
+Shadows

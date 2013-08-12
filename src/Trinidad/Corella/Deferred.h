@@ -6,6 +6,7 @@
 #include "../Director/SceneManager.h"
 #include "../Director/director.h"
 #include "Light.h"
+#include "Camera.h"
 
 /*
 * Corella Deferred Render Engine.
@@ -22,35 +23,39 @@ public:
 	FBO *renderBuffer;
 	FBO *finalRender;
 
+	TBO backgroundTex;
+
 	Light *lights;
-	glm::mat4 *P, *V;
-	glm::vec3 *cam_position;
+	glm::vec3 *bg_color;
 
 	VBO *screen_quad;
 	IBO *screen_quad_I;
 
-	GLint P_Id, V_Id;
-	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID;
-	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID;
-	GLint finalNID, finalDID, finalID, widthID, heightID;
-
-	GLint bgID;
-	TBO bg;
-
-	int width, height;
+	GLint P_Id, V_Id; //First Shad.
+	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID, backgroundID, bgColorID, isBgTexID;
+	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID; //Debug Shad.
+	GLint finalNID, finalDID, finalID, widthID, heightID; //AA Shad.
 
 	int debScreen;
 
-	Deferred(int width, int height, glm::mat4 *P, glm::mat4 *V, glm::vec3 *cam_position, int debScreen=-1);
+	Camera *cam;
+
+	Deferred(Camera *cam, int debScreen=-1);
+
+	void setBackground(char *name);
+	void setBackground(glm::vec3 *color);
 
 	virtual void draw(int s, double t);
 	virtual void render(int s, double t) {};
 
-	void PreFirstPass();
-	void PostFirstPass();
-	void SecondPass();
-	void ThirdPass();
+	void PreFirstPass(); //Prepare to launch Geometry
+	void PostFirstPass(); //After Launching Geometry
+	void SecondPass(); //Render quad from FBO
+	void ThirdPass(); //Apply AA.
 	void Debug();
+
+protected:
+	void setup();
 };
 
 #endif

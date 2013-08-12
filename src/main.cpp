@@ -3,6 +3,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include "Vladivostok/SimpleCells.h"
+#include "Vladivostok/Spheres.h"
 
 using namespace director;
 using namespace TOBAGO;
@@ -17,22 +18,21 @@ int main(void) {
 	windows.push_back(win);
 //	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
 
+	Sphere aaaa(1.0, 2);
+
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
 
-	glm::mat4 P = glm::perspective(75.0f, 16.0f/9.0f, 20.0f, 1000.0f);
-	//glm::vec3 cp = glm::vec3(10, 0, 10);
-	//glm::mat4 V = glm::lookAt(cp, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	
-	glm::vec3 cp = glm::vec3(-50, 0, 120);
-	glm::mat4 V = glm::lookAt(cp, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0,1,0));
+	Camera cam = Camera(75.0f, 1920, 1080, 1.0f, 200.0f, glm::vec3(100,100,100), glm::vec3(-1, -1, -1), glm::vec3(0,1,0));
 
-	MyCells yep(1920, 1080, &P, &V, &cp);
+	Spheres yep(&cam);
+//	yep.setBackground("Images/Background.png");
 
 	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
 
 //	yep.lights->addDirectionalLight(glm::vec3(0.2, 0.1, 0.01), glm::vec3(0.0, 1.0, 1.0), glm::vec3(0.3, 0.5, 0.6));
+
 	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	glm::vec3(0.0, 0.0, 1.0), glm::vec3(1.0,1.0,1.0));
 
 //	yep.lights->addPointLight(glm::vec3(2.4, -1, 5.16), glm::vec3(2.0, 0.0, 0.5), glm::vec3(1.0, 1.0, 1.0));
