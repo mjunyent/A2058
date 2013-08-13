@@ -23,7 +23,7 @@ int main(void) {
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
 
-	Camera cam = Camera(75.0f, 1920, 1080, 1.0f, 200.0f, glm::vec3(100,100,100), glm::vec3(-1, -1, -1), glm::vec3(0,1,0));
+	Camera cam = Camera(45.0f, 1920, 1080, 2.0f, 300.0f, glm::vec3(0, 50, -150), glm::vec3(0, 0, 1), glm::vec3(0,1,0));
 
 	Spheres yep(&cam);
 //	yep.setBackground("Images/Background.png");
@@ -33,10 +33,16 @@ int main(void) {
 
 //	yep.lights->addDirectionalLight(glm::vec3(0.2, 0.1, 0.01), glm::vec3(0.0, 1.0, 1.0), glm::vec3(0.3, 0.5, 0.6));
 
-	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	glm::vec3(0.0, 0.0, 1.0), glm::vec3(1.0,1.0,1.0));
+//	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0,1.0,1.0));
+
+	yep.lights->addSpotLight(glm::vec3(0.0, 100.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);
 
 //	yep.lights->addPointLight(glm::vec3(2.4, -1, 5.16), glm::vec3(2.0, 0.0, 0.5), glm::vec3(1.0, 1.0, 1.0));
 //	yep.lights->addSpotLight(glm::vec3(0.4, -1, 0.16), glm::vec3(2.0, 0.01, 0.01), glm::vec3(-0.8, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LESS );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

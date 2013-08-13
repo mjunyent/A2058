@@ -21,10 +21,10 @@ uniform sampler2D NormalTex;
 void main()
 {
 	if(isNormalTex) {
-		normal_c = vec4(TBN*(texture( NormalTex, vec2(UV.x, -UV.y) ).xyz*2.0-1.0), AmbientFactor);
-		//normal_c = vec4(normalize(normal.xyz), AmbientFactor);
+	    vec3 temp = normalize(TBN*(texture( NormalTex, vec2(UV.x, -UV.y) ).xyz*2.0-1.0));
+		normal_c = vec4( (temp+vec3(1.0, 1.0, 1.0))/2.0, AmbientFactor );
 	} else {
-		normal_c = vec4(normalize(normal.xyz), AmbientFactor);
+		normal_c = vec4((normalize(normal.xyz)+vec3(1.0,1.0,1.0))/2.0, AmbientFactor);
 	}
 	diffuse  = vec4(DiffuseColor.rgb, 0.0);
 	specular = vec4(SpecularColor.rgb, shininess);

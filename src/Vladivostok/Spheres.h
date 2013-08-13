@@ -5,14 +5,17 @@
 
 class Spheres : public Deferred {
 public:
-	Sphere *sp;
 	A3dsHandler *vessel;
-	Model *vessel_model;
-	glm::mat4 M_Vessel;
+	Sphere *sp;
+	Floor  *fl;
+	Model *sphere_model, *floor_model;
+	glm::mat4 M_sphere, M_floor;
 
 	Spheres(Camera *cam);
 
 	void render(int s, double t);
+
+	void update(double t);
 
 private:
 

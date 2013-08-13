@@ -19,6 +19,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	textures.resize(ntbo);
 
 	for(int i=0; i<ntbo; i++) {
+		//Maybe GL_RGBA32F
 		textures[i] = new TBO(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D, textures[i]->theID, 0);
 	}

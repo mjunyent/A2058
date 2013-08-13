@@ -5,11 +5,11 @@
 using namespace std;
 using namespace glm;
 
-class Sphere {
+class Floor {
 	public :
 		VBO *vertexs;		//vertex VBO
 		VBO *normals;		//Normals VBO
-//		VBO *UVs;		//Texture coordinates VBO
+		VBO *UVs;		//Texture coordinates VBO
 //		VBO *tangents;
 //		VBO *bitangents;
 		IBO *indexs;		//Indexs...
@@ -17,5 +17,5 @@ class Sphere {
 //		TBO *diffuse_texture;	//Texture for diffuse
 //		TBO bumpMap;
 
-		Sphere(float radius, int sections);
+		Floor(float radius);
 };

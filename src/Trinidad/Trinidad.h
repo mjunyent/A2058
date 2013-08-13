@@ -4,6 +4,7 @@
 
 #include "Scenes/FrameRate.h"
 #include "Scenes/Sphere.h"
+#include "Scenes/Floor.h"
 
 #include "Corella/Light.h"
 #include "Corella/Camera.h"
