@@ -31,4 +31,5 @@ public:
 
 	//texture name.
 	GLuint theID;
+	int width, height;
 };

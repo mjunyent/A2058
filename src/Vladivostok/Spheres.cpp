@@ -1,10 +1,15 @@
 #include "Spheres.h"
 
 Spheres::Spheres(Camera *cam) : Deferred(cam) {
-	sp = new Sphere(15.0, 20);
-	fl = new Floor(200.0);
-	vessel = new A3dsHandler("Models/sphere.3DS", 0);
-	vessel->makeNormalsPerVertex();
+	sp = new Sphere(1.0, 20);
+	fl = new Floor(20.0);
+
+	int width, height;
+	glfwGetWindowSize(director::windows[0], &width, &height);
+
+	this->cam = new Camera(75.0f, width, height, 0.1, 100.0, glm::vec3(25.0f, 8.0f, 25.0f),
+															 glm::vec3(-1.0f, -0.5f, -1.0f),
+															 glm::vec3(0.0f, 1.0f, 0.0f));
 
 	M_floor  = glm::translate(0,0,0);
 
@@ -31,7 +36,7 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 							NULL,
 							NULL,
 							fl->indexs,
-							0.2,
+							0.4,
 							glm::vec3(1.0, 1.0, 1.0),
 							glm::vec3(1.0, 1.0, 1.0),
 							0.128f,
@@ -40,20 +45,30 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 							NULL,
 							NULL);
 
-			
 
+	lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
+	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
 
-
-	bool lecalite[] = { true };
+	dotheDOF();
 }
 
 void Spheres::render(int s, double t) {
-	sphere_model->render();
 	floor_model->render();
+
+	M_sphere = glm::translate(-20.0f, 1.0f, -20.0f);
+
+	for(int i=0; i<9; i++) {
+		M_sphere = M_sphere*glm::translate(4.0f, 0.0f, 0.0f);
+		for(int j=0; j<9; j++) {
+			M_sphere = M_sphere*glm::translate(0.0f, 0.0f, 4.0f);
+			sphere_model->render();
+		}
+		M_sphere = M_sphere*glm::translate(0.0f, 0.0f, -36.0f);
+	}
 }
 
 void Spheres::update(double t) {
-	M_sphere = glm::translate(float(20.0f*sin(director::currentTime)), 15.0f, float(20.0f*cos(director::currentTime)));
-
-	lights->lights[0].Direction = -lights->lights[0].Position + glm::vec3(float(20.0f*sin(director::currentTime)), 15.0f, float(20.0f*cos(director::currentTime)));
+	this->cam->position = glm::vec3(22.0f, 6.0f, 2.0f);
+	this->cam->direction = glm::vec3(0.0f, 0.0f, 0.0f) - this->cam->position;
+	this->cam->update(0);
 }

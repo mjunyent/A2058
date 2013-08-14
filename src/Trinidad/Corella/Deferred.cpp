@@ -10,14 +10,22 @@ void Deferred::setup() {
 	//Load Shaders
 	firstShad  = new Shader("Shaders/Deferred/first.vert",  "Shaders/Deferred/first.frag");
 	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
-	thirdShad  = new Shader("Shaders/Deferred/third.vert",  "Shaders/Deferred/third.frag");
+	AAShad  = new Shader("Shaders/Deferred/third.vert",  "Shaders/Deferred/third.frag");
+	DOFShad = new Shader("Shaders/Deferred/DOF.vert", "Shaders/Deferred/DOF.frag");
 	debugShad  = new Shader("Shaders/Deferred/debug.vert",  "Shaders/Deferred/debug.frag");
 
 	//Prepare FBOs
 	bool calite[] = { true, true, true };
 	renderBuffer = new FBO(cam->width, cam->height, true, 3, calite);
 	bool lecalite[] = { true };
-	finalRender = new FBO(cam->width, cam->height, false, 1, calite);
+	SecondRenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
+	DOFRenderBuff = NULL;
+	AARenderBuff  = NULL;
+
+	//By default:
+	doAA = true;
+	doDOF = false;
+	doOffscreen = false;
 
 	//Data...
 	this->lights = new Light(secondShad, "lights");
@@ -42,11 +50,21 @@ void Deferred::setup() {
 	backgroundID = -1;
 
 	//Third Shader IDs
-	finalNID = thirdShad->getUniform("Normal");
-	finalDID = thirdShad->getUniform("Depth");
-	finalID  = thirdShad->getUniform("Final");
-	widthID  = thirdShad->getUniform("width");
-	heightID = thirdShad->getUniform("height");
+	finalNID = AAShad->getUniform("Normal");
+	finalDID = AAShad->getUniform("Depth");
+	finalID  = AAShad->getUniform("Final");
+	widthID  = AAShad->getUniform("width");
+	heightID = AAShad->getUniform("height");
+
+
+	//DOF Shader IDs
+	DOFTextID = DOFShad->getUniform("Texture");
+	DOFDepthID = DOFShad->getUniform("Depth");
+	DOFFlengthID = DOFShad->getUniform("FocalLength");
+	DOFFDistID = DOFShad->getUniform("FocalDistance");
+	DOFFStopID = DOFShad->getUniform("N");
+	DOFwidthID = DOFShad->getUniform("width");
+	DOFheightID = DOFShad->getUniform("height");
 
 	//Debug setup.
 	if(debScreen != -1) {
@@ -85,8 +103,8 @@ void Deferred::PostFirstPass() {
 }
 
 void Deferred::SecondPass() {
+	if(doDOF || doAA || doOffscreen) SecondRenderBuff->bind();
 	glm::mat4 invPV = glm::inverse(cam->P * cam->V);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
-
 	glDisable(GL_DEPTH_TEST);
 
 	secondShad->use();
@@ -118,15 +136,43 @@ void Deferred::SecondPass() {
 	screen_quad->disable();
 
 	glEnable(GL_DEPTH_TEST);
+	if(doDOF || doAA || doOffscreen) SecondRenderBuff->unbind();
 }
 
-void Deferred::ThirdPass() {
+void Deferred::DOFPass() {
+	if(!doDOF) return;
+
+	if(doAA || doOffscreen) DOFRenderBuff->bind();
+	glDisable(GL_DEPTH_TEST);
+
+	DOFShad->use();
+	
+	SecondRenderBuff->bind_texture(0, 0);
+	renderBuffer->bind_depth_texture(1);
+
+	glUniform1i(DOFTextID, 0);
+	glUniform1i(DOFDepthID, 1);
+
+	screen_quad->enable(3);
+	screen_quad_I->draw(GL_TRIANGLES);
+	screen_quad->disable();
+
+	glEnable(GL_DEPTH_TEST);
+	if(doAA || doOffscreen) DOFRenderBuff->unbind();
+}
+
+void Deferred::AAPass() {
+	if(!doAA) return;
+	if(doOffscreen) AARenderBuff->bind();
+
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
-	thirdShad->use();
+	AAShad->use();
 
-	finalRender->bind_texture(0, 0);
+	if(doDOF) DOFRenderBuff->bind_texture(0, 0);
+	else SecondRenderBuff->bind_texture(0, 0);
+
 	renderBuffer->bind_texture(0, 1);
 	renderBuffer->bind_depth_texture(2);
 
@@ -136,26 +182,28 @@ void Deferred::ThirdPass() {
 	glUniform1f(widthID, cam->width);
 	glUniform1f(heightID, cam->height);
 
-
 	screen_quad->enable(3);
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
 
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+	if(doOffscreen) AARenderBuff->unbind();
 }
 
 void Deferred::draw(int s, double t) {
 	PreFirstPass();
 	render(s, t);
 	PostFirstPass();
-	if(s == debScreen) Debug();
-	else {
-		finalRender->bind();
-		SecondPass();
-		finalRender->unbind();
-		ThirdPass();
+
+	if(s == debScreen) { 
+		Debug();
+		return;
 	}
+
+	SecondPass();
+	DOFPass();
+	AAPass();
 }
 
 void Deferred::Debug() {
@@ -180,4 +228,24 @@ void Deferred::Debug() {
 	screen_quad->disable();
 
 	glEnable(GL_DEPTH_TEST);
+}
+
+void Deferred::dotheAA(bool doit) {
+	doAA = doit;
+}
+
+void Deferred::dotheDOF(bool doit) {
+	doDOF = doit;
+	bool lecalite[] = { true };
+	if(DOFRenderBuff == NULL) {
+		DOFRenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
+	}
+}
+
+void Deferred::renderOfscreen(bool doit) {
+	doOffscreen = doit;
+	if(AARenderBuff == NULL) {
+		bool lecalite[] = { true };
+		AARenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
+	}
 }

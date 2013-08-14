@@ -18,6 +18,12 @@ Camera::Camera(float fov, int width, int height, float znear, float zfar, vec3 p
 	V = lookAt(position, position+direction, up);
 }
 
+void Camera::setDOF(float focalLength, float focusDistance, float FStop) {
+	this->focalLength = focalLength;
+	this->focusDistance = focusDistance;
+	this->FStop = FStop;
+}
+
 void Camera::update(double t) {
 	P = perspective(fov, ratio, znear, zfar);
 	V = lookAt(position, position+direction, up);

@@ -1,11 +1,10 @@
 #version 330 core
-//#pragma optimize(off)
 
 in vec2 UV;
 
 layout(location = 0) out vec4 color;
 
-uniform sampler2D Normal;
+uniform sampler2D Texture;
 uniform sampler2D Depth;
 uniform sampler2D Final;
 
@@ -49,7 +48,6 @@ void main(){
 		color.rgb += texture(Final, UV+offset[i]*screen).rgb*factor;
 	}
 
-	color.w = 1.0;
 	color = color / (2.0+8.0*factor);
 	//color = vec4(factor, factor, factor, 1.0);
 }

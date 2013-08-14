@@ -25,8 +25,9 @@ int main(void) {
 
 	Camera cam = Camera(45.0f, 1920, 1080, 2.0f, 300.0f, glm::vec3(0, 50, -150), glm::vec3(0, 0, 1), glm::vec3(0,1,0));
 
+//	TBO thisIsIt("Images/Background.png", true);
+//	director::manager->addScene(new BlurScene(&thisIsIt, 1.0, NULL), 0, 100000000, 0.1);
 	Spheres yep(&cam);
-//	yep.setBackground("Images/Background.png");
 
 	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
@@ -34,8 +35,6 @@ int main(void) {
 //	yep.lights->addDirectionalLight(glm::vec3(0.2, 0.1, 0.01), glm::vec3(0.0, 1.0, 1.0), glm::vec3(0.3, 0.5, 0.6));
 
 //	yep.lights->addDirectionalLight(glm::vec3(2, 0.0, 0.0),	glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0,1.0,1.0));
-
-	yep.lights->addSpotLight(glm::vec3(0.0, 100.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);
 
 //	yep.lights->addPointLight(glm::vec3(2.4, -1, 5.16), glm::vec3(2.0, 0.0, 0.5), glm::vec3(1.0, 1.0, 1.0));
 //	yep.lights->addSpotLight(glm::vec3(0.4, -1, 0.16), glm::vec3(2.0, 0.01, 0.01), glm::vec3(-0.8, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 0.9, 0.96, 2.0);

@@ -142,6 +142,9 @@
     <ClCompile Include="src\Trinidad\Scenes\Floor.cpp">
       <Filter>Trinidad\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Scenes\Blur.cpp">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -223,6 +226,9 @@
       <Filter>Vladivostok</Filter>
     </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\Floor.h">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Scenes\Blur.h">
       <Filter>Trinidad\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

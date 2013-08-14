@@ -146,6 +146,8 @@ void MyCells::render(int s, double t) {
 }
 
 void MyCells::draw(int s, double t) {
+/* DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
+   DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
 	cam->V = V_L;
 	PreFirstPass();
 	render(s, t);
@@ -156,7 +158,7 @@ void MyCells::draw(int s, double t) {
 	finalRender->unbind();
 	
 	left->bind();
-	ThirdPass();
+	AAPass();
 	left->unbind();
 
 	cam->V = V_R;
@@ -169,7 +171,7 @@ void MyCells::draw(int s, double t) {
 	finalRender->unbind();
 	
 	right->bind();
-	ThirdPass();
+	AAPass();
 	right->unbind();
 
 	glDisable(GL_DEPTH_TEST);
@@ -185,4 +187,5 @@ void MyCells::draw(int s, double t) {
 	screen_quad->disable();
 	
 	glEnable(GL_DEPTH_TEST);
+	*/
 }
