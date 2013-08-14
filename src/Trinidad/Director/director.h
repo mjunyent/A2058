@@ -18,6 +18,8 @@ namespace director {
 
 	extern SceneManager				*manager;
 
+	extern float					ppm;
+
 #ifndef NO_SOUND
 	extern SoundHandler				*song;
 #endif

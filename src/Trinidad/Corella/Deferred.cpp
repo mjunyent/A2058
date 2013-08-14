@@ -58,13 +58,15 @@ void Deferred::setup() {
 
 
 	//DOF Shader IDs
-	DOFTextID = DOFShad->getUniform("Texture");
-	DOFDepthID = DOFShad->getUniform("Depth");
-	DOFFlengthID = DOFShad->getUniform("FocalLength");
-	DOFFDistID = DOFShad->getUniform("FocalDistance");
-	DOFFStopID = DOFShad->getUniform("N");
-	DOFwidthID = DOFShad->getUniform("width");
-	DOFheightID = DOFShad->getUniform("height");
+	DOFTextID		 = DOFShad->getUniform("Texture");
+	DOFDepthID		 = DOFShad->getUniform("Depth");
+	DOFBlurCoeffID	 = DOFShad->getUniform("BlurCoeff");
+	DOFFDistID		 = DOFShad->getUniform("FocalDistance");
+	DOFFarID		 = DOFShad->getUniform("Far");
+	DOFNearID		 = DOFShad->getUniform("Near");
+	DOFOrientationID = DOFShad->getUniform("Orientation");
+	DOFwidthID		 = DOFShad->getUniform("width");
+	DOFheightID		 = DOFShad->getUniform("height");
 
 	//Debug setup.
 	if(debScreen != -1) {
@@ -142,9 +144,12 @@ void Deferred::SecondPass() {
 void Deferred::DOFPass() {
 	if(!doDOF) return;
 
-	if(doAA || doOffscreen) DOFRenderBuff->bind();
 	glDisable(GL_DEPTH_TEST);
 
+
+	//HORIZONTAL PASS
+	DOFTempRenderBuff->bind();
+	
 	DOFShad->use();
 	
 	SecondRenderBuff->bind_texture(0, 0);
@@ -152,13 +157,43 @@ void Deferred::DOFPass() {
 
 	glUniform1i(DOFTextID, 0);
 	glUniform1i(DOFDepthID, 1);
+	glUniform1f(DOFwidthID, cam->width);
+	glUniform1f(DOFheightID, cam->height);
+	glUniform1f(DOFFDistID, cam->focusDistance);
+
+	float ms = cam->focalLength / (cam->focusDistance - cam->focalLength);
+	if(ms < 0.0) {
+		ms *= -1.0f;
+		TOBAGO::log.write(WARNING) << "Corella Engine: Focal length is bigger than Focus Distance!";
+	}
+
+	float coeff = director::ppm * (cam->focalLength * ms) / cam->FStop;
+
+	glUniform1f(DOFBlurCoeffID, coeff);
+	
+	glUniform1f(DOFFarID, cam->zfar);
+	glUniform1f(DOFNearID, cam->znear);
+	glUniform1i(DOFOrientationID, 0);
 
 	screen_quad->enable(3);
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
 
-	glEnable(GL_DEPTH_TEST);
+
+	//VERTICAL PASS
+	if(doAA || doOffscreen) DOFRenderBuff->bind();
+
+	DOFTempRenderBuff->bind_texture(0, 0);
+	glUniform1i(DOFOrientationID, 1);
+
+	screen_quad->enable(3);
+	screen_quad_I->draw(GL_TRIANGLES);
+	screen_quad->disable();
+
 	if(doAA || doOffscreen) DOFRenderBuff->unbind();
+
+	glEnable(GL_DEPTH_TEST);
+
 }
 
 void Deferred::AAPass() {
@@ -238,7 +273,8 @@ void Deferred::dotheDOF(bool doit) {
 	doDOF = doit;
 	bool lecalite[] = { true };
 	if(DOFRenderBuff == NULL) {
-		DOFRenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
+		DOFTempRenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
+		DOFRenderBuff	  = new FBO(cam->width, cam->height, false, 1, lecalite);
 	}
 }
 

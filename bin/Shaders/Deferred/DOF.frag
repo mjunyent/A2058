@@ -1,5 +1,4 @@
 #version 330 core
-//#pragma optimize(off)
 
 in vec2 UV;
 
@@ -11,13 +10,38 @@ uniform sampler2D Depth;
 uniform float width;
 uniform float height;
 
-uniform float FocalLength;
+uniform float BlurCoeff;
 uniform float FocalDistance;
-uniform float N;
+uniform int Orientation;
+uniform float Far;
+uniform float Near;
 
 void main(){
-	vec2 screen = vec2(1.0/width, 1.0/height);
+	float MAX_BLUR_RADIUS = 10.0;
 
-	color.rgb = 2.0*texture(Texture, UV).rgb;
+	float depth = texture(Depth, UV).x;
+	//Linearize Depth.
+	float Dd = 2.0*Near*Far / (Far+Near - depth*(Far-Near));
+	float xd = abs(Dd - FocalDistance);
+	float xdd = (Dd < FocalDistance) ? (FocalDistance - xd) : (FocalDistance + xd);
+	float blurAmount = min(floor( 0.5 * BlurCoeff * (xd / xdd)), MAX_BLUR_RADIUS);
+	
+	//Do the Blur
+	float count = 1.0;
+	color.rgb = texture(Texture, UV).rgb;
+	vec2 Offset;
+	if( Orientation == 0 )
+		Offset = vec2(1.0/width, 0.0);
+	else
+		Offset = vec2(0.0, 1.0/height);
+	
+	for(float i = 1.0; i<blurAmount; ++i) {
+		color.rgb += texture(Texture, UV + Offset*i).rgb;
+		color.rgb += texture(Texture, UV - Offset*i).rgb;
+		count += 2;
+	}
+	
+	color.rgb = color.rgb/count;
+	//color.rgb = vec3(blurAmount/10.0);
 	color.w = 1.0;
 }

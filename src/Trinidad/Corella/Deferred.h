@@ -27,7 +27,7 @@ public:
 	Shader *debugShad;
 
 	FBO *renderBuffer;
-	FBO *SecondRenderBuff, *DOFRenderBuff, *AARenderBuff;
+	FBO *SecondRenderBuff, *DOFTempRenderBuff, *DOFRenderBuff, *AARenderBuff;
 
 	TBO backgroundTex;
 
@@ -41,7 +41,7 @@ public:
 	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID, backgroundID, bgColorID, isBgTexID;
 	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID; //Debug Shad.
 	GLint finalNID, finalDID, finalID, widthID, heightID; //AA Shad.
-	GLint DOFTextID, DOFDepthID, DOFFlengthID, DOFFDistID, DOFFStopID, DOFwidthID, DOFheightID;
+	GLint DOFTextID, DOFDepthID, DOFBlurCoeffID, DOFFDistID, DOFwidthID, DOFheightID, DOFFarID, DOFNearID, DOFOrientationID;
 
 	int debScreen;
 	bool doDOF, doAA, doOffscreen;

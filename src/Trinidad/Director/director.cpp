@@ -22,6 +22,8 @@ namespace director {
 
 	SceneManager *manager;
 
+	float ppm = 3.6f;  // px/mm
+
 #ifndef NO_SOUND
 	SoundHandler *song;
 #endif
