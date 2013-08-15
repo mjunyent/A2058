@@ -1,6 +1,10 @@
 #include "Camera.h"
 
-Camera::Camera(float fov, int width, int height, float znear, float zfar, vec3 position, vec3 direction, vec3 up, bool debug) {
+Camera::Camera(int width, int height,
+			   float fov, float znear, float zfar,
+			   vec3 position, vec3 direction, vec3 up,
+			   float focalLength, float focusDistance, float FStop,
+			   bool debug) {
 	this->fov = fov;
 	this->width = width;
 	this->height = height;
@@ -12,21 +16,19 @@ Camera::Camera(float fov, int width, int height, float znear, float zfar, vec3 p
 	this->direction = normalize(direction);
 	this->up = normalize(up);
 
+	this->focalLength = focalLength;
+	this->focusDistance = focusDistance;
+	this->FStop = FStop;
+
 	this->debug = debug;
 
 	P = perspective(fov, ratio, znear, zfar);
 	V = lookAt(position, position+direction, up);
 }
 
-void Camera::setDOF(float focalLength, float focusDistance, float FStop) {
-	this->focalLength = focalLength;
-	this->focusDistance = focusDistance;
-	this->FStop = FStop;
-}
-
 void Camera::update(double t) {
 	P = perspective(fov, ratio, znear, zfar);
-	V = lookAt(position, position+direction, up);
+	V = lookAt(position, position+focusDistance*direction, up);
 }
 
 void Camera::move_left() {

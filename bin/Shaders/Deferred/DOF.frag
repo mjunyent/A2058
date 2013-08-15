@@ -36,9 +36,15 @@ void main(){
 		Offset = vec2(0.0, 1.0/height);
 	
 	for(float i = 1.0; i<blurAmount; ++i) {
+		if(UV.x+Offset.x*i > 1.0 || UV.y+Offset.y*i > 1.0) break;
 		color.rgb += texture(Texture, UV + Offset*i).rgb;
+		count++;
+	}
+
+	for(float i = 1.0; i<blurAmount; ++i) {
+		if(UV.x-Offset.x*i < 0.0 || UV.y-Offset.y*i < 0.0) break;
 		color.rgb += texture(Texture, UV - Offset*i).rgb;
-		count += 2;
+		count++;
 	}
 	
 	color.rgb = color.rgb/count;

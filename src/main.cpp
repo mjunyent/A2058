@@ -14,7 +14,7 @@ int main(void) {
 
 	GLFWwindow *win;
 
-	win = setup(1920, 1080, 4, 2, "WdASAAAAAA", NULL);
+	win = setup(1280, 720, 4, 2, "WdASAAAAAA", NULL);
 	windows.push_back(win);
 //	windows.push_back(TOBAGO::createWindow(1200, 800, "WOPYTYWO", NULL, director::windows[0]));
 
@@ -23,11 +23,17 @@ int main(void) {
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
 
-	Camera cam = Camera(45.0f, 1920, 1080, 2.0f, 300.0f, glm::vec3(0, 50, -150), glm::vec3(0, 0, 1), glm::vec3(0,1,0));
+	Camera cam(1280, 720,
+			   45.0f, 1.0, 50.0,
+			   glm::vec3(25.0f, 8.0f, 25.0f), glm::vec3(-1.0f, -0.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+			   12.5, 17.0, 4.5f);
+
+	Rig rig(cam, -1.0);
+//	Camera cam = Camera(45.0f, 1920, 1080, 2.0f, 300.0f, glm::vec3(0, 50, -150), glm::vec3(0, 0, 1), glm::vec3(0,1,0));
 
 //	TBO thisIsIt("Images/Background.png", true);
 //	director::manager->addScene(new BlurScene(&thisIsIt, 1.0, NULL), 0, 100000000, 0.1);
-	Spheres yep(&cam);
+	Spheres yep(&rig);
 
 	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 	director::manager->addScene(&yep, 0, 10000000, 0.1);

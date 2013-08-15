@@ -7,10 +7,11 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 	int width, height;
 	glfwGetWindowSize(director::windows[0], &width, &height);
 
-	this->cam = new Camera(65.0f, width, height, 1.0, 50.0, glm::vec3(25.0f, 8.0f, 25.0f),
-															 glm::vec3(-1.0f, -0.5f, -1.0f),
-															 glm::vec3(0.0f, 1.0f, 0.0f));
-
+/*	this->cam = new Camera(width, height,
+						   45.0f, 1.0, 50.0,
+						   glm::vec3(25.0f, 8.0f, 25.0f), glm::vec3(-1.0f, -0.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+						   12.5, 17.0, 4.5f);
+						   */
 	M_floor  = glm::translate(0,0,0);
 
 	sphere_model = new Model(firstShad,
@@ -49,7 +50,6 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 	lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
 	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
 
-	this->cam->setDOF(12.5, 17.0, 4.5f);
 	dotheDOF();
 }
 

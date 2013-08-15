@@ -9,5 +9,6 @@
 
 #include "Corella/Light.h"
 #include "Corella/Camera.h"
+#include "Corella/Rig.h"
 #include "Corella/Model.h"
 #include "Corella/Deferred.h"

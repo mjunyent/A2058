@@ -146,6 +146,7 @@
     <ClCompile Include="src\Trinidad\Corella\Deferred.cpp" />
     <ClCompile Include="src\Trinidad\Corella\Light.cpp" />
     <ClCompile Include="src\Trinidad\Corella\Model.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Rig.cpp" />
     <ClCompile Include="src\Trinidad\Director\director.cpp" />
     <ClCompile Include="src\Trinidad\Director\SceneManager.cpp" />
     <ClCompile Include="src\Trinidad\Director\timer.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\Trinidad\Corella\Deferred.h" />
     <ClInclude Include="src\Trinidad\Corella\Light.h" />
     <ClInclude Include="src\Trinidad\Corella\Model.h" />
+    <ClInclude Include="src\Trinidad\Corella\Rig.h" />
     <ClInclude Include="src\Trinidad\Director\director.h" />
     <ClInclude Include="src\Trinidad\Director\SceneManager.h" />
     <ClInclude Include="src\Trinidad\Director\timer.h" />

@@ -145,6 +145,9 @@
     <ClCompile Include="src\Trinidad\Scenes\Blur.cpp">
       <Filter>Trinidad\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Corella\Rig.cpp">
+      <Filter>Trinidad\Corella</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -230,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\Blur.h">
       <Filter>Trinidad\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Corella\Rig.h">
+      <Filter>Trinidad\Corella</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -17,12 +17,13 @@ public:
 	int width, height;
 	bool debug;
 
-	Camera(float fov, int width, int height, float znear, float zfar, vec3 position, vec3 direction, vec3 up, bool debug=false);
+	Camera(int width, int height,									//Screen Info
+		   float fov, float znear, float zfar,						//Perspective Info
+		   vec3 position, vec3 direction, vec3 up,					//Camera Info
+		   float focalLength, float focusDistance, float FStop,		//Lens Info
+		   bool debug=false);
 
-	void setDOF(float focalLength, float focusDistance, float FStop);
-
-
-	void update(double t);
+	virtual void update(double t);
 
 private:
 	float vel;
