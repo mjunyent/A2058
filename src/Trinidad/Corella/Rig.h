@@ -23,7 +23,8 @@ public:
 		bool debug=false);
 
 	void update(double t);
- 
+	void calcMatrix();
+
 private:
 
 };

@@ -22,7 +22,8 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 							 NULL,
 							 sp->indexs,
 							 0.2,
-							 glm::vec3(156.0/255.0f, 9.0/255.0f, 9.0/255.0f),
+							 glm::vec3(0.5, 0.5, 0.5),
+//							 glm::vec3(156.0/255.0f, 9.0/255.0f, 9.0/255.0f),
 							 glm::vec3(1.0f, 1.0f, 1.0f),
 							 0.052f,
 							 &M_sphere,
@@ -69,7 +70,5 @@ void Spheres::render(int s, double t) {
 }
 
 void Spheres::update(double t) {
-	this->cam->position = glm::vec3(20.0f, 8.0f, 0.0f);
-	this->cam->direction = glm::vec3(0.0f, 0.0f, 0.0f) - this->cam->position;
-	this->cam->update(0);
+
 }

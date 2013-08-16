@@ -2,6 +2,7 @@
 
 Rig::Rig(const Camera &cam, float eye_sep) : Camera(cam) {
 	this->eye_sep = eye_sep;
+	calcMatrix();
 }
 
 Rig::Rig(int width, int height,										//Screen Info
@@ -14,10 +15,11 @@ Rig::Rig(int width, int height,										//Screen Info
 						 focalLength, focusDistance, FStop,
 						 debug) {
 	 this->eye_sep = eye_sep;
+	 calcMatrix();
 }
 
-void Rig::update(double t) {
-	Camera::update(t);
+void Rig::calcMatrix() {
+	Camera::calcMatrix();
 
 	vec3 axis = normalize(cross(direction, up)); //axis is the vector perpendicular to up & direction, pointing to the left (from where we are looking).
 
@@ -28,4 +30,9 @@ void Rig::update(double t) {
 
 	V_left = lookAt(positionL, center, up);
 	V_right = lookAt(positionR, center, up);
+}
+
+void Rig::update(double t) {
+	Camera::update(t);
+	calcMatrix();
 }

@@ -22,13 +22,17 @@ Camera::Camera(int width, int height,
 
 	this->debug = debug;
 
+	calcMatrix();
+}
+
+void Camera::calcMatrix() {
 	P = perspective(fov, ratio, znear, zfar);
-	V = lookAt(position, position+direction, up);
+	V = lookAt(position, position+focusDistance*direction, up);
 }
 
 void Camera::update(double t) {
-	P = perspective(fov, ratio, znear, zfar);
-	V = lookAt(position, position+focusDistance*direction, up);
+	calcMatrix();
+	//Add movement debug options.
 }
 
 void Camera::move_left() {

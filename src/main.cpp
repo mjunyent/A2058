@@ -26,9 +26,9 @@ int main(void) {
 	Camera cam(1280, 720,
 			   45.0f, 1.0, 50.0,
 			   glm::vec3(25.0f, 8.0f, 25.0f), glm::vec3(-1.0f, -0.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
-			   12.5, 17.0, 4.5f);
+			   15.5, 35.0f, 3.5f);
 
-	Rig rig(cam, -1.0);
+	Rig rig(cam, 0.2);
 //	Camera cam = Camera(45.0f, 1920, 1080, 2.0f, 300.0f, glm::vec3(0, 50, -150), glm::vec3(0, 0, 1), glm::vec3(0,1,0));
 
 //	TBO thisIsIt("Images/Background.png", true);

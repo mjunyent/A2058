@@ -24,12 +24,12 @@ public:
 		   bool debug=false);
 
 	virtual void update(double t);
+	virtual void calcMatrix();
 
 private:
 	float vel;
 	int px, py;
 	bool verbose;
-	Shader *theShad;
 	vec2 inf_p;
 
 	void move_left();

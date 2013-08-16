@@ -2,11 +2,20 @@
 
 Deferred::Deferred(Camera *cam, int debScreen) {
 	this->cam = cam;
+	rig = dynamic_cast<Rig*> (cam);
+
 	this->debScreen = debScreen;
 	setup();
 }
 
 void Deferred::setup() {
+	//By default:
+	doAA = true;
+	doDOF = false;
+	doOffscreen = false;
+	if(rig == NULL) doStereo = false;
+	else doStereo = true;
+
 	//Load Shaders
 	firstShad  = new Shader("Shaders/Deferred/first.vert",  "Shaders/Deferred/first.frag");
 	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
@@ -20,12 +29,15 @@ void Deferred::setup() {
 	bool lecalite[] = { true };
 	SecondRenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
 	DOFRenderBuff = NULL;
-	AARenderBuff  = NULL;
-
-	//By default:
-	doAA = true;
-	doDOF = false;
-	doOffscreen = false;
+	if(rig == NULL) {
+		AARenderBuff  = NULL;
+		leftBuff = NULL;
+		rightBuff = NULL;
+	} else {
+		AARenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
+		leftBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
+		rightBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
+	}
 
 	//Data...
 	this->lights = new Light(secondShad, "lights");
@@ -68,6 +80,14 @@ void Deferred::setup() {
 	DOFwidthID		 = DOFShad->getUniform("width");
 	DOFheightID		 = DOFShad->getUniform("height");
 
+	
+	//Stereo Shader
+	if(doStereo) {
+		stereoShad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphRC.frag");
+		StereoLeftID = stereoShad->getUniform("LeftTex");
+		StereoRightID = stereoShad->getUniform("RightTex");
+	}
+
 	//Debug setup.
 	if(debScreen != -1) {
 		tex1ID = debugShad->getUniform("tex1");
@@ -94,9 +114,8 @@ void Deferred::PreFirstPass() {
 	glDisable(GL_BLEND);
 	renderBuffer->bind();
 	firstShad->use();
-	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &cam->V[0][0]);
+	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &(*currentV)[0][0]);
 	glUniformMatrix4fv(P_Id, 1, GL_FALSE, &cam->P[0][0]);
-
 }
 
 void Deferred::PostFirstPass() {
@@ -105,8 +124,8 @@ void Deferred::PostFirstPass() {
 }
 
 void Deferred::SecondPass() {
-	if(doDOF || doAA || doOffscreen) SecondRenderBuff->bind();
-	glm::mat4 invPV = glm::inverse(cam->P * cam->V);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
+	if(doDOF || doAA || doOffscreen || doStereo) SecondRenderBuff->bind();
+	glm::mat4 invPV = glm::inverse(cam->P * *currentV);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
 	glDisable(GL_DEPTH_TEST);
 
 	secondShad->use();
@@ -131,14 +150,14 @@ void Deferred::SecondPass() {
 	glUniform1i(depthID, 3);
 
 	glUniformMatrix4fv(invPVID, 1, GL_FALSE, &invPV[0][0]);
-	glUniform3fv(camPosID, 1, &cam->position[0]);
+	glUniform3fv(camPosID, 1, &(*currentCamPos)[0]);
 
 	screen_quad->enable(3);
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
 
 	glEnable(GL_DEPTH_TEST);
-	if(doDOF || doAA || doOffscreen) SecondRenderBuff->unbind();
+	if(doDOF || doAA || doOffscreen || doStereo) SecondRenderBuff->unbind();
 }
 
 void Deferred::DOFPass() {
@@ -181,7 +200,7 @@ void Deferred::DOFPass() {
 
 
 	//VERTICAL PASS
-	if(doAA || doOffscreen) DOFRenderBuff->bind();
+	if(doAA || doOffscreen || doStereo) DOFRenderBuff->bind();
 
 	DOFTempRenderBuff->bind_texture(0, 0);
 	glUniform1i(DOFOrientationID, 1);
@@ -190,7 +209,7 @@ void Deferred::DOFPass() {
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
 
-	if(doAA || doOffscreen) DOFRenderBuff->unbind();
+	if(doAA || doOffscreen || doStereo) DOFRenderBuff->unbind();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -198,7 +217,7 @@ void Deferred::DOFPass() {
 
 void Deferred::AAPass() {
 	if(!doAA) return;
-	if(doOffscreen) AARenderBuff->bind();
+	if(doOffscreen || doStereo) AARenderBuff->bind();
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
@@ -223,10 +242,17 @@ void Deferred::AAPass() {
 
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-	if(doOffscreen) AARenderBuff->unbind();
+	if(doOffscreen || doStereo) AARenderBuff->unbind();
 }
 
 void Deferred::draw(int s, double t) {
+	if(!doStereo) doPipeline(s, t);
+	else doStereoPipeline(s, t);
+}
+
+void Deferred::doPipeline(int s, double t) {
+	currentCamPos = &cam->position;
+	currentV = &cam->V; //maybe a pointer?
 	PreFirstPass();
 	render(s, t);
 	PostFirstPass();
@@ -241,8 +267,52 @@ void Deferred::draw(int s, double t) {
 	AAPass();
 }
 
+void Deferred::doStereoPipeline(int s, double t) {
+	currentCamPos = &rig->positionL;
+	currentV = &rig->V_left;
+	PreFirstPass();
+	render(s, t);
+	PostFirstPass();
+	SecondPass();
+	DOFPass();
+	AAPass();
+
+	//Swap buffers
+	if(doAA) swap(leftBuff, AARenderBuff);
+	else if(doDOF) swap(leftBuff, DOFRenderBuff);
+	else swap(leftBuff, SecondRenderBuff);
+
+	currentCamPos = &rig->positionR;
+	currentV = &rig->V_right;
+	PreFirstPass();
+	render(s, t);
+	PostFirstPass();
+	SecondPass();
+	DOFPass();
+	AAPass();
+
+	//Swap buffers
+	if(doAA) swap(rightBuff, AARenderBuff);
+	else if(doDOF) swap(rightBuff, DOFRenderBuff);
+	else swap(rightBuff, SecondRenderBuff);
+
+	glDisable(GL_DEPTH_TEST);
+	stereoShad->use();
+
+	leftBuff->bind_texture(0, 0);
+	rightBuff->bind_texture(0, 1);
+	glUniform1i(StereoLeftID, 0);
+	glUniform1i(StereoRightID, 1);
+
+	screen_quad->enable(3);
+	screen_quad_I->draw(GL_TRIANGLES);
+	screen_quad->disable();
+
+	glEnable(GL_DEPTH_TEST);
+}
+
 void Deferred::Debug() {
-	glm::mat4 invPV = glm::inverse(cam->P * cam->V);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
+	glm::mat4 invPV = glm::inverse(cam->P * *currentV);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
 
 	glDisable(GL_DEPTH_TEST);
 
