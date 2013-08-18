@@ -17,7 +17,7 @@ uniform float Far;
 uniform float Near;
 
 void main(){
-	float MAX_BLUR_RADIUS = 10.0;
+	float MAX_BLUR_RADIUS = 100.0;
 
 	float depth = texture(Depth, UV).x;
 	//Linearize Depth.
@@ -25,6 +25,7 @@ void main(){
 	float xd = abs(Dd - FocalDistance);
 	float xdd = (Dd < FocalDistance) ? (FocalDistance - xd) : (FocalDistance + xd);
 	float blurAmount = min(floor( 0.5 * BlurCoeff * (xd / xdd)), MAX_BLUR_RADIUS);
+	if(depth == 1.0) blurAmount = 0.0;
 	
 	//Do the Blur
 	float count = 1.0;
@@ -48,6 +49,6 @@ void main(){
 	}
 	
 	color.rgb = color.rgb/count;
-	//color.rgb = vec3(blurAmount/10.0);
+//	color.rgb = vec3(blurAmount/50.0);
 	color.w = 1.0;
 }

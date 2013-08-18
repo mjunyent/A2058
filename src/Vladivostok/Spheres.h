@@ -3,6 +3,10 @@
 #include "Tobago/Tobago.h"
 #include "Trinidad/Trinidad.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/info_parser.hpp>
+#include <string>
+
 class Spheres : public Deferred {
 public:
 	A3dsHandler *vessel;
@@ -10,6 +14,7 @@ public:
 	Floor  *fl;
 	Model *sphere_model, *floor_model;
 	glm::mat4 M_sphere, M_floor;
+	boost::property_tree::ptree properties;
 
 	Spheres(Camera *cam);
 
