@@ -21,7 +21,7 @@
 * DOFRenderBuff -> AAPass -> Screen OR AARenderBuff
 */
 class Deferred : public Scene {
-public: 
+public:
 	Shader *firstShad;
 	Shader *secondShad;
 	Shader *AAShad;

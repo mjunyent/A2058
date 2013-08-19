@@ -20,9 +20,8 @@ private:
 	FBO *impas;
 	float radius;
 	Shader *first;
-	Shader *second;
 
-	GLint tex1ID, tex2ID;
+	GLint texID, texelSizeID, OrientationID, BlurAmountID, BlurStrengthID;
 
 	VBO *quad;
 	IBO *quad_I;

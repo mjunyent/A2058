@@ -43,7 +43,7 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 	lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
 	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
 
-	dotheDOF();
+//	dotheDOF();
 }
 
 void Spheres::render(int s, double t) {
