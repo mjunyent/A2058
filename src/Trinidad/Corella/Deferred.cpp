@@ -265,6 +265,12 @@ void Deferred::doPipeline(int s, double t) {
 	SecondPass();
 	DOFPass();
 	AAPass();
+
+	if(doAA) outputBuffL = AARenderBuff;
+	else if(doDOF) outputBuffL = DOFRenderBuff;
+	else outputBuffL = SecondRenderBuff;
+	//Just in case
+	outputBuffR = NULL;
 }
 
 void Deferred::doStereoPipeline(int s, double t) {
@@ -291,24 +297,30 @@ void Deferred::doStereoPipeline(int s, double t) {
 	DOFPass();
 	AAPass();
 
-	//Swap buffers
+	//Swap buffers (PING-PONG)
 	if(doAA) swap(rightBuff, AARenderBuff);
 	else if(doDOF) swap(rightBuff, DOFRenderBuff);
 	else swap(rightBuff, SecondRenderBuff);
 
-	glDisable(GL_DEPTH_TEST);
-	stereoShad->use();
+	//Point output to our buffers.
+	outputBuffL = leftBuff;
+	outputBuffR = rightBuff;
 
-	leftBuff->bind_texture(0, 0);
-	rightBuff->bind_texture(0, 1);
-	glUniform1i(StereoLeftID, 0);
-	glUniform1i(StereoRightID, 1);
+	if(!doOffscreen) {
+		glDisable(GL_DEPTH_TEST);
+		stereoShad->use();
 
-	screen_quad->enable(3);
-	screen_quad_I->draw(GL_TRIANGLES);
-	screen_quad->disable();
+		leftBuff->bind_texture(0, 0);
+		rightBuff->bind_texture(0, 1);
+		glUniform1i(StereoLeftID, 0);
+		glUniform1i(StereoRightID, 1);
 
-	glEnable(GL_DEPTH_TEST);
+		screen_quad->enable(3);
+		screen_quad_I->draw(GL_TRIANGLES);
+		screen_quad->disable();
+
+		glEnable(GL_DEPTH_TEST);
+	}
 }
 
 void Deferred::Debug() {

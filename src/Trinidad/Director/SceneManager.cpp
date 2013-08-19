@@ -17,6 +17,8 @@ void SceneManager::addScene(Scene *s, double start, double end, float priority) 
 	s->priority = priority;
 	s->started = false;
 	s->ended = false;
+	s->outputBuffL = NULL;
+	s->outputBuffR = NULL;
 	scenes.push_back(s);
 }
 
@@ -40,6 +42,14 @@ void SceneManager::render(int w) {
 				if((*render_pipeline[i])->started == false) { //if it's first call (not started), call pre function.
 					(*render_pipeline[i])->pre();
 					(*render_pipeline[i])->started = true;
+				}
+				//Copy buffers before start.
+				if(i > 0) {
+					(*render_pipeline[i])->inputBuffL = (*render_pipeline[i-1])->outputBuffL;
+					(*render_pipeline[i])->inputBuffR = (*render_pipeline[i-1])->outputBuffR;
+				} else {
+					(*render_pipeline[i])->inputBuffL = NULL;
+					(*render_pipeline[i])->inputBuffR = NULL;
 				}
 				(*render_pipeline[i])->draw( win, (*time - (*render_pipeline[i])->start) / ((*render_pipeline[i])->end - (*render_pipeline[i])->start) );
 			}

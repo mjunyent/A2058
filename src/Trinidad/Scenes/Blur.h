@@ -9,16 +9,16 @@ using namespace std;
 
 class BlurScene : public Scene {
 public:
-	BlurScene(TBO *input, float radius, FBO *output = NULL);
+	BlurScene(int radius, float strength, bool offscreen = false);
 
 	void draw(int s, double time);
 
-	FBO *output;
+	int radius;
+	float strength;
 
 private:
-	TBO *input;
+	bool offscreen;
 	FBO *impas;
-	float radius;
 	Shader *first;
 
 	GLint texID, texelSizeID, OrientationID, BlurAmountID, BlurStrengthID;

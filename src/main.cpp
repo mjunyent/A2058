@@ -29,7 +29,7 @@ int main(void) {
 
 //	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 	director::manager->addScene(&yep, 0, 10000000, 0.1);
-	director::manager->addScene(new BlurScene(yep.AARenderBuff->textures[0], 1.0), 0, 10000000000, 0.2);
+	director::manager->addScene(new BlurScene(5, 0.0), 0, 10000000000, 0.2);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

@@ -33,6 +33,9 @@ public:
 	double start;
 	double end;
 
+	FBO *inputBuffL, *inputBuffR;	//JUST A POINTER TO LAST SCENE OUTPUT FBO.
+	FBO *outputBuffL, *outputBuffR; //JUST A POINTER TO CURRENT SCENE OUTPUT FBO. Use it to save your output.
+
 	Scene() {};
 	virtual void pre() {};						//function called before first draw (in render loop).
 	virtual void post() {};						//function called after last draw (in render loop).

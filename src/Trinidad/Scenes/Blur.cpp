@@ -1,15 +1,17 @@
 #include "Blur.h"
 #include "../Director/director.h"
 
-BlurScene::BlurScene(TBO *input, float radius, FBO *output) {
-	this->input = input;
+BlurScene::BlurScene(int radius, float strength, bool offscreen) {
 	this->radius = radius;
-	this->output = output;
+	this->strength = strength;
 
 	first  = new Shader("Shaders/Post/general.vert", "Shaders/Post/BlurFirst.frag");
 
+	int width, height;
+	glfwGetWindowSize(director::windows[0], &width, &height);
+
 	bool qualite[1] = {true};
-	impas = new FBO(input->width, input->height, false, 1, qualite);
+	impas = new FBO(width, height, false, 1, qualite);
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
@@ -29,12 +31,12 @@ void BlurScene::draw(int s, double time) {
 	//First Pass
 	impas->bind();
 		first->use();
-		input->bind(0);
+		inputBuffL->textures[0]->bind(0);
 		glUniform1i(texID, 0);
 		glUniform1i(OrientationID, 0);
-		glUniform1i(BlurAmountID, 10);
-		glUniform1f(BlurStrengthID, 0.0);
-		glUniform2f(texelSizeID, 1.0/float(input->width), 1.0/float(input->height));
+		glUniform1i(BlurAmountID, radius);
+		glUniform1f(BlurStrengthID, strength);
+		glUniform2f(texelSizeID, 1.0/float(inputBuffL->textures[0]->width), 1.0/float(inputBuffL->textures[0]->height));
 
 		quad->enable(3);
 		quad_I->draw(GL_TRIANGLES);
@@ -42,7 +44,7 @@ void BlurScene::draw(int s, double time) {
 	impas->unbind();
 
 	//Second Pass
-	if(output != NULL) output->bind();
+//	if(output != NULL) output->bind();
 		impas->bind_texture(0, 0);
 		glUniform1i(texID, 0);
 		glUniform1i(OrientationID, 1);
@@ -50,7 +52,7 @@ void BlurScene::draw(int s, double time) {
 		quad->enable(3);
 		quad_I->draw(GL_TRIANGLES);
 		quad->disable();
-	if(output != NULL) output->unbind();
+//	if(output != NULL) output->unbind();
 
 	glEnable(GL_DEPTH_TEST);
 }
