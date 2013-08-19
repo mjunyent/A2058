@@ -15,7 +15,8 @@ Spheres::Spheres() : Deferred() {
 	emissiveID = firstShad->getUniform("emissive");
 
 	bool calite[] = { true, true, true, true };
-	renderBuffer = new FBO(myCam->width, myCam->height, true, 4, calite);
+	renderBufferL = new FBO(myCam->width, myCam->height, true, 4, calite);
+	renderBufferR = new FBO(myCam->width, myCam->height, true, 4, calite);
 
 	setup(myRig);
 

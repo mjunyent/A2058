@@ -39,9 +39,9 @@ void Deferred::setup(Camera *cam, int debScreen) {
 	if(debugShad == NULL)	debugShad  = new Shader("Shaders/Deferred/debug.vert",  "Shaders/Deferred/debug.frag");
 
 	//Prepare FBOs
-	if(renderBuffer == NULL) {
+	if(renderBufferL == NULL) {
 		bool calite[] = { true, true, true };
-		renderBuffer = new FBO(cam->width, cam->height, true, 3, calite);
+		renderBufferL = new FBO(cam->width, cam->height, true, 3, calite);
 	}
 
 	bool lecalite[] = { true };
@@ -55,6 +55,10 @@ void Deferred::setup(Camera *cam, int debScreen) {
 	} else {
 		leftBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
 		rightBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
+		if(renderBufferR == NULL) {
+			bool calite[] = { true, true, true };
+			renderBufferR = new FBO(cam->width, cam->height, true, 3, calite);
+		}
 	}
 
 	//Data...
@@ -130,14 +134,14 @@ void Deferred::setBackground(glm::vec3 *color) {
 
 void Deferred::PreFirstPass() {
 	glDisable(GL_BLEND);
-	renderBuffer->bind();
+	currentRenderBuffer->bind();
 	firstShad->use();
 	glUniformMatrix4fv(V_Id, 1, GL_FALSE, &(*currentV)[0][0]);
 	glUniformMatrix4fv(P_Id, 1, GL_FALSE, &cam->P[0][0]);
 }
 
 void Deferred::PostFirstPass() {
-	renderBuffer->unbind();
+	currentRenderBuffer->unbind();
 	glEnable(GL_BLEND);
 }
 
@@ -147,10 +151,10 @@ void Deferred::SecondPass() {
 	glDisable(GL_DEPTH_TEST);
 
 	secondShad->use();
-	renderBuffer->bind_texture(0, 0);
-	renderBuffer->bind_texture(1, 1);
-	renderBuffer->bind_texture(2, 2);
-	renderBuffer->bind_depth_texture(3);
+	currentRenderBuffer->bind_texture(0, 0);
+	currentRenderBuffer->bind_texture(1, 1);
+	currentRenderBuffer->bind_texture(2, 2);
+	currentRenderBuffer->bind_depth_texture(3);
 	lights->passLightToGPU();
 
 	if(backgroundID != -1) {
@@ -190,7 +194,7 @@ void Deferred::DOFPass() {
 	DOFShad->use();
 	
 	SecondRenderBuff->bind_texture(0, 0);
-	renderBuffer->bind_depth_texture(1);
+	currentRenderBuffer->bind_depth_texture(1);
 
 	glUniform1i(DOFTextID, 0);
 	glUniform1i(DOFDepthID, 1);
@@ -245,8 +249,8 @@ void Deferred::AAPass() {
 	if(doDOF) DOFRenderBuff->bind_texture(0, 0);
 	else SecondRenderBuff->bind_texture(0, 0);
 
-	renderBuffer->bind_texture(0, 1);
-	renderBuffer->bind_depth_texture(2);
+	currentRenderBuffer->bind_texture(0, 1);
+	currentRenderBuffer->bind_depth_texture(2);
 
 	glUniform1i(finalID, 0);
 	glUniform1i(finalNID, 1);
@@ -269,6 +273,7 @@ void Deferred::draw(int s, double t) {
 }
 
 void Deferred::doPipeline(int s, double t) {
+	currentRenderBuffer = renderBufferL;
 	currentCamPos = &cam->position;
 	currentV = &cam->V; //maybe a pointer?
 	PreFirstPass();
@@ -292,6 +297,7 @@ void Deferred::doPipeline(int s, double t) {
 }
 
 void Deferred::doStereoPipeline(int s, double t) {
+	currentRenderBuffer = renderBufferL;
 	currentCamPos = &rig->positionL;
 	currentV = &rig->V_left;
 	PreFirstPass();
@@ -306,6 +312,7 @@ void Deferred::doStereoPipeline(int s, double t) {
 	else if(doDOF) swap(leftBuff, DOFRenderBuff);
 	else swap(leftBuff, SecondRenderBuff);
 
+	currentRenderBuffer = renderBufferR;
 	currentCamPos = &rig->positionR;
 	currentV = &rig->V_right;
 	PreFirstPass();
@@ -347,10 +354,10 @@ void Deferred::Debug() {
 	glDisable(GL_DEPTH_TEST);
 
 	debugShad->use();
-	renderBuffer->bind_texture(0, 0);
-	renderBuffer->bind_texture(1, 1);
-	renderBuffer->bind_texture(2, 2);
-	renderBuffer->bind_depth_texture(3);
+	currentRenderBuffer->bind_texture(0, 0);
+	currentRenderBuffer->bind_texture(1, 1);
+	currentRenderBuffer->bind_texture(2, 2);
+	currentRenderBuffer->bind_depth_texture(3);
 
 	glUniform1i(tex1ID, 0);
 	glUniform1i(tex2ID, 1);

@@ -30,7 +30,7 @@ public:
 	Shader *debugShad;
 	Shader *stereoShad;
 
-	FBO *renderBuffer;
+	FBO *currentRenderBuffer, *renderBufferL, *renderBufferR;
 	FBO *SecondRenderBuff, *DOFTempRenderBuff, *DOFRenderBuff, *AARenderBuff;
 	FBO *leftBuff, *rightBuff;
 

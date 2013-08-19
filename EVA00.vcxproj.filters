@@ -151,6 +151,9 @@
     <ClCompile Include="src\Trinidad\Scenes\RenderQuad.cpp">
       <Filter>Trinidad\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Scenes\Glow.cpp">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -241,6 +244,9 @@
       <Filter>Trinidad\Corella</Filter>
     </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\RenderQuad.h">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Scenes\Glow.h">
       <Filter>Trinidad\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
