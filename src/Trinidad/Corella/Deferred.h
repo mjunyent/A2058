@@ -73,8 +73,6 @@ public:
 	void doStereoPipeline(int s, double t);
 
 	void PreFirstPass(); //Prepare to launch Geometry.
-	void PreLeftFirstPass();
-	void PreRightFirstPass();
 	void PostFirstPass(); //After Launching Geometry.
 	void SecondPass(); //Render quad from FBO.
 	void DOFPass(); //Apply DOF.

@@ -12,7 +12,7 @@ void Deferred::setup() {
 	//By default:
 	doAA = true;
 	doDOF = false;
-	doOffscreen = false;
+	doOffscreen = true;
 	if(rig == NULL) doStereo = false;
 	else doStereo = true;
 
@@ -26,15 +26,16 @@ void Deferred::setup() {
 	//Prepare FBOs
 	bool calite[] = { true, true, true };
 	renderBuffer = new FBO(cam->width, cam->height, true, 3, calite);
+
 	bool lecalite[] = { true };
 	SecondRenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
 	DOFRenderBuff = NULL;
+	AARenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
+
 	if(rig == NULL) {
-		AARenderBuff  = NULL;
 		leftBuff = NULL;
 		rightBuff = NULL;
 	} else {
-		AARenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
 		leftBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
 		rightBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
 	}
@@ -362,8 +363,4 @@ void Deferred::dotheDOF(bool doit) {
 
 void Deferred::renderOfscreen(bool doit) {
 	doOffscreen = doit;
-	if(AARenderBuff == NULL) {
-		bool lecalite[] = { true };
-		AARenderBuff	 = new FBO(cam->width, cam->height, false, 1, lecalite);
-	}
 }

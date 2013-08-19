@@ -1,7 +1,7 @@
 #include "Blur.h"
 #include "../Director/director.h"
 
-BlurScene::BlurScene(int radius, float strength, bool offscreen) {
+BlurScene::BlurScene(int radius, float strength) {
 	this->radius = radius;
 	this->strength = strength;
 
@@ -12,6 +12,8 @@ BlurScene::BlurScene(int radius, float strength, bool offscreen) {
 
 	bool qualite[1] = {true};
 	impas = new FBO(width, height, false, 1, qualite);
+	outputL = new FBO(width, height, false, 1, qualite);
+	outputR = new FBO(width, height, false, 1, qualite);
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
@@ -24,35 +26,70 @@ BlurScene::BlurScene(int radius, float strength, bool offscreen) {
 }
 
 void BlurScene::draw(int s, double time) {
-	if(s != 0) return;
-
 	glDisable(GL_DEPTH_TEST);
 
-	//First Pass
-	impas->bind();
-		first->use();
-		inputBuffL->textures[0]->bind(0);
-		glUniform1i(texID, 0);
-		glUniform1i(OrientationID, 0);
-		glUniform1i(BlurAmountID, radius);
-		glUniform1f(BlurStrengthID, strength);
-		glUniform2f(texelSizeID, 1.0/float(inputBuffL->textures[0]->width), 1.0/float(inputBuffL->textures[0]->height));
+	outputBuffL = NULL;
+	outputBuffR = NULL;
 
-		quad->enable(3);
-		quad_I->draw(GL_TRIANGLES);
-		quad->disable();
-	impas->unbind();
+	if(inputBuffL != NULL) {
+		//First Pass
+		impas->bind();
+			first->use();
+			inputBuffL->textures[0]->bind(0);
+			glUniform1i(texID, 0);
+			glUniform1i(OrientationID, 0);
+			glUniform1i(BlurAmountID, radius);
+			glUniform1f(BlurStrengthID, strength);
+			glUniform2f(texelSizeID, 1.0/float(inputBuffL->textures[0]->width), 1.0/float(inputBuffL->textures[0]->height));
 
-	//Second Pass
-//	if(output != NULL) output->bind();
-		impas->bind_texture(0, 0);
-		glUniform1i(texID, 0);
-		glUniform1i(OrientationID, 1);
+			quad->enable(3);
+			quad_I->draw(GL_TRIANGLES);
+			quad->disable();
+		impas->unbind();
 
-		quad->enable(3);
-		quad_I->draw(GL_TRIANGLES);
-		quad->disable();
-//	if(output != NULL) output->unbind();
+		//Second Pass
+		outputL->bind();
+			impas->bind_texture(0, 0);
+			glUniform1i(texID, 0);
+			glUniform1i(OrientationID, 1);
+
+			quad->enable(3);
+			quad_I->draw(GL_TRIANGLES);
+			quad->disable();
+		outputL->unbind();
+
+		outputBuffL = outputL;
+	}
+
+	if(inputBuffR != NULL) {
+		//First Pass
+		impas->bind();
+			first->use();
+			inputBuffR->textures[0]->bind(0);
+			glUniform1i(texID, 0);
+			glUniform1i(OrientationID, 0);
+			glUniform1i(BlurAmountID, radius);
+			glUniform1f(BlurStrengthID, strength);
+			glUniform2f(texelSizeID, 1.0/float(inputBuffL->textures[0]->width), 1.0/float(inputBuffL->textures[0]->height));
+
+			quad->enable(3);
+			quad_I->draw(GL_TRIANGLES);
+			quad->disable();
+		impas->unbind();
+
+		//Second Pass
+		outputR->bind();
+			impas->bind_texture(0, 0);
+			glUniform1i(texID, 0);
+			glUniform1i(OrientationID, 1);
+
+			quad->enable(3);
+			quad_I->draw(GL_TRIANGLES);
+			quad->disable();
+		outputR->unbind();
+
+		outputBuffR = outputR;
+	}
 
 	glEnable(GL_DEPTH_TEST);
 }

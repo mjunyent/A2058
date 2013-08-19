@@ -6,6 +6,7 @@
 #include "Scenes/Sphere.h"
 #include "Scenes/Floor.h"
 #include "Scenes/Blur.h"
+#include "Scenes/RenderQuad.h"
 
 #include "Corella/Light.h"
 #include "Corella/Camera.h"

@@ -9,7 +9,7 @@ using namespace std;
 
 class BlurScene : public Scene {
 public:
-	BlurScene(int radius, float strength, bool offscreen = false);
+	BlurScene(int radius, float strength);
 
 	void draw(int s, double time);
 
@@ -19,6 +19,8 @@ public:
 private:
 	bool offscreen;
 	FBO *impas;
+	FBO *outputL;
+	FBO *outputR;
 	Shader *first;
 
 	GLint texID, texelSizeID, OrientationID, BlurAmountID, BlurStrengthID;
