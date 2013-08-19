@@ -17,19 +17,12 @@ int main(void) {
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
 
-	Camera cam(1280, 720,
-			   45.0f, 2.0, 160.0,
-			   glm::vec3(-25.0f, 18.0f, -25.0f), glm::vec3(1.0f, -0.5f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
-			   14.0, 28.1f, 2.5f);
-
-	Rig rig(cam, 0.2);
-
-	Spheres yep(&rig);
+//	Spheres yep;
 	//yep.dotheAA(false);
 
 //	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
-	director::manager->addScene(&yep, 0, 10000000, 0.1);
-	director::manager->addScene(new BlurScene(5, 0.0), 0, 10000000000, 0.2);
+	director::manager->addScene(new Spheres, 0, 10000000, 0.1);
+//	director::manager->addScene(new BlurScene(5, 0.0), 0, 10000000000, 0.2);
 	director::manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 0.3);
 
 	while(!glfwWindowShouldClose(win)) {
@@ -38,7 +31,6 @@ int main(void) {
 		timer.update();
 		director::manager->render();
 
-	//	glfwSwapBuffers(win);
 		glfwPollEvents();
 		if(glfwGetKey(win, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(win, GL_TRUE);
 	}

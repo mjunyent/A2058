@@ -9,14 +9,17 @@
 
 class Spheres : public Deferred {
 public:
-	A3dsHandler *vessel;
+	Camera *myCam;
+	Rig *myRig;
+
 	Sphere *sp;
 	Floor  *fl;
 	Model *sphere_model, *floor_model;
 	glm::mat4 M_sphere, M_floor;
 	boost::property_tree::ptree properties;
+	GLint emissiveID;
 
-	Spheres(Camera *cam);
+	Spheres();
 
 	void render(int s, double t);
 

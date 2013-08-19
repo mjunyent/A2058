@@ -1,6 +1,24 @@
 #include "Spheres.h"
 
-Spheres::Spheres(Camera *cam) : Deferred(cam) {
+Spheres::Spheres() : Deferred() {
+	int width, height;
+	glfwGetWindowSize(director::windows[0], &width, &height);
+
+	myCam = new Camera(width, height,
+		   45.0f, 2.0, 160.0,
+		   glm::vec3(-25.0f, 18.0f, -25.0f), glm::vec3(1.0f, -0.5f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+		   14.0, 28.1f, 2.5f);
+
+	myRig = new Rig(*myCam, 0.2);
+
+	firstShad = new Shader("Shaders/Vladivostok/SpheresFirst.vert", "Shaders/Vladivostok/SpheresFirst.frag"); 
+	emissiveID = firstShad->getUniform("emissive");
+
+	bool calite[] = { true, true, true, true };
+	renderBuffer = new FBO(myCam->width, myCam->height, true, 4, calite);
+
+	setup(myRig);
+
 	sp = new Sphere(1.0, 20);
 	fl = new Floor(120.0);
 
@@ -47,6 +65,8 @@ Spheres::Spheres(Camera *cam) : Deferred(cam) {
 }
 
 void Spheres::render(int s, double t) {
+	bool emits = false;
+	glUniform1f(emissiveID, 0.0);
 	floor_model->render();
 
 	M_sphere = glm::translate(-20.0f, 1.0f, -20.0f);
@@ -54,8 +74,12 @@ void Spheres::render(int s, double t) {
 	for(int i=0; i<19; i++) {
 		M_sphere = M_sphere*glm::translate(7.0f, 0.0f, 0.0f);
 		for(int j=0; j<19; j++) {
+			if(emits) glUniform1f(emissiveID, 1.0);
+			else glUniform1f(emissiveID, 0.0);
+
 			M_sphere = M_sphere*glm::translate(0.0f, 0.0f, 7.0f);
 			if(i != 4 || j != 4) sphere_model->render();
+			emits = !emits;
 		}
 		M_sphere = M_sphere*glm::translate(0.0f, 0.0f, -19*7.0f);
 	}

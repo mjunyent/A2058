@@ -1,14 +1,29 @@
 #include "Deferred.h"
 
+Deferred::Deferred() {
+	firstShad = NULL;
+	secondShad = NULL;
+	AAShad = NULL;
+	DOFShad = NULL;
+	debugShad = NULL;
+}
+
 Deferred::Deferred(Camera *cam, int debScreen) {
+	firstShad = NULL;
+	secondShad = NULL;
+	AAShad = NULL;
+	DOFShad = NULL;
+	debugShad = NULL;
+
+	setup(cam, debScreen);
+}
+
+void Deferred::setup(Camera *cam, int debScreen) {
 	this->cam = cam;
 	rig = dynamic_cast<Rig*> (cam);
 
 	this->debScreen = debScreen;
-	setup();
-}
 
-void Deferred::setup() {
 	//By default:
 	doAA = true;
 	doDOF = false;
@@ -17,15 +32,17 @@ void Deferred::setup() {
 	else doStereo = true;
 
 	//Load Shaders
-	firstShad  = new Shader("Shaders/Deferred/first.vert",  "Shaders/Deferred/first.frag");
-	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
-	AAShad  = new Shader("Shaders/Deferred/third.vert",  "Shaders/Deferred/third.frag");
-	DOFShad = new Shader("Shaders/Deferred/DOF.vert", "Shaders/Deferred/DOF.frag");
-	debugShad  = new Shader("Shaders/Deferred/debug.vert",  "Shaders/Deferred/debug.frag");
+	if(firstShad == NULL)	firstShad  = new Shader("Shaders/Deferred/first.vert",  "Shaders/Deferred/first.frag");
+	if(secondShad == NULL)	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Deferred/second.frag");
+	if(AAShad == NULL)		AAShad  = new Shader("Shaders/Deferred/third.vert",  "Shaders/Deferred/third.frag");
+	if(DOFShad == NULL)		DOFShad = new Shader("Shaders/Deferred/DOF.vert", "Shaders/Deferred/DOF.frag");
+	if(debugShad == NULL)	debugShad  = new Shader("Shaders/Deferred/debug.vert",  "Shaders/Deferred/debug.frag");
 
 	//Prepare FBOs
-	bool calite[] = { true, true, true };
-	renderBuffer = new FBO(cam->width, cam->height, true, 3, calite);
+	if(renderBuffer == NULL) {
+		bool calite[] = { true, true, true };
+		renderBuffer = new FBO(cam->width, cam->height, true, 3, calite);
+	}
 
 	bool lecalite[] = { true };
 	SecondRenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);

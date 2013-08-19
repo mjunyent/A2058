@@ -3,6 +3,7 @@
 #define TRINIDAD_DEFERRED
 
 #include <typeinfo>
+#include <string>
 #include "Tobago/Tobago.h"
 #include "../Director/SceneManager.h"
 #include "../Director/director.h"
@@ -44,19 +45,12 @@ public:
 	glm::mat4 *currentV;
 	glm::vec3 *currentCamPos;
 
-	GLint P_Id, V_Id; //First Shad.
-	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID, backgroundID, bgColorID, isBgTexID;
-	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID; //Debug Shad.
-	GLint finalNID, finalDID, finalID, widthID, heightID; //AA Shad.
-	GLint DOFTextID, DOFDepthID, DOFBlurCoeffID, DOFFDistID, DOFwidthID, DOFheightID, DOFFarID, DOFNearID, DOFOrientationID;
-	GLint StereoLeftID, StereoRightID;
-
 	int debScreen;
-	bool doDOF, doAA, doOffscreen, doStereo;
 
 	Camera *cam;
 	Rig    *rig;
 
+	Deferred();
 	Deferred(Camera *cam, int debScreen=-1);
 
 	void setBackground(char *name);
@@ -80,7 +74,16 @@ public:
 	void Debug();
 
 protected:
-	void setup();
+	void setup(Camera *cam, int debScreen=-1);
+
+	GLint P_Id, V_Id; //First Shad.
+	GLint normalID, diffuseID, specularID, depthID, invPVID, camPosID, backgroundID, bgColorID, isBgTexID;
+	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID; //Debug Shad.
+	GLint finalNID, finalDID, finalID, widthID, heightID; //AA Shad.
+	GLint DOFTextID, DOFDepthID, DOFBlurCoeffID, DOFFDistID, DOFwidthID, DOFheightID, DOFFarID, DOFNearID, DOFOrientationID;
+	GLint StereoLeftID, StereoRightID;
+
+	bool doDOF, doAA, doOffscreen, doStereo;
 };
 
 #endif
