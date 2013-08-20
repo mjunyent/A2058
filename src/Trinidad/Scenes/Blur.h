@@ -9,7 +9,7 @@ using namespace std;
 
 class BlurScene : public Scene {
 public:
-	BlurScene(int radius, float strength);
+	BlurScene(int width, int height, int radius, float strength);
 
 	void draw(int s, double time);
 
@@ -17,7 +17,7 @@ public:
 	float strength;
 
 private:
-	bool offscreen;
+	int w, h;
 	FBO *impas;
 	FBO *outputL;
 	FBO *outputR;

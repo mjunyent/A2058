@@ -1,19 +1,18 @@
 #include "Blur.h"
 #include "../Director/director.h"
 
-BlurScene::BlurScene(int radius, float strength) {
+BlurScene::BlurScene(int width, int height, int radius, float strength) {
+	this->w = width;
+	this->h = height;
 	this->radius = radius;
 	this->strength = strength;
 
 	first  = new Shader("Shaders/Post/general.vert", "Shaders/Post/BlurFirst.frag");
 
-	int width, height;
-	glfwGetWindowSize(director::windows[0], &width, &height);
-
 	bool qualite[1] = {true};
-	impas = new FBO(width, height, false, 1, qualite);
-	outputL = new FBO(width, height, false, 1, qualite);
-	outputR = new FBO(width, height, false, 1, qualite);
+	impas = new FBO(w, h, false, 1, qualite);
+	outputL = new FBO(w, h, false, 1, qualite);
+	outputR = new FBO(w, h, false, 1, qualite);
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));

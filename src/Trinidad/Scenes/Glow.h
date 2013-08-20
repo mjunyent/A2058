@@ -4,6 +4,7 @@
 
 #include "Tobago/Tobago.h"
 #include "../Director/SceneManager.h"
+#include "Blur.h"
 
 using namespace std;
 
@@ -18,14 +19,15 @@ public:
 	int mix;
 
 private:
+	BlurScene *blur;
 	TBO *glowMapL, *glowMapR;
 	FBO *filtered;
 	FBO *outputL;
 	FBO *outputR;
 
-	Shader *filterGlow;
-
+	Shader *filterGlow, *mixBuffs;
 	GLint filterTexID, filterMapID;
+	GLint mixTexA, mixTexB, mixMode;
 
 	VBO *quad;
 	IBO *quad_I;

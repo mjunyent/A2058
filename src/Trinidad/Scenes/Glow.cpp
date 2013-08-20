@@ -15,27 +15,54 @@ GlowScene::GlowScene(int radius, float strength, int mix, TBO *glowMapL, TBO *gl
 	filterTexID = filterGlow->getUniform("Texture");
 	filterMapID = filterGlow->getUniform("Map");
 
+	mixBuffs = new Shader("Shaders/Post/general.vert", "Shaders/Post/GlowMix.frag");
+	mixTexA = mixBuffs->getUniform("TexA");
+	mixTexB = mixBuffs->getUniform("TexB");
+	mixMode = mixBuffs->getUniform("Mode");
+
 	int width, height;
 	glfwGetWindowSize(director::windows[0], &width, &height);
 
 	bool qualite[1] = {true};
-	filtered = new FBO(width, height, false, 1, qualite);
+	filtered = new FBO(width/2, height/2, false, 1, qualite);
+
+	blur = new BlurScene(width/2, height/2, 15.0, 0.2);
+	blur->inputBuffR = NULL;
 }
 
 void GlowScene::draw(int s, double time) {
 	glDisable(GL_DEPTH_TEST);
 
+	//Make GlowMap
+	filtered->bind();
 	filterGlow->use();
-
 	inputBuffL->textures[0]->bind(0);
 	glowMapL->bind(1);
-
 	glUniform1i(filterTexID, 0);
 	glUniform1i(filterMapID, 1);
+	quad->enable(3);
+	quad_I->draw(GL_TRIANGLES);
+	quad->disable();
+	filtered->unbind();
+
+	//Blur GlowMap
+	blur->inputBuffL = filtered;
+	blur->draw(0, 0);
+
+	//Mix them
+	mixBuffs->use();
+	blur->outputBuffL->bind_texture(0, 0);
+	inputBuffL->bind_texture(0, 1);
+
+	glUniform1i(mixTexA, 0);
+	glUniform1i(mixTexB, 1);
+	glUniform1i(mixMode, mix);
 
 	quad->enable(3);
 	quad_I->draw(GL_TRIANGLES);
 	quad->disable();
+
+//	outputBuffL = blur->outputBuffL;
 
 	glEnable(GL_DEPTH_TEST);
 }
