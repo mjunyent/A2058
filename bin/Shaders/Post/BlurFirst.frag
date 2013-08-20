@@ -16,8 +16,8 @@ float Gaussian (float x, float deviation) {
 
 void main(){
 
-//	float deviation = BlurAmount*0.35;
-	float deviation = BlurAmount*0.39894;
+	float deviation = BlurAmount*0.35;
+//	float deviation = BlurAmount*0.39894;
 	deviation *= deviation;
 	float strength = 1.0 - BlurStrength;
 	

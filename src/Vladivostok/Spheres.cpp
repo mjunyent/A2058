@@ -49,7 +49,7 @@ Spheres::Spheres() : Deferred() {
 							NULL,
 							NULL,
 							fl->indexs,
-							0.4,
+							0.2,
 							glm::vec3(1.0, 1.0, 1.0),
 							glm::vec3(1.0, 1.0, 1.0),
 							0.128f,
@@ -68,15 +68,20 @@ Spheres::Spheres() : Deferred() {
 void Spheres::render(int s, double t) {
 	bool emits = false;
 	glUniform1f(emissiveID, 0.0);
-	floor_model->render();
+	//floor_model->render();
 
 	M_sphere = glm::translate(-20.0f, 1.0f, -20.0f);
 
 	for(int i=0; i<19; i++) {
 		M_sphere = M_sphere*glm::translate(7.0f, 0.0f, 0.0f);
 		for(int j=0; j<19; j++) {
-			if(emits) glUniform1f(emissiveID, 1.0);
-			else glUniform1f(emissiveID, 0.0);
+			if(emits) {
+				glUniform1f(emissiveID, 1.0);
+//				sphere_model->diffuse_color = glm::vec3(9.0/255.0f, 156.0/255.0f, 9.0/255.0f);
+			} else {
+				glUniform1f(emissiveID, 0.0);
+	//			sphere_model->diffuse_color = glm::vec3(0.5, 0.5, 0.5);
+			}
 
 			M_sphere = M_sphere*glm::translate(0.0f, 0.0f, 7.0f);
 			if(i != 4 || j != 4) sphere_model->render();
