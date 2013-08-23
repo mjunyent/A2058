@@ -6,7 +6,7 @@ Spheres::Spheres() : Deferred() {
 
 	myCam = new Camera(width, height,
 		   45.0f, 2.0, 160.0,
-		   glm::vec3(-25.0f, 18.0f, -25.0f), glm::vec3(1.0f, -0.5f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+		   glm::vec3(-25.0f, 18.0f, -125.0f), glm::vec3(0.0f, -0.5f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
 		   14.0, 28.1f, 2.5f);
 
 	myRig = new Rig(*myCam, 0.2);

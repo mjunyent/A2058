@@ -6,6 +6,9 @@ Deferred::Deferred() {
 	AAShad = NULL;
 	DOFShad = NULL;
 	debugShad = NULL;
+
+	renderBufferL = NULL;
+	renderBufferR = NULL;
 }
 
 Deferred::Deferred(Camera *cam, int debScreen) {
@@ -14,6 +17,9 @@ Deferred::Deferred(Camera *cam, int debScreen) {
 	AAShad = NULL;
 	DOFShad = NULL;
 	debugShad = NULL;
+
+	renderBufferL = NULL;
+	renderBufferR = NULL;
 
 	setup(cam, debScreen);
 }

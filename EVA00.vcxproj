@@ -156,6 +156,7 @@
     <ClCompile Include="src\Trinidad\Scenes\Glow.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\RenderQuad.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp" />
+    <ClCompile Include="src\Vladivostok\Cilinder.cpp" />
     <ClCompile Include="src\Vladivostok\SimpleCells.cpp" />
     <ClCompile Include="src\Vladivostok\Spheres.cpp" />
   </ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="src\Trinidad\Scenes\RenderQuad.h" />
     <ClInclude Include="src\Trinidad\Scenes\Sphere.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
+    <ClInclude Include="src\Vladivostok\Cilinder.h" />
     <ClInclude Include="src\Vladivostok\SimpleCells.h" />
     <ClInclude Include="src\Vladivostok\Spheres.h" />
   </ItemGroup>
