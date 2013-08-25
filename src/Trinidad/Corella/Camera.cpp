@@ -27,7 +27,7 @@ Camera::Camera(int width, int height,
 
 void Camera::calcMatrix() {
 	P = perspective(fov, ratio, znear, zfar);
-	V = lookAt(position, position+focusDistance*direction, up);
+	V = lookAt(position, position+focusDistance*normalize(direction), up);
 }
 
 void Camera::update(double t) {

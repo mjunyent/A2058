@@ -26,7 +26,7 @@ void Rig::calcMatrix() {
 	positionL = position + axis*(eye_sep/2.0f);
 	positionR = position - axis*(eye_sep/2.0f);
 
-	center = position + direction*focusDistance;
+	center = position + normalize(direction)*focusDistance;
 
 	V_left = lookAt(positionL, center, up);
 	V_right = lookAt(positionR, center, up);

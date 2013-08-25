@@ -12,10 +12,10 @@ public:
 	Camera *myCam;
 	Rig *myRig;
 
+	Sphere *sphere;
 	SkyBox *box;
-	A3dsHandler *cilinder3DS;
-	Model *cilinder_model, *box_model;
-	glm::mat4 M_cilinder, M_box;
+	Model *sphere_model, *box_model;
+	glm::mat4 M_sphere, M_box;
 	boost::property_tree::ptree properties;
 
 	AOTest();

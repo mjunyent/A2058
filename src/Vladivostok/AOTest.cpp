@@ -13,31 +13,8 @@ AOTest::AOTest() : Deferred() {
 
 	setup(myRig);
 
-	cilinder3DS = new A3dsHandler("Models/cilinder.3DS", 0);
-	cilinder3DS->makeNormalsPerVertex();
-
-	M_cilinder = glm::translate(0,0,0);
-
-	cilinder_model = new Model(firstShad,
-							   cilinder3DS->vertexs,
-							   cilinder3DS->normals,
-							   NULL,
-							   NULL,
-							   NULL,
-							   cilinder3DS->indexs,
-							   0.4,
-							   glm::vec3(0.4f, 0.4f, 0.4f),
-							   glm::vec3(1.0f, 1.0f, 1.0f),
-							   0.2f,
-							   &M_cilinder,
-							   1.0,
-							   NULL,
-							   NULL);
-
-	box = new SkyBox(7.0);
-	
+	box = new SkyBox(10.0);
 	M_box = glm::translate(0,0,0);
-
 	box_model = new Model(firstShad,
 						  box->vertexs,
 						  box->normals,
@@ -45,7 +22,7 @@ AOTest::AOTest() : Deferred() {
 						  NULL,
 						  NULL,
 						  box->indexs,
-						  0.5,
+						  0.4,
 						  glm::vec3(1,1,1),
 						  glm::vec3(1,1,1),
 						  0.512f,
@@ -54,17 +31,77 @@ AOTest::AOTest() : Deferred() {
 						  NULL,
 						  NULL);
 
-	
+	sphere = new Sphere(0.5, 20);
+	M_sphere = glm::translate(0.0f, -9.5f, 0.0f);
+	sphere_model = new Model(firstShad,
+							 sphere->vertexs,
+							 sphere->normals,
+							 NULL,
+							 NULL,
+							 NULL,
+							 sphere->indexs,
+							 0.4,
+							 glm::vec3(1, 1, 1),
+							 glm::vec3(1, 1, 1),
+							 0.512f,
+							 &M_sphere,
+							 1.0,
+							 NULL,
+							 NULL);
+
 
 	//lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
-//	lights->addPointLight(glm::vec3(0.0, 0.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(1.0, 0.0, 0.0));
-	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(1.0, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
+	lights->addPointLight(glm::vec3(0.0, 0.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+//	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 //	dotheDOF();
 }
 
 void AOTest::render(int s, double t) {
 	box_model->render();
+
+	//First floor spheres.
+	M_sphere = glm::translate(0.0f, -9.5f, 0.0f);
+	sphere_model->render();
+
+	M_sphere = glm::translate(1.0f, -9.5f, 0.0f);
+	sphere_model->render();
+	M_sphere = glm::translate(-1.0f, -9.5f, 0.0f);
+	sphere_model->render();
+	M_sphere = glm::translate(0.0f, -9.5f, 1.0f);
+	sphere_model->render();
+	M_sphere = glm::translate(0.0f, -9.5f, -1.0f);
+	sphere_model->render();
+
+	M_sphere = glm::translate(1.0f, -9.5f, 1.0f);
+	sphere_model->render();
+	M_sphere = glm::translate(-1.0f, -9.5f, 1.0f);
+	sphere_model->render();
+	M_sphere = glm::translate(1.0f, -9.5f, -1.0f);
+	sphere_model->render();
+	M_sphere = glm::translate(-1.0f, -9.5f, -1.0f);
+	sphere_model->render();
+
+	//Second Floor.
+	M_sphere = glm::translate(0.5f, -8.79289f, 0.5f);
+	sphere_model->render();
+	M_sphere = glm::translate(0.5f, -8.79289f, -0.5f);
+	sphere_model->render();
+	M_sphere = glm::translate(-0.5f, -8.79289f, 0.5f);
+	sphere_model->render();
+	M_sphere = glm::translate(-0.5f, -8.79289f, -0.5f);
+	sphere_model->render();
+
+	//Third Floor
+	M_sphere = glm::translate(0.0f, -8.085786f, -0.0f);
+	sphere_model->render();
+
+
+
+
+
+
+
 
 //	M_cilinder = glm::translate(0,0,0);
 //	cilinder_model->render();
@@ -75,7 +112,7 @@ void AOTest::render(int s, double t) {
 }
 
 void AOTest::update(double t) {
-	M_box *= glm::rotate(0.1f, glm::vec3(0.0f, 1.0f, 0.0f));
+//	M_box *= glm::rotate(0.1f, glm::vec3(0.0f, 1.0f, 0.0f));
 
   try {
     read_info("Config/AOTest.txt", properties);
