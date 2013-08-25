@@ -157,6 +157,12 @@
     <ClCompile Include="src\Vladivostok\Cilinder.cpp">
       <Filter>Vladivostok</Filter>
     </ClCompile>
+    <ClCompile Include="src\Trinidad\Scenes\SkyBox.cpp">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\AOTest.cpp">
+      <Filter>Vladivostok</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -253,6 +259,12 @@
       <Filter>Trinidad\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="src\Vladivostok\Cilinder.h">
+      <Filter>Vladivostok</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Trinidad\Scenes\SkyBox.h">
+      <Filter>Trinidad\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\AOTest.h">
       <Filter>Vladivostok</Filter>
     </ClInclude>
   </ItemGroup>
