@@ -13,17 +13,19 @@ using namespace TOBAGO;
 int main(void) {
 	GLFWwindow *win;
 
-	win = setup(1280, 720, 4, 2, "WdASAAAAAA", NULL);
+	win = setup(1920, 1080, 4, 2, "First", NULL);
 	windows.push_back(win);
+	windows.push_back(createWindow(1920, 1080, "Second", NULL, win));
+	windows.push_back(createWindow(1920, 1080, "Third", NULL, windows[0]));
 
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
 
-//	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
+	director::manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 //	director::manager->addScene(new Cilinder, 0, 10000000, 0.1);
 	director::manager->addScene(new AOTest,   0, 10000000, 0.1);
 //	director::manager->addScene(new BlurScene(5, 0.0), 0, 10000000000, 0.2);
-	director::manager->addScene(new RenderQuad(STEREO_NONE), 0, 100000000, 0.3);
+//	director::manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 0.3);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

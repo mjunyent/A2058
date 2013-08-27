@@ -19,7 +19,7 @@ Camera {
 }
 
 Lens {
-	fl 6.0
+	fl 0.0
 	fd 15.0
 	fs 0.5
 }

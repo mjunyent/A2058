@@ -11,7 +11,7 @@ AOTest::AOTest() : Deferred() {
 
 	myRig = new Rig(*myCam, 0.2);
 
-	setup(myRig);
+	setup(myCam, 1);
 
 	box = new SkyBox(10.0);
 	M_box = glm::translate(0,0,0);
@@ -55,10 +55,20 @@ AOTest::AOTest() : Deferred() {
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
 	lights->addPointLight(glm::vec3(0.0, 0.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
+	
 	dotheDOF();
+	
+	dotheAA(false);
+	dotheAO(0, 0, glm::vec2(0,0), false);
+	dotheDOF(false);
+	renderOfscreen(false);
 }
 
 void AOTest::render(int s, double t) {
+	TOBAGO::log.write(DEBUG) << "Screen: " << s;
+	if(s == 0) M_box = glm::rotate(20.0f, glm::vec3(0.0, 1.0, 0.0));
+	if(s == 1) M_box = glm::rotate(-20.0f, glm::vec3(1.0, 0.0, 0.0));
+	if(s == 2) M_box = glm::rotate(20.0f, glm::vec3(0.0, 0.0, 1.0));
 	//Box.
 	box_model->render();
 

@@ -21,7 +21,7 @@ void main(){
 
 	float depth = 2.0*texture(Depth, UV).x - 1.0;
 	//Linearize Depth.
-	float Dd = 2.0*Near*Far / (Far+Near - depth*(Far-Near));
+	float Dd = 2.0*Near*Far / (Far+Near - depth*(Far-Near)); //http://stackoverflow.com/questions/6652253/getting-the-true-z-value-from-the-depth-buffer
 	float xd = abs(Dd - FocalDistance);
 	float xdd = (Dd < FocalDistance) ? (FocalDistance - xd) : (FocalDistance + xd);
 	float blurAmount = min(floor( 0.5 * BlurCoeff * (xd / xdd)), MAX_BLUR_RADIUS);
