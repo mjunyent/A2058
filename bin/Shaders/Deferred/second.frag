@@ -40,7 +40,8 @@ vec4 get3dPoint(in vec2 p) {
 
 	point = invPV*point;
 	return point/point.w;
-} 
+}
+
 void main(){
 	vec3 diffuseColor = texture( Diffuse, UV ).rgb;
 	vec3 specularColor = texture( Specular, UV ).rgb;

@@ -4,6 +4,7 @@ Deferred::Deferred() {
 	firstShad = NULL;
 	secondShad = NULL;
 	AAShad = NULL;
+	AOShad = NULL;
 	DOFShad = NULL;
 	debugShad = NULL;
 
@@ -15,6 +16,7 @@ Deferred::Deferred(Camera *cam, int debScreen) {
 	firstShad = NULL;
 	secondShad = NULL;
 	AAShad = NULL;
+	AOShad = NULL;
 	DOFShad = NULL;
 	debugShad = NULL;
 
@@ -32,6 +34,7 @@ void Deferred::setup(Camera *cam, int debScreen) {
 
 	//By default:
 	doAA = true;
+	doAO = false;
 	doDOF = false;
 	doOffscreen = true;
 	if(rig == NULL) doStereo = false;
@@ -43,6 +46,7 @@ void Deferred::setup(Camera *cam, int debScreen) {
 	if(AAShad == NULL)		AAShad  = new Shader("Shaders/Deferred/third.vert",  "Shaders/Deferred/third.frag");
 	if(DOFShad == NULL)		DOFShad = new Shader("Shaders/Deferred/DOF.vert", "Shaders/Deferred/DOF.frag");
 	if(debugShad == NULL)	debugShad  = new Shader("Shaders/Deferred/debug.vert",  "Shaders/Deferred/debug.frag");
+	if(AOShad == NULL)		AOShad  = new Shader("Shaders/Deferred/AO.vert", "Shaders/Deferred/AO.frag");
 
 	//Prepare FBOs
 	if(renderBufferL == NULL) {
@@ -108,7 +112,16 @@ void Deferred::setup(Camera *cam, int debScreen) {
 	DOFwidthID		 = DOFShad->getUniform("width");
 	DOFheightID		 = DOFShad->getUniform("height");
 
-	
+	//AO Shader IDs
+	AONormalID		 = AOShad->getUniform("Normal");
+	AODepthID		 = AOShad->getUniform("Depth");
+	AONormalMapID	 = AOShad->getUniform("NormalMap");
+	AOTexelSizeID	 = AOShad->getUniform("TexelSize");
+	AOBiasID		 = AOShad->getUniform("OccluderBias");
+	AORadiusID		 = AOShad->getUniform("SamplingRadius");
+	AOAttID			 = AOShad->getUniform("Attenuation");
+	AOinvPVID		 = AOShad->getUniform("invPV");
+
 	//Stereo Shader
 	if(doStereo) {
 		stereoShad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphRC.frag");
@@ -152,8 +165,8 @@ void Deferred::PostFirstPass() {
 }
 
 void Deferred::SecondPass() {
-	if(doDOF || doAA || doOffscreen || doStereo) SecondRenderBuff->bind();
-	glm::mat4 invPV = glm::inverse(cam->P * *currentV);  //Maybe do this in update, ALSO: make a CAM/RIG good class.
+	if(doAO || doDOF || doAA || doOffscreen || doStereo) SecondRenderBuff->bind();
+	glm::mat4 invPV = glm::inverse(cam->P * *currentV);  //Maybe do this in update.
 	glDisable(GL_DEPTH_TEST);
 
 	secondShad->use();
@@ -185,7 +198,41 @@ void Deferred::SecondPass() {
 	screen_quad->disable();
 
 	glEnable(GL_DEPTH_TEST);
-	if(doDOF || doAA || doOffscreen || doStereo) SecondRenderBuff->unbind();
+	if(doAO || doDOF || doAA || doOffscreen || doStereo) SecondRenderBuff->unbind();
+}
+
+void Deferred::AOPass() {
+	if(!doAO) return;
+	glm::mat4 invPV = glm::inverse(cam->P * *currentV);  //Maybe do this in update.
+
+	if(doDOF || doAA || doOffscreen || doStereo) AORenderBuff->bind();
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	AOShad->use();
+
+	currentRenderBuffer->bind_texture(0, 0);
+	currentRenderBuffer->bind_depth_texture(1);
+	AONormalMap.bind(2);
+
+	glUniform1i(AONormalID, 0);
+	glUniform1i(AODepthID,  1);
+	glUniform1i(AONormalMapID, 2);
+	glUniform2f(AOTexelSizeID, 1.0f/float(currentRenderBuffer->textures[0]->width),
+							   1.0f/float(currentRenderBuffer->textures[0]->height));
+	glUniform1f(AOBiasID, AO_bias);
+	glUniform1f(AORadiusID, AO_radius);
+	glUniform2fv(AOAttID, 1, &AO_attenuation[0]);
+	glUniformMatrix4fv(AOinvPVID, 1, GL_FALSE, &invPV[0][0]);
+
+	screen_quad->enable(3);
+	screen_quad_I->draw(GL_TRIANGLES);
+	screen_quad->disable();
+
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	if(doDOF || doAA || doOffscreen || doStereo) AORenderBuff->unbind();
 }
 
 void Deferred::DOFPass() {
@@ -199,7 +246,8 @@ void Deferred::DOFPass() {
 	
 	DOFShad->use();
 	
-	SecondRenderBuff->bind_texture(0, 0);
+	if(doAO) AORenderBuff->bind_texture(0, 0);
+	else SecondRenderBuff->bind_texture(0, 0);
 	currentRenderBuffer->bind_depth_texture(1);
 
 	glUniform1i(DOFTextID, 0);
@@ -253,6 +301,7 @@ void Deferred::AAPass() {
 	AAShad->use();
 
 	if(doDOF) DOFRenderBuff->bind_texture(0, 0);
+	else if(doAO) AORenderBuff->bind_texture(0, 0);
 	else SecondRenderBuff->bind_texture(0, 0);
 
 	currentRenderBuffer->bind_texture(0, 1);
@@ -292,11 +341,13 @@ void Deferred::doPipeline(int s, double t) {
 	}
 
 	SecondPass();
+	AOPass();
 	DOFPass();
 	AAPass();
 
 	if(doAA) outputBuffL = AARenderBuff;
 	else if(doDOF) outputBuffL = DOFRenderBuff;
+	else if(doAO) outputBuffL = AORenderBuff;
 	else outputBuffL = SecondRenderBuff;
 	//Just in case
 	outputBuffR = NULL;
@@ -310,12 +361,14 @@ void Deferred::doStereoPipeline(int s, double t) {
 	render(s, t);
 	PostFirstPass();
 	SecondPass();
+	AOPass();
 	DOFPass();
 	AAPass();
 
 	//Swap buffers
 	if(doAA) swap(leftBuff, AARenderBuff);
 	else if(doDOF) swap(leftBuff, DOFRenderBuff);
+	else if(doAO) swap(leftBuff, AORenderBuff);
 	else swap(leftBuff, SecondRenderBuff);
 
 	currentRenderBuffer = renderBufferR;
@@ -325,12 +378,14 @@ void Deferred::doStereoPipeline(int s, double t) {
 	render(s, t);
 	PostFirstPass();
 	SecondPass();
+	AOPass();
 	DOFPass();
 	AAPass();
 
 	//Swap buffers (PING-PONG)
 	if(doAA) swap(rightBuff, AARenderBuff);
 	else if(doDOF) swap(rightBuff, DOFRenderBuff);
+	else if(doAO) swap(leftBuff, AORenderBuff);
 	else swap(rightBuff, SecondRenderBuff);
 
 	//Point output to our buffers.
@@ -389,6 +444,19 @@ void Deferred::dotheDOF(bool doit) {
 		DOFTempRenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
 		DOFRenderBuff	  = new FBO(cam->width, cam->height, false, 1, lecalite);
 	}
+}
+
+void Deferred::dotheAO(float SamplingRadius, float OccluderBias, glm::vec2 Attenuation, bool doit) {
+	AO_radius = SamplingRadius;
+	AO_bias = OccluderBias;
+	AO_attenuation = Attenuation;
+	doAO = doit;
+
+	bool lecalite[] = { true };
+	if(DOFRenderBuff == NULL) {
+		AORenderBuff = new FBO(cam->width, cam->height, false, 1, lecalite);
+	}
+	AONormalMap = TBO("Images/RandomNormalMap.png", false);
 }
 
 void Deferred::renderOfscreen(bool doit) {

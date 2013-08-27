@@ -20,6 +20,8 @@
 * SecondRenderBuff -> DOFPass -> Screen OR DOFRenderBuff 
 				   -> AAPass -> Screen OR AARenderBuff
 * DOFRenderBuff -> AAPass -> Screen OR AARenderBuff
+
+* PreFirst -> Render -> PostFirst -> Second -> *AOPass -> *DOFPass -> *AAPass
 */
 class Deferred : public Scene {
 public:
@@ -27,11 +29,12 @@ public:
 	Shader *secondShad;
 	Shader *AAShad;
 	Shader *DOFShad;
+	Shader *AOShad;
 	Shader *debugShad;
 	Shader *stereoShad;
 
 	FBO *currentRenderBuffer, *renderBufferL, *renderBufferR;
-	FBO *SecondRenderBuff, *DOFTempRenderBuff, *DOFRenderBuff, *AARenderBuff;
+	FBO *SecondRenderBuff, *DOFTempRenderBuff, *DOFRenderBuff, *AARenderBuff, *AORenderBuff;
 	FBO *leftBuff, *rightBuff;
 
 	TBO backgroundTex;
@@ -44,6 +47,9 @@ public:
 
 	glm::mat4 *currentV;
 	glm::vec3 *currentCamPos;
+
+	glm::vec2 AO_attenuation;
+	float AO_radius, AO_bias;
 
 	int debScreen;
 
@@ -58,6 +64,7 @@ public:
 
 	void dotheDOF(bool doit=true);
 	void dotheAA(bool doit=true);
+	void dotheAO(float SamplingRadius, float OccluderBias, glm::vec2 Attenuation, bool doit=true);
 	void renderOfscreen(bool doit=true);
 
 	virtual void draw(int s, double t);
@@ -70,6 +77,7 @@ public:
 	void PostFirstPass(); //After Launching Geometry.
 	void SecondPass(); //Render quad from FBO.
 	void DOFPass(); //Apply DOF.
+	void AOPass(); //Apply AO.
 	void AAPass(); //Apply AA.
 	void Debug();
 
@@ -81,9 +89,11 @@ protected:
 	GLint tex1ID, tex2ID, tex3ID, tex4ID, debInvID; //Debug Shad.
 	GLint finalNID, finalDID, finalID, widthID, heightID; //AA Shad.
 	GLint DOFTextID, DOFDepthID, DOFBlurCoeffID, DOFFDistID, DOFwidthID, DOFheightID, DOFFarID, DOFNearID, DOFOrientationID;
+	GLint AONormalID, AODepthID, AONormalMapID, AOTexelSizeID, AOBiasID, AORadiusID, AOAttID, AOinvPVID;
 	GLint StereoLeftID, StereoRightID;
 
-	bool doDOF, doAA, doOffscreen, doStereo;
+	bool doDOF, doAO, doAA, doOffscreen, doStereo;
+	TBO AONormalMap;
 };
 
 #endif

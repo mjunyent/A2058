@@ -49,6 +49,7 @@ AOTest::AOTest() : Deferred() {
 							 NULL,
 							 NULL);
 
+	dotheAO(20, 0.05, glm::vec2(1, 2));
 
 	//lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
