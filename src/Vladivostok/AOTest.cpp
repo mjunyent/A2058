@@ -49,7 +49,7 @@ AOTest::AOTest() : Deferred() {
 							 NULL,
 							 NULL);
 
-	dotheAO(20, 0.05, glm::vec2(1, 2));
+	dotheAO(30, 0.05, glm::vec2(1, 5));
 
 	//lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
@@ -59,6 +59,7 @@ AOTest::AOTest() : Deferred() {
 }
 
 void AOTest::render(int s, double t) {
+	//Box.
 	box_model->render();
 
 	//First floor spheres.
@@ -93,23 +94,9 @@ void AOTest::render(int s, double t) {
 	M_sphere = glm::translate(-0.5f, -8.79289f, -0.5f);
 	sphere_model->render();
 
-	//Third Floor
+	//Third Floor.
 	M_sphere = glm::translate(0.0f, -8.085786f, -0.0f);
 	sphere_model->render();
-
-
-
-
-
-
-
-
-//	M_cilinder = glm::translate(0,0,0);
-//	cilinder_model->render();
-//	M_cilinder = glm::translate(4,0,0);
-//	cilinder_model->render();
-//	M_cilinder = glm::translate(-4,0,0);
-//	cilinder_model->render();
 }
 
 void AOTest::update(double t) {
@@ -145,6 +132,11 @@ void AOTest::update(double t) {
   this->cam->focalLength = properties.get<float>("Lens.fl");
   this->cam->focusDistance = properties.get<float>("Lens.fd");
   this->cam->FStop = properties.get<float>("Lens.fs");
+
+  this->AO_bias = properties.get<float>("Occlusion.bias");
+  this->AO_radius = properties.get<float>("Occlusion.radius");
+  this->AO_attenuation[0] = properties.get<float>("Occlusion.linearAtt");
+  this->AO_attenuation[1] = properties.get<float>("Occlusion.quadraticAtt");
 
   if(rig != NULL)
 	  this->rig->eye_sep = properties.get<float>("Rig.eyesep");

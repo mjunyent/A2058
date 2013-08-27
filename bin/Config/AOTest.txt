@@ -3,7 +3,7 @@
 Camera {
 	fov 45.0
 	znear 5.0
-	zfar 200.0
+	zfar 28.0
 	
 	px 0.0
 	py -6.0
@@ -20,7 +20,7 @@ Camera {
 
 Lens {
 	fl 6.0
-	fd 20.6
+	fd 15.0
 	fs 0.5
 }
 
@@ -31,4 +31,12 @@ Rig {
 Box {
 	scale 1.0;
 	shininess 0.45;
+}
+
+Occlusion {
+	bias 0.05
+	radius 40
+	linearAtt 2
+	quadraticAtt 5
+
 }

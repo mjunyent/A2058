@@ -48,7 +48,7 @@ void main(){
 	vec2 randVec = normalize(texture2D(NormalMap, vec2(UV.x/TexelSize.x/64.0, UV.y/TexelSize.y/64.0)).xy * 2.0 - 1.0);
 	float srcDepth = texture(Depth, UV).x;
 	
-	float kernelRadius = SamplingRadius * (1.0 - srcDepth);
+	float kernelRadius = SamplingRadius * (1.0 - 1.0 + srcDepth);
 	
 	vec2 kernel[4];
 	kernel[0] = vec2( 0.0,  1.0);
