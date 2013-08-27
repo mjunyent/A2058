@@ -19,8 +19,8 @@ Camera {
 }
 
 Lens {
-	fl 10.0
-	fd 14.6
+	fl 6.0
+	fd 20.6
 	fs 0.5
 }
 

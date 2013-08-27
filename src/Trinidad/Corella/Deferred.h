@@ -29,12 +29,12 @@ public:
 	Shader *secondShad;
 	Shader *AAShad;
 	Shader *DOFShad;
-	Shader *AOShad;
+	Shader *AOShad, *AOMixShad;
 	Shader *debugShad;
 	Shader *stereoShad;
 
 	FBO *currentRenderBuffer, *renderBufferL, *renderBufferR;
-	FBO *SecondRenderBuff, *DOFTempRenderBuff, *DOFRenderBuff, *AARenderBuff, *AORenderBuff;
+	FBO *SecondRenderBuff, *DOFTempRenderBuff, *DOFRenderBuff, *AARenderBuff, *AOTempRenderBuff, *AORenderBuff;
 	FBO *leftBuff, *rightBuff;
 
 	TBO backgroundTex;
@@ -90,6 +90,7 @@ protected:
 	GLint finalNID, finalDID, finalID, widthID, heightID; //AA Shad.
 	GLint DOFTextID, DOFDepthID, DOFBlurCoeffID, DOFFDistID, DOFwidthID, DOFheightID, DOFFarID, DOFNearID, DOFOrientationID;
 	GLint AONormalID, AODepthID, AONormalMapID, AOTexelSizeID, AOBiasID, AORadiusID, AOAttID, AOinvPVID;
+	GLint AOMixAOID, AOMixTexID;
 	GLint StereoLeftID, StereoRightID;
 
 	bool doDOF, doAO, doAA, doOffscreen, doStereo;
