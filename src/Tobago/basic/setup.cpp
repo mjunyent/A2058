@@ -69,6 +69,11 @@ GLFWwindow* TOBAGO::setup(int w, int h, int major, int minor, const char* name, 
 	glGenVertexArrays(1, &vertex_array);
 	glBindVertexArray(vertex_array);
 
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LESS );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	return ret;
 }
 

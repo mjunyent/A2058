@@ -61,6 +61,14 @@ void SceneManager::render(int w) {
 					(*render_pipeline[i])->pre();
 					(*render_pipeline[i])->started = true;
 				}
+				//Copy buffers before start.
+				if(i > 0) {
+					(*render_pipeline[i])->inputBuffL = (*render_pipeline[i-1])->outputBuffL;
+					(*render_pipeline[i])->inputBuffR = (*render_pipeline[i-1])->outputBuffR;
+				} else {
+					(*render_pipeline[i])->inputBuffL = NULL;
+					(*render_pipeline[i])->inputBuffR = NULL;
+				}
 				(*render_pipeline[i])->draw( w, (*time - (*render_pipeline[i])->start) / ((*render_pipeline[i])->end - (*render_pipeline[i])->start) );
 			}
 	}

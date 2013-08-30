@@ -1,8 +1,9 @@
 #include "RenderQuad.h"
 #include "../Director/director.h"
 
-RenderQuad::RenderQuad(STEREOTYPE st) {
+RenderQuad::RenderQuad(STEREOTYPE st, int Screen) {
 	this->st = st;
+	this->Screen = Screen;
 
 	if(this->st == STEREO_NONE) {
 		shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/No3D.frag");
@@ -18,6 +19,7 @@ RenderQuad::RenderQuad(STEREOTYPE st) {
 }
 
 void RenderQuad::draw(int s, double time) {
+	if(Screen != -1 && Screen != s) return;
 	glDisable(GL_DEPTH_TEST);
 	shad->use();
 

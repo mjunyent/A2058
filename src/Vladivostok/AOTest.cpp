@@ -1,6 +1,9 @@
 #include "AOTest.h"
 
-AOTest::AOTest() : Deferred() {
+AOTest::AOTest(int Screen) : Deferred() {
+	this->Screen = Screen;
+	glfwMakeContextCurrent(director::windows[Screen]);
+
 	int width, height;
 	glfwGetWindowSize(director::windows[0], &width, &height);
 
@@ -11,7 +14,9 @@ AOTest::AOTest() : Deferred() {
 
 	myRig = new Rig(*myCam, 0.2);
 
-	setup(myCam, 1);
+	setup(myRig);
+
+	M_world = glm::translate(0,0,0);
 
 	box = new SkyBox(10.0);
 	M_box = glm::translate(0,0,0);
@@ -49,7 +54,7 @@ AOTest::AOTest() : Deferred() {
 							 NULL,
 							 NULL);
 
-	dotheAO(30, 0.05, glm::vec2(1, 5));
+	//dotheAO(30, 0.05, glm::vec2(1, 5));
 
 	//lights->addSpotLight(glm::vec3(0.0, 20.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0), 0.80, 0.96, 2.0);
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
@@ -57,60 +62,60 @@ AOTest::AOTest() : Deferred() {
 //	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 	
 	dotheDOF();
-	
-	dotheAA(false);
-	dotheAO(0, 0, glm::vec2(0,0), false);
-	dotheDOF(false);
 	renderOfscreen(false);
+}
+
+void AOTest::draw(int s, double t) {
+	if(s == Screen) Deferred::draw(s, t);
 }
 
 void AOTest::render(int s, double t) {
 	TOBAGO::log.write(DEBUG) << "Screen: " << s;
-	if(s == 0) M_box = glm::rotate(20.0f, glm::vec3(0.0, 1.0, 0.0));
-	if(s == 1) M_box = glm::rotate(-20.0f, glm::vec3(1.0, 0.0, 0.0));
-	if(s == 2) M_box = glm::rotate(20.0f, glm::vec3(0.0, 0.0, 1.0));
+	if(s == 0) M_box = glm::rotate(20.0f, glm::vec3(0.0, 1.0, 0.0))*M_world;
+	if(s == 1) M_box = glm::rotate(-20.0f, glm::vec3(1.0, 0.0, 0.0))*M_world;
+	if(s == 2) M_box = glm::rotate(20.0f, glm::vec3(0.0, 0.0, 1.0))*M_world;
 	//Box.
 	box_model->render();
 
 	//First floor spheres.
-	M_sphere = glm::translate(0.0f, -9.5f, 0.0f);
+	M_sphere = M_world*glm::translate(0.0f, -9.5f, 0.0f);
 	sphere_model->render();
 
-	M_sphere = glm::translate(1.0f, -9.5f, 0.0f);
+	M_sphere = M_world*glm::translate(1.0f, -9.5f, 0.0f);
 	sphere_model->render();
-	M_sphere = glm::translate(-1.0f, -9.5f, 0.0f);
+	M_sphere = M_world*glm::translate(-1.0f, -9.5f, 0.0f);
 	sphere_model->render();
-	M_sphere = glm::translate(0.0f, -9.5f, 1.0f);
+	M_sphere = M_world*glm::translate(0.0f, -9.5f, 1.0f);
 	sphere_model->render();
-	M_sphere = glm::translate(0.0f, -9.5f, -1.0f);
+	M_sphere = M_world*glm::translate(0.0f, -9.5f, -1.0f);
 	sphere_model->render();
 
-	M_sphere = glm::translate(1.0f, -9.5f, 1.0f);
+	M_sphere = M_world*glm::translate(1.0f, -9.5f, 1.0f);
 	sphere_model->render();
-	M_sphere = glm::translate(-1.0f, -9.5f, 1.0f);
+	M_sphere = M_world*glm::translate(-1.0f, -9.5f, 1.0f);
 	sphere_model->render();
-	M_sphere = glm::translate(1.0f, -9.5f, -1.0f);
+	M_sphere = M_world*glm::translate(1.0f, -9.5f, -1.0f);
 	sphere_model->render();
-	M_sphere = glm::translate(-1.0f, -9.5f, -1.0f);
+	M_sphere = M_world*glm::translate(-1.0f, -9.5f, -1.0f);
 	sphere_model->render();
 
 	//Second Floor.
-	M_sphere = glm::translate(0.5f, -8.79289f, 0.5f);
+	M_sphere = glm::translate(0.5f, -8.79289f, 0.5f)*M_world;
 	sphere_model->render();
-	M_sphere = glm::translate(0.5f, -8.79289f, -0.5f);
+	M_sphere = glm::translate(0.5f, -8.79289f, -0.5f)*M_world;
 	sphere_model->render();
-	M_sphere = glm::translate(-0.5f, -8.79289f, 0.5f);
+	M_sphere = glm::translate(-0.5f, -8.79289f, 0.5f)*M_world;
 	sphere_model->render();
-	M_sphere = glm::translate(-0.5f, -8.79289f, -0.5f);
+	M_sphere = glm::translate(-0.5f, -8.79289f, -0.5f)*M_world;
 	sphere_model->render();
 
 	//Third Floor.
-	M_sphere = glm::translate(0.0f, -8.085786f, -0.0f);
+	M_sphere = glm::translate(0.0f, -8.085786f, -0.0f)*M_world;
 	sphere_model->render();
 }
 
 void AOTest::update(double t) {
-//	M_box *= glm::rotate(0.1f, glm::vec3(0.0f, 1.0f, 0.0f));
+	M_world *= glm::rotate(0.1f, glm::vec3(0.0f, 1.0f, 0.0f));
 
   try {
     read_info("Config/AOTest.txt", properties);

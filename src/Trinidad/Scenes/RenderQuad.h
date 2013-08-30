@@ -11,11 +11,12 @@ enum STEREOTYPE { STEREO_NONE, STEREO_ANAGLYPH_RC };
 
 class RenderQuad : public Scene {
 public:
-	RenderQuad(STEREOTYPE st);
+	RenderQuad(STEREOTYPE st, int Screen=-1);
 
 	void draw(int s, double time);
 
 private:
+	int Screen;
 	STEREOTYPE st;
 	Shader *shad;
 
