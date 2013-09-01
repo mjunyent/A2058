@@ -157,10 +157,12 @@
     <ClCompile Include="src\Trinidad\Scenes\RenderQuad.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\SkyBox.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp" />
-    <ClCompile Include="src\Vladivostok\AOTest.cpp" />
-    <ClCompile Include="src\Vladivostok\Cilinder.cpp" />
-    <ClCompile Include="src\Vladivostok\SimpleCells.cpp" />
-    <ClCompile Include="src\Vladivostok\Spheres.cpp" />
+    <ClCompile Include="src\Vladivostok\FloatingBalls.cpp" />
+    <ClCompile Include="src\Vladivostok\Parser.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\basic\basic.h" />
@@ -193,10 +195,12 @@
     <ClInclude Include="src\Trinidad\Scenes\SkyBox.h" />
     <ClInclude Include="src\Trinidad\Scenes\Sphere.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
-    <ClInclude Include="src\Vladivostok\AOTest.h" />
-    <ClInclude Include="src\Vladivostok\Cilinder.h" />
-    <ClInclude Include="src\Vladivostok\SimpleCells.h" />
-    <ClInclude Include="src\Vladivostok\Spheres.h" />
+    <ClInclude Include="src\Vladivostok\FloatingBalls.h" />
+    <ClInclude Include="src\Vladivostok\Parser.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\3D\AnaglyphRC.frag" />

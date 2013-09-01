@@ -62,6 +62,9 @@
     <Filter Include="Trinidad\Scenes">
       <UniqueIdentifier>{df780056-13f1-41a9-9020-c4dabbc51429}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vladivostok\Tests, Old &amp; Deprecated">
+      <UniqueIdentifier>{223ce23c-b519-4ab9-9cdd-34641660f060}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -127,17 +130,11 @@
     <ClCompile Include="src\Trinidad\Corella\Deferred.cpp">
       <Filter>Trinidad\Corella</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vladivostok\SimpleCells.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
     <ClCompile Include="src\Trinidad\Corella\Camera.cpp">
       <Filter>Trinidad\Corella</Filter>
     </ClCompile>
     <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp">
       <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Spheres.cpp">
-      <Filter>Vladivostok</Filter>
     </ClCompile>
     <ClCompile Include="src\Trinidad\Scenes\Floor.cpp">
       <Filter>Trinidad\Scenes</Filter>
@@ -154,14 +151,26 @@
     <ClCompile Include="src\Trinidad\Scenes\Glow.cpp">
       <Filter>Trinidad\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vladivostok\Cilinder.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
     <ClCompile Include="src\Trinidad\Scenes\SkyBox.cpp">
       <Filter>Trinidad\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vladivostok\AOTest.cpp">
+    <ClCompile Include="src\Vladivostok\FloatingBalls.cpp">
       <Filter>Vladivostok</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Parser.cpp">
+      <Filter>Vladivostok</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.cpp">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.cpp">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.cpp">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.cpp">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,17 +240,11 @@
     <ClInclude Include="src\Trinidad\Corella\Deferred.h">
       <Filter>Trinidad\Corella</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vladivostok\SimpleCells.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
     <ClInclude Include="src\Trinidad\Corella\Camera.h">
       <Filter>Trinidad\Corella</Filter>
     </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\Sphere.h">
       <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Spheres.h">
-      <Filter>Vladivostok</Filter>
     </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\Floor.h">
       <Filter>Trinidad\Scenes</Filter>
@@ -258,14 +261,26 @@
     <ClInclude Include="src\Trinidad\Scenes\Glow.h">
       <Filter>Trinidad\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vladivostok\Cilinder.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\SkyBox.h">
       <Filter>Trinidad\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vladivostok\AOTest.h">
+    <ClInclude Include="src\Vladivostok\FloatingBalls.h">
       <Filter>Vladivostok</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Parser.h">
+      <Filter>Vladivostok</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.h">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.h">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.h">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.h">
+      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

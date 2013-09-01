@@ -1,7 +1,7 @@
 #include "RenderQuad.h"
 #include "../Director/director.h"
 
-RenderQuad::RenderQuad(STEREOTYPE st, int Screen) {
+RenderQuad::RenderQuad(STEREOTYPE st) {
 	this->st = st;
 	this->Screen = Screen;
 
@@ -12,6 +12,10 @@ RenderQuad::RenderQuad(STEREOTYPE st, int Screen) {
 		shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphRC.frag");
 		LeftID = shad->getUniform("LeftTex");
 		RightID = shad->getUniform("RightTex");
+	} else if(this->st == STEREO_ANAGLYPH_GM) {
+		shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphGM.frag");
+		LeftID = shad->getUniform("LeftTex");
+		RightID = shad->getUniform("RightTex");
 	}
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
@@ -19,14 +23,13 @@ RenderQuad::RenderQuad(STEREOTYPE st, int Screen) {
 }
 
 void RenderQuad::draw(int s, double time) {
-	if(Screen != -1 && Screen != s) return;
 	glDisable(GL_DEPTH_TEST);
 	shad->use();
 
 	inputBuffL->bind_texture(0, 0);
 	glUniform1i(LeftID, 0);
 
-	if(st != STEREO_NONE) {
+	if(st != STEREO_NONE && inputBuffR->textures[0] != NULL) {
 		inputBuffR->bind_texture(0, 1);
 		glUniform1i(RightID, 1);
 	}

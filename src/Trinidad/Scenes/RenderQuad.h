@@ -7,11 +7,11 @@
 
 using namespace std;
 
-enum STEREOTYPE { STEREO_NONE, STEREO_ANAGLYPH_RC };
+enum STEREOTYPE { STEREO_NONE, STEREO_ANAGLYPH_RC, STEREO_ANAGLYPH_GM };
 
 class RenderQuad : public Scene {
 public:
-	RenderQuad(STEREOTYPE st, int Screen=-1);
+	RenderQuad(STEREOTYPE st);
 
 	void draw(int s, double time);
 
