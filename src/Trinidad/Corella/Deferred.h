@@ -73,13 +73,13 @@ public:
 	void doPipeline(int s, double t);
 	void doStereoPipeline(int s, double t);
 
-	void PreFirstPass(); //Prepare to launch Geometry.
-	void PostFirstPass(); //After Launching Geometry.
-	void SecondPass(); //Render quad from FBO.
-	void DOFPass(); //Apply DOF.
-	void AOPass(); //Apply AO.
-	void AAPass(); //Apply AA.
-	void Debug();
+	virtual void PreFirstPass(); //Prepare to launch Geometry.
+	virtual void PostFirstPass(); //After Launching Geometry.
+	virtual void SecondPass(); //Render quad from FBO.
+	virtual void DOFPass(); //Apply DOF.
+	virtual void AOPass(); //Apply AO.
+	virtual void AAPass(); //Apply AA.
+	virtual void Debug();
 
 protected:
 	void setup(Camera *cam, int debScreen=-1);

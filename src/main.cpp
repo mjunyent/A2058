@@ -10,12 +10,12 @@ using namespace TOBAGO;
 
 int main(void) {
 	GLFWwindow *win;
-	
-	win = setup(1920, 1080, 4, 2, "First", NULL);
-	windows.push_back(win);
 
 	CSParser csp("CS/Floating.cs");
 	csp.parse();
+
+	win = setup(csp.data.width, csp.data.height, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), NULL);
+	windows.push_back(win);
 
 	manager = new SceneManager(&currentTime);
 	Timer timer(manager);
@@ -24,7 +24,7 @@ int main(void) {
 
 	manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
 
-	director::manager->addScene(new FloatingBalls(),   0, 10000000, 0.1);
+	director::manager->addScene(new FloatingBalls(&csp),   0, 10000000, 0.1);
 
 	director::manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 0.2);
 
