@@ -14,13 +14,13 @@ Setup {
 View {
 	Perspective {
 		FOV 45.0
-		zNear 0.1
-		zFar 30.0
+		zNear 6.0
+		zFar 300.0
 	}
 	
 	Camera {
-		Position 5.0,0.0,0.0
-		Direction -1.0,0.0,0.0
+		Position 0.0,0.0,104.0
+		Direction 0.0,0.0,-1.0
 		Up 0.0,1.0,0.0	
 	}
 	
@@ -31,55 +31,12 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0
+		EyeSep 0.2
 	}
 }
 
 Lights {
-	number 3;
-	Light1 {
-		type POINT
-		position 0.0,0.0,0.0
-		attenuation 1.0,0.0,0.0
-		colour 0.0,0.0,0.0	
-	}
-	
-	Light2 {
-		type DIRECTIONAL
-		attenuation 2.0,10000.0,0.0
-		direction 0.0,0.0,1.0
-		colour 1.0,1.0,1.0
-	}
-	
-	Light3 {
-		type DIRECTIONAL
-		attenuation 2.0,0.0,0.0
-		direction 0.0,0.0,-1.0
-		colour 0.0,0.0,1.0	
-	}
-
-;	Light11 {
-;		type DIRECTIONAL
-;		attenuation 1.0,0.0,0.0
-;		direction 1.0,0.0,0.0
-;		colour 1.0,0.0,0.0
-;	}
-;	Light12 {
-;		type POINT
-;		attenuation 1.0,0.0,0.0
-;		position 0.0,0.0,0.0
-;		colour 0.0,1.0,0.0
-;	}
-;	Light13 {
-;		type SPOTLIGHT
-;		attenuation 1.0,0.0,0.0
-;		position 0.0,0.0,0.0
-;		colour 0.0,1.0,0.0
-;		direction 1.0,0.0,0.0
-;		outerCutoff 0.96
-;		innerCutoff 0.8
-;		exponent 0.512
-;	}
+	number 0;
 }
 
 TestSphere {
@@ -90,6 +47,7 @@ Spheres {
 	RenderBox 0.0 ; if bigger than one render, else, doesnt.
 	Velocity 0.5
 	zMax 100.0
+	Size 2.0
 }
 
 Box {
