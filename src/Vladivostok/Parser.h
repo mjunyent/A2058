@@ -35,6 +35,8 @@ public:
 	glm::vec3 toVec3(const std::string& s);
 
 	void passToLight(Light *l);
+	void passToCam(Camera *c);
+	void passToRig(Rig *r);
 
 	boost::property_tree::ptree pr;
 	std::string filename;

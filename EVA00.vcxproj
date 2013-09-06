@@ -159,6 +159,7 @@
     <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp" />
     <ClCompile Include="src\Vladivostok\FloatingBalls.cpp" />
     <ClCompile Include="src\Vladivostok\Parser.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm.cpp" />
     <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.cpp" />
     <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.cpp" />
     <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\Trinidad\Trinidad.h" />
     <ClInclude Include="src\Vladivostok\FloatingBalls.h" />
     <ClInclude Include="src\Vladivostok\Parser.h" />
+    <ClInclude Include="src\Vladivostok\Storm.h" />
     <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.h" />
     <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.h" />
     <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.h" />

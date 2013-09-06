@@ -98,3 +98,23 @@ void CSParser::passToLight(Light *l) {
 		l->lights[i].Exponent = data.lights[i].Exponent;
 	}
 }
+
+void CSParser::passToCam(Camera *c) {
+	c->fov			 = data.FOV;
+	c->znear		 = data.zNear;
+	c->zfar			 = data.zFar;
+	c->position		 = data.CamPos;
+	c->direction	 = data.CamDir;
+	c->up			 = data.CamUp;
+	c->focalLength	 = data.FocalLength;
+	c->focusDistance = data.FocusDistance;
+	c->FStop		 = data.FStop;
+
+	c->update(-1);
+}
+
+void CSParser::passToRig(Rig *r) {
+	passToCam(r);
+	r->eye_sep		 = data.EyeSep;
+	r->update(-1);
+}

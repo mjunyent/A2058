@@ -13,7 +13,9 @@ Shader::Shader(const char *vertex, const char *fragment, bool verbose) {
 }
 
 Shader::Shader(const char *vertex, const char *geometry, const char *fragment) {
-
+	load(vertex, geometry, fragment);
+    compile();
+    link();
 }
 
 bool Shader::load(const char *vertex, const char *geometry, const char *fragment) {
