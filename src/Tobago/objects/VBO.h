@@ -20,4 +20,6 @@ class VBO : public Buffer_Object
 	//Deshabilitar puntero.
 	void disable();
 	~VBO();
+
+	int components;
 };

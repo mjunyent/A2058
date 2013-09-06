@@ -28,6 +28,7 @@ VBO::VBO( std::vector<float> theArray, GLuint theIx)
 
 void VBO::enable( GLubyte Rn )
 {
+	components = Rn;
 	//std::cout << "Im enabling the buffer!" << std::endl;
 	glEnableVertexAttribArray(theIndex);
     glBindBuffer(BUFFER, theID);
@@ -44,5 +45,5 @@ VBO::~VBO()
 }
 
 void VBO::draw( GLushort theDrawType ) {
-	glDrawArrays( theDrawType,0, theBytes / sizeof( GLfloat ) );
+	glDrawArrays( theDrawType,0, theBytes / sizeof( GLfloat ) / components );
 }
