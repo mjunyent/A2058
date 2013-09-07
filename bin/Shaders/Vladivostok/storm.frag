@@ -17,7 +17,8 @@ void main()
 	colour = texture(tex, VertexIn.UV);
 	colour.a = colour.a*colour.a;
 	
-	if(length((VertexIn.UV - vec2(0.5, 0.5))) > 0.145) colour.a = colour.a * (depth); // * (2.0-length((VertexIn.UV - vec2(0.5, 0.5)))); //colour = vec4(1.0, 0.0, 0.0, 1.0);
+	if(length((VertexIn.UV - vec2(0.5, 0.5))) > 0.15) colour.a = colour.a * (depth); // * (2.0-length((VertexIn.UV - vec2(0.5, 0.5)))); //colour = vec4(1.0, 0.0, 0.0, 1.0);
+//	else if(length(colour.rgb) < 0.2) colour.a = length(colour.rgb);
 //	colour.a = colour.a*(1-depth) * length(VertexIn.UV - vec2(0.5, 0.5));
 //	colour.a = (1 - length((VertexIn.UV - vec2(0.5, 0.5))*2.0)); //*(1-depth);
 //	colour = vec4(depth, 0.0, 0.0, 1.0);

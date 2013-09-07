@@ -25,9 +25,9 @@ View {
 	}
 	
 	Lens {
-		FocalLength  22.0
-		FocusDistance 60.0
-		FStop 2.5
+		FocalLength  23.0
+		FocusDistance 70.0
+		FStop 1.5
 	}
 	
 	Rig {
