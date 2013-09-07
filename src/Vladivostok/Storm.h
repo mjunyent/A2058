@@ -15,7 +15,7 @@ class Storm : public Scene {
 public:
 	Shader *billboardShad;
 	VBO *singlePoint;
-	TBO ballTex;
+	TBO ballTex, bgTex;
 
 	FBO *left, *right;
 
@@ -27,6 +27,7 @@ public:
 	mat4 *currentV;
 	vector<vec3> M_ball;
 	float quadSize;
+	float texSize;
 
 	Storm(CSParser *csp);
 
@@ -36,5 +37,8 @@ public:
 	void update(double t);
 
 private:
-	GLint billboard_M_Id, billboard_V_Id, billboard_P_Id, billboard_up_id, billboard_camPos_Id, billboard_r_Id, billboard_tex_Id;
+	GLint billboard_M_Id, billboard_V_Id, billboard_P_Id,
+		  billboard_up_id, billboard_camPos_Id, billboard_r_Id,
+		  billboard_tex_Id, billboard_texSize_Id, billboard_bgTex_Id,
+		  billboard_depth_Id;
 };

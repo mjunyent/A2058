@@ -9,6 +9,7 @@
 #include "Scenes/Glow.h"
 #include "Scenes/RenderQuad.h"
 #include "Scenes/SkyBox.h"
+#include "Scenes/DOF.h"
 
 #include "Corella/Light.h"
 #include "Corella/Camera.h"

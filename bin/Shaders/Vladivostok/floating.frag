@@ -88,6 +88,8 @@ void main(){
 			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a*spotlight;
 		}
 	}
+	
+	color.rgb = texture(gradient, vec2( abs(dot(normal, normalize(-position+camera_position))), 1.0)).rgb;
 
 	//Background coloring.
 	float depth = texture(Depth, UV).x;

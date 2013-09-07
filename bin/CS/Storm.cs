@@ -15,7 +15,7 @@ View {
 	Perspective {
 		FOV 45.0
 		zNear 6.0
-		zFar 300.0
+		zFar 500.0
 	}
 	
 	Camera {
@@ -25,9 +25,9 @@ View {
 	}
 	
 	Lens {
-		FocalLength  0.0
+		FocalLength  22.0
 		FocusDistance 60.0
-		FStop 1.5
+		FStop 2.5
 	}
 	
 	Rig {
@@ -44,10 +44,15 @@ TestSphere {
 }
 
 Spheres {
-	RenderBox 0.0 ; if bigger than one render, else, doesnt.
-	Velocity 0.5
+	RenderBox 2.0 ; if bigger than one render, else, doesnt.
+	Velocity 1.5
 	zMax 100.0
-	Size 2.0
+	Size 15.0
+	texSize 0.20
+	yMargin 80
+	xMargin 125
+	zSpawnMin -520
+	zSpawnMax -500
 }
 
 Box {

@@ -301,6 +301,7 @@ void Deferred::DOFPass() {
 	screen_quad_I->draw(GL_TRIANGLES);
 	screen_quad->disable();
 
+	DOFTempRenderBuff->unbind();
 
 	//VERTICAL PASS
 	if(doAA || doOffscreen || doStereo) DOFRenderBuff->bind();

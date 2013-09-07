@@ -22,9 +22,11 @@ int main(void) {
 	Timer timer(manager);
 	glfwMakeContextCurrent(windows[0]);
 
+	Storm eyes(&csp);
 //	manager->addScene(new FrameRate(5, 5, 200, 50), 0, 1000000000, 1);
-	manager->addScene(new Storm(&csp),   0, 10000000, 0.1);
-	director::manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 0.2);
+	manager->addScene(&eyes,   0, 10000000, 0.1);
+	manager->addScene(new DOFScene(eyes.myCam), 0, 1000000000, 0.2);
+	director::manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 1);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

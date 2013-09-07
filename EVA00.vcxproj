@@ -151,6 +151,7 @@
     <ClCompile Include="src\Trinidad\Director\SceneManager.cpp" />
     <ClCompile Include="src\Trinidad\Director\timer.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\Blur.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\DOF.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\Floor.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\Glow.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="src\Trinidad\Director\SceneManager.h" />
     <ClInclude Include="src\Trinidad\Director\timer.h" />
     <ClInclude Include="src\Trinidad\Scenes\Blur.h" />
+    <ClInclude Include="src\Trinidad\Scenes\DOF.h" />
     <ClInclude Include="src\Trinidad\Scenes\Floor.h" />
     <ClInclude Include="src\Trinidad\Scenes\FrameRate.h" />
     <ClInclude Include="src\Trinidad\Scenes\Glow.h" />
