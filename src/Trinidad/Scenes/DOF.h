@@ -10,6 +10,7 @@
 class DOFScene : public Scene {
 public:
 	DOFScene(Camera *cam);
+	DOFScene(Camera *cam, Shader *shad);
 
 	void draw(int s, double time);
 	void render(int s, double time);

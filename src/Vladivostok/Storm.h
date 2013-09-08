@@ -34,6 +34,7 @@ public:
 	void draw(int s, double t);
 	void render(int s, double t);
 
+	void dupdate(double t);
 	void update(double t);
 
 private:

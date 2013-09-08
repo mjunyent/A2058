@@ -24,6 +24,30 @@ DOFScene::DOFScene(Camera *cam) {
 	DOFheightID		 = DOFShad->getUniform("height");
 }
 
+DOFScene::DOFScene(Camera *cam, Shader *shad) {
+	this->cam = cam;
+
+	quad = new VBO(director::quad, sizeof(director::quad), 0);
+	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
+
+	bool lecalite[] = { true };
+	left  = new FBO(cam->width, cam->height, false, 1, lecalite);
+	right = new FBO(cam->width, cam->height, false, 1, lecalite);
+	mid   = new FBO(cam->width, cam->height, false, 1, lecalite);
+
+	DOFShad = shad;
+	//DOF Shader IDs
+	DOFTextID		 = DOFShad->getUniform("Texture");
+	DOFDepthID		 = DOFShad->getUniform("Depth");
+	DOFBlurCoeffID	 = DOFShad->getUniform("BlurCoeff");
+	DOFFDistID		 = DOFShad->getUniform("FocalDistance");
+	DOFFarID		 = DOFShad->getUniform("Far");
+	DOFNearID		 = DOFShad->getUniform("Near");
+	DOFOrientationID = DOFShad->getUniform("Orientation");
+	DOFwidthID		 = DOFShad->getUniform("width");
+	DOFheightID		 = DOFShad->getUniform("height");
+}
+
 void DOFScene::draw(int s, double time) {
 	if(inputBuffL != NULL) {
 		currentIn = inputBuffL;

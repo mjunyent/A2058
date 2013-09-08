@@ -37,6 +37,8 @@ Storm::Storm(CSParser *csp) {
 	for(int i=0; i<M_ball.size(); i++) {
 		M_ball[i] = vec3(randValue(-125, 125), randValue(-90, 90), randValue(-520, -10));
 	}
+
+	dupdate(0);
 }
 
 void Storm::draw(int s, double t) {
@@ -51,12 +53,14 @@ void Storm::draw(int s, double t) {
 	currentV = &myRig->V_left;
 	currentCamPos = &myRig->positionL;
 	left->bind();
+	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
 	left->unbind();
 
 	currentV = &myRig->V_right;
 	currentCamPos = &myRig->positionR;
 	right->bind();
+	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
 	right->unbind();
 
@@ -88,7 +92,7 @@ void Storm::render(int s, double t) {
 	}
 }
 
-void Storm::update(double t) {
+void Storm::dupdate(double t) {
 	if(csp->getf("Spheres.RenderBox") >= 1.0) {
 		billboardShad = new Shader("Shaders/Vladivostok/storm.vert", "Shaders/Vladivostok/storm.geom", "Shaders/Vladivostok/storm.frag");
 		billboard_M_Id		 = billboardShad->getUniform("Model");
@@ -121,4 +125,10 @@ void Storm::update(double t) {
 	quadSize = csp->getf("Spheres.Size");
 	texSize = csp->getf("Spheres.texSize");
 
+}
+void Storm::update(double t) {
+	for(int i=0; i<M_ball.size(); i++) {
+		M_ball[i].z += 1.5;
+		if(M_ball[i].z > 100) M_ball[i] = vec3(randValue(-125, 125), randValue(-80, 80), randValue(-520, 500));
+	}
 }

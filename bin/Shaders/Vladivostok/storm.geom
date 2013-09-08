@@ -45,7 +45,7 @@ uniform float r;
 
 void main(void)
 {
-	mat4 MVP = Projection*View*Model;
+	mat4 MVP = Projection*View;
 
 	vec3 d = gl_in[0].gl_Position.xyz - camPos;
 	

@@ -19,19 +19,19 @@ View {
 	}
 	
 	Camera {
-		Position 0.0,0.0,104.0
+		Position 0.0,0.0,10.0
 		Direction 0.0,0.0,-1.0
 		Up 0.0,1.0,0.0	
 	}
 	
 	Lens {
-		FocalLength  23.0
+		FocalLength  15.0
 		FocusDistance 70.0
-		FStop 1.5
+		FStop 0.5
 	}
 	
 	Rig {
-		EyeSep 0.2
+		EyeSep 0.0
 	}
 }
 
@@ -44,10 +44,10 @@ TestSphere {
 }
 
 Spheres {
-	RenderBox 2.0 ; if bigger than one render, else, doesnt.
+	RenderBox 1.0 ; if bigger than one render, else, doesnt.
 	Velocity 1.5
 	zMax 100.0
-	Size 15.0
+	Size 25.0
 	texSize 0.20
 	yMargin 80
 	xMargin 125
