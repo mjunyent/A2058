@@ -17,7 +17,7 @@ uniform float Far;
 uniform float Near;
 
 void main(){
-	float MAX_BLUR_RADIUS = 50.0;
+	float MAX_BLUR_RADIUS = 100.0;
 
 	float depth = 2.0*texture(Depth, UV).x - 1.0;
 	//Linearize Depth.

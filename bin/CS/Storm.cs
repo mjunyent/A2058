@@ -15,7 +15,7 @@ View {
 	Perspective {
 		FOV 45.0
 		zNear 6.0
-		zFar 500.0
+		zFar 600.0
 	}
 	
 	Camera {
@@ -25,13 +25,13 @@ View {
 	}
 	
 	Lens {
-		FocalLength  15.0
-		FocusDistance 70.0
-		FStop 0.5
+		FocalLength  50.0
+		FocusDistance 140.0
+		FStop 2.5
 	}
 	
 	Rig {
-		EyeSep 0.0
+		EyeSep 1.0
 	}
 }
 
@@ -44,26 +44,43 @@ TestSphere {
 }
 
 Spheres {
-	RenderBox 1.0 ; if bigger than one render, else, doesnt.
-	Velocity 1.5
-	zMax 100.0
-	Size 25.0
+	RenderBox 2.0 ; if bigger than one render, else, doesnt.
+	Size 15.0
 	texSize 0.20
+	
+	
+	zMax 100.0
+
+	Velocity 0.0
 	yMargin 80
 	xMargin 125
 	zSpawnMin -520
 	zSpawnMax -500
 }
 
-Box {
-	scale 1.0;
-	shininess 0.45;
+Cells {
+	Velocity 1.0
+	xRange 125
+	yRange 80
+	zNear 10
+	zFar -600
+	zFarAway -700
+	K -0.2
+	M 2
+	L 50
 }
+
+
+
+
+
+
+
+
 
 Occlusion {
 	bias 0.05;
 	radius 40;
 	linearAtt 2;
 	quadraticAtt 5;
-
 }

@@ -4,11 +4,30 @@
 #include "Trinidad/Trinidad.h"
 #include "Parser.h"
 
+struct Cell
+{
+	vec3 p;
+	vec3 v;
+};
+
 struct DepthSort
 {
-    bool operator()( const vec3& lx, const vec3& rx ) const {
-    	return lx.z < rx.z;
+    bool operator()( const Cell& lx, const Cell& rx ) const {
+    	return lx.p.z < rx.p.z;
     }
+};
+
+class Cells {
+public:
+	vector<Cell> cells;
+	float xRange, yRange, zNear, zFar, zFarAway;
+	float vel;
+
+	float K, M, L;
+
+	Cells(int n, float v, float xRange, float yRange, float zNear, float zFar, float zFarAway, float K, float L, float M);
+
+	void update();
 };
 
 class Storm : public Scene {
@@ -25,16 +44,16 @@ public:
 
 	vec3 *currentCamPos;
 	mat4 *currentV;
-	vector<vec3> M_ball;
 	float quadSize;
 	float texSize;
+
+	Cells *c;
 
 	Storm(CSParser *csp);
 
 	void draw(int s, double t);
 	void render(int s, double t);
 
-	void dupdate(double t);
 	void update(double t);
 
 private:
@@ -43,3 +62,4 @@ private:
 		  billboard_tex_Id, billboard_texSize_Id, billboard_bgTex_Id,
 		  billboard_depth_Id;
 };
+

@@ -18,7 +18,7 @@ Storm::Storm(CSParser *csp) {
 	left = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
 	right = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
 
-	ballTex = TBO("Images/Balls/ball3T.png", true);
+	ballTex = TBO("Images/Balls/cell3G.png", true);
 	bgTex   = TBO("Images/Balls/ball2Bg.png", true);
 
 	billboardShad = new Shader("Shaders/Vladivostok/storm.vert", "Shaders/Vladivostok/storm.geom", "Shaders/Vladivostok/storm.frag");
@@ -33,17 +33,19 @@ Storm::Storm(CSParser *csp) {
 	billboard_bgTex_Id	 = billboardShad->getUniform("bgTex");
 	billboard_depth_Id	 = billboardShad->getUniform("depth");
 
-	M_ball = vector<vec3>(100);
-	for(int i=0; i<M_ball.size(); i++) {
-		M_ball[i] = vec3(randValue(-125, 125), randValue(-90, 90), randValue(-520, -10));
-	}
-
-	dupdate(0);
+	c = new Cells(40, 
+		csp->getf("Cells.Velocity"),
+		csp->getf("Cells.xRange"),
+		csp->getf("Cells.yRange"),
+		csp->getf("Cells.zNear"),
+		csp->getf("Cells.zFar"),
+		csp->getf("Cells.zFarAway"),
+		csp->getf("Cells.K"),
+		csp->getf("Cells.L"),
+		csp->getf("Cells.M"));
 }
 
 void Storm::draw(int s, double t) {
-	sort(M_ball.begin(), M_ball.end(), DepthSort() ); 
-
 	//Mono
 /*	currentV = &myCam->V;
 	currentCamPos = &myCam->position;
@@ -53,14 +55,14 @@ void Storm::draw(int s, double t) {
 	currentV = &myRig->V_left;
 	currentCamPos = &myRig->positionL;
 	left->bind();
-	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
+//	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
 	left->unbind();
 
 	currentV = &myRig->V_right;
 	currentCamPos = &myRig->positionR;
 	right->bind();
-	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
+//	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
 	right->unbind();
 
@@ -82,17 +84,17 @@ void Storm::render(int s, double t) {
 	glUniform1f(billboard_texSize_Id, texSize);
 	glUniform1i(billboard_bgTex_Id, 1);
 
-	for(int i=0; i<M_ball.size(); i++) {
-		mat4 idd = translate(M_ball[i]);
+	for(int i=0; i<c->cells.size(); i++) {
+		mat4 idd = translate(c->cells[i].p);
 		glUniformMatrix4fv(billboard_M_Id, 1, GL_FALSE, &idd[0][0]); 
-		glUniform1f(billboard_depth_Id, fabs(M_ball[i].z)/500.0f);
+		glUniform1f(billboard_depth_Id, fabs(c->cells[i].p.z/c->zFar));
 		singlePoint->enable(3);
 		singlePoint->draw(GL_POINTS);
 		singlePoint->disable();
 	}
 }
 
-void Storm::dupdate(double t) {
+void Storm::update(double t) {
 	if(csp->getf("Spheres.RenderBox") >= 1.0) {
 		billboardShad = new Shader("Shaders/Vladivostok/storm.vert", "Shaders/Vladivostok/storm.geom", "Shaders/Vladivostok/storm.frag");
 		billboard_M_Id		 = billboardShad->getUniform("Model");
@@ -110,25 +112,72 @@ void Storm::dupdate(double t) {
 	csp->passToCam(myCam);
 	csp->passToRig(myRig);
 
-	float v = csp->getf("Spheres.Velocity");
-	float zMax = csp->getf("Spheres.zMax");
-	float xMargin = csp->getf("Spheres.xMargin");
-	float yMargin = csp->getf("Spheres.yMargin");
-	float zSpawnMin = csp->getf("Spheres.zSpawnMin");
-	float zSpawnMax = csp->getf("Spheres.zSpawnMax");
-
-	for(int i=0; i<M_ball.size(); i++) {
-		M_ball[i].z += v;
-		if(M_ball[i].z > zMax) M_ball[i] = vec3(randValue(-xMargin, xMargin), randValue(-yMargin, yMargin), randValue(zSpawnMin, zSpawnMax));
-	}
-
 	quadSize = csp->getf("Spheres.Size");
 	texSize = csp->getf("Spheres.texSize");
 
+	
+	c->vel = csp->getf("Cells.Velocity");
+	c->xRange =	csp->getf("Cells.xRange");
+	c->yRange =	csp->getf("Cells.yRange");
+	c->zNear = csp->getf("Cells.zNear");
+	c->zFar = csp->getf("Cells.zFar");
+	c->zFarAway = csp->getf("Cells.zFarAway");
+	c->K = csp->getf("Cells.K");
+	c->L = csp->getf("Cells.L");
+	c->M = csp->getf("Cells.M");
+	
+	c->update();
 }
-void Storm::update(double t) {
-	for(int i=0; i<M_ball.size(); i++) {
-		M_ball[i].z += 1.5;
-		if(M_ball[i].z > 100) M_ball[i] = vec3(randValue(-125, 125), randValue(-80, 80), randValue(-520, 500));
+
+Cells::Cells(int n, float v, float xRange, float yRange, float zNear, float zFar, float zFarAway, float K, float L, float M) {
+	cells = vector<Cell>(n);
+
+	vel = v;
+	this->xRange	= xRange;
+	this->yRange	= yRange;
+	this->zNear		= zNear;
+	this->zFar		= zFar;
+	this->zFarAway	= zFarAway;
+	this->K			= K;
+	this->L			= L;
+	this->M			= M;
+
+	for(int i=0; i<n; i++) {
+		cells[i].p = vec3(randValue(-xRange, xRange),
+						  randValue(-yRange, yRange),
+						  randValue(std::min(zNear, zFarAway), std::max(zNear, zFarAway)));
+		cells[i].v = vec3(0, 0, vel);
 	}
+}
+
+void Cells::update() {
+	for(int i=0; i<cells.size(); i++) {
+		cells[i].v -= K*(vec3(0,0,vel) - cells[i].v);
+
+		if(cells[i].p.z > zNear) {
+			cells[i].p = vec3(randValue(-xRange, xRange),
+						  randValue(-yRange, yRange),
+						  randValue(std::min(zFar, zFarAway), std::max(zFar, zFarAway)));
+
+			cells[i].v = vec3(0, 0, vel);
+		}
+
+		for(int j=0; j<cells.size(); j++) {
+			if(j != i) {
+				vec2 p, pp;
+				p  = vec2(cells[i].p.x, cells[i].p.y);
+				pp = vec2(cells[j].p.x, cells[j].p.y);
+				float l = length(p - pp);
+				if(l <= L) {
+					p = M/l * (p-pp)/l;
+					cells[i].v.x += p.x;
+					cells[i].v.y += p.y;
+				}
+			}
+		}
+
+		cells[i].p += cells[i].v;	
+	}
+
+	sort(cells.begin(), cells.end(), DepthSort() ); 
 }
