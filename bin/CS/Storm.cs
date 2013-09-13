@@ -26,7 +26,7 @@ View {
 	
 	Lens {
 		FocalLength  50.0
-		FocusDistance 140.0
+		FocusDistance 240.0
 		FStop 2.5
 	}
 	
@@ -69,6 +69,18 @@ Cells {
 	M 2
 	L 50
 }
+
+Scan {
+	box {
+		left 40
+		right 120
+		up -60
+		down 60
+		near -200
+		far -250	
+	}
+}
+
 
 
 

@@ -3,10 +3,12 @@
 // Ouput data
 layout(location = 0) out vec4 colour;
 
-uniform sampler2D tex;
-uniform sampler2D bgTex;
-uniform float texSize;
-uniform float depth;
+uniform sampler2D	tex;
+uniform vec2		TexelSize;
+uniform float 		texSize;
+uniform float 		depth;
+uniform int			BlurAmount;
+uniform float		BlurStrength;
 
 in VertexData {
 	vec2 UV;

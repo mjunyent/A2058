@@ -24,4 +24,10 @@ glm::vec2 screen2normalized(glm::vec2 screenCoords, GLFWwindow* w);
 
 double randValue(float min, float max);
 
+template<typename T>
+bool inRange(const T &x, const T &a, const T &b) {
+	if(x <= std::max(a, b) && x >= std::min(a, b)) return true;
+	return false;
+}
+
 #endif

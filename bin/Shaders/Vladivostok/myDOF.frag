@@ -32,9 +32,9 @@ void main(){
 	color.rgb = texture(Texture, UV).rgb;
 	vec2 Offset;
 	if( Orientation == 0 )
-		Offset = vec2(1.0/width, 0.0);
-	else
 		Offset = vec2(0.0, 1.0/height);
+	else
+		Offset = vec2(1.0/width, 0.0);
 	
 	for(float i = 1.0; i<blurAmount; ++i) {
 		if(UV.x+Offset.x*i > 1.0 || UV.y+Offset.y*i > 1.0) break;

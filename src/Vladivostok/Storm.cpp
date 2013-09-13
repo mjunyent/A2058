@@ -43,6 +43,11 @@ Storm::Storm(CSParser *csp) {
 		csp->getf("Cells.K"),
 		csp->getf("Cells.L"),
 		csp->getf("Cells.M"));
+
+	s = new Scanner(vec3(csp->getf("Scan.box.left"), csp->getf("Scan.box.up"), csp->getf("Scan.box.near")),
+					vec3(csp->getf("Scan.box.right"), csp->getf("Scan.box.down"), csp->getf("Scan.box.far")),
+					c);
+	s->debSetup();
 }
 
 void Storm::draw(int s, double t) {
@@ -50,6 +55,7 @@ void Storm::draw(int s, double t) {
 /*	currentV = &myCam->V;
 	currentCamPos = &myCam->position;
 	render(s, t);*/
+	mat4 idd = translate(0.0f, 0.0f, 0.0f);
 
 	//Stereo
 	currentV = &myRig->V_left;
@@ -57,6 +63,7 @@ void Storm::draw(int s, double t) {
 	left->bind();
 //	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
+	this->s->renderDebugBox(&idd, currentV, &myCam->P);
 	left->unbind();
 
 	currentV = &myRig->V_right;
@@ -64,10 +71,12 @@ void Storm::draw(int s, double t) {
 	right->bind();
 //	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
+	this->s->renderDebugBox(&idd, currentV, &myCam->P);
 	right->unbind();
 
 	outputBuffL = left;
 	outputBuffR = right;
+
 }
 
 void Storm::render(int s, double t) {
@@ -126,12 +135,17 @@ void Storm::update(double t) {
 	c->L = csp->getf("Cells.L");
 	c->M = csp->getf("Cells.M");
 	
+	s->upLeftNear = vec3(csp->getf("Scan.box.left"), csp->getf("Scan.box.up"), csp->getf("Scan.box.near"));
+	s->downRightFar = vec3(csp->getf("Scan.box.right"), csp->getf("Scan.box.down"), csp->getf("Scan.box.far"));
+
 	c->update();
+	s->detect();
 }
 
 Cells::Cells(int n, float v, float xRange, float yRange, float zNear, float zFar, float zFarAway, float K, float L, float M) {
 	cells = vector<Cell>(n);
 
+	move = true;
 	vel = v;
 	this->xRange	= xRange;
 	this->yRange	= yRange;
@@ -148,9 +162,13 @@ Cells::Cells(int n, float v, float xRange, float yRange, float zNear, float zFar
 						  randValue(std::min(zNear, zFarAway), std::max(zNear, zFarAway)));
 		cells[i].v = vec3(0, 0, vel);
 	}
+
+	deflector = vec3(0.0, 0.0, 0.0);
 }
 
 void Cells::update() {
+	if(!move) return;
+
 	for(int i=0; i<cells.size(); i++) {
 		cells[i].v -= K*(vec3(0,0,vel) - cells[i].v);
 
@@ -176,8 +194,119 @@ void Cells::update() {
 			}
 		}
 
+		vec2 p, pp;
+		p  = vec2(cells[i].p.x, cells[i].p.y);
+		pp = vec2(deflector.x, deflector.y);
+		float l = length(cells[i].p - deflector);
+		if(l <= L) {
+			p = M/l * (p-pp)/l;
+			cells[i].v.x += p.x;
+			cells[i].v.y += p.y;
+		}
+
 		cells[i].p += cells[i].v;	
 	}
 
 	sort(cells.begin(), cells.end(), DepthSort() ); 
+}
+
+Scanner::Scanner(vec3 upLeftNear, vec3 downRightFar, Cells *cells) {
+	this->upLeftNear = upLeftNear;
+	this->downRightFar = downRightFar;
+	this->cells = cells;
+	TRESHOLD_STOP = 2;
+	TRESHOLD_NEXT = 2;
+	LAST = 0;
+}
+
+void Scanner::detect() {
+	if(!cells->move) { //If we are on STOP
+		if(director::currentTime-LAST > TRESHOLD_STOP) {
+			cells->move = true; //HIT PLAY!
+			LAST = director::currentTime;
+		}
+		return;
+	}
+
+	vector<vec3> p;
+
+	for(int i=0; i<cells->cells.size(); i++) {
+		if(inRange(cells->cells[i].p.x, upLeftNear.x, downRightFar.x) &&
+		   inRange(cells->cells[i].p.y, upLeftNear.y, downRightFar.y) &&
+		   inRange(cells->cells[i].p.z, upLeftNear.z, downRightFar.z)) {
+			   p.push_back(cells->cells[i].p);
+		}
+	}
+
+	if(p.size() >= 1) {
+		TOBAGO::log.write(DEBUG) << p.size() << " cells Detected";
+		if(director::currentTime-LAST > TRESHOLD_NEXT) {
+			cells->move = false;
+			LAST = director::currentTime;
+		}
+	}
+}
+
+void Scanner::draw() {
+
+
+
+}
+
+void Scanner::debSetup() {
+	debShad = new Shader("Shaders/debugLines.vert", "Shaders/debugLines.frag");
+	deb_M_Id		 = debShad->getUniform("Model");
+	deb_V_Id		 = debShad->getUniform("View");
+	deb_P_Id		 = debShad->getUniform("Projection");
+	deb_Color_Id	 = debShad->getUniform("Color");
+	debBox = NULL;
+}
+
+void Scanner::renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P) {
+	float left = upLeftNear.y;
+	float right = downRightFar.y;
+	float up = upLeftNear.x;
+	float down = downRightFar.x;
+	float near = upLeftNear.z;
+	float far = downRightFar.z;
+
+	float quadFront[] = { 
+		up, left, near,	//0 UP, LEFT
+		up, right, near, //1 UP, RIGHT
+
+		up, right, near, //1 UP, RIGHT
+		down, right, near, //2 DOWN, RIGHT
+
+		down, right, near, //2 DOWN, RIGHT
+		down, left, near,  //3 DOWN, LEFT
+
+		down, left, near,  //3 DOWN, LEFT
+		up, left, near,	//0 UP, LEFT
+
+		up, left, far,	//0 UP, LEFT
+		up, right, far, //1 UP, RIGHT
+
+		up, right, far, //1 UP, RIGHT
+		down, right, far, //2 DOWN, RIGHT
+
+		down, right, far, //2 DOWN, RIGHT
+		down, left, far,  //3 DOWN, LEFT
+
+		down, left, far,  //3 DOWN, LEFT
+		up, left, far	//0 UP, LEFT
+	};
+
+	if(debBox != NULL) debBox->destroy();
+
+	debBox = new VBO(quadFront, sizeof(quadFront), 0);
+
+	debShad->use();
+	glUniformMatrix4fv(deb_M_Id, 1, GL_FALSE, &(*M)[0][0]);
+	glUniformMatrix4fv(deb_V_Id, 1, GL_FALSE, &(*V)[0][0]);
+	glUniformMatrix4fv(deb_P_Id, 1, GL_FALSE, &(*P)[0][0]);
+	glUniform3f(deb_Color_Id, 1.0, 0.0, 0.0);
+
+	debBox->enable(3);
+	debBox->draw(GL_LINES);
+	debBox->disable();
 }

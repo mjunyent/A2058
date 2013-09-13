@@ -22,11 +22,10 @@ int main(void) {
 	Timer timer(manager);
 	glfwMakeContextCurrent(windows[0]);
 
-
 	Storm eyes(&csp);
 	Shader myDOF("Shaders/Vladivostok/myDOF.vert", "Shaders/Vladivostok/myDOF.frag"); 
 	manager->addScene(&eyes,   0, 10000000, 0.1);
-	manager->addScene(new DOFScene(eyes.myCam, &myDOF), 0, 1000000000, 0.2);
+//	manager->addScene(new DOFScene(eyes.myCam, &myDOF), 0, 1000000000, 0.2);
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 1);
 
 	while(!glfwWindowShouldClose(win)) {
