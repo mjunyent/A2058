@@ -37,7 +37,7 @@ void Cells::update() {
 
 			cells[i].v = vec3(0, 0, vel);
 		}
-
+		/*
 		for(int j=0; j<cells.size(); j++) {
 			if(j != i) {
 				vec2 p, pp;
@@ -61,7 +61,7 @@ void Cells::update() {
 			cells[i].v.x += p.x;
 			cells[i].v.y += p.y;
 		}
-
+		*/
 		cells[i].p += cells[i].v;	
 	}
 

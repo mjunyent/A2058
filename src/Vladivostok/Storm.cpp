@@ -20,7 +20,7 @@ Storm::Storm(CSParser *csp) {
 	left = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
 	right = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
 	
-	ballTex = TBO("Images/Balls/noMM/BallM150.fw.png", true);
+	ballTex = TBO("Images/Balls/noMM/BallM300.fw.png", true);
 	renderedCellTemp = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
 	renderedCell     = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
 
@@ -32,8 +32,6 @@ Storm::Storm(CSParser *csp) {
 	billboard_camPos_Id  = billboardShad->getUniform("camPos");
 	billboard_r_Id		 = billboardShad->getUniform("r");
 	billboard_tex_Id	 = billboardShad->getUniform("tex");
-	billboard_texSize_Id = billboardShad->getUniform("texSize");
-	billboard_depth_Id	 = billboardShad->getUniform("depth");
 
 	blur = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/stormBlur.frag");
 	blur_tex_Id				= blur->getUniform("Texture");
@@ -42,7 +40,7 @@ Storm::Storm(CSParser *csp) {
 	blur_amount_Id			= blur->getUniform("BlurAmount");
 	blur_strength_Id		= blur->getUniform("BlurStrength");
 
-	c = new Cells(20, 
+	c = new Cells(40, 
 		csp->getf("Cells.Velocity"),
 		csp->getf("Cells.xRange"),
 		csp->getf("Cells.yRange"),
@@ -61,80 +59,25 @@ Storm::Storm(CSParser *csp) {
 
 //OPTIMIZA: TODO, un solo render para las dos camaras, de las partículas!!
 void Storm::draw(int s, double t) {
-	//Mono
-/*	currentV = &myCam->V;
-	currentCamPos = &myCam->position;
-	render(s, t);*/
 	mat4 idd = translate(0.0f, 0.0f, 0.0f);
 
-	//Stereo
-	currentV = &myRig->V_left;
-	currentCamPos = &myRig->positionL;
-	current = left;
-	current->bind();
-	current->unbind();
+	left->bind();
+	left->unbind();
+	right->bind();
+	right->unbind();
 
-//	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
 	render(s, t);
-	current->bind(false);
-	this->s->renderDebugBox(&idd, currentV, &myCam->P);
-	current->unbind();
-
-	currentV = &myRig->V_right;
-	currentCamPos = &myRig->positionR;
-	current = right;
-	current->bind();
-	current->unbind();
-//	glClearColor(0.0, 4.0/255.0, 18.0/255.0, 1.0);
-	render(s, t);
-	current->bind(false);
-	this->s->renderDebugBox(&idd, currentV, &myCam->P);
-	current->unbind();
+//	current->bind(false);
+//	this->s->renderDebugBox(&idd, currentV, &myCam->P);
+//	current->unbind();
 
 	outputBuffL = left;
 	outputBuffR = right;
-
 }
 
 void Storm::render(int s, double t) {
 	for(int i=0; i<c->cells.size(); i++) {
-		int radius = 0;
-		float dist = length(myCam->position - c->cells[i].p);
-
-		if(dist < COCNear) {
-			radius = (int) -1*blurNearMax / (COCNear - myCam->znear) * dist + (blurNearMax*COCNear)/(COCNear - myCam->znear);
-		} else if(dist > COCFar) {
-			radius = (int) blurFarMax / (myCam->zfar - COCFar) * dist - (blurFarMax*COCFar)/(myCam->zfar - COCFar);
-		}
-
-		if(radius > 1) {
-			renderCell(radius);
-		}
-
-		TOBAGO::log.write(DEBUG) << "Radius is: " << radius;
-
-		current->bind(false);
-		billboardShad->use();
-
-//		ballTex.bind(0);
-		if(radius > 1)	renderedCell->bind_texture(0, 0);
-		else ballTex.bind(0);
-		glUniformMatrix4fv(billboard_V_Id, 1, GL_FALSE, &(*currentV)[0][0]);
-		glUniformMatrix4fv(billboard_P_Id, 1, GL_FALSE, &myCam->P[0][0]);
-		glUniform3fv(billboard_up_id, 1, &myCam->up[0]);
-		glUniform3fv(billboard_camPos_Id, 1, &(*currentCamPos)[0]);
-		glUniform1f(billboard_r_Id, quadSize);
-		glUniform1i(billboard_tex_Id, 0);
-		glUniform1f(billboard_texSize_Id, texSize);
-
-		mat4 idd = translate(c->cells[i].p);
-		glUniformMatrix4fv(billboard_M_Id, 1, GL_FALSE, &idd[0][0]); 
-		glUniform1f(billboard_depth_Id, fabs(c->cells[i].p.z/c->zFar));
-
-		singlePoint->enable(3);
-		singlePoint->draw(GL_POINTS);
-		singlePoint->disable();
-		current->unbind();
+		renderCell(i);
 	}
 }
 
@@ -151,7 +94,6 @@ void Storm::readConf() {
 	csp->passToRig(myRig);
 
 	quadSize = csp->getf("Storm.Size");
-	texSize = csp->getf("Storm.texSize");
 	blurStrength = csp->getf("Storm.blurStrength");
 
 	COCNear = csp->getf("Storm.DOF.COCnear");
@@ -163,7 +105,18 @@ void Storm::readConf() {
 	s->readConf(csp);
 }
 
-void Storm::renderCell(int radius) {
+void Storm::renderCell(int i) {
+	int radius = 0;
+	float dist = length(myCam->position - c->cells[i].p);
+
+	if(dist < COCNear) {
+		radius = (int) -1*blurNearMax / (COCNear - myCam->znear) * dist + (blurNearMax*COCNear)/(COCNear - myCam->znear);
+	} else if(dist > COCFar) {
+		radius = (int) blurFarMax / (myCam->zfar - COCFar) * dist - (blurFarMax*COCFar)/(myCam->zfar - COCFar);
+	}
+	radius+=2;
+
+
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 	
@@ -193,4 +146,42 @@ void Storm::renderCell(int radius) {
 	
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+
+	mat4 idd = translate(c->cells[i].p);
+
+	//Left
+	left->bind(false);
+	billboardShad->use();
+
+	renderedCell->bind_texture(0, 0);
+	glUniformMatrix4fv(billboard_M_Id, 1, GL_FALSE, &idd[0][0]); 
+	glUniformMatrix4fv(billboard_V_Id, 1, GL_FALSE, &myRig->V_left[0][0]);
+	glUniformMatrix4fv(billboard_P_Id, 1, GL_FALSE, &myCam->P[0][0]);
+	glUniform3fv(billboard_up_id, 1, &myCam->up[0]);
+	glUniform3fv(billboard_camPos_Id, 1, &myRig->positionL[0]);
+	glUniform1f(billboard_r_Id, quadSize);
+	glUniform1i(billboard_tex_Id, 0);
+
+	singlePoint->enable(3);
+	singlePoint->draw(GL_POINTS);
+	singlePoint->disable();
+	left->unbind();
+
+	//Right
+	right->bind(false);
+	billboardShad->use();
+
+	renderedCell->bind_texture(0, 0);
+	glUniformMatrix4fv(billboard_M_Id, 1, GL_FALSE, &idd[0][0]); 
+	glUniformMatrix4fv(billboard_V_Id, 1, GL_FALSE, &myRig->V_right[0][0]);
+	glUniformMatrix4fv(billboard_P_Id, 1, GL_FALSE, &myCam->P[0][0]);
+	glUniform3fv(billboard_up_id, 1, &myCam->up[0]);
+	glUniform3fv(billboard_camPos_Id, 1, &myRig->positionR[0]);
+	glUniform1f(billboard_r_Id, quadSize);
+	glUniform1i(billboard_tex_Id, 0);
+
+	singlePoint->enable(3);
+	singlePoint->draw(GL_POINTS);
+	singlePoint->disable();
+	right->unbind();
 }

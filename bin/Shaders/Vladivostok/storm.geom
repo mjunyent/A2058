@@ -3,10 +3,6 @@
 layout (points) in;
 layout (triangle_strip, max_vertices=4) out;
 
-in VertexData {
-	vec2 UV;
-} VertexIn[1];
-
 out VertexData {
 	vec2 UV;
 } VertexOut;
@@ -35,7 +31,6 @@ Built-in OUT variables
 	out int gl_ViewportIndex;
 */
 
-uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
 

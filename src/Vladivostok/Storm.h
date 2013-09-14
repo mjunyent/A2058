@@ -11,16 +11,13 @@ public:
 	VBO *singlePoint;
 	TBO ballTex;
 
-	FBO *left, *right, *current;
+	FBO *left, *right;
 
 	Camera *myCam;
 	Rig *myRig;
 	CSParser *csp;
 
-	vec3 *currentCamPos;
-	mat4 *currentV;
 	float quadSize;
-	float texSize;
 
 	Cells *c;
 	Scanner *s;
@@ -40,7 +37,7 @@ public:
 	void draw(int s, double t);
 	void render(int s, double t);
 
-	void renderCell(int radius);
+	void renderCell(int i);
 	int getLinearDOFRadius(vec3 p);
 
 	void update(double t);
@@ -50,7 +47,7 @@ public:
 private:
 	GLint billboard_M_Id, billboard_V_Id, billboard_P_Id,
 		  billboard_up_id, billboard_camPos_Id, billboard_r_Id,
-		  billboard_tex_Id, billboard_texSize_Id, billboard_depth_Id;
+		  billboard_tex_Id;
 	GLint blur_tex_Id, blur_texelSize_Id, blur_orientation_Id, blur_amount_Id, blur_strength_Id;
 };
 

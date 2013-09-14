@@ -26,7 +26,7 @@ View {
 	
 	Lens {
 		FocalLength  50.0
-		FocusDistance 240.0
+		FocusDistance 175.0
 		FStop 2.5
 	}
 	
@@ -41,13 +41,12 @@ Lights {
 
 Storm {
 	Size 15.0
-	texSize 0.20
 	blurStrength 0.0
 	DOF {
-		COCnear 6
-		COCfar  100
-		radiusNear 30
-		radiusFar 35
+		COCnear 150
+		COCfar  200
+		radiusNear 60
+		radiusFar 60
 	}
 }
 
