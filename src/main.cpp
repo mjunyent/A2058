@@ -27,6 +27,7 @@ int main(void) {
 	manager->addScene(&eyes,   0, 10000000, 0.1);
 //	manager->addScene(new DOFScene(eyes.myCam, &myDOF), 0, 1000000000, 0.2);
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 1);
+	manager->addScene(new FrameRate(20, 20, 200, 80), 0, 10000000, 2);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

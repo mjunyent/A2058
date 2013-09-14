@@ -26,7 +26,7 @@ public:
 
 	FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qualite);
 
-	void bind();
+	void bind(bool erase=true);
 
 	void unbind();
 

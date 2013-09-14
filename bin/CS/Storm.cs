@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 1.0
+		EyeSep 0.0
 	}
 }
 
@@ -39,23 +39,16 @@ Lights {
 	number 0;
 }
 
-TestSphere {
-	Position 0.0,0.0,92.0
-}
-
-Spheres {
-	RenderBox 2.0 ; if bigger than one render, else, doesnt.
+Storm {
 	Size 15.0
 	texSize 0.20
-	
-	
-	zMax 100.0
-
-	Velocity 0.0
-	yMargin 80
-	xMargin 125
-	zSpawnMin -520
-	zSpawnMax -500
+	blurStrength 0.0
+	DOF {
+		COCnear 6
+		COCfar  100
+		radiusNear 30
+		radiusFar 35
+	}
 }
 
 Cells {
@@ -72,12 +65,12 @@ Cells {
 
 Scan {
 	box {
-		left 40
-		right 120
-		up -60
-		down 60
-		near -200
-		far -250	
+		left  -1140
+		right 1120
+		up    -0
+		down  0
+		near  -100
+		far   -250	
 	}
 }
 

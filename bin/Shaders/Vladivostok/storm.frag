@@ -19,7 +19,7 @@ void main()
 	vec2 centerUV = (VertexIn.UV - vec2(0.5, 0.5))*2.0; //Coordinates centered on the center.
 
 	colour = texture(tex, VertexIn.UV); //Get the color from the texture
-	if(colour.a < 0.2) discard;
+	//if(colour.a < 0.2) discard;
 /*
 	float r = mix(0.5, 1.8, clamp(pow(depth, 2.0), 0.0, 1.0)); //Calculate Cut Radius, according to depth.
 	float rr = length(centerUV); //Calculate current pixel's radius.
