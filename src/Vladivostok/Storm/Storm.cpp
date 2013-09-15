@@ -51,25 +51,31 @@ Storm::Storm(CSParser *csp) {
 		csp->getf("Cells.L"),
 		csp->getf("Cells.M"));
 
-	s = new Scanner(vec3(csp->getf("Scan.box.left"), csp->getf("Scan.box.up"), csp->getf("Scan.box.near")),
+	s = new Scanner(csp,
+					vec3(csp->getf("Scan.box.left"), csp->getf("Scan.box.up"), csp->getf("Scan.box.near")),
 					vec3(csp->getf("Scan.box.right"), csp->getf("Scan.box.down"), csp->getf("Scan.box.far")),
 					c);
 	s->debSetup();
 }
 
-//OPTIMIZA: TODO, un solo render para las dos camaras, de las partículas!!
 void Storm::draw(int s, double t) {
 	mat4 idd = translate(0.0f, 0.0f, 0.0f);
 
 	left->bind();
+	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
 	left->unbind();
 	right->bind();
+	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
 	right->unbind();
 
 	render(s, t);
-//	current->bind(false);
-//	this->s->renderDebugBox(&idd, currentV, &myCam->P);
-//	current->unbind();
+
+	left->bind(false);
+	this->s->draw(&myRig->V_left, &myCam->P);
+	left->unbind();
+	right->bind(false);
+	this->s->draw(&myRig->V_right, &myCam->P);
+	right->unbind();
 
 	outputBuffL = left;
 	outputBuffR = right;

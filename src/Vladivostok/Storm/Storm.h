@@ -2,8 +2,9 @@
 
 #include "Tobago/Tobago.h"
 #include "Trinidad/Trinidad.h"
-#include "Parser.h"
-#include "StormAuxiliar.h"
+#include "../Parser.h"
+#include "Cells.h"
+#include "Scanner.h"
 
 class Storm : public Scene {
 public:
@@ -29,7 +30,6 @@ public:
 	FBO *renderedCellTemp, *renderedCell;
 	float  COCNear, COCFar;
 	float blurNearMax, blurFarMax;
-	vec3 LinearDOF; //x: max blur amount, y: near stop, z: far stop.  \y____z/
 	float blurStrength;
 
 	Storm(CSParser *csp);

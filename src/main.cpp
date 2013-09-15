@@ -4,7 +4,7 @@
 
 #include "Vladivostok/Parser.h"
 #include "Vladivostok/FloatingBalls.h"
-#include "Vladivostok/Storm.h"
+#include "Vladivostok/Storm/Storm.h"
 
 using namespace director;
 using namespace TOBAGO;

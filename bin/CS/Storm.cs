@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0
+		EyeSep 1.0
 	}
 }
 
@@ -64,23 +64,21 @@ Cells {
 
 Scan {
 	box {
-		left  -1140
-		right 1120
-		up    -0
-		down  0
+		left  0
+		right 80
+		up    -40
+		down  40
 		near  -100
-		far   -250	
+		far   -150	
+	}
+	InterStopsTime 1.0
+	StopTime 2.5
+	
+	Grid {
+		size 30;
+		divisions 5;
 	}
 }
-
-
-
-
-
-
-
-
-
 
 Occlusion {
 	bias 0.05;

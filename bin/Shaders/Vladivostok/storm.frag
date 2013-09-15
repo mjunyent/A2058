@@ -12,4 +12,5 @@ in VertexData {
 void main()
 {
 	colour = texture(tex, VertexIn.UV); //Get the color from the texture
+	if(colour.a < 0.01) discard;
 }

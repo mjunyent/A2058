@@ -65,6 +65,9 @@
     <Filter Include="Vladivostok\Tests, Old &amp; Deprecated">
       <UniqueIdentifier>{223ce23c-b519-4ab9-9cdd-34641660f060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vladivostok\Storm">
+      <UniqueIdentifier>{04a51f63-9d1e-4c39-81fa-9af2484eaf74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -172,14 +175,17 @@
     <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.cpp">
       <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
     <ClCompile Include="src\Trinidad\Scenes\DOF.cpp">
       <Filter>Trinidad\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vladivostok\StormAuxiliar.cpp">
-      <Filter>Vladivostok</Filter>
+    <ClCompile Include="src\Vladivostok\Storm\Cells.cpp">
+      <Filter>Vladivostok\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Storm\Scanner.cpp">
+      <Filter>Vladivostok\Storm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vladivostok\Storm\Storm.cpp">
+      <Filter>Vladivostok\Storm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,14 +297,17 @@
     <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.h">
       <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
     <ClInclude Include="src\Trinidad\Scenes\DOF.h">
       <Filter>Trinidad\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vladivostok\StormAuxiliar.h">
-      <Filter>Vladivostok</Filter>
+    <ClInclude Include="src\Vladivostok\Storm\Cells.h">
+      <Filter>Vladivostok\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Storm\Scanner.h">
+      <Filter>Vladivostok\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Storm\Storm.h">
+      <Filter>Vladivostok\Storm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 #include "Tobago/Tobago.h"
 #include "Trinidad/Trinidad.h"
-#include "Parser.h"
+#include "../Parser.h"
 
 struct Cell
 {
@@ -32,29 +32,4 @@ public:
 	void update();
 
 	void readConf(CSParser *csp);
-};
-
-class Scanner {
-public:
-	vec3 upLeftNear, downRightFar;
-	float LAST; //last stop time
-	float TRESHOLD_STOP; //time in stop
-	float TRESHOLD_NEXT; //time to wait before next stop
-	Cells *cells;
-
-	Shader *debShad;
-	VBO *debBox;
-	
-	Scanner(vec3 upLeftNear, vec3 downRightFar, Cells *cells);
-
-	void debSetup();
-	void renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P);
-	
-
-	void detect();
-	void draw();
-
-	void readConf(CSParser *csp);
-
-	GLint deb_M_Id, deb_V_Id, deb_P_Id, deb_Color_Id;
 };
