@@ -1,18 +1,10 @@
 #include "Cells.h"
 
-Cells::Cells(int n, float v, float xRange, float yRange, float zNear, float zFar, float zFarAway, float K, float L, float M) {
+Cells::Cells(int n, CSParser *csp) {
 	cells = vector<Cell>(n);
 
-	move = true;
-	vel = v;
-	this->xRange	= xRange;
-	this->yRange	= yRange;
-	this->zNear		= zNear;
-	this->zFar		= zFar;
-	this->zFarAway	= zFarAway;
-	this->K			= K;
-	this->L			= L;
-	this->M			= M;
+	Play();
+	readConf(csp);
 
 	for(int i=0; i<n; i++) {
 		cells[i].p = vec3(randValue(-xRange, xRange),
@@ -24,7 +16,24 @@ Cells::Cells(int n, float v, float xRange, float yRange, float zNear, float zFar
 	deflector = vec3(0.0, 0.0, 0.0);
 }
 
+void Cells::slowStop() {
+	reduce = true;
+}
+
+void Cells::Play() {
+	move = true;
+	reduce = false;
+	reduceMult = 1.0;
+}
+
 void Cells::update() {
+	if(reduce) {
+		reduceMult -= reduceVel;
+		if(reduceMult <= 0) {
+			reduce = false;
+			move = false;
+		}
+	}
 	if(!move) return;
 
 	for(int i=0; i<cells.size(); i++) {
@@ -62,7 +71,7 @@ void Cells::update() {
 			cells[i].v.y += p.y;
 		}
 		
-		cells[i].p += cells[i].v;	
+		cells[i].p += reduceMult*cells[i].v;	
 	}
 
 	sort(cells.begin(), cells.end(), DepthSort() ); 
@@ -78,4 +87,6 @@ void Cells::readConf(CSParser *csp) {
 	K		 = csp->getf("Cells.K");
 	L		 = csp->getf("Cells.L");
 	M		 = csp->getf("Cells.M");
+
+	reduceVel = csp->getf("Cells.StopVel");
 }

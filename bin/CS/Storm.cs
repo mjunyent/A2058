@@ -26,12 +26,12 @@ View {
 	
 	Lens {
 		FocalLength  50.0
-		FocusDistance 175.0
+		FocusDistance 250.0
 		FStop 2.5
 	}
 	
 	Rig {
-		EyeSep 1.0
+		EyeSep 2.0
 	}
 }
 
@@ -60,6 +60,7 @@ Cells {
 	K -0.2
 	M 2
 	L 50
+	StopVel 0.02
 }
 
 Scan {
@@ -71,13 +72,19 @@ Scan {
 		near  -100
 		far   -150	
 	}
-	InterStopsTime 1.0
-	StopTime 2.5
+	
+	restTime 2.0 ;minimum time between end of scan and start of next.
+	startTime 1.0 ;time between cell detected and start of grid draw.
+	gridVelocity 1.0 ;velocity of the grid to move.
+	stillTime 2.0 ;time after rendering the scan.
+	scanSize 600 ;size of the scan (in px.)
 	
 	Grid {
 		size 30;
 		divisions 5;
 	}
+	
+	scanStartPoint 12.0;
 }
 
 Occlusion {

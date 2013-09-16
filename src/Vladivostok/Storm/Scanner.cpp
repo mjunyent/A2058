@@ -1,15 +1,14 @@
 #include "Scanner.h"
 
-Scanner::Scanner(CSParser *csp, vec3 upLeftNear, vec3 downRightFar, Cells *cells) {
-	this->upLeftNear = upLeftNear;
-	this->downRightFar = downRightFar;
+Scanner::Scanner(CSParser *csp, Cells *cells) {
 	this->cells = cells;
-	TRESHOLD_STOP = 2;
-	TRESHOLD_NEXT = 2;
-	LAST = 0;
 	grid = new Grid(csp->getf("Scan.Grid.size"), csp->getf("Scan.Grid.divisions"));
-	scanningCell = -1;
+	readConf(csp);
 
+	scanningCell = -1;
+	status = DETECTING;
+
+	//Prepare Shader
 	gridShad = new Shader("Shaders/Vladivostok/stormScan.vert", "Shaders/Vladivostok/stormScan.frag");
 	grid_M_Id = gridShad->getUniform("Model");
 	grid_V_Id = gridShad->getUniform("View");
@@ -17,42 +16,63 @@ Scanner::Scanner(CSParser *csp, vec3 upLeftNear, vec3 downRightFar, Cells *cells
 }
 
 void Scanner::detect() {
-	if(!cells->move) { //If we are on STOP
-		if(director::currentTime-LAST > TRESHOLD_STOP) {
-			cells->move = true; //HIT PLAY!
-			LAST = director::currentTime;
-		}
-		return;
-	}
-
 	scanningCell = -1;
 
 	for(int i=0; i<cells->cells.size(); i++) {
 		if(inRange(cells->cells[i].p.x, upLeftNear.x, downRightFar.x) &&
 		   inRange(cells->cells[i].p.y, upLeftNear.y, downRightFar.y) &&
 		   inRange(cells->cells[i].p.z, upLeftNear.z, downRightFar.z)) {
-			   if(scanningCell != -1) return;
+			   if(scanningCell != -1) { //if it's the second we detect.
+				   scanningCell = -1;
+				   return;
+			   }
 			   else scanningCell = i;
-		}
-	}
-
-	if(scanningCell != -1) {
-		if(director::currentTime-LAST > TRESHOLD_NEXT) {
-			cells->move = false;
-			LAST = director::currentTime;
 		}
 	}
 }
 
 void Scanner::draw(mat4 *V, mat4 *P) {
-	if(scanningCell != -1) {
-		mat4 idd = translate(cells->cells[scanningCell].p);
+	if(status == GRID) {
+		vec3 position = cells->cells[scanningCell].p;
+		mat4 idd = translate(position);
 
 		gridShad->use();
 		glUniformMatrix4fv(grid_M_Id, 1, GL_FALSE, &idd[0][0]);
 		glUniformMatrix4fv(grid_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
 		glUniformMatrix4fv(grid_P_Id, 1, GL_FALSE, &(*P)[0][0]); 
 		grid->render();
+	}
+}
+
+void Scanner::startGridMovement() {
+	gridMovementVector = vec3(-1.0, 0.0, 0.0);
+	gridStartPoint = cells->cells[scanningCell].p - gridStartRadius*gridMovementVector;
+	gridPosition = 0;
+}
+
+void Scanner::update() {
+	if(status == REST) {
+		if(director::currentTime - lastTime > restTime) {
+			status = DETECTING;
+			lastTime = director::currentTime;
+		}
+	} else if(status == DETECTING) {
+		detect();
+		if(scanningCell != -1) {
+			status = START;
+//			cells->slowStop();
+			cells->move = false;
+			lastTime = director::currentTime;
+		}
+	} else if(status == START) {
+		if(director::currentTime-lastTime > startTime) {
+			status = GRID;
+			gridPositionVec = cells->cells[scanningCell].p;
+		}
+	} else if(status == GRID) {
+
+	} else if(status == STILL) {
+
 	}
 }
 
@@ -117,10 +137,12 @@ void Scanner::renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P) {
 void Scanner::readConf(CSParser *csp) {
 	upLeftNear = vec3(csp->getf("Scan.box.left"), csp->getf("Scan.box.up"), csp->getf("Scan.box.near"));
 	downRightFar = vec3(csp->getf("Scan.box.right"), csp->getf("Scan.box.down"), csp->getf("Scan.box.far"));
-	TRESHOLD_NEXT = csp->getf("Scan.InterStopsTime");
-	TRESHOLD_STOP = csp->getf("Scan.StopTime");
-}
 
+	restTime = csp->getf("Scan.restTime");
+	startTime = csp->getf("Scan.startTime");
+	gridVelocity = csp->getf("Scan.gridVelocity");
+	scanSize = csp->getf("Scan.scanSize");
+}
 
 
 

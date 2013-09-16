@@ -20,28 +20,41 @@ private:
 
 class Scanner {
 public:
-	vec3 upLeftNear, downRightFar;
-	float LAST; //last stop time
-	float TRESHOLD_STOP; //time in stop
-	float TRESHOLD_NEXT; //time to wait before next stop
-	Cells *cells;
+	enum STATE { REST,		 //cells moving, not scanning.
+				 DETECTING,   //cells moving, waiting for something to happen.
+				 START,		 //cell in range detected, starting scan. Everything Pauses, no grid.
+				 GRID,		 //Grid Movement Pattern.
+				 STILL };	 //Rendered scan for a few seconds.
+
+	STATE status;
+	float lastTime;
+	float restTime, startTime, gridVelocity, stillTime;
 	int scanningCell;
+	float scanSize;
+	vec3 upLeftNear, downRightFar;
+	vec3 gridPositionVec;
+
+	Cells *cells;
 
 	Shader *gridShad;
 	Shader *debShad;
 	VBO *debBox;
 	Grid *grid;
 
-	
-	Scanner(CSParser *csp, vec3 upLeftNear, vec3 downRightFar, Cells *cells);
+	vec3 gridStartPoint, gridMovementVector;
+	float gridRange, gridPosition, gridStartRadius;
+
+	Scanner(CSParser *csp, Cells *cells);
 
 	void debSetup();
 	void renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P);
 
 	void detect();
 	void draw(mat4 *V, mat4 *P);
+	void startGridMovement();
 
 	void readConf(CSParser *csp);
+	void update();
 
 private:
 	GLint grid_M_Id, grid_V_Id, grid_P_Id;

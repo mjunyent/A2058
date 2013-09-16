@@ -23,13 +23,18 @@ public:
 	float xRange, yRange, zNear, zFar, zFarAway;
 	float vel;
 	bool move;
+	bool reduce;
+	float reduceMult, reduceVel;
+
 	vec3 deflector;
 
 	float K, M, L;
 
-	Cells(int n, float v, float xRange, float yRange, float zNear, float zFar, float zFarAway, float K, float L, float M);
+	Cells(int n, CSParser *csp);
 
+	void slowStop();
 	void update();
+	void Play();
 
 	void readConf(CSParser *csp);
 };

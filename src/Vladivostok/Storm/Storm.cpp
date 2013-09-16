@@ -40,21 +40,9 @@ Storm::Storm(CSParser *csp) {
 	blur_amount_Id			= blur->getUniform("BlurAmount");
 	blur_strength_Id		= blur->getUniform("BlurStrength");
 
-	c = new Cells(40, 
-		csp->getf("Cells.Velocity"),
-		csp->getf("Cells.xRange"),
-		csp->getf("Cells.yRange"),
-		csp->getf("Cells.zNear"),
-		csp->getf("Cells.zFar"),
-		csp->getf("Cells.zFarAway"),
-		csp->getf("Cells.K"),
-		csp->getf("Cells.L"),
-		csp->getf("Cells.M"));
+	c = new Cells(40, csp);
 
-	s = new Scanner(csp,
-					vec3(csp->getf("Scan.box.left"), csp->getf("Scan.box.up"), csp->getf("Scan.box.near")),
-					vec3(csp->getf("Scan.box.right"), csp->getf("Scan.box.down"), csp->getf("Scan.box.far")),
-					c);
+	s = new Scanner(csp, c);
 	s->debSetup();
 }
 
@@ -77,13 +65,15 @@ void Storm::draw(int s, double t) {
 	this->s->draw(&myRig->V_right, &myCam->P);
 	right->unbind();
 
+	if(this->s->scanningCell != -1) renderCell(this->s->scanningCell);
+
 	outputBuffL = left;
 	outputBuffR = right;
 }
 
 void Storm::render(int s, double t) {
 	for(int i=0; i<c->cells.size(); i++) {
-		renderCell(i);
+		if(i != this->s->scanningCell) renderCell(i);
 	}
 }
 
@@ -91,7 +81,8 @@ void Storm::update(double t) {
 	readConf();
 
 	c->update();
-	s->detect();
+	s->update();
+//	s->detect();
 }
 
 void Storm::readConf() {
