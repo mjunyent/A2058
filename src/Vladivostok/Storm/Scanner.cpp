@@ -32,9 +32,9 @@ void Scanner::detect() {
 }
 
 void Scanner::draw(mat4 *V, mat4 *P) {
-	if(status == GRID) {
+	if(status == GRID || status == STILL) {
 		vec3 position = cells->cells[scanningCell].p;
-		mat4 idd = translate(position);
+		mat4 idd = translate(gridPositionVec);
 
 		gridShad->use();
 		glUniformMatrix4fv(grid_M_Id, 1, GL_FALSE, &idd[0][0]);
@@ -60,19 +60,30 @@ void Scanner::update() {
 		detect();
 		if(scanningCell != -1) {
 			status = START;
-//			cells->slowStop();
-			cells->move = false;
+			cells->slowStop();
 			lastTime = director::currentTime;
 		}
 	} else if(status == START) {
 		if(director::currentTime-lastTime > startTime) {
 			status = GRID;
 			gridPositionVec = cells->cells[scanningCell].p;
+			gridPositionVec.x += scanStart;
+			gridPosition = 0.0;
+			lastTime = director::currentTime;
 		}
 	} else if(status == GRID) {
-
+		gridPositionVec.x -= gridVelocity;
+		gridPosition += gridVelocity;
+		if(gridPosition > scanSize) {
+			status = STILL;
+			lastTime = director::currentTime;
+		}
 	} else if(status == STILL) {
-
+		if(director::currentTime-lastTime > stillTime) {
+			cells->Play();
+			status = REST;
+			lastTime = director::currentTime;
+		}
 	}
 }
 
@@ -140,8 +151,10 @@ void Scanner::readConf(CSParser *csp) {
 
 	restTime = csp->getf("Scan.restTime");
 	startTime = csp->getf("Scan.startTime");
+	stillTime = csp->getf("Scan.stillTime");
 	gridVelocity = csp->getf("Scan.gridVelocity");
 	scanSize = csp->getf("Scan.scanSize");
+	scanStart = csp->getf("Scan.scanStart");
 }
 
 

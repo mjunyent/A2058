@@ -74,7 +74,7 @@ void Cells::update() {
 		cells[i].p += reduceMult*cells[i].v;	
 	}
 
-	sort(cells.begin(), cells.end(), DepthSort() ); 
+	if(!reduce) sort(cells.begin(), cells.end(), DepthSort() ); 
 }
 
 void Cells::readConf(CSParser *csp) {

@@ -30,9 +30,10 @@ public:
 	float lastTime;
 	float restTime, startTime, gridVelocity, stillTime;
 	int scanningCell;
-	float scanSize;
+	float scanSize, scanStart;
 	vec3 upLeftNear, downRightFar;
 	vec3 gridPositionVec;
+	float gridPosition;
 
 	Cells *cells;
 
@@ -42,7 +43,7 @@ public:
 	Grid *grid;
 
 	vec3 gridStartPoint, gridMovementVector;
-	float gridRange, gridPosition, gridStartRadius;
+	float gridRange, gridStartRadius;
 
 	Scanner(CSParser *csp, Cells *cells);
 
