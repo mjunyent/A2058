@@ -12,7 +12,7 @@ in VertexData {
 
 void main()
 {
-	glowMap = vec4(0.0);
 	colour = texture(tex, VertexIn.UV); //Get the color from the texture
+	glowMap = vec4(0.0, 0.0, 0.0, colour.a);
 	if(colour.a < 0.01) discard;
 }

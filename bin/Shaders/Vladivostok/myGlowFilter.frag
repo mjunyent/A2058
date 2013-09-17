@@ -10,7 +10,7 @@ uniform vec2 texelSize;
 void main(){
 	float mapValue = texture(Map, UV).x;
 
-	if(mapValue >= 0.5) color.rgb = texture(Texture, UV).rgb;
+	if(mapValue >= 0.8) color.rgb = texture(Texture, UV).rgb;
 	else color.rgb = vec3(0.0);
 	color.w = 1.0;
 }

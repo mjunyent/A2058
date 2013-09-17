@@ -8,7 +8,7 @@ uniform sampler2D	Map;
 
 void main(){
 	float mapValue = texture(Map, UV).x;
-	color.rgb = texture(Texture, UV).rgb;
-	if(color.r != 1.0 && color.g != 1.0) color.rgb = vec3(0.0);
+	if(mapValue == 1.0) color.rgb = texture(Texture, UV).rgb;
+	else color.rgb = vec3(0.0);
 	color.w = 1.0;
 }
