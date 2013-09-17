@@ -5,6 +5,7 @@
 #include "Vladivostok/Parser.h"
 #include "Vladivostok/FloatingBalls.h"
 #include "Vladivostok/Storm/Storm.h"
+#include "Vladivostok/myGlow.h"
 
 using namespace director;
 using namespace TOBAGO;
@@ -23,8 +24,10 @@ int main(void) {
 	glfwMakeContextCurrent(windows[0]);
 
 	Storm eyes(&csp);
+	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 	Shader myDOF("Shaders/Vladivostok/myDOF.vert", "Shaders/Vladivostok/myDOF.frag"); 
 	manager->addScene(&eyes,   0, 10000000, 0.1);
+	manager->addScene(&glow,   0, 10000000, 0.2);
 //	manager->addScene(new DOFScene(eyes.myCam, &myDOF), 0, 1000000000, 0.2);
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 1);
 	manager->addScene(new FrameRate(20, 20, 200, 80), 0, 10000000, 2);

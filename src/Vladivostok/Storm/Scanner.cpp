@@ -8,11 +8,16 @@ Scanner::Scanner(CSParser *csp, Cells *cells) {
 	scanningCell = -1;
 	status = DETECTING;
 
+	bool lecalite[] = { true };
+	impas = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
+
 	//Prepare Shader
 	gridShad = new Shader("Shaders/Vladivostok/stormScan.vert", "Shaders/Vladivostok/stormScan.frag");
 	grid_M_Id = gridShad->getUniform("Model");
 	grid_V_Id = gridShad->getUniform("View");
 	grid_P_Id = gridShad->getUniform("Projection");
+	grid_centerPosition_Id = gridShad->getUniform("centerPosition");
+	grid_radius_Id = gridShad->getUniform("radius");
 }
 
 void Scanner::detect() {
@@ -31,23 +36,24 @@ void Scanner::detect() {
 	}
 }
 
-void Scanner::draw(mat4 *V, mat4 *P) {
+void Scanner::draw(mat4 *V, mat4 *P, FBO *render) {
 	if(status == GRID || status == STILL) {
 		vec3 position = cells->cells[scanningCell].p;
 		mat4 idd = translate(gridPositionVec);
 
+		render->bind(false);
+
 		gridShad->use();
 		glUniformMatrix4fv(grid_M_Id, 1, GL_FALSE, &idd[0][0]);
 		glUniformMatrix4fv(grid_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
-		glUniformMatrix4fv(grid_P_Id, 1, GL_FALSE, &(*P)[0][0]); 
+		glUniformMatrix4fv(grid_P_Id, 1, GL_FALSE, &(*P)[0][0]);
+		glUniform3fv(grid_centerPosition_Id, 1, &position[0]);
+		glUniform1f(grid_radius_Id, gridDeleteRadius);
+//		glUniformMatrix3fv(grid_centerPosition_Id, 1, 
 		grid->render();
-	}
-}
 
-void Scanner::startGridMovement() {
-	gridMovementVector = vec3(-1.0, 0.0, 0.0);
-	gridStartPoint = cells->cells[scanningCell].p - gridStartRadius*gridMovementVector;
-	gridPosition = 0;
+		render->unbind();
+	}
 }
 
 void Scanner::update() {
@@ -155,6 +161,7 @@ void Scanner::readConf(CSParser *csp) {
 	gridVelocity = csp->getf("Scan.gridVelocity");
 	scanSize = csp->getf("Scan.scanSize");
 	scanStart = csp->getf("Scan.scanStart");
+	gridDeleteRadius = csp->getf("Scan.deleteRadius");
 }
 
 

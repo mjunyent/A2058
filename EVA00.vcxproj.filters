@@ -187,6 +187,9 @@
     <ClCompile Include="src\Vladivostok\Storm\Storm.cpp">
       <Filter>Vladivostok\Storm</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vladivostok\myGlow.cpp">
+      <Filter>Vladivostok</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -308,6 +311,9 @@
     </ClInclude>
     <ClInclude Include="src\Vladivostok\Storm\Storm.h">
       <Filter>Vladivostok\Storm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\myGlow.h">
+      <Filter>Vladivostok</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,12 +11,12 @@ using namespace std;
 class FBO {
 private:
 //	GLuint depthrenderbuffer;
-	GLsizei width, height;
 	bool deltex;
 	void shout_error(GLenum error);
 	int viewport[4];
 
 public:
+	GLsizei width, height;
 	int ntbo;
 	vector<TBO*> textures;
 	TBO *depthtexture;

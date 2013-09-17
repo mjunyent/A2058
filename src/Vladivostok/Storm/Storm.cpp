@@ -17,8 +17,9 @@ Storm::Storm(CSParser *csp) {
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
 	
 	bool lecalite[] = { true };
-	left = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
-	right = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
+	bool lecaliteD[] = { true, true };
+	left = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
+	right = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	
 	ballTex = TBO("Images/Balls/noMM/BallM300.fw.png", true);
 	renderedCellTemp = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
@@ -58,12 +59,8 @@ void Storm::draw(int s, double t) {
 
 	render(s, t);
 
-	left->bind(false);
-	this->s->draw(&myRig->V_left, &myCam->P);
-	left->unbind();
-	right->bind(false);
-	this->s->draw(&myRig->V_right, &myCam->P);
-	right->unbind();
+	this->s->draw(&myRig->V_left, &myCam->P, left);
+	this->s->draw(&myRig->V_right, &myCam->P, right);
 
 	if(this->s->scanningCell != -1) renderCell(this->s->scanningCell);
 

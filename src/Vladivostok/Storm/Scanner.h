@@ -27,13 +27,14 @@ public:
 				 STILL };	 //Rendered scan for a few seconds.
 
 	STATE status;
+	FBO *impas;
 	float lastTime;
 	float restTime, startTime, gridVelocity, stillTime;
 	int scanningCell;
 	float scanSize, scanStart;
 	vec3 upLeftNear, downRightFar;
 	vec3 gridPositionVec;
-	float gridPosition;
+	float gridPosition, gridDeleteRadius;
 
 	Cells *cells;
 
@@ -42,22 +43,18 @@ public:
 	VBO *debBox;
 	Grid *grid;
 
-	vec3 gridStartPoint, gridMovementVector;
-	float gridRange, gridStartRadius;
-
 	Scanner(CSParser *csp, Cells *cells);
 
 	void debSetup();
 	void renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P);
 
 	void detect();
-	void draw(mat4 *V, mat4 *P);
-	void startGridMovement();
+	void draw(mat4 *V, mat4 *P, FBO *render);
 
 	void readConf(CSParser *csp);
 	void update();
 
 private:
-	GLint grid_M_Id, grid_V_Id, grid_P_Id;
+	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id;
 	GLint deb_M_Id, deb_V_Id, deb_P_Id, deb_Color_Id;
 };

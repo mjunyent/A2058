@@ -75,11 +75,13 @@ Scan {
 	
 	restTime 2.0 ;minimum time between end of scan and start of next.
 	startTime 1.0 ;time between cell detected and start of grid draw.
-	gridVelocity 1.0 ;velocity of the grid to move.
+	gridVelocity 0.05 ;velocity of the grid to move.
 	stillTime 2.0 ;time after rendering the scan.
 	
 	scanStart 20 ;left displacement of scan (in px.)
 	scanSize 110 ;size of the scan (in px.)
+	
+	deleteRadius 11.0
 	
 	Grid {
 		size 30;
