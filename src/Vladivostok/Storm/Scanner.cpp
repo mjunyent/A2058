@@ -1,6 +1,6 @@
 #include "Scanner.h"
 
-Scanner::Scanner(CSParser *csp, Cells *cells) {
+Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	this->cells = cells;
 	grid = new Grid(csp->getf("Scan.Grid.size"), csp->getf("Scan.Grid.divisions"));
 	readConf(csp);
@@ -18,6 +18,15 @@ Scanner::Scanner(CSParser *csp, Cells *cells) {
 	grid_P_Id = gridShad->getUniform("Projection");
 	grid_centerPosition_Id = gridShad->getUniform("centerPosition");
 	grid_radius_Id = gridShad->getUniform("radius");
+
+	mixShad = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/stormMix.frag");
+	mix_position_Id = mixShad->getUniform("position");
+	mix_Tex_Id = mixShad->getUniform("Tex");
+
+	quad = new VBO(director::quad, sizeof(director::quad), 0);
+	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
+
+	scanned = new Models(rig);
 }
 
 void Scanner::detect() {
@@ -38,11 +47,20 @@ void Scanner::detect() {
 
 void Scanner::draw(mat4 *V, mat4 *P, FBO *render) {
 	if(status == GRID || status == STILL) {
+		scanned->draw(0, 0);
+
 		vec3 position = cells->cells[scanningCell].p;
 		mat4 idd = translate(gridPositionVec);
-
 		render->bind(false);
-
+		glDisable(GL_DEPTH_TEST);
+		mixShad->use();
+		scanned->outputBuffL->bind_texture(0, 0);
+		glUniform1i(mix_Tex_Id, 0);
+		quad->enable(3);
+		quad_I->draw(GL_TRIANGLES);
+		quad->disable();
+		glEnable(GL_DEPTH_TEST);
+		
 		gridShad->use();
 		glUniformMatrix4fv(grid_M_Id, 1, GL_FALSE, &idd[0][0]);
 		glUniformMatrix4fv(grid_V_Id, 1, GL_FALSE, &(*V)[0][0]); 

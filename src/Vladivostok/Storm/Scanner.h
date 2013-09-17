@@ -4,6 +4,7 @@
 #include "Trinidad/Trinidad.h"
 #include "../Parser.h"
 #include "Cells.h"
+#include "Models.h"
 
 class Grid {
 public:
@@ -35,15 +36,20 @@ public:
 	vec3 upLeftNear, downRightFar;
 	vec3 gridPositionVec;
 	float gridPosition, gridDeleteRadius;
+	Models *scanned;
+	TBO *text;
 
 	Cells *cells;
 
 	Shader *gridShad;
+	Shader *mixShad;
 	Shader *debShad;
 	VBO *debBox;
+	VBO *quad;
+	IBO *quad_I;
 	Grid *grid;
 
-	Scanner(CSParser *csp, Cells *cells);
+	Scanner(CSParser *csp, Cells *cells, Rig *rig);
 
 	void debSetup();
 	void renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P);
@@ -56,5 +62,6 @@ public:
 
 private:
 	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id;
+	GLint mix_position_Id, mix_Tex_Id;
 	GLint deb_M_Id, deb_V_Id, deb_P_Id, deb_Color_Id;
 };

@@ -43,7 +43,7 @@ Storm::Storm(CSParser *csp) {
 
 	c = new Cells(40, csp);
 
-	s = new Scanner(csp, c);
+	s = new Scanner(csp, c, myRig);
 	s->debSetup();
 }
 
