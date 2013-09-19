@@ -134,7 +134,7 @@ void Scanner::update() {
 		detect();
 		if(scanningCell != -1) {
 			status = START;
-			cells->slowStop();
+			cells->slowStop(scanningCell);
 			lastTime = director::currentTime;
 		}
 	} else if(status == START) {

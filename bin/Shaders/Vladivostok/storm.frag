@@ -6,6 +6,7 @@ layout(location = 1) out vec4 glowMap;
 
 uniform sampler2D	tex;
 uniform float cellPos;
+uniform float alpha;
 
 in VertexData {
 	vec2 UV;
@@ -15,6 +16,9 @@ void main()
 {
 	if(gl_FragCoord.x > cellPos) discard;
 	colour = texture(tex, VertexIn.UV); //Get the color from the texture
+	colour.a -= alpha;
+	clamp(colour, 0.0, 1.0);
+
 	glowMap = vec4(0.0, 0.0, 0.0, colour.a);
 	if(colour.a < 0.01) discard;
 }

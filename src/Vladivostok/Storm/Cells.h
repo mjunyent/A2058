@@ -6,35 +6,40 @@
 
 struct Cell
 {
+	int id;
 	vec3 p;
 	vec3 v;
 };
 
 struct DepthSort
 {
-    bool operator()( const Cell& lx, const Cell& rx ) const {
-    	return lx.p.z < rx.p.z;
+    bool operator()( const Cell* lx, const Cell* rx ) const {
+    	return lx->p.z < rx->p.z;
     }
 };
 
 class Cells {
 public:
 	vector<Cell> cells;
+	vector<Cell*> sortedCells;
 	float xRange, yRange, zNear, zFar, zFarAway;
 	float vel;
 	bool move;
 	bool reduce;
+	int reduceId;
 	float reduceMult, reduceVel;
 
 	vec3 deflector;
+	float deflectorL, deflectorM;
 
-	float K, M, L;
+	float H, K, M, L;
 
 	Cells(int n, CSParser *csp);
 
-	void slowStop();
+	void slowStop(int cell);
 	void update();
 	void Play();
+	float getAlpha(int i);
 
 	void readConf(CSParser *csp);
 };

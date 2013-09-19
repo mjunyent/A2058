@@ -1,7 +1,7 @@
 Setup {
 	Screen {
-		width 1820   ; 1920
-		height 1000  ; 1080
+		width 2560   ; 1920
+		height 720  ; 1080
 		title MyWindow
 	}
 
@@ -13,9 +13,9 @@ Setup {
 
 View {
 	Perspective {
-		FOV 45.0
+		FOV 25.0
 		zNear 6.0
-		zFar 600.0
+		zFar 700.0
 	}
 	
 	Camera {
@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0
+		EyeSep 1.0
 	}
 }
 
@@ -51,31 +51,37 @@ Storm {
 }
 
 Cells {
-	Velocity 1.0
-	xRange 125
-	yRange 80
-	zNear 10
-	zFar -600
+	Velocity 1.0	;Depth velocity of cells.
+	xRange 400		;new cells will appear in a -xRange to xRange x position.
+	yRange 80		;new cells will appear in a -yRange to yRange y position.
+	zNear 10		;new cells will disappear to reappear when they cross zNear.
+	zFar -500		;new cells will appear in a zFar to zFar away range.
 	zFarAway -700
-	K -0.2
-	M 2
-	L 50
-	StopVel 0.04
+	H -0.0001			;Constant that controls the attraction to the center.
+	K -0.2			;Constant that controls the deacceleration of cells in x,y coordinates.
+	M 2				;Constant that controls the speed in which cells separate from each other.
+	L 50			;Minimum distance for cells to reppeal.
+	StopVel 0.02	;Acceleration to stop.
+	Deflector {
+		M 10
+		L 100
+		position 0,0,0
+	}
 }
 
 Scan {
 	box {
 		left  0
 		right 70
-		up    -30
-		down  40
-		near  -120
-		far   -130	
+		up    -15
+		down  15
+		near  -130
+		far   -140	
 	}
 	
 	restTime 2.0 ;minimum time between end of scan and start of next.
 	startTime 1.0 ;time between cell detected and start of grid draw.
-	gridVelocity 0.4 ;velocity of the grid to move.
+	gridVelocity 1.0 ;velocity of the grid to move.
 	stillTime 3.0 ;time after rendering the scan.
 	
 	scanStart 20 ;left displacement of scan (in px.)
