@@ -6,6 +6,7 @@
 #include "Vladivostok/FloatingBalls.h"
 #include "Vladivostok/Storm/Storm.h"
 #include "Vladivostok/myGlow.h"
+#include "Vladivostok/ModelTest.h"
 
 using namespace director;
 using namespace TOBAGO;
@@ -25,12 +26,19 @@ int main(void) {
 
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
-	Shader myDOF("Shaders/Vladivostok/myDOF.vert", "Shaders/Vladivostok/myDOF.frag"); 
-	manager->addScene(&eyes,   0, 10000000, 0.1);
-	manager->addScene(&glow,   0, 10000000, 0.2);
-//	manager->addScene(new DOFScene(eyes.myCam, &myDOF), 0, 1000000000, 0.2);
-	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 0, 100000000, 1);
-	manager->addScene(new FrameRate(20, 20, 200, 80), 0, 10000000, 2);
+
+	manager->addScene(&eyes,   4, 10000000, 0.1);
+	manager->addScene(&glow,   4, 10000000, 0.2);
+
+/*	Rig *rig = new Rig(csp.data.width, csp.data.height,
+					   45.0, 0.1, 2.0,
+					   glm::vec3(0, 0, -1), glm::vec3(0, 0, 1), glm::vec3(0,1,0),
+					   0.05, 1, 1, 1);						
+
+	manager->addScene(new ModelTest(rig), 0, 1000000, 0.1);*/
+
+	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
+//	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

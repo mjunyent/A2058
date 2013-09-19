@@ -159,6 +159,7 @@
     <ClCompile Include="src\Trinidad\Scenes\SkyBox.cpp" />
     <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp" />
     <ClCompile Include="src\Vladivostok\FloatingBalls.cpp" />
+    <ClCompile Include="src\Vladivostok\ModelTest.cpp" />
     <ClCompile Include="src\Vladivostok\myGlow.cpp" />
     <ClCompile Include="src\Vladivostok\Parser.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Cells.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="src\Trinidad\Scenes\Sphere.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
     <ClInclude Include="src\Vladivostok\FloatingBalls.h" />
+    <ClInclude Include="src\Vladivostok\ModelTest.h" />
     <ClInclude Include="src\Vladivostok\myGlow.h" />
     <ClInclude Include="src\Vladivostok\Parser.h" />
     <ClInclude Include="src\Vladivostok\Storm\Cells.h" />

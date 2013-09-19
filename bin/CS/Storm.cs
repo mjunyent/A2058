@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 2.0
+		EyeSep 0.0
 	}
 }
 
@@ -43,8 +43,8 @@ Storm {
 	Size 15.0
 	blurStrength 0.0
 	DOF {
-		COCnear 150
-		COCfar  200
+		COCnear 100
+		COCfar  150
 		radiusNear 60
 		radiusFar 60
 	}
@@ -60,28 +60,28 @@ Cells {
 	K -0.2
 	M 2
 	L 50
-	StopVel 0.02
+	StopVel 0.04
 }
 
 Scan {
 	box {
 		left  0
-		right 80
-		up    -40
+		right 70
+		up    -30
 		down  40
-		near  -100
-		far   -150	
+		near  -120
+		far   -130	
 	}
 	
 	restTime 2.0 ;minimum time between end of scan and start of next.
 	startTime 1.0 ;time between cell detected and start of grid draw.
-	gridVelocity 0.05 ;velocity of the grid to move.
-	stillTime 2.0 ;time after rendering the scan.
+	gridVelocity 0.4 ;velocity of the grid to move.
+	stillTime 3.0 ;time after rendering the scan.
 	
 	scanStart 20 ;left displacement of scan (in px.)
-	scanSize 110 ;size of the scan (in px.)
+	scanSize 120 ;size of the scan (in px.)
 	
-	deleteRadius 11.0
+	deleteRadius 10.5
 	
 	Grid {
 		size 30;
@@ -89,6 +89,8 @@ Scan {
 	}
 	
 	scanStartPoint 12.0;
+	
+	scanTextStart 50
 }
 
 Occlusion {

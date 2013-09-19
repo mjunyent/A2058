@@ -37,7 +37,7 @@ public:
 	void draw(int s, double t);
 	void render(int s, double t);
 
-	void renderCell(int i);
+	void renderCell(int i, float cellScreenPositionL, float cellScreenPositionR);
 	int getLinearDOFRadius(vec3 p);
 
 	void update(double t);
@@ -47,7 +47,7 @@ public:
 private:
 	GLint billboard_M_Id, billboard_V_Id, billboard_P_Id,
 		  billboard_up_id, billboard_camPos_Id, billboard_r_Id,
-		  billboard_tex_Id;
+		  billboard_tex_Id, billboard_cellPos_Id;
 	GLint blur_tex_Id, blur_texelSize_Id, blur_orientation_Id, blur_amount_Id, blur_strength_Id;
 };
 

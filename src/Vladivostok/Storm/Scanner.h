@@ -32,20 +32,21 @@ public:
 	float lastTime;
 	float restTime, startTime, gridVelocity, stillTime;
 	int scanningCell;
-	float scanSize, scanStart;
+	float scanSize, scanStart, scanTextStart;
 	vec3 upLeftNear, downRightFar;
 	vec3 gridPositionVec;
 	float gridPosition, gridDeleteRadius;
 	Models *scanned;
-	TBO *text;
+	TBO text;
 
 	Cells *cells;
 
 	Shader *gridShad;
 	Shader *mixShad;
+	Shader *textShad;
 	Shader *debShad;
 	VBO *debBox;
-	VBO *quad;
+	VBO *quad, *textQuad, *textQuadCoords;
 	IBO *quad_I;
 	Grid *grid;
 
@@ -55,13 +56,14 @@ public:
 	void renderDebugBox(glm::mat4 *M, glm::mat4 *V, glm::mat4 *P);
 
 	void detect();
-	void draw(mat4 *V, mat4 *P, FBO *render);
+	float draw(mat4 *V, mat4 *P, FBO *render, bool left);
 
 	void readConf(CSParser *csp);
 	void update();
 
 private:
 	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id;
-	GLint mix_position_Id, mix_Tex_Id;
+	GLint mix_position_Id, mix_Tex_Id, mix_Depth_Id;
+	GLint text_M_Id, text_V_Id, text_P_Id, text_sP_Id, text_image_Id;
 	GLint deb_M_Id, deb_V_Id, deb_P_Id, deb_Color_Id;
 };

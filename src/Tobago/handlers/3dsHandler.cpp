@@ -396,4 +396,25 @@ void A3dsHandler::makeTBNSpace() {
 	bitangents = new VBO(bdata, sizeof(float)*mesh->nvertices*3, 4);
 }
 
+void A3dsHandler::makeBoundingBox() {
+	maximums.x = minimums.x = mesh->vertices[0][0];
+	maximums.y = minimums.y = mesh->vertices[0][1];
+	maximums.z = minimums.z = mesh->vertices[0][2];
+
+	for(int e=1; e<mesh->nvertices; e++) {
+		if(mesh->vertices[e][0] > maximums.x) maximums.x = mesh->vertices[e][0];
+		if(mesh->vertices[e][1] > maximums.y) maximums.y = mesh->vertices[e][1];
+		if(mesh->vertices[e][2] > maximums.z) maximums.z = mesh->vertices[e][2];
+
+		if(mesh->vertices[e][0] < minimums.x) minimums.x = mesh->vertices[e][0];
+		if(mesh->vertices[e][1] < minimums.y) minimums.y = mesh->vertices[e][1];
+		if(mesh->vertices[e][2] < minimums.z) minimums.z = mesh->vertices[e][2];
+	}
+
+	edges = maximums-minimums;
+	center = (maximums+minimums)/2.0f;
+
+	maxDimension = std::max(edges.x, std::max(edges.y, edges.z));
+}
+
 #endif

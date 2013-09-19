@@ -33,6 +33,7 @@ Storm::Storm(CSParser *csp) {
 	billboard_camPos_Id  = billboardShad->getUniform("camPos");
 	billboard_r_Id		 = billboardShad->getUniform("r");
 	billboard_tex_Id	 = billboardShad->getUniform("tex");
+	billboard_cellPos_Id = billboardShad->getUniform("cellPos");
 
 	blur = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/stormBlur.frag");
 	blur_tex_Id				= blur->getUniform("Texture");
@@ -45,24 +46,25 @@ Storm::Storm(CSParser *csp) {
 
 	s = new Scanner(csp, c, myRig);
 	s->debSetup();
+
 }
 
 void Storm::draw(int s, double t) {
 	mat4 idd = translate(0.0f, 0.0f, 0.0f);
 
 	left->bind();
-	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
+//	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
 	left->unbind();
 	right->bind();
-	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
+//	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
 	right->unbind();
 
 	render(s, t);
 
-	this->s->draw(&myRig->V_left, &myCam->P, left);
-	this->s->draw(&myRig->V_right, &myCam->P, right);
+	float leftPos = this->s->draw(&myRig->V_left, &myCam->P, left, true);
+	float rightPos = this->s->draw(&myRig->V_right, &myCam->P, right, false);
 
-	if(this->s->scanningCell != -1) renderCell(this->s->scanningCell);
+	if(this->s->scanningCell != -1) renderCell(this->s->scanningCell, leftPos, rightPos);
 
 	outputBuffL = left;
 	outputBuffR = right;
@@ -70,7 +72,7 @@ void Storm::draw(int s, double t) {
 
 void Storm::render(int s, double t) {
 	for(int i=0; i<c->cells.size(); i++) {
-		if(i != this->s->scanningCell) renderCell(i);
+		if(i != this->s->scanningCell) renderCell(i, 2, 2);
 	}
 }
 
@@ -99,7 +101,7 @@ void Storm::readConf() {
 	s->readConf(csp);
 }
 
-void Storm::renderCell(int i) {
+void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositionR) {
 	int radius = 0;
 	float dist = length(myCam->position - c->cells[i].p);
 
@@ -155,6 +157,7 @@ void Storm::renderCell(int i) {
 	glUniform3fv(billboard_camPos_Id, 1, &myRig->positionL[0]);
 	glUniform1f(billboard_r_Id, quadSize);
 	glUniform1i(billboard_tex_Id, 0);
+	glUniform1f(billboard_cellPos_Id, (cellScreenPositionL+1.02)/2.0*float(myCam->width));
 
 	singlePoint->enable(3);
 	singlePoint->draw(GL_POINTS);
@@ -173,6 +176,7 @@ void Storm::renderCell(int i) {
 	glUniform3fv(billboard_camPos_Id, 1, &myRig->positionR[0]);
 	glUniform1f(billboard_r_Id, quadSize);
 	glUniform1i(billboard_tex_Id, 0);
+	glUniform1f(billboard_cellPos_Id, (cellScreenPositionR+1.02)/2.0*float(myCam->width));
 
 	singlePoint->enable(3);
 	singlePoint->draw(GL_POINTS);

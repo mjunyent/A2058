@@ -12,6 +12,8 @@ public:
 
 	Models(Camera *cam);
 
+	void translate(glm::vec3 here);
+
 	void render(int s, double t);
 
 	void update();

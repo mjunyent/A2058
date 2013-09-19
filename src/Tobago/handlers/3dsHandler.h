@@ -33,6 +33,8 @@ public:
 	VBO *UVs;
 	VBO *tangents;
 	VBO *bitangents;
+	glm::vec3 maximums, minimums, center, edges;
+	float maxDimension;
 	Lib3dsFile *f;
 	Lib3dsMesh *mesh;
 	Lib3dsFace *faces;
@@ -52,6 +54,9 @@ public:
 	//Per face things
 	void makeVBO(int id);			//without IBO, 3 vertex per face.
 	void makeNormalsPerFace();		//1 normal per face
+
+	//Other things
+	void makeBoundingBox();
 
 	glm::mat4 getModelMatrix();
 
