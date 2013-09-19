@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 1.0
+		EyeSep 0.0 ;1.0
 	}
 }
 
@@ -89,6 +89,7 @@ Scan {
 	scanSize 120 ;size of the scan (in px.)
 	
 	deleteRadius 10.5
+	distanceFade 20
 	
 	Grid {
 		size 30;

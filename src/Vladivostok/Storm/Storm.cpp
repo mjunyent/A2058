@@ -53,11 +53,13 @@ Storm::Storm(CSParser *csp) {
 void Storm::draw(int s, double t) {
 	mat4 idd = translate(0.0f, 0.0f, 0.0f);
 
+	this->s->renderModel();
+
 	left->bind();
-	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
+//	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
 	left->unbind();
 	right->bind();
-	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
+//	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
 	right->unbind();
 
 	render(s, t);

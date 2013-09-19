@@ -38,7 +38,7 @@ int main(void) {
 	manager->addScene(new ModelTest(rig), 0, 1000000, 0.1);*/
 
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
-	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
+//	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

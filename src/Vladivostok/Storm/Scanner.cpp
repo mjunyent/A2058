@@ -18,6 +18,7 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	grid_P_Id = gridShad->getUniform("Projection");
 	grid_centerPosition_Id = gridShad->getUniform("centerPosition");
 	grid_radius_Id = gridShad->getUniform("radius");
+	grid_alpha_Id = gridShad->getUniform("alpha");
 
 	mixShad = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/stormMix.frag");
 	mix_position_Id = mixShad->getUniform("position");
@@ -64,15 +65,15 @@ void Scanner::detect() {
 	}
 }
 
-float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
-	if(status == GRID || status == STILL) {
-		vec3 position = cells->cells[scanningCell].p;
+void Scanner::renderModel() {
+	if(status != GRID && status != STILL) return;
+	scanned->translate(cells->cells[scanningCell].p);
+	scanned->draw(0, 0);
+}
+
+void Scanner::drawModel(mat4 *V, mat4 *P, FBO *render, bool left) {
 		mat4 idd = translate(gridPositionVec);
 		vec4 screenPosition = *P * *V * idd * vec4(0.0, 0.0, 0.0, 1.0); // positionW;
-
-		scanned->translate(position);
-		scanned->draw(0, 0);
-
 
 		render->bind(false);
 		glDisable(GL_DEPTH_TEST);
@@ -92,9 +93,15 @@ float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
 		quad_I->draw(GL_TRIANGLES);
 		quad->disable();
 		glEnable(GL_DEPTH_TEST);
+		render->unbind();
+}
 
-
-		mat4 textM = translate(position-vec3((scanSize)/2.0, 0.0, 0.0));
+void Scanner::drawText(mat4 *V, mat4 *P, FBO *render) {
+		mat4 idd = translate(gridPositionVec);
+		vec4 screenPosition = *P * *V * idd * vec4(0.0, 0.0, 0.0, 1.0); // positionW;
+		mat4 textM = translate(cells->cells[scanningCell].p-vec3((scanSize)/2.0, 0.0, 0.0));
+		
+		render->bind(false);
 		textShad->use();
 		text.bind(0);
 		glUniformMatrix4fv(text_M_Id, 1, GL_FALSE, &textM[0][0]);
@@ -107,18 +114,41 @@ float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
 		quad_I->draw(GL_TRIANGLES);
 		textQuadCoords->disable();
 		textQuad->disable();
-		
-		if(status == GRID) {
-			gridShad->use();
-			glUniformMatrix4fv(grid_M_Id, 1, GL_FALSE, &idd[0][0]);
-			glUniformMatrix4fv(grid_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
-			glUniformMatrix4fv(grid_P_Id, 1, GL_FALSE, &(*P)[0][0]);
-			glUniform3fv(grid_centerPosition_Id, 1, &position[0]);
-			glUniform1f(grid_radius_Id, gridDeleteRadius);
-	//		glUniformMatrix3fv(grid_centerPosition_Id, 1, 
-			grid->render();
-		}
 		render->unbind();
+}
+
+void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
+	if(status != GRID && status != UNSCAN) return;
+	mat4 idd = translate(gridPositionVec);
+	float alpha = 1.0;
+	if(inRange(gridPosition, 0.0f, distanceFade)) {
+		alpha = gridPosition/distanceFade;
+	} else if(inRange(gridPosition, scanSize, scanSize-distanceFade)) {
+		alpha = (scanSize-gridPosition)/distanceFade;
+	}
+
+	render->bind(false);
+	gridShad->use();
+	glUniformMatrix4fv(grid_M_Id, 1, GL_FALSE, &idd[0][0]);
+	glUniformMatrix4fv(grid_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
+	glUniformMatrix4fv(grid_P_Id, 1, GL_FALSE, &(*P)[0][0]);
+	glUniform3fv(grid_centerPosition_Id, 1, &cells->cells[scanningCell].p[0]);
+	glUniform1f(grid_radius_Id, gridDeleteRadius);
+	glUniform1f(grid_alpha_Id, alpha);
+	grid->render();
+	render->unbind();
+
+}
+
+float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
+	if(status == GRID || status == STILL || status == UNSCAN) {
+		renderModel();
+		drawModel(V, P, render, left);
+		drawText(V, P, render);
+		drawGrid(V, P, render);
+
+		mat4 idd = translate(gridPositionVec);
+		vec4 screenPosition = *P * *V * idd * vec4(0.0, 0.0, 0.0, 1.0); // positionW;
 		return screenPosition.x/screenPosition.w;
 	}
 	return 2;
@@ -154,8 +184,15 @@ void Scanner::update() {
 		}
 	} else if(status == STILL) {
 		if(director::currentTime-lastTime > stillTime) {
-			cells->Play();
+			status = UNSCAN;
+			lastTime = director::currentTime;
+		}
+	} else if(status == UNSCAN) {
+		gridPositionVec.x += gridVelocity;
+		gridPosition -= gridVelocity;
+		if(gridPosition <= 0.0) {
 			status = REST;
+			cells->Play();
 			lastTime = director::currentTime;
 		}
 	}
@@ -231,6 +268,7 @@ void Scanner::readConf(CSParser *csp) {
 	scanStart = csp->getf("Scan.scanStart");
 	gridDeleteRadius = csp->getf("Scan.deleteRadius");
 	scanTextStart = csp->getf("Scan.scanTextStart");
+	distanceFade = csp->getf("Scan.distanceFade");
 }
 
 
