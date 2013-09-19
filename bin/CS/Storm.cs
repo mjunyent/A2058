@@ -52,16 +52,17 @@ Storm {
 
 Cells {
 	Velocity 1.0	;Depth velocity of cells.
-	xRange 400		;new cells will appear in a -xRange to xRange x position.
-	yRange 80		;new cells will appear in a -yRange to yRange y position.
-	zNear 10		;new cells will disappear to reappear when they cross zNear.
-	zFar -500		;new cells will appear in a zFar to zFar away range.
+	xRange 400		;New cells will appear in a -xRange to xRange x position.
+	yRange 80		;New cells will appear in a -yRange to yRange y position.
+	zNear 10		;New cells will disappear to reappear when they cross zNear.
+	zFar -500		;New cells will appear in a zFar to zFar away range.
 	zFarAway -700
-	H -0.0001			;Constant that controls the attraction to the center.
+	H -0.0001		;Constant that controls the attraction to the center. KEEP IT LOOOOW!
 	K -0.2			;Constant that controls the deacceleration of cells in x,y coordinates.
 	M 2				;Constant that controls the speed in which cells separate from each other.
 	L 50			;Minimum distance for cells to reppeal.
 	StopVel 0.02	;Acceleration to stop.
+	alphaVel 0.015	;Fadding in velocity.
 	Deflector {
 		M 10
 		L 100

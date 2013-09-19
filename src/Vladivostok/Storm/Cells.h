@@ -9,6 +9,7 @@ struct Cell
 	int id;
 	vec3 p;
 	vec3 v;
+	float alpha;
 };
 
 struct DepthSort
@@ -28,6 +29,7 @@ public:
 	bool reduce;
 	int reduceId;
 	float reduceMult, reduceVel;
+	float alphaVel;
 
 	vec3 deflector;
 	float deflectorL, deflectorM;
@@ -39,7 +41,6 @@ public:
 	void slowStop(int cell);
 	void update();
 	void Play();
-	float getAlpha(int i);
 
 	void readConf(CSParser *csp);
 };

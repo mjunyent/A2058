@@ -159,7 +159,7 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 	glUniform1f(billboard_r_Id, quadSize);
 	glUniform1i(billboard_tex_Id, 0);
 	glUniform1f(billboard_cellPos_Id, (cellScreenPositionL+1.02)/2.0*float(myCam->width));
-	glUniform1f(billboard_alpha_Id, c->getAlpha(i));
+	glUniform1f(billboard_alpha_Id, c->cells[i].alpha);
 
 	singlePoint->enable(3);
 	singlePoint->draw(GL_POINTS);
@@ -179,7 +179,7 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 	glUniform1f(billboard_r_Id, quadSize);
 	glUniform1i(billboard_tex_Id, 0);
 	glUniform1f(billboard_cellPos_Id, (cellScreenPositionR+1.02)/2.0*float(myCam->width));
-	glUniform1f(billboard_alpha_Id, c->getAlpha(i));
+	glUniform1f(billboard_alpha_Id, c->cells[i].alpha);
 
 	singlePoint->enable(3);
 	singlePoint->draw(GL_POINTS);

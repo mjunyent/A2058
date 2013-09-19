@@ -13,6 +13,7 @@ Cells::Cells(int n, CSParser *csp) {
 						  randValue(-yRange, yRange),
 						  randValue(std::min(zNear, zFarAway), std::max(zNear, zFarAway)));
 		cells[i].v = vec3(0, 0, vel);
+		cells[i].alpha = 1.0;
 
 		sortedCells[i] = &cells[i];
 	}
@@ -53,7 +54,7 @@ void Cells::update() {
 			cells[i].p = vec3(randValue(-xRange, xRange),
 						  randValue(-yRange, yRange),
 						  randValue(std::min(zFar, zFarAway), std::max(zFar, zFarAway)));
-
+			cells[i].alpha = 1.0;
 			cells[i].v = vec3(0, 0, vel);
 		}
 		
@@ -93,18 +94,11 @@ void Cells::update() {
 		cells[i].v.x += p.x;
 		cells[i].v.y += p.y;
 
-		cells[i].p += reduceMult*cells[i].v;	
+		cells[i].p += reduceMult*cells[i].v;
+		cells[i].alpha = clamp(cells[i].alpha-alphaVel, 0.0f, 1.0f);
 	}
 
 	sort(sortedCells.begin(), sortedCells.end(), DepthSort() ); 
-}
-
-float Cells::getAlpha(int i) {
-	if(inRange(cells[i].p.z, zFar, zFarAway)) {
-		float k = (cells[i].p.z-zFar)/(zFarAway-zFar);
-		return k;
-	}
-	return 0.0;
 }
 
 void Cells::readConf(CSParser *csp) {
@@ -119,8 +113,11 @@ void Cells::readConf(CSParser *csp) {
 	L		 = csp->getf("Cells.L");
 	M		 = csp->getf("Cells.M");
 	reduceVel = csp->getf("Cells.StopVel");
+	alphaVel = csp->getf("Cells.alphaVel");
 
 	deflector = csp->toVec3(csp->pr.get<std::string>("Cells.Deflector.position"));
 	deflectorL = csp->getf("Cells.Deflector.L");
 	deflectorM = csp->getf("Cells.Deflector.M");
+
+
 }
