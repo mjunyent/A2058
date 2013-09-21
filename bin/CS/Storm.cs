@@ -43,8 +43,8 @@ Storm {
 	Size 15.0
 	blurStrength 0.0
 	DOF {
-		COCnear 100
-		COCfar  150
+		COCnear 70
+		COCfar  140
 		radiusNear 60
 		radiusFar 60
 	}
@@ -69,7 +69,7 @@ Cells {
 	centerUncertainty 10
 
 	Deflector {
-		M 10
+		M 12
 		L 100
 		position 0,0,0
 	}
@@ -77,7 +77,7 @@ Cells {
 
 Scan {
 	box {
-		left  -80
+		left  -60
 		right 50
 		up    -25
 		down  25

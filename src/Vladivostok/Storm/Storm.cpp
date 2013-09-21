@@ -56,10 +56,10 @@ void Storm::draw(int s, double t) {
 	this->s->renderModel();
 
 	left->bind();
-	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
+//	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
 	left->unbind();
 	right->bind();
-	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
+//	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
 	right->unbind();
 
 	render(s, t);
@@ -67,7 +67,9 @@ void Storm::draw(int s, double t) {
 	float leftPos = this->s->draw(&myRig->V_left, &myCam->P, left, true);
 	float rightPos = this->s->draw(&myRig->V_right, &myCam->P, right, false);
 
-	if(this->s->scanningCell != -1) renderCell(this->s->scanningCell, leftPos, rightPos);
+	if(this->s->status != Scanner::STATE::START && this->s->scanningCell != -1) {
+		renderCell(this->s->scanningCell, leftPos, rightPos);
+	}
 
 	outputBuffL = left;
 	outputBuffR = right;
@@ -75,7 +77,7 @@ void Storm::draw(int s, double t) {
 
 void Storm::render(int s, double t) {
 	for(int i=0; i<c->sortedCells.size(); i++) {
-		if(c->sortedCells[i]->id != this->s->scanningCell) renderCell(c->sortedCells[i]->id, 2, 2);
+		if(c->sortedCells[i]->id != this->s->scanningCell || this->s->status == Scanner::STATE::START) renderCell(c->sortedCells[i]->id, 2, 2);
 	}
 }
 
