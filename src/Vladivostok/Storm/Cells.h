@@ -30,6 +30,9 @@ public:
 	int reduceId;
 	float reduceMult, reduceVel;
 	float alphaVel;
+	int selectedCell;
+	float centerVelocity, centerUncertainty;
+	vec3 centerPosition;
 
 	vec3 deflector;
 	float deflectorL, deflectorM;
@@ -41,6 +44,7 @@ public:
 	void slowStop(int cell);
 	void update();
 	void Play();
+	void select(int cell);
 
 	void readConf(CSParser *csp);
 };

@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0 ;1.0
+		EyeSep 2.0 ;1.0
 	}
 }
 
@@ -63,6 +63,11 @@ Cells {
 	L 50			;Minimum distance for cells to reppeal.
 	StopVel 0.02	;Acceleration to stop.
 	alphaVel 0.015	;Fadding in velocity.
+	
+	centerVelocity 0.001
+	centerPosition 50.0,0.0,-135.0
+	centerUncertainty 10
+
 	Deflector {
 		M 10
 		L 100
@@ -72,12 +77,12 @@ Cells {
 
 Scan {
 	box {
-		left  0
-		right 70
-		up    -15
-		down  15
-		near  -130
-		far   -140	
+		left  -80
+		right 50
+		up    -25
+		down  25
+		near  -180 ;-130
+		far   -200 ;-140	
 	}
 	
 	restTime 2.0 ;minimum time between end of scan and start of next.

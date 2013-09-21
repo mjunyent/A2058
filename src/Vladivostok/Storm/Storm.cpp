@@ -56,10 +56,10 @@ void Storm::draw(int s, double t) {
 	this->s->renderModel();
 
 	left->bind();
-//	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
+	this->s->renderDebugBox(&idd, &myRig->V_left, &myCam->P);
 	left->unbind();
 	right->bind();
-//	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
+	this->s->renderDebugBox(&idd, &myRig->V_right, &myCam->P);
 	right->unbind();
 
 	render(s, t);

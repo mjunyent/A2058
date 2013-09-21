@@ -164,15 +164,17 @@ void Scanner::update() {
 		detect();
 		if(scanningCell != -1) {
 			status = START;
-			cells->slowStop(scanningCell);
+			cells->select(scanningCell);
+//			cells->slowStop(scanningCell);
 			lastTime = director::currentTime;
 		}
 	} else if(status == START) {
-		if(director::currentTime-lastTime > startTime) {
+		if(!cells->move) {
+//		if(director::currentTime-lastTime > startTime) {
 			status = GRID;
 			gridPositionVec = cells->cells[scanningCell].p;
 			gridPositionVec.x += scanStart;
-			gridPosition = 0.0;
+			gridPosition = 0.0; 
 			lastTime = director::currentTime;
 		}
 	} else if(status == GRID) {

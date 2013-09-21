@@ -17,11 +17,19 @@ Cells::Cells(int n, CSParser *csp) {
 
 		sortedCells[i] = &cells[i];
 	}
+
+	selectedCell = -1;
 }
 
 void Cells::slowStop(int cell) {
 	reduce = true;
 	reduceId = cell;
+}
+
+void Cells::select(int cell) {
+	selectedCell = cell;
+//	cells[selectedCell].v = vec3(0.0);
+	cells[selectedCell].alpha = 0.0;
 }
 
 void Cells::Play() {
@@ -46,6 +54,7 @@ void Cells::update() {
 	if(!move) return;
 
 	for(int i=0; i<cells.size(); i++) {
+		if(i == selectedCell) continue;
 		//Calculate the plane deacceleration
 		cells[i].v -= K*(vec3(0,0,vel) - cells[i].v);
 
@@ -98,6 +107,19 @@ void Cells::update() {
 		cells[i].alpha = clamp(cells[i].alpha-alphaVel, 0.0f, 1.0f);
 	}
 
+	if(selectedCell != -1) {
+		float celerity = length(cells[selectedCell].v);
+		vec3 direction = centerPosition-cells[selectedCell].p;
+		cells[selectedCell].v = normalize(cells[selectedCell].v + centerVelocity*direction)*celerity;
+		if(length(cells[selectedCell].p - centerPosition) > centerUncertainty) {
+			cells[selectedCell].p += reduceMult*cells[selectedCell].v;
+		} else {
+			reduce = true;
+			reduceId = selectedCell;
+			selectedCell = -1;
+		}
+	}
+
 	sort(sortedCells.begin(), sortedCells.end(), DepthSort() ); 
 }
 
@@ -119,5 +141,8 @@ void Cells::readConf(CSParser *csp) {
 	deflectorL = csp->getf("Cells.Deflector.L");
 	deflectorM = csp->getf("Cells.Deflector.M");
 
+	centerVelocity = csp->getf("Cells.centerVelocity");
+	centerPosition = csp->toVec3(csp->pr.get<std::string>("Cells.centerPosition"));
+	centerUncertainty = csp->getf("Cells.centerUncertainty");
 
 }
