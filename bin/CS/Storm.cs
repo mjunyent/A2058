@@ -73,6 +73,12 @@ Cells {
 		L 100
 		position 0,0,0
 	}
+	
+	Play {
+		MultMax 4.0
+		MultIncr 0.05
+		MultDecr 0.025
+	}
 }
 
 Scan {
@@ -85,7 +91,7 @@ Scan {
 		far   -200 ;-140	
 	}
 	
-	restTime 2.0 ;minimum time between end of scan and start of next.
+	restTime 4.0 ;minimum time between end of scan and start of next.
 	startTime 1.0 ;time between cell detected and start of grid draw.
 	gridVelocity 1.0 ;velocity of the grid to move.
 	stillTime 3.0 ;time after rendering the scan.

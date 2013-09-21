@@ -27,12 +27,15 @@ public:
 	float vel;
 	bool move;
 	bool reduce;
+	int play;
 	int reduceId;
 	float reduceMult, reduceVel;
 	float alphaVel;
 	int selectedCell;
 	float centerVelocity, centerUncertainty;
 	vec3 centerPosition;
+
+	float MultMax, MultIncr, MultDecr;
 
 	vec3 deflector;
 	float deflectorL, deflectorM;

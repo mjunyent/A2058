@@ -5,6 +5,7 @@ Cells::Cells(int n, CSParser *csp) {
 	sortedCells = vector<Cell*>(n);
 
 	Play();
+	reduceMult = 1.0;
 	readConf(csp);
 
 	for(int i=0; i<n; i++) {
@@ -18,6 +19,7 @@ Cells::Cells(int n, CSParser *csp) {
 		sortedCells[i] = &cells[i];
 	}
 
+	play = 0;
 	selectedCell = -1;
 }
 
@@ -35,7 +37,8 @@ void Cells::select(int cell) {
 void Cells::Play() {
 	move = true;
 	reduce = false;
-	reduceMult = 1.0;
+	reduceMult = 0.0;
+	play = 1;
 }
 
 void Cells::update() {
@@ -52,6 +55,17 @@ void Cells::update() {
 		}
 	}
 	if(!move) return;
+
+	if(play == 1) {
+		reduceMult += MultIncr;
+		if(reduceMult > MultMax) play = 2;
+	} else if(play == 2) {
+		reduceMult -= MultDecr;
+		if(reduceMult <= 1.0) {
+			reduceMult = 1.0;
+			play = 0;
+		}
+	}
 
 	for(int i=0; i<cells.size(); i++) {
 		if(i == selectedCell) continue;
@@ -77,8 +91,10 @@ void Cells::update() {
 					float l = length(p - pp);
 					if(l <= L) {
 						p = M/l * (p-pp)/l;
-						cells[i].v.x += p.x;
-						cells[i].v.y += p.y;
+						float mult = std::min(1.0, 1.0/reduceMult);
+
+						cells[i].v.x += mult*p.x;
+						cells[i].v.y += mult*p.y;
 					}
 				}
 			}
@@ -144,5 +160,9 @@ void Cells::readConf(CSParser *csp) {
 	centerVelocity = csp->getf("Cells.centerVelocity");
 	centerPosition = csp->toVec3(csp->pr.get<std::string>("Cells.centerPosition"));
 	centerUncertainty = csp->getf("Cells.centerUncertainty");
+
+	MultMax = csp->getf("Cells.Play.MultMax");
+	MultDecr = csp->getf("Cells.Play.MultDecr");
+	MultIncr = csp->getf("Cells.Play.MultIncr");
 
 }
