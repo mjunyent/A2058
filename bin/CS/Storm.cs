@@ -76,8 +76,8 @@ Cells {
 	
 	Play {
 		MultMax 4.0
-		MultIncr 0.05
-		MultDecr 0.025
+		MultIncr 0.1
+		MultDecr 0.05
 	}
 }
 
@@ -94,7 +94,7 @@ Scan {
 	restTime 4.0 ;minimum time between end of scan and start of next.
 	startTime 1.0 ;time between cell detected and start of grid draw.
 	gridVelocity 1.0 ;velocity of the grid to move.
-	stillTime 3.0 ;time after rendering the scan.
+	stillTime 10.0 ;time after rendering the scan.
 	
 	scanStart 20 ;left displacement of scan (in px.)
 	scanSize 120 ;size of the scan (in px.)
@@ -110,6 +110,15 @@ Scan {
 	scanStartPoint 12.0;
 	
 	scanTextStart 50
+}
+
+Scenes {
+	First {
+		textWidth 20
+		textHeight 20
+		textOffset 20
+	}
+
 }
 
 Occlusion {

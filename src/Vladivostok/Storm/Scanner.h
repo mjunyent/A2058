@@ -5,6 +5,7 @@
 #include "../Parser.h"
 #include "Cells.h"
 #include "Models.h"
+#include "Scenes/First.h"
 
 class Grid {
 public:
@@ -28,29 +29,35 @@ public:
 				 STILL,		 //Rendered scan for a few seconds.
 				 UNSCAN };	 //Move Back Grid.
 
-	STATE status;
-	FBO *impas;
-	float lastTime;
+	//Parameters.
 	float restTime, startTime, gridVelocity, stillTime;
-	int scanningCell;
-	float scanSize, scanStart, scanTextStart;
+	float scanSize, scanStart, scanTextStart, gridDeleteRadius;
 	vec3 upLeftNear, downRightFar;
-	vec3 gridPositionVec;
-	float gridPosition, gridDeleteRadius;
 	float distanceFade;
-	Models *scanned;
-	TBO text;
 
-	Cells *cells;
+	//State Variables
+	STATE status;
+	int scanningCell;		 //Current cell in scan.
+	float lastTime;			 //Last time a Status change happened.
+	vec3 gridPositionVec;    //Current grid position 3D space.
+	float gridPosition;		 //Current grid position [0, scanSize]
+	Cells *cells;			 //All cells status.
 
+	//Render things.
+	Rig *rig;
 	Shader *gridShad;
 	Shader *mixShad;
 	Shader *textShad;
 	Shader *debShad;
 	VBO *debBox;
-	VBO *quad, *textQuad, *textQuadCoords;
+	VBO *quad, *textQuadCoords;
 	IBO *quad_I;
+	FBO *impas;
 	Grid *grid;
+
+	//Scenes
+	FirstStormScene *first;
+
 
 	Scanner(CSParser *csp, Cells *cells, Rig *rig);
 
@@ -64,10 +71,11 @@ public:
 	void drawText(mat4 *V, mat4 *P, FBO *render);
 	void drawGrid(mat4 *V, mat4 *P, FBO *render);
 
+	float worldToClip(mat4 *V, mat4 *P, vec3 *v);
+
 	void readConf(CSParser *csp);
 	void update();
 
-private:
 	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id, grid_alpha_Id;
 	GLint mix_position_Id, mix_Tex_Id, mix_Depth_Id;
 	GLint text_M_Id, text_V_Id, text_P_Id, text_sP_Id, text_image_Id;

@@ -1,0 +1,130 @@
+ INFO : M3D_VERSION (0x2) size=10
+ INFO : MDATA (0x3D3D) size=262449
+ INFO : 	MESH_VERSION (0x3D3E) size=10
+ INFO : 	MAT_ENTRY (0xAFFF) size=172
+ INFO : 		MAT_NAME (0xA000) size=19
+ INFO : 		  NAME=Material #27
+ INFO : 		MAT_AMBIENT (0xA010) size=15
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 		MAT_DIFFUSE (0xA020) size=15
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 		MAT_SPECULAR (0xA030) size=15
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 		MAT_SHININESS (0xA040) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_SHIN2PCT (0xA041) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_TRANSPARENCY (0xA050) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_XPFALL (0xA052) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_REFBLUR (0xA053) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_SHADING (0xA100) size=8
+ INFO : 		MAT_SELF_ILPCT (0xA084) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_WIRE_SIZE (0xA087) size=10
+ INFO : 	MAT_ENTRY (0xAFFF) size=172
+ INFO : 		MAT_NAME (0xA000) size=19
+ INFO : 		  NAME=02 - Default
+ INFO : 		MAT_AMBIENT (0xA010) size=15
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 		MAT_DIFFUSE (0xA020) size=15
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 		MAT_SPECULAR (0xA030) size=15
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 		MAT_SHININESS (0xA040) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_SHIN2PCT (0xA041) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_TRANSPARENCY (0xA050) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_XPFALL (0xA052) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_REFBLUR (0xA053) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_SHADING (0xA100) size=8
+ INFO : 		MAT_SELF_ILPCT (0xA084) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_WIRE_SIZE (0xA087) size=10
+ INFO : 	MASTER_SCALE (0x100) size=10
+ INFO : 	NAMED_OBJECT (0x4000) size=262079
+ INFO : 		  NAME=Sphere01
+ INFO : 		N_TRI_OBJECT (0x4100) size=262064
+ INFO : 			POINT_ARRAY (0x4110) size=67556
+ INFO : 			TEX_VERTS (0x4140) size=45040
+ INFO : 			MESH_MATRIX (0x4160) size=54
+ INFO : 			FACE_ARRAY (0x4120) size=149408
+ INFO : 				MSH_MAT_GROUP (0x4130) size=6609
+ INFO : 				MSH_MAT_GROUP (0x4130) size=14769
+ INFO : 				SMOOTH_GROUP (0x4150) size=42678
+ INFO : KFDATA (0xB000) size=222
+ INFO : 	KFHDR (0xB00A) size=21
+ INFO : 	KFSEG (0xB008) size=14
+ INFO : 	KFCURTIME (0xB009) size=10
+ INFO : 	OBJECT_NODE_TAG (0xB002) size=171
+ INFO : 		NODE_ID (0xB030) size=8
+ INFO : 			ID=0
+ INFO : 		NODE_HDR (0xB010) size=21
+ INFO : 			NAME=Sphere01
+ INFO : 			PARENT=-1
+ INFO : 		PIVOT (0xB013) size=18
+ INFO : 		POS_TRACK_TAG (0xB020) size=38
+ INFO : 		ROT_TRACK_TAG (0xB021) size=42
+ INFO : 		SCL_TRACK_TAG (0xB022) size=38
+Dumping materials:
+  name:            Material #27
+  ambient:         (0.000000, 0.000000, 0.000000)
+  diffuse:         (1.000000, 1.000000, 1.000000)
+  specular:        (0.000000, 0.000000, 0.000000)
+  shininess:       1.000000
+  shin_strength:   1.000000
+  use_blur:        no
+  blur:            0.000000
+  falloff:         0.000000
+  is_additive:     no
+  use_falloff:     no
+  self_illum_flag: no
+  self_illum:      0.000000
+  shading:         3
+  soften:          no
+  face_map:        no
+  two_sided:       no
+  map_decal:       no
+  use_wire:        no
+  use_wire_abs:    no
+  wire_size:       1.000000
+  autorefl_map:
+    flags          0
+    level          0
+    size           0
+    frame_step     0
+
+  name:            02 - Default
+  ambient:         (0.000000, 0.000000, 0.000000)
+  diffuse:         (0.000000, 1.000000, 0.047059)
+  specular:        (0.000000, 0.000000, 0.000000)
+  shininess:       1.000000
+  shin_strength:   1.000000
+  use_blur:        no
+  blur:            0.000000
+  falloff:         0.000000
+  is_additive:     no
+  use_falloff:     no
+  self_illum_flag: no
+  self_illum:      0.000000
+  shading:         3
+  soften:          no
+  face_map:        no
+  two_sided:       no
+  map_decal:       no
+  use_wire:        no
+  use_wire_abs:    no
+  wire_size:       1.000000
+  autorefl_map:
+    flags          0
+    level          0
+    size           0
+    frame_step     0
+
+

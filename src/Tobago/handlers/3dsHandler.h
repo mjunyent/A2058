@@ -28,6 +28,7 @@ static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const 
 class A3dsHandler{
 public:
 	IBO *indexs;
+	vector<IBO*> indexsByMaterial;
 	VBO *vertexs;
 	VBO *normals;
 	VBO *UVs;
@@ -50,9 +51,11 @@ public:
 	void makeNormalsPerVertex();	//1 normal per vertex
 	void makeUVs();
 	void makeTBNSpace();
+	void makeIndexsByMaterial();
 
 	//Per face things
-	void makeVBO(int id);			//without IBO, 3 vertex per face.
+	void makeVBO(int id);			//without IBO (IBO is 0,1,2,3,...) just if you need it, 3 vertex per face.
+	void makeVBO(int id, int material); 
 	void makeNormalsPerFace();		//1 normal per face
 
 	//Other things

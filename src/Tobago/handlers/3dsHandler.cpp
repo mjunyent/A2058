@@ -139,6 +139,64 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 	indexs = new IBO(fdata, sizeof(GLushort)*mesh->nfaces*3);
 }
 
+void A3dsHandler::makeIndexsByMaterial() {
+	indexsByMaterial = vector<IBO*>(f->nmaterials);
+
+	GLushort *fdata = new GLushort[mesh->nfaces*3];
+
+	for(int i=0; i<f->nmaterials; i++) {
+		int size = 0;
+		for(int j=0, e=0; j<3*mesh->nfaces; j+=3, e++) {
+			if(faces[e].material == i) {
+				size += 3;
+				fdata[j]   = faces[e].index[0];
+				fdata[j+1] = faces[e].index[1];
+				fdata[j+2] = faces[e].index[2];
+			}
+		}
+
+		indexsByMaterial[i] = new IBO(fdata, sizeof(GLushort)*size);
+	}
+}
+
+void A3dsHandler::makeVBO(int id, int material) {
+	if(id >= f->nmeshes) {
+		TOBAGO::log.write(ERROR) << "Mesh out of bounds!" << id;
+		return;
+	}
+
+	mesh = f->meshes[id];
+	faces = mesh->faces;
+
+	float *vdata = new float[mesh->nfaces*3*3]; //3 vertex per face & 3 coords per vertex;
+	GLushort *idata = new GLushort[mesh->nfaces*3];
+
+	int nMfaces = 0;
+	int i=0;
+	for(int e=0; e<mesh->nfaces; e++) {
+		if(faces[e].material == material) {
+			nMfaces++;
+			for(int a=0; a<3; a++) {
+				vdata[i] = mesh->vertices[faces[e].index[a]][0];
+				i++;
+				vdata[i] = mesh->vertices[faces[e].index[a]][1];
+				i++;
+				vdata[i] = mesh->vertices[faces[e].index[a]][2];
+				i++;
+			}
+		}
+	}
+
+	vertexs = new VBO(vdata, sizeof(float)*nMfaces*3*3, 0);
+
+	for(int k=0; k<nMfaces*3; k++) {
+		idata[k] = k;
+	}
+
+	indexs = new IBO(idata, sizeof(GLushort)*nMfaces*3);
+
+}
+
 void A3dsHandler::makeVBO(int id) {
 	if(id >= f->nmeshes) {
 		TOBAGO::log.write(ERROR) << "Mesh out of bounds!" << id;
@@ -152,6 +210,13 @@ void A3dsHandler::makeVBO(int id) {
 //	cout << "Number of faces: " << mesh->nfaces << endl;
 
 	float *vdata = new float[mesh->nfaces*3*3]; //3 vertex per face & 3 coords per vertex;
+	GLushort *idata = new GLushort[mesh->nfaces*3];
+
+	for(int k=0; k<mesh->nfaces*3; k++) {
+		idata[k] = k;
+	}
+
+	indexs = new IBO(idata, sizeof(GLushort)*mesh->nfaces*3);
 
 	int i=0;
 	for(int e=0; e<mesh->nfaces; e++) {

@@ -67,7 +67,7 @@ void Model::render() {
 	}
 
 	vertexs->enable(3);
-	normals->enable(3);
+	if(normals != NULL) normals->enable(3);
 	if(UVs != NULL) UVs->enable(2);
 	if(tangents != NULL) tangents->enable(3);
 	if(bitangents != NULL) bitangents->enable(3);
@@ -75,6 +75,6 @@ void Model::render() {
 	if(bitangents != NULL) bitangents->disable();
 	if(tangents != NULL) tangents->disable();
 	if(UVs != NULL) UVs->disable();
+	if(normals != NULL) normals->disable();
 	vertexs->disable();
-	normals->disable();
 }

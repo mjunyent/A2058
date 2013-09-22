@@ -34,19 +34,11 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
-
-	float rectText[] = { 
-		-(scanSize-scanTextStart)/2.0f,  scanSize/8.0f, 0.0f, //0 UP, LEFT
-		 (scanSize-scanTextStart)/2.0f,  scanSize/8.0f, 0.0f, //1 UP, RIGHT
-		 (scanSize-scanTextStart)/2.0f, -scanSize/8.0f, 0.0f, //2 DOWN, RIGHT
-		-(scanSize-scanTextStart)/2.0f, -scanSize/8.0f, 0.0f  //3 DOWN, LEFT
-	};
-	textQuad = new VBO(rectText, sizeof(director::quad), 0);
 	textQuadCoords = new VBO(director::quad, sizeof(director::quad), 1);
 
-	scanned = new Models(rig);
+	this->rig = rig;
 
-	text = TBO("Images/textus.fw.png", true);
+	first = new FirstStormScene(csp, this);
 }
 
 void Scanner::detect() {
@@ -66,55 +58,17 @@ void Scanner::detect() {
 }
 
 void Scanner::renderModel() {
-	if(status != GRID && status != STILL) return;
-	scanned->translate(cells->cells[scanningCell].p);
-	scanned->draw(0, 0);
+	if(status == GRID || status == STILL || status == UNSCAN) {
+		first->renderModel();
+	}
 }
 
 void Scanner::drawModel(mat4 *V, mat4 *P, FBO *render, bool left) {
-		mat4 idd = translate(gridPositionVec);
-		vec4 screenPosition = *P * *V * idd * vec4(0.0, 0.0, 0.0, 1.0); // positionW;
-
-		render->bind(false);
-		glDisable(GL_DEPTH_TEST);
-		mixShad->use();
-		if(left) {
-			scanned->outputBuffL->bind_texture(0, 0);
-			scanned->renderBufferL->bind_depth_texture(1);
-		}
-		else {
-			scanned->outputBuffR->bind_texture(0, 0);
-			scanned->renderBufferL->bind_depth_texture(1);
-		}
-		glUniform1i(mix_Tex_Id, 0);
-		glUniform1i(mix_Depth_Id, 1);
-		glUniform1f(mix_position_Id, screenPosition.x/screenPosition.w);
-		quad->enable(3);
-		quad_I->draw(GL_TRIANGLES);
-		quad->disable();
-		glEnable(GL_DEPTH_TEST);
-		render->unbind();
+	first->modelDraw(V, P, render, left);
 }
 
 void Scanner::drawText(mat4 *V, mat4 *P, FBO *render) {
-		mat4 idd = translate(gridPositionVec);
-		vec4 screenPosition = *P * *V * idd * vec4(0.0, 0.0, 0.0, 1.0); // positionW;
-		mat4 textM = translate(cells->cells[scanningCell].p-vec3((scanSize)/2.0, 0.0, 0.0));
-		
-		render->bind(false);
-		textShad->use();
-		text.bind(0);
-		glUniformMatrix4fv(text_M_Id, 1, GL_FALSE, &textM[0][0]);
-		glUniformMatrix4fv(text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
-		glUniformMatrix4fv(text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
-		glUniform1f(text_sP_Id, (screenPosition.x/screenPosition.w+1.0f)/2.0f*float(render->width));
-		glUniform1i(text_image_Id, 0);
-		textQuad->enable(3);
-		textQuadCoords->enable(3);
-		quad_I->draw(GL_TRIANGLES);
-		textQuadCoords->disable();
-		textQuad->disable();
-		render->unbind();
+	first->textDraw(V, P, render);
 }
 
 void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
@@ -142,16 +96,18 @@ void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
 
 float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	if(status == GRID || status == STILL || status == UNSCAN) {
-		renderModel();
 		drawModel(V, P, render, left);
 		drawText(V, P, render);
 		drawGrid(V, P, render);
 
-		mat4 idd = translate(gridPositionVec);
-		vec4 screenPosition = *P * *V * idd * vec4(0.0, 0.0, 0.0, 1.0); // positionW;
-		return screenPosition.x/screenPosition.w;
+		return worldToClip(V, P, &gridPositionVec);
 	}
 	return 2;
+}
+
+float Scanner::worldToClip(mat4 *V, mat4 *P, vec3 *v) {
+	vec4 screenPosition = *P * *V * translate(*v) * vec4(0.0, 0.0, 0.0, 1.0);
+	return screenPosition.x/screenPosition.w;
 }
 
 void Scanner::update() {
