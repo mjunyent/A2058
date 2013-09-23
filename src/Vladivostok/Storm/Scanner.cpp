@@ -7,6 +7,7 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 
 	scanningCell = -1;
 	status = DETECTING;
+	statusChanged = false;
 
 	bool lecalite[] = { true };
 	impas = new FBO(csp->data.width, csp->data.height, true, 1, lecalite);
@@ -22,16 +23,23 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 
 	mixShad = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/stormMix.frag");
 	mix_position_Id = mixShad->getUniform("position");
-	mix_Tex_Id = mixShad->getUniform("Tex");
-	mix_Depth_Id = mixShad->getUniform("Depth");
+	mix_TexL_Id		= mixShad->getUniform("TexLeft");
+	mix_DepthL_Id	= mixShad->getUniform("DepthLeft");
+	mix_showL_Id	= mixShad->getUniform("showLeft");
+
+	mix_TexR_Id		= mixShad->getUniform("TexRight");
+	mix_DepthR_Id	= mixShad->getUniform("DepthRight");
+	mix_showR_Id	= mixShad->getUniform("showRight");
 
 	textShad = new Shader("Shaders/Vladivostok/stormText.vert", "Shaders/Vladivostok/stormText.frag");
 	text_M_Id = textShad->getUniform("Model");
 	text_V_Id = textShad->getUniform("View");
 	text_P_Id = textShad->getUniform("Projection");
 	text_sP_Id = textShad->getUniform("screenPosition");
-	text_image_Id = textShad->getUniform("image");
-	text_show_Id = textShad->getUniform("show");
+	text_leftTex_Id = textShad->getUniform("leftTex");
+	text_rightTex_Id = textShad->getUniform("rightTex");
+	text_showL_Id = textShad->getUniform("showLeft");
+	text_showR_Id = textShad->getUniform("showRight");
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
@@ -118,47 +126,98 @@ float Scanner::worldToClip(mat4 *V, mat4 *P, vec3 *v) {
 }
 
 void Scanner::update() {
-	if(status == REST) {
+	if(status == REST) { //NO CELL DETECTION
+		if(statusChanged) {
+			cells->Play();
+			statusChanged = false;
+			lastTime = director::currentTime;
+		}
+
 		if(director::currentTime - lastTime > restTime) {
 			status = DETECTING;
+			statusChanged = true;
+		}
+
+
+	} else if(status == DETECTING) { //LOOKING FOR A CELL
+		if(statusChanged) {
+			statusChanged = false;
 			lastTime = director::currentTime;
 		}
-	} else if(status == DETECTING) {
+
 		detect();
+
 		if(scanningCell != -1) {
 			status = START;
+			statusChanged = true;
+		}
+
+
+	} else if(status == START) { //STOPPING CELLS and APPROACHING TO SELECTED CELL
+		if(statusChanged) {
 			cells->select(scanningCell);
 //			cells->slowStop(scanningCell);
+			statusChanged = false;
 			lastTime = director::currentTime;
 		}
-	} else if(status == START) {
-		if(!cells->move) {
-//		if(director::currentTime-lastTime > startTime) {
+
+		if(!cells->move && director::currentTime-lastTime > startTime) {
 			status = GRID;
+			statusChanged = true;
+
 			gridPositionVec = cells->cells[scanningCell].p;
 			gridPositionVec.x += scanStart;
-			gridPosition = 0.0; 
+			gridPosition = 0.0;
+			side = 1;
+		}
+
+
+	} else if(status == GRID) { //MOVING THE GRID FROM RIGHT TO LEFT
+		if(statusChanged) {
+			gridPositionVec = cells->cells[scanningCell].p;
+			gridPositionVec.x += scanStart;
+			gridPosition = 0.0;
+			
+			statusChanged = false;
 			lastTime = director::currentTime;
 		}
-	} else if(status == GRID) {
+
 		gridPositionVec.x -= gridVelocity;
 		gridPosition += gridVelocity;
+
 		if(gridPosition > scanSize) {
-			status = STILL;
+			status = first->flowControl();
+			statusChanged = true;
+		}
+
+
+	} else if(status == STILL) { //STILL TIME DISPLAYING THE SCAN RENDER
+		if(statusChanged) {
+			statusChanged = false;
 			lastTime = director::currentTime;
 		}
-	} else if(status == STILL) {
-		if(director::currentTime-lastTime > stillTime) {
-			status = UNSCAN;
+
+		if(director::currentTime-lastTime > first->stillTime) {
+			status = first->flowControl();
+			statusChanged = true;
+		}
+
+
+	} else if(status == UNSCAN) { //MOVING THE GRID FROM LEFT TO RIGHT
+		if(statusChanged) {
+			gridPositionVec = cells->cells[scanningCell].p;
+			gridPositionVec.x = gridPositionVec.x + scanStart - scanSize;
+			gridPosition = scanSize;
+			statusChanged = false;
 			lastTime = director::currentTime;
 		}
-	} else if(status == UNSCAN) {
+
 		gridPositionVec.x += gridVelocity;
 		gridPosition -= gridVelocity;
+
 		if(gridPosition <= 0.0) {
-			status = REST;
-			cells->Play();
-			lastTime = director::currentTime;
+			status = first->flowControl();
+			statusChanged = true;
 		}
 	}
 }
@@ -227,12 +286,12 @@ void Scanner::readConf(CSParser *csp) {
 
 	restTime = csp->getf("Scan.restTime");
 	startTime = csp->getf("Scan.startTime");
-	stillTime = csp->getf("Scan.stillTime");
 	gridVelocity = csp->getf("Scan.gridVelocity");
+
 	scanSize = csp->getf("Scan.scanSize");
 	scanStart = csp->getf("Scan.scanStart");
+
 	gridDeleteRadius = csp->getf("Scan.deleteRadius");
-	scanTextStart = csp->getf("Scan.scanTextStart");
 	distanceFade = csp->getf("Scan.distanceFade");
 }
 

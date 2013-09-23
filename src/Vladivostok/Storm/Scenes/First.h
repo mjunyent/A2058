@@ -9,22 +9,30 @@ public:
 	A3dsHandler *World_3DS, *Polio_3DS;
 	Model *World, *Polio;
 	mat4 World_M, Polio_M, rotate_M;
+	float WorldSize, PolioSize;
 
 
-	FirstRenderer(Camera *cam);
+	FirstRenderer(CSParser *csp, Camera *cam);
 	void render(int s, double t);
 
 	void setPosition(vec3 *position);
 
+	void readConf(CSParser *csp);
 };
+
 
 class FirstStormScene : public StormScene {
 public:
 	FirstRenderer *renderF;
-	float textHeight, textOffset;
-	float linesHeight;
 	VBO *textQuad, *linesQuad;
-	TBO worldText;
+	TBO worldText, polioText;
+
+	bool firstStill;
+
+	//Parameters
+	float textHeight;
+	float linesHeight;
+	float stillTime;
 
 	FirstStormScene(CSParser *csp, Scanner *s);
 
@@ -32,6 +40,8 @@ public:
 	void textDraw(mat4 *V, mat4 *P, FBO *render);
 	void linesDraw(mat4 *V, mat4 *P, FBO *render);
 	void modelDraw(mat4 *V, mat4 *P, FBO *render, bool left);
+
+	STATE flowControl();
 
 	void readConf(CSParser *csp);
 

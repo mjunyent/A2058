@@ -5,16 +5,36 @@ layout(location = 0) out vec4 color;
 layout(location = 1) out vec4 glowMap;
 //layout (depth_unchanged) out float gl_FragDepth;
 
-uniform sampler2D 	Tex;
-uniform sampler2D	Depth;
 uniform float		position;
 
+uniform sampler2D 	TexLeft;
+uniform sampler2D	TexRight;
+
+uniform sampler2D	DepthLeft;
+uniform sampler2D	DepthRight;
+
+uniform bool		showLeft;
+uniform bool		showRight;
+
 void main(){
-	color.rgb = texture(Tex, UV).rgb;
-	if(UV.x*2.0-1.0 < position) discard;
-	if(texture(Depth, UV).x == 1.0) discard;
-	color.w = 1.0;
-	color = clamp(color, 0.0, 1.0);
-//	if(1==2) gl_FragDepth = 0.0f;
+	float currentPos = UV.x*2.0-1.0;
+	
+	if(showLeft && currentPos < position) {
+		if(texture(DepthLeft, UV).x == 1.0) discard;
+		else {
+			color.rgb = texture(TexLeft, UV).rgb;
+			color.w = 1.0;
+			color = clamp(color, 0.0, 1.0);
+		}	
+	} else if(showRight && currentPos > position) {
+		if(texture(DepthRight, UV).x == 1.0) discard;
+		else {
+			color.rgb = texture(TexRight, UV).rgb;
+			color.w = 1.0;
+			color = clamp(color, 0.0, 1.0);
+		}
+	}
+
+
 	glowMap = vec4(0.0, 0.0, 0.0, 1.0);
 }

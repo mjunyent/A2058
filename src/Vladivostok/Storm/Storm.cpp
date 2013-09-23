@@ -35,6 +35,7 @@ Storm::Storm(CSParser *csp) {
 	billboard_tex_Id	 = billboardShad->getUniform("tex");
 	billboard_cellPos_Id = billboardShad->getUniform("cellPos");
 	billboard_alpha_Id	 = billboardShad->getUniform("alpha");
+	billboard_side_Id    = billboardShad->getUniform("side");
 
 	blur = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/stormBlur.frag");
 	blur_tex_Id				= blur->getUniform("Texture");
@@ -67,8 +68,8 @@ void Storm::draw(int s, double t) {
 	float leftPos = this->s->draw(&myRig->V_left, &myCam->P, left, true);
 	float rightPos = this->s->draw(&myRig->V_right, &myCam->P, right, false);
 
-	if(this->s->status != Scanner::STATE::START && this->s->scanningCell != -1) {
-		renderCell(this->s->scanningCell, leftPos, rightPos);
+	if(this->s->status != STATE::START && this->s->scanningCell != -1) {
+		renderCell(this->s->scanningCell, leftPos, rightPos, this->s->side);
 	}
 
 	outputBuffL = left;
@@ -77,7 +78,7 @@ void Storm::draw(int s, double t) {
 
 void Storm::render(int s, double t) {
 	for(int i=0; i<c->sortedCells.size(); i++) {
-		if(c->sortedCells[i]->id != this->s->scanningCell || this->s->status == Scanner::STATE::START) renderCell(c->sortedCells[i]->id, 2, 2);
+		if(c->sortedCells[i]->id != this->s->scanningCell || this->s->status == STATE::START) renderCell(c->sortedCells[i]->id, 2, 2, 0);
 	}
 }
 
@@ -106,7 +107,7 @@ void Storm::readConf() {
 	s->readConf(csp);
 }
 
-void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositionR) {
+void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositionR, int side) {
 	int radius = 0;
 	float dist = length(myCam->position - c->cells[i].p);
 
@@ -163,6 +164,7 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 	glUniform1f(billboard_r_Id, quadSize);
 	glUniform1i(billboard_tex_Id, 0);
 	glUniform1f(billboard_cellPos_Id, (cellScreenPositionL+1.02)/2.0*float(myCam->width));
+	glUniform1i(billboard_side_Id, side);
 	glUniform1f(billboard_alpha_Id, c->cells[i].alpha);
 
 	singlePoint->enable(3);

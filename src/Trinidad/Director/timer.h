@@ -29,6 +29,7 @@ public:
 
 	double fps;
 	int MAX_ITERATIONS;
+	double startTime;
 	double lastTime;
 	double cumulativeTime;
 	double FRAME_LENGHT;

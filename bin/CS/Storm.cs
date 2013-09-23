@@ -90,36 +90,35 @@ Scan {
 		near  -180 ;-130
 		far   -200 ;-140	
 	}
-	
-	restTime 4.0 ;minimum time between end of scan and start of next.
-	startTime 1.0 ;time between cell detected and start of grid draw.
-	gridVelocity 1.0 ;velocity of the grid to move.
-	stillTime 10.0 ;time after rendering the scan.
-	
-	scanStart 20 ;left displacement of scan (in px.)
-	scanSize 160 ;size of the scan (in px.)
-	
-	deleteRadius 10.5
-	distanceFade 20
-	
+
 	Grid {
 		size 30;
 		divisions 4;
 	}
 	
-	scanStartPoint 12.0;
-	
-	scanTextStart 50
+	restTime 4.0 ;minimum time between end of scan and start of next.
+	startTime 2.0 ;time between cell detected and start of grid draw.
+
+	gridVelocity  0.1 ; 1.0 ;velocity of the grid to move.
+	deleteRadius 10.5
+	distanceFade 20
+
+	scanStart 20 ;left displacement of scan (in px.)
+	scanSize 160 ;size of the scan (in px.)
 }
 
 Scenes {
 	First {
-		textWidth 20
 		textHeight 20
-		textOffset 20
 		linesHeight 30
+		stillTime 5.0 ;time after rendering the scan.
+		World {
+			size 25.0
+		}
+		Polio {
+			size 25.0
+		}
 	}
-
 }
 
 Occlusion {

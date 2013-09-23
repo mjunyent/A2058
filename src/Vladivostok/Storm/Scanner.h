@@ -5,6 +5,7 @@
 #include "../Parser.h"
 #include "Cells.h"
 #include "Models.h"
+#include "Scenes/StormScene.h";
 #include "Scenes/First.h"
 
 class Grid {
@@ -19,29 +20,23 @@ private:
 	void pushVertex(float x, float y, float z);
 };
 
-
 class Scanner {
 public:
-	enum STATE { REST,		 //cells moving, not scanning.
-				 DETECTING,  //cells moving, waiting for something to happen.
-				 START,		 //cell in range detected, starting scan. Everything Pauses, no grid.
-				 GRID,		 //Grid Movement Pattern.
-				 STILL,		 //Rendered scan for a few seconds.
-				 UNSCAN };	 //Move Back Grid.
-
 	//Parameters.
-	float restTime, startTime, gridVelocity, stillTime;
-	float scanSize, scanStart, scanTextStart, gridDeleteRadius;
+	float restTime, startTime, gridVelocity;
+	float scanSize, scanStart, gridDeleteRadius;
 	vec3 upLeftNear, downRightFar;
 	float distanceFade;
 
 	//State Variables
 	STATE status;
+	bool statusChanged;
 	int scanningCell;		 //Current cell in scan.
 	float lastTime;			 //Last time a Status change happened.
 	vec3 gridPositionVec;    //Current grid position 3D space.
 	float gridPosition;		 //Current grid position [0, scanSize]
 	Cells *cells;			 //All cells status.
+	int side; //0 draw all, 1 show right, 2 show left, 3 show none.
 
 	//Render things.
 	Rig *rig;
@@ -79,7 +74,7 @@ public:
 	void update();
 
 	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id, grid_alpha_Id;
-	GLint mix_position_Id, mix_Tex_Id, mix_Depth_Id;
-	GLint text_M_Id, text_V_Id, text_P_Id, text_sP_Id, text_image_Id, text_show_Id;
+	GLint mix_position_Id, mix_TexL_Id, mix_TexR_Id, mix_DepthL_Id, mix_DepthR_Id, mix_showL_Id, mix_showR_Id;
+	GLint text_M_Id, text_V_Id, text_P_Id, text_sP_Id, text_leftTex_Id, text_rightTex_Id, text_showL_Id, text_showR_Id;
 	GLint deb_M_Id, deb_V_Id, deb_P_Id, deb_Color_Id;
 };

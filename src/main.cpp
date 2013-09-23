@@ -20,13 +20,12 @@ int main(void) {
 	win = setup(csp.data.width, csp.data.height, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), NULL);
 	windows.push_back(win);
 
-	manager = new SceneManager(&currentTime);
-	Timer timer(manager);
 	glfwMakeContextCurrent(windows[0]);
 
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 
+	manager = new SceneManager(&currentTime);
 	manager->addScene(&eyes,   4, 10000000, 0.1);
 	manager->addScene(&glow,   4, 10000000, 0.2);
 
@@ -39,6 +38,8 @@ int main(void) {
 
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
 //	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
+
+	Timer timer(manager);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
