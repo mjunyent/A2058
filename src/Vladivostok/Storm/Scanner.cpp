@@ -31,12 +31,18 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	text_P_Id = textShad->getUniform("Projection");
 	text_sP_Id = textShad->getUniform("screenPosition");
 	text_image_Id = textShad->getUniform("image");
+	text_show_Id = textShad->getUniform("show");
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);
 	quad_I = new IBO(director::quad_I, sizeof(director::quad_I));
 	textQuadCoords = new VBO(director::quad, sizeof(director::quad), 1);
 
 	this->rig = rig;
+
+	linesCircleLeft  = TBO("Images/Biotechnopolis/Lines/CircleLeft.fw.png", true);
+	linesCircleLeft.clamp(true);
+	linesCircleRight = TBO("Images/Biotechnopolis/Lines/CircleRight.fw.png", true);
+	linesCircleRight.clamp(true);
 
 	first = new FirstStormScene(csp, this);
 }
@@ -96,6 +102,7 @@ void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
 
 float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	if(status == GRID || status == STILL || status == UNSCAN) {
+		first->linesDraw(V, P, render);
 		drawModel(V, P, render, left);
 		drawText(V, P, render);
 		drawGrid(V, P, render);

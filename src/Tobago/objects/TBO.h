@@ -29,6 +29,8 @@ public:
 	//erases it?
 	void erase();
 
+	void clamp(bool doit);
+
 	//texture name.
 	GLuint theID;
 	int width, height;

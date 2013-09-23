@@ -35,7 +35,8 @@ FirstRenderer::FirstRenderer(Camera *cam) : Deferred() {
 
 void FirstRenderer::setPosition(vec3 *position) {
 	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
-	World_M = glm::translate(*position) * glm::translate(-World_3DS->center*World->scale) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f);
+	//glm::translate(-World_3DS->center*World->scale) *
+	World_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-World_3DS->center*World->scale);
 }
 
 void FirstRenderer::render(int s, double t) {
@@ -51,11 +52,31 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	renderF = new FirstRenderer(scan->rig);
 
+	worldText = TBO("Images/Biotechnopolis/010R.fw.png", true);
+	worldText.clamp(true);
+
+	//Make texture Quads:
+	float ratio = float(scan->linesCircleRight.width)/float(scan->linesCircleRight.height);
+	float linesWidth = ratio*linesHeight;
+	float linesLeftEnd = -linesWidth + linesHeight/2.0f;
+
+	float linesRect[] = {
+		 linesLeftEnd,		 linesHeight/2.0f, 0.0f,
+		 linesHeight/2.0f,	 linesHeight/2.0f, 0.0f,
+		 linesHeight/2.0f,	-linesHeight/2.0f, 0.0f,
+		 linesLeftEnd,		-linesHeight/2.0f, 0.0f,
+	};
+
+	linesQuad = new VBO(linesRect, sizeof(float)*12, 0);
+
+	ratio = float(worldText.width)/float(worldText.height);
+	float textWidth = ratio*textHeight;
+
 	float rectText[] = { 
-		-textWidth/2.0f,  textHeight/2.0f, 0.0f, //0 UP, LEFT
-		 textWidth/2.0f,  textHeight/2.0f, 0.0f, //1 UP, RIGHT
-		 textWidth/2.0f, -textHeight/2.0f, 0.0f, //2 DOWN, RIGHT
-		-textWidth/2.0f, -textHeight/2.0f, 0.0f  //3 DOWN, LEFT
+		 linesLeftEnd-textWidth,  textHeight/2.0f, 0.0f, //0 UP, LEFT
+		 linesLeftEnd,			  textHeight/2.0f, 0.0f, //1 UP, RIGHT
+		 linesLeftEnd,			 -textHeight/2.0f, 0.0f, //2 DOWN, RIGHT
+		 linesLeftEnd-textWidth, -textHeight/2.0f, 0.0f  //3 DOWN, LEFT
 	};
 
 	textQuad = new VBO(rectText, sizeof(director::quad), 0);
@@ -90,28 +111,50 @@ void FirstStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	render->unbind();
 }
 
-//MOVE TEXQUAD here!
-void FirstStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
-	mat4 textM = translate(scan->cells->cells[scan->scanningCell].p-vec3(textOffset, 0.0, 0.0));
-	/*
+void FirstStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
+	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
+
 	render->bind(false);
 	scan->textShad->use();
-	scan->text.bind(0);
-	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &textM[0][0]);
+	scan->linesCircleRight.bind(0);
+	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
 	glUniformMatrix4fv(scan->text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
 	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
 	glUniform1f(scan->text_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
 	glUniform1i(scan->text_image_Id, 0);
+	glUniform1i(scan->text_show_Id, 0);
+	linesQuad->enable(3);
+	scan->textQuadCoords->enable(3);
+	scan->quad_I->draw(GL_TRIANGLES);
+	scan->textQuadCoords->disable();
+	linesQuad->disable();
+	render->unbind();
+
+
+}
+
+//MOVE TEXQUAD here!
+void FirstStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
+	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
+
+	render->bind(false);
+	scan->textShad->use();
+	worldText.bind(0);
+	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
+	glUniformMatrix4fv(scan->text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
+	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
+	glUniform1f(scan->text_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
+	glUniform1i(scan->text_image_Id, 0);
+	glUniform1i(scan->text_show_Id, 0);
 	textQuad->enable(3);
 	scan->textQuadCoords->enable(3);
 	scan->quad_I->draw(GL_TRIANGLES);
 	scan->textQuadCoords->disable();
 	textQuad->disable();
-	render->unbind();*/
+	render->unbind();
 }
 
 void FirstStormScene::readConf(CSParser *csp) {
-	textWidth  = csp->getf("Scenes.First.textWidth");
 	textHeight = csp->getf("Scenes.First.textHeight");
-	textOffset = csp->getf("Scenes.First.textOffset");
+	linesHeight = csp->getf("Scenes.First.linesHeight");
 }

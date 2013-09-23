@@ -97,7 +97,7 @@ Scan {
 	stillTime 10.0 ;time after rendering the scan.
 	
 	scanStart 20 ;left displacement of scan (in px.)
-	scanSize 120 ;size of the scan (in px.)
+	scanSize 160 ;size of the scan (in px.)
 	
 	deleteRadius 10.5
 	distanceFade 20
@@ -117,6 +117,7 @@ Scenes {
 		textWidth 20
 		textHeight 20
 		textOffset 20
+		linesHeight 30
 	}
 
 }

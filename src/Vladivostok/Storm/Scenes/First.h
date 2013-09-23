@@ -21,14 +21,16 @@ public:
 class FirstStormScene : public StormScene {
 public:
 	FirstRenderer *renderF;
-	float textWidth, textHeight, textOffset;
-	VBO *textQuad;
+	float textHeight, textOffset;
+	float linesHeight;
+	VBO *textQuad, *linesQuad;
 	TBO worldText;
 
 	FirstStormScene(CSParser *csp, Scanner *s);
 
 	void renderModel();
 	void textDraw(mat4 *V, mat4 *P, FBO *render);
+	void linesDraw(mat4 *V, mat4 *P, FBO *render);
 	void modelDraw(mat4 *V, mat4 *P, FBO *render, bool left);
 
 	void readConf(CSParser *csp);

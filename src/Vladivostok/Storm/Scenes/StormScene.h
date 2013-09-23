@@ -14,6 +14,7 @@ public:
 
 	virtual void textDraw() {};
 	virtual void modelDraw() {};
+	virtual void linesDraw() {};
 
 	virtual void StatusUpdate() {};
 

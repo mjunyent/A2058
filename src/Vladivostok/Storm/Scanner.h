@@ -55,6 +55,8 @@ public:
 	FBO *impas;
 	Grid *grid;
 
+	TBO linesCircleLeft, linesCircleRight, linesQuadLeft, linesQuadRight;
+
 	//Scenes
 	FirstStormScene *first;
 
@@ -78,6 +80,6 @@ public:
 
 	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id, grid_alpha_Id;
 	GLint mix_position_Id, mix_Tex_Id, mix_Depth_Id;
-	GLint text_M_Id, text_V_Id, text_P_Id, text_sP_Id, text_image_Id;
+	GLint text_M_Id, text_V_Id, text_P_Id, text_sP_Id, text_image_Id, text_show_Id;
 	GLint deb_M_Id, deb_V_Id, deb_P_Id, deb_Color_Id;
 };
