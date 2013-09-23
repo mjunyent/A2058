@@ -4,15 +4,31 @@
 
 #include "StormScene.h"
 
-class FirstRenderer : public Deferred {
+class FirstRendererWorld : public Deferred {
 public:
-	A3dsHandler *World_3DS, *Polio_3DS;
-	Model *World, *Polio;
-	mat4 World_M, Polio_M, rotate_M;
-	float WorldSize, PolioSize;
+	A3dsHandler *World_3DS;
+	Model *World;
+	mat4 World_M, rotate_M;
+	float WorldSize;
 
 
-	FirstRenderer(CSParser *csp, Camera *cam);
+	FirstRendererWorld(CSParser *csp, Camera *cam);
+	void render(int s, double t);
+
+	void setPosition(vec3 *position);
+
+	void readConf(CSParser *csp);
+};
+
+class FirstRenderPolio : public Deferred {
+public:
+	A3dsHandler *Polio_3DS;
+	Model *Polio;
+	mat4 Polio_M, rotate_M;
+	float PolioSize;
+
+
+	FirstRenderPolio(CSParser *csp, Camera *cam);
 	void render(int s, double t);
 
 	void setPosition(vec3 *position);
@@ -23,9 +39,11 @@ public:
 
 class FirstStormScene : public StormScene {
 public:
-	FirstRenderer *renderF;
+	FirstRendererWorld *renderFw;
+	FirstRenderPolio *renderFp;
 	VBO *textQuad, *linesQuad;
 	TBO worldText, polioText;
+	FBO *tempL, *tempR;
 
 	bool firstStill;
 

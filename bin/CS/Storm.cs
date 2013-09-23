@@ -99,7 +99,7 @@ Scan {
 	restTime 4.0 ;minimum time between end of scan and start of next.
 	startTime 2.0 ;time between cell detected and start of grid draw.
 
-	gridVelocity  0.1 ; 1.0 ;velocity of the grid to move.
+	gridVelocity  0.5 ; 1.0 ;velocity of the grid to move.
 	deleteRadius 10.5
 	distanceFade 20
 

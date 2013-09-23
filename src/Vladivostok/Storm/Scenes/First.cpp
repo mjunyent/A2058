@@ -1,7 +1,7 @@
 #include "First.h"
 #include "../Scanner.h"
 
-FirstRenderer::FirstRenderer(CSParser *csp, Camera *cam) : Deferred() {
+FirstRendererWorld::FirstRendererWorld(CSParser *csp, Camera *cam) : Deferred() {
 	setup(cam);
 
 	readConf(csp);
@@ -32,8 +32,30 @@ FirstRenderer::FirstRenderer(CSParser *csp, Camera *cam) : Deferred() {
 					  NULL,
 					  NULL);
 
+	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
+}
+
+void FirstRendererWorld::setPosition(vec3 *position) {
+	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
+	World_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-World_3DS->center*World->scale);
+}
+
+void FirstRendererWorld::render(int s, double t) {
+	World->render();
+}
+
+void FirstRendererWorld::readConf(CSParser *csp) {
+	WorldSize = csp->getf("Scenes.First.World.size");
+}
+
+
+FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
+	setup(cam);
+
+	readConf(csp);
+
 	Polio_3DS = new A3dsHandler("Models/Storm/1Polio.3DS", 0);
-	//Polio_3DS->makeNormalsPerVertex();
+	Polio_3DS->makeNormalsPerVertex();
 	Polio_3DS->makeBoundingBox();
 
 	Polio = new Model(firstShad,
@@ -52,23 +74,20 @@ FirstRenderer::FirstRenderer(CSParser *csp, Camera *cam) : Deferred() {
 					  NULL,
 					  NULL);
 
-	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, -1.0), glm::vec3(1.0, 1.0, 1.0));
+	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 }
 
-void FirstRenderer::setPosition(vec3 *position) {
+void FirstRenderPolio::setPosition(vec3 *position) {
 	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
 	//glm::translate(-World_3DS->center*World->scale) *
-	World_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-World_3DS->center*World->scale);
 	Polio_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Polio_3DS->center*Polio->scale);
 }
 
-void FirstRenderer::render(int s, double t) {
-	if(t < 1.0)	World->render();
-	else Polio->render();
+void FirstRenderPolio::render(int s, double t) {
+	Polio->render();
 }
 
-void FirstRenderer::readConf(CSParser *csp) {
-	WorldSize = csp->getf("Scenes.First.World.size");
+void FirstRenderPolio::readConf(CSParser *csp) {
 	PolioSize = csp->getf("Scenes.First.Polio.size");
 }
 
@@ -78,9 +97,14 @@ void FirstRenderer::readConf(CSParser *csp) {
 FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 
-	renderF = new FirstRenderer(csp, scan->rig);
+	renderFw = new FirstRendererWorld(csp, scan->rig);
+	renderFp = new FirstRenderPolio(csp, scan->rig);
 
 	firstStill = true;
+
+	bool lecalite[] = { true };
+	tempL = new FBO(scan->rig->width, scan->rig->height, false, 1, lecalite);
+	tempR = new FBO(scan->rig->width, scan->rig->height, false, 1, lecalite);
 
 	worldText = TBO("Images/Biotechnopolis/010R.fw.png", true);
 	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
@@ -103,7 +127,7 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	ratio = float(worldText.width)/float(worldText.height);
 	float textWidth = ratio*textHeight;
 
-	float rectText[] = { 
+	float rectText[] = {
 		 linesLeftEnd-textWidth,  textHeight/2.0f, 0.0f, //0 UP, LEFT
 		 linesLeftEnd,			  textHeight/2.0f, 0.0f, //1 UP, RIGHT
 		 linesLeftEnd,			 -textHeight/2.0f, 0.0f, //2 DOWN, RIGHT
@@ -111,13 +135,14 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	};
 
 	textQuad = new VBO(rectText, sizeof(director::quad), 0);
-
-//	worldText = TBO("Images/Biotechnopolis/First/
 }
 
 void FirstStormScene::renderModel() {
-	renderF->setPosition(&scan->cells->cells[scan->scanningCell].p);
-	renderF->draw(0, 0);
+	renderFw->setPosition(&scan->cells->cells[scan->scanningCell].p);
+	renderFp->setPosition(&scan->cells->cells[scan->scanningCell].p);
+
+	renderFw->draw(0, 0);
+	if(scan->status == STATE::UNSCAN || !firstStill) renderFp->draw(0, 0);
 }
 
 void FirstStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
@@ -125,17 +150,34 @@ void FirstStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	glDisable(GL_DEPTH_TEST);
 	scan->mixShad->use();
 	if(left) {
-		renderF->outputBuffL->bind_texture(0, 0);
-		renderF->renderBufferL->bind_depth_texture(1);
+		renderFw->outputBuffL->bind_texture(0, 0);
+		renderFw->renderBufferL->bind_depth_texture(1);
 	}
 	else {
-		renderF->outputBuffR->bind_texture(0, 0);
-		renderF->renderBufferL->bind_depth_texture(1);
+		renderFw->outputBuffR->bind_texture(0, 0);
+		renderFw->renderBufferL->bind_depth_texture(1);
 	}
-	glUniform1i(scan->mix_showL_Id, 0);
-	glUniform1i(scan->mix_showR_Id, 1);
+	if(scan->status == STATE::UNSCAN || !firstStill) {
+		if(left) {
+			renderFp->outputBuffL->bind_texture(0, 2);
+			renderFp->renderBufferL->bind_depth_texture(3);
+		}
+		else {
+			renderFp->outputBuffR->bind_texture(0, 2);
+			renderFp->renderBufferL->bind_depth_texture(3);
+		}
+	}
+
+	if(scan->status == STATE::UNSCAN || !firstStill) glUniform1i(scan->mix_showL_Id, 1);
+	else glUniform1i(scan->mix_showL_Id, 0);
+
+	if(scan->status == STATE::GRID && !firstStill) glUniform1i(scan->mix_showR_Id, 0);
+	else glUniform1i(scan->mix_showR_Id, 1);
+
 	glUniform1i(scan->mix_TexR_Id, 0);
 	glUniform1i(scan->mix_DepthR_Id, 1);
+	glUniform1i(scan->mix_TexL_Id, 2);
+	glUniform1i(scan->mix_DepthL_Id, 3);
 	glUniform1f(scan->mix_position_Id, scan->worldToClip(V, P, &scan->gridPositionVec));
 	scan->quad->enable(3);
 	scan->quad_I->draw(GL_TRIANGLES);
@@ -220,8 +262,12 @@ STATE FirstStormScene::flowControl() {
 	if(now == STATE::STILL)  {
 		if(firstStill) {
 			firstStill = false;
+			scan->side = 3;
 			return STATE::UNSCAN;
-		} else return STATE::GRID;
+		} else {
+			scan->side = 2;
+			return STATE::GRID;
+		}
 	}
 
 	if(now == STATE::UNSCAN) return STATE::STILL;
