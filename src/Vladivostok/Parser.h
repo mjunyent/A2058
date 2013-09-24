@@ -31,9 +31,11 @@ public:
 	void parse();
 
 	float getf(const std::string& s);
+	glm::vec3 getvec3(const std::string& s);
 
 	glm::vec3 toVec3(const std::string& s);
 
+	void readLights(const char* prefix); // "Model.Lights"
 	void passToLight(Light *l);
 	void passToCam(Camera *c);
 	void passToRig(Rig *r);

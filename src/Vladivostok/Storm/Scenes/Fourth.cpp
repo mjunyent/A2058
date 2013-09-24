@@ -3,10 +3,10 @@
 
 FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam) : Deferred() {
 	setup(cam);
+	this->csp = csp;
 
 	Fish_3DS = new A3dsHandler("Models/Storm/4Krilatka.3DS", 1);
 	Fish_3DS->readNormalsFromFile("Models/Storm/4KrilatkaNormals.txt");
-	//Fish_3DS->makeNormalsPerVertex();
 	Fish_3DS->makeUVs();
 	Fish_3DS->makeBoundingBox();
 
@@ -26,32 +26,75 @@ FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam) : Deferred() 
 					  "Images/Textures/krilatka.png",
 					  NULL);
 
+	Eye_3DS = new A3dsHandler("Models/Storm/4Krilatka.3DS", 0);
+	Eye_3DS->makeNormalsPerVertex();
+	Eye_3DS->makeUVs();
+	Eye_3DS->makeBoundingBox();
+
+	Eye = new Model(firstShad,
+					Eye_3DS->vertexs,
+					Eye_3DS->normals,
+					Eye_3DS->UVs,
+					NULL,
+					NULL,
+					Eye_3DS->indexs,
+					0.4,
+					vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
+					vec3(0.1f, 0.1f, 0.1f),
+					0.01f,
+					&Eye_M,
+					EyeSize/Eye_3DS->maxDimension,
+					"Images/Textures/krilatkaEye.png",
+					NULL);
 	dotheAA(true);
 	dotheDOF(false);
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
 	readConf(csp);
 
-	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
+	//lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 }
 
 void FourthRendererFish::setPosition(vec3 *position) {
-	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
-	//glm::translate(-World_3DS->center*World->scale) *
-	Fish_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Fish_3DS->center*Fish->scale);
+	pos = position;
+	glm::mat4 rot = glm::rotate(rotateV.z, 0.0f, 0.0f, 1.0f) *
+					glm::rotate(rotateV.x, 1.0f, 0.0f, 0.0f) *
+					glm::rotate(rotateV.y, 0.0f, 1.0f, 0.0f);
+	glm::mat4 tr = glm::translate(transV);
+
+	Fish_M = tr * glm::translate(*position) *
+		     rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Fish_3DS->center*Fish->scale) * rot;
+	Eye_M  = tr * glm::translate(eyePos*Fish->scale) * glm::translate(*position)  * rotate(180.0f, 0.0f, 1.0f, 0.0f) *
+		rotate(-90.0f, 1.0f, 0.0f, 0.0f) * rot * glm::translate(-Eye_3DS->center*Eye->scale);
 }
 
 void FourthRendererFish::render(int s, double t) {
 	Fish->render();
+	Eye->render();
+}
+
+void FourthRendererFish::update(double t) {
+	readConf(csp);
+	setPosition(pos);
 }
 
 void FourthRendererFish::readConf(CSParser *csp) {
+	csp->parse();
 	FishSize = csp->getf("Scenes.Fourth.Fish.size");
+	EyeSize  = csp->getf("Scenes.Fourth.Eye.size");
+	eyePos = csp->getvec3("Scenes.Fourth.Eye.position");
+	rotateV = csp->getvec3("Scenes.Fourth.Fish.rotate");
+	transV = csp->getvec3("Scenes.Fourth.translate");
 	if(Fish != NULL) Fish->scale = FishSize/Fish_3DS->maxDimension;
+	if(Eye  != NULL) Eye->scale  = EyeSize/Eye_3DS->maxDimension;
+
 	AO_radius = csp->getf("Scenes.Fourth.Fish.AO.radius");
 	AO_bias   = csp->getf("Scenes.Fourth.Fish.AO.bias");
 	AO_attenuation = vec2(csp->getf("Scenes.Fourth.Fish.AO.linearAtt"),
 						  csp->getf("Scenes.Fourth.Fish.AO.quadraticAtt"));
+
+	csp->readLights("Scenes.Fourth.Fish.Lights");
+	csp->passToLight(lights);
 }
 
 

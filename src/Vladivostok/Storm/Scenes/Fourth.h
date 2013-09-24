@@ -6,18 +6,22 @@
 
 class FourthRendererFish : public Deferred {
 public:
-	A3dsHandler *Fish_3DS;
-	Model *Fish;
-	mat4 Fish_M, rotate_M;
-	float FishSize;
-
+	A3dsHandler *Fish_3DS, *Eye_3DS;
+	Model *Fish, *Eye;
+	mat4 Fish_M, rotate_M, Eye_M;
+	float FishSize, EyeSize;
+	vec3 eyePos;
+	vec3 rotateV, transV;
 
 	FourthRendererFish(CSParser *csp, Camera *cam);
 	void render(int s, double t);
-
+	void update(double t);
 	void setPosition(vec3 *position);
 
 	void readConf(CSParser *csp);
+
+	CSParser *csp;
+	vec3 *pos;
 };
 
 class FourthStormScene : public StormScene {

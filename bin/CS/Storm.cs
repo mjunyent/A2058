@@ -132,14 +132,29 @@ Scenes {
 		textHeight 15
 		linesHeight 30
 		stillTime 5.0 ;time after rendering the scan.
+		translate -12.0,5.0,10.0
 		Fish {
-			size 25.0
+			size 35.0
+			rotate -10.0,-20.0,-50.0
 			AO {
 				bias 0.05;
-				radius 2;
+				radius 5;
 				linearAtt 1;
 				quadraticAtt 1;
 			}
+			Lights {
+				number 1
+					Light1 {
+						type DIRECTIONAL
+						attenuation 2.0,0.0,0.0
+						direction -1.0,1.0,1.0
+						colour 0.5,0.5,1.0
+					}
+			}
+		}
+		Eye {
+			size 0.9
+			position 106.0,-16.0,35.0
 		}
 	
 	}

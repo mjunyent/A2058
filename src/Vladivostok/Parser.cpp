@@ -85,6 +85,44 @@ float CSParser::getf(const std::string& s) {
 	return pr.get<float>(s);
 }
 
+glm::vec3 CSParser::getvec3(const std::string& s) {
+	return toVec3(pr.get<std::string>(s));
+}
+
+void CSParser::readLights(const char* prefix) {
+  std::string preprefix = prefix;
+  std::string name = preprefix + ".Light0";
+
+  data.nlights = pr.get<int>(preprefix + ".number");
+  data.lights = vector<Light::lamp>(data.nlights);
+
+  for(int i=0; i<data.nlights; i++) {
+	  name[name.length()-1]++;
+	  if(pr.get<std::string>(name + ".type") == "DIRECTIONAL") {
+		  data.lights[i].type = Light::DIRECTIONAL;
+		  data.lights[i].Attenuation = toVec3(pr.get<std::string>(name + ".attenuation"));
+		  data.lights[i].Direction   = glm::normalize(toVec3(pr.get<std::string>(name + ".direction")));
+		  data.lights[i].Colour	     = toVec3(pr.get<std::string>(name + ".colour"));
+	  } else if(pr.get<std::string>(name + ".type") == "POINT") {
+		  data.lights[i].type = Light::POINT;
+		  data.lights[i].Attenuation  = toVec3(pr.get<std::string>(name + ".attenuation"));
+		  data.lights[i].Position     = toVec3(pr.get<std::string>(name + ".position"));
+		  data.lights[i].Colour		  = toVec3(pr.get<std::string>(name + ".colour"));
+	  } else if(pr.get<std::string>(name + ".type") == "SPOTLIGHT") {
+		  data.lights[i].type = Light::SPOTLIGHT;
+
+  		  data.lights[i].Attenuation = toVec3(pr.get<std::string>(name + ".attenuation"));
+		  data.lights[i].Direction   = glm::normalize(toVec3(pr.get<std::string>(name + ".direction")));
+		  data.lights[i].Colour	     = toVec3(pr.get<std::string>(name + ".colour"));
+		  data.lights[i].Position    = toVec3(pr.get<std::string>(name + ".position"));
+		  data.lights[i].OuterCutoff = pr.get<float>(name + ".outerCutoff");
+		  data.lights[i].InnerCutoff = pr.get<float>(name + ".innerCutoff");
+		  data.lights[i].Exponent	 = pr.get<float>(name + ".exponent");
+	  }
+  }
+
+}
+
 void CSParser::passToLight(Light *l) {
 	l->numLights = data.nlights;
 	for(int i=0; i<std::min(l->MAX_LIGHTS, data.nlights); i++) {
