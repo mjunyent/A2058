@@ -10,6 +10,7 @@ public:
 	Model *Fish, *Eye;
 	mat4 Fish_M, rotate_M, Eye_M;
 	float FishSize, EyeSize;
+	float rotateAlpha;
 	vec3 eyePos;
 	vec3 rotateV, transV;
 

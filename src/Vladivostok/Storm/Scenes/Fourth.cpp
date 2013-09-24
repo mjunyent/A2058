@@ -52,20 +52,23 @@ FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam) : Deferred() 
 
 	readConf(csp);
 
+	rotateAlpha = 0;
 	//lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 }
 
 void FourthRendererFish::setPosition(vec3 *position) {
 	pos = position;
 
+	rotateAlpha -= 0.1;
+
 	glm::mat4 rot = glm::rotate(rotateV.z, 0.0f, 0.0f, 1.0f) *
 					glm::rotate(rotateV.x, 1.0f, 0.0f, 0.0f) *
 					glm::rotate(rotateV.y, 0.0f, 1.0f, 0.0f);
 	glm::mat4 tr = glm::translate(transV);
 
-	Fish_M = tr * glm::translate(*position) *
+	Fish_M = tr * glm::translate(*position) * glm::rotate(rotateAlpha, 0.0f, 1.0f, 0.0f) *
 		     rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Fish_3DS->center*Fish->scale) * rot;
-	Eye_M  = tr * glm::translate(eyePos*Fish->scale) * glm::translate(*position)  * rotate(180.0f, 0.0f, 1.0f, 0.0f) *
+	Eye_M  = tr * glm::translate(*position) * glm::rotate(rotateAlpha, 0.0f, 1.0f, 0.0f) * glm::translate(eyePos*Fish->scale) * rotate(180.0f, 0.0f, 1.0f, 0.0f) *
 		rotate(-90.0f, 1.0f, 0.0f, 0.0f) * rot * glm::translate(-Eye_3DS->center*Eye->scale);
 }
 

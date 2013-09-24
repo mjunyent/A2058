@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 2.0 ;2.0
+		EyeSep 0.0 ;2.0
 	}
 }
 
@@ -155,7 +155,7 @@ Scenes {
 		}
 		Eye {
 			size 0.9
-			position 106.0,-16.0,35.0
+			position 106.0,-16.0,30.0
 		}
 	
 	}

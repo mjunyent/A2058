@@ -37,7 +37,8 @@ int main(void) {
 
 	FourthRendererFish bypass(&csp, &rig);
 	bypass.setPosition(&cpos);
-	manager->addScene(&bypass, 1, 100000000000, 0.4);*/
+	manager->addScene(&bypass, 1, 100000000000, 0.4);
+	*/
 
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
