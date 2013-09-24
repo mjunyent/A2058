@@ -297,6 +297,38 @@ void A3dsHandler::makeNormalsPerVertex() {
 	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
 }
 
+void A3dsHandler::saveNormalsToFile(const char* filename) {
+	ofstream output;
+	output.open(filename);
+
+	for(int i=0; i<mesh->nvertices; i++) {
+		glm::vec3 normal(0,0,0);
+
+		for(int j=0; j<mesh->nfaces; j++) {
+			if( (mesh->vertices[faces[j].index[0]][0] == mesh->vertices[i][0] && mesh->vertices[faces[j].index[0]][1] == mesh->vertices[i][1] && mesh->vertices[faces[j].index[0]][2] == mesh->vertices[i][2]) ||
+			    (mesh->vertices[faces[j].index[1]][0] == mesh->vertices[i][0] && mesh->vertices[faces[j].index[1]][1] == mesh->vertices[i][1] && mesh->vertices[faces[j].index[1]][2] == mesh->vertices[i][2]) ||
+			    (mesh->vertices[faces[j].index[2]][0] == mesh->vertices[i][0] && mesh->vertices[faces[j].index[2]][1] == mesh->vertices[i][1] && mesh->vertices[faces[j].index[2]][2] == mesh->vertices[i][2]) ) {
+				   normal += calcFaceNormal(j);
+			}
+		}
+
+		normal = glm::normalize(normal);
+
+		output << normal.x << " " << normal.y << " " << normal.z << endl;
+	}
+}
+
+void A3dsHandler::readNormalsFromFile(const char* filename) {
+	ifstream input;
+	input.open(filename);
+
+	ndata = new float[mesh->nvertices*3];
+
+	for(int i=0; i<mesh->nvertices*3; i++) input >> ndata[i];
+
+	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
+}
+
 glm::vec3 A3dsHandler::calcFaceNormal(int i) {
 		glm::vec3 v1(mesh->vertices[faces[i].index[0]][0],
 					 mesh->vertices[faces[i].index[0]][1],

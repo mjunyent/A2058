@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 2.0 ;1.0
+		EyeSep 0.0 ;1.0
 	}
 }
 
@@ -99,7 +99,7 @@ Scan {
 	restTime 4.0 ;minimum time between end of scan and start of next.
 	startTime 2.0 ;time between cell detected and start of grid draw.
 
-	gridVelocity  0.5 ; 1.0 ;velocity of the grid to move.
+	gridVelocity  1.5 ; 1.0 ;velocity of the grid to move.
 	deleteRadius 10.5
 	distanceFade 20
 
@@ -116,7 +116,13 @@ Scenes {
 			size 25.0
 		}
 		Polio {
-			size 25.0
+			size 35.0
+			AO {
+				bias 0.06;
+				radius 10;
+				linearAtt 2;
+				quadraticAtt 5;
+			}
 		}
 	}
 }

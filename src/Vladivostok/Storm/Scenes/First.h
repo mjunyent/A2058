@@ -43,7 +43,6 @@ public:
 	FirstRenderPolio *renderFp;
 	VBO *textQuad, *linesQuad;
 	TBO worldText, polioText;
-	FBO *tempL, *tempR;
 
 	bool firstStill;
 

@@ -49,6 +49,8 @@ public:
 	void makeVBOwithIBO(int id);
 	void makeFuckingNormals();
 	void makeNormalsPerVertex();	//1 normal per vertex
+	void saveNormalsToFile(const char* filename);
+	void readNormalsFromFile(const char* filename);
 	void makeUVs();
 	void makeTBNSpace();
 	void makeIndexsByMaterial();

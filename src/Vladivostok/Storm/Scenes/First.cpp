@@ -50,12 +50,15 @@ void FirstRendererWorld::readConf(CSParser *csp) {
 
 
 FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
-	setup(cam);
+	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Polio.frag");
 
+	setup(cam);
+	Polio = NULL;
 	readConf(csp);
 
 	Polio_3DS = new A3dsHandler("Models/Storm/1Polio.3DS", 0);
-	Polio_3DS->makeNormalsPerVertex();
+	Polio_3DS->readNormalsFromFile("Models/Storm/1PolioNormals.txt");
+//	Polio_3DS->makeNormalsPerVertex();
 	Polio_3DS->makeBoundingBox();
 
 	Polio = new Model(firstShad,
@@ -66,13 +69,17 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 					  NULL,
 					  Polio_3DS->indexs,
 					  0.4,
-					  vec3(1.0f, 1.0f, 1.0f),
+					  vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
 					  vec3(1.0f, 1.0f, 1.0f),
 					  0.4f,
 					  &Polio_M,
 					  PolioSize/Polio_3DS->maxDimension,
 					  NULL,
 					  NULL);
+
+	dotheAA(true);
+	dotheDOF(false);
+	dotheAO(2, 0.05, vec2(2, 2), true);
 
 	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 }
@@ -89,10 +96,12 @@ void FirstRenderPolio::render(int s, double t) {
 
 void FirstRenderPolio::readConf(CSParser *csp) {
 	PolioSize = csp->getf("Scenes.First.Polio.size");
+	if(Polio != NULL) Polio->scale = PolioSize/Polio_3DS->maxDimension;
+	AO_radius = csp->getf("Scenes.First.Polio.AO.radius");
+	AO_bias   = csp->getf("Scenes.First.Polio.AO.bias");
+	AO_attenuation = vec2(csp->getf("Scenes.First.Polio.AO.linearAtt"),
+						  csp->getf("Scenes.First.Polio.AO.quadraticAtt"));
 }
-
-
-
 
 FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
@@ -101,10 +110,6 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	renderFp = new FirstRenderPolio(csp, scan->rig);
 
 	firstStill = true;
-
-	bool lecalite[] = { true };
-	tempL = new FBO(scan->rig->width, scan->rig->height, false, 1, lecalite);
-	tempR = new FBO(scan->rig->width, scan->rig->height, false, 1, lecalite);
 
 	worldText = TBO("Images/Biotechnopolis/010R.fw.png", true);
 	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
@@ -254,6 +259,7 @@ STATE FirstStormScene::flowControl() {
 	if(now == STATE::GRID) {
 		if(firstStill) return STATE::STILL;
 		else {
+			scan->side = 1;
 			firstStill = true;
 			return STATE::REST;
 		}
