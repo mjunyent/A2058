@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0 ;2.0
+		EyeSep 2.0 ;2.0
 	}
 }
 
@@ -114,6 +114,7 @@ Scenes {
 		textHeight 20
 		linesHeight 30
 		stillTime 5.0 ;time after rendering the scan.
+		zLate 5.0
 		World {
 			size 25.0
 		}

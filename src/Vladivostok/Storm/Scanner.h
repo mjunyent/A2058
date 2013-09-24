@@ -38,6 +38,8 @@ public:
 	float gridPosition;		 //Current grid position [0, scanSize]
 	Cells *cells;			 //All cells status.
 	int side; //0 draw all, 1 show right, 2 show left, 3 show none.
+	int currentScene;
+	int gridPositionRLT; //0 right, 1 left, 2 traveling.
 
 	//Render things.
 	Rig *rig;
@@ -55,8 +57,6 @@ public:
 
 	//Scenes
 	vector<StormScene*> scenes;
-//	FirstStormScene *first;
-
 
 	Scanner(CSParser *csp, Cells *cells, Rig *rig);
 

@@ -57,6 +57,7 @@ FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam) : Deferred() 
 
 void FourthRendererFish::setPosition(vec3 *position) {
 	pos = position;
+
 	glm::mat4 rot = glm::rotate(rotateV.z, 0.0f, 0.0f, 1.0f) *
 					glm::rotate(rotateV.x, 1.0f, 0.0f, 0.0f) *
 					glm::rotate(rotateV.y, 0.0f, 1.0f, 0.0f);

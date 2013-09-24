@@ -10,6 +10,7 @@ public:
 	Model *World;
 	mat4 World_M, rotate_M;
 	float WorldSize;
+	float zLate;
 
 
 	FirstRendererWorld(CSParser *csp, Camera *cam);
@@ -26,6 +27,7 @@ public:
 	Model *Polio;
 	mat4 Polio_M, rotate_M;
 	float PolioSize;
+	float zLate;
 
 
 	FirstRenderPolio(CSParser *csp, Camera *cam);

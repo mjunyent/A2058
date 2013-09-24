@@ -37,7 +37,10 @@ FirstRendererWorld::FirstRendererWorld(CSParser *csp, Camera *cam) : Deferred() 
 
 void FirstRendererWorld::setPosition(vec3 *position) {
 	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
-	World_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-World_3DS->center*World->scale);
+	vec3 dir = cam->position - *position;
+	dir = normalize(dir);
+
+	World_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-World_3DS->center*World->scale);
 }
 
 void FirstRendererWorld::render(int s, double t) {
@@ -46,6 +49,7 @@ void FirstRendererWorld::render(int s, double t) {
 
 void FirstRendererWorld::readConf(CSParser *csp) {
 	WorldSize = csp->getf("Scenes.First.World.size");
+	zLate = csp->getf("Scenes.First.zLate");
 }
 
 
@@ -88,7 +92,9 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 void FirstRenderPolio::setPosition(vec3 *position) {
 	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
 	//glm::translate(-World_3DS->center*World->scale) *
-	Polio_M = glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Polio_3DS->center*Polio->scale);
+	vec3 dir = cam->position - *position;
+	dir = normalize(dir);
+	Polio_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Polio_3DS->center*Polio->scale);
 }
 
 void FirstRenderPolio::render(int s, double t) {
@@ -96,6 +102,7 @@ void FirstRenderPolio::render(int s, double t) {
 }
 
 void FirstRenderPolio::readConf(CSParser *csp) {
+	zLate = csp->getf("Scenes.First.zLate");
 	PolioSize = csp->getf("Scenes.First.Polio.size");
 	if(Polio != NULL) Polio->scale = PolioSize/Polio_3DS->maxDimension;
 	AO_radius = csp->getf("Scenes.First.Polio.AO.radius");
@@ -116,6 +123,7 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	worldText = TBO("Images/Biotechnopolis/010R.fw.png", true);
 	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
 	worldText.clamp(true);
+	polioText.clamp(true);
 
 	//Make texture Quads:
 	float ratio = float(scan->linesCircleRight.width)/float(scan->linesCircleRight.height);

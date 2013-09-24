@@ -52,9 +52,10 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	linesCircleRight = TBO("Images/Biotechnopolis/Lines/CircleRight.fw.png", true);
 	linesCircleRight.clamp(true);
 
-	scenes.push_back( new FourthStormScene(csp, this) );
+	currentScene = 0;
+
 	scenes.push_back( new FirstStormScene(csp, this) );
-//	first = new FirstStormScene(csp, this);
+	scenes.push_back( new FourthStormScene(csp, this) );
 }
 
 void Scanner::detect() {
@@ -75,16 +76,16 @@ void Scanner::detect() {
 
 void Scanner::renderModel() {
 	if(status == GRID || status == STILL || status == UNSCAN) {
-		scenes[0]->renderModel();
+		scenes[currentScene]->renderModel();
 	}
 }
 
 void Scanner::drawModel(mat4 *V, mat4 *P, FBO *render, bool left) {
-	scenes[0]->modelDraw(V, P, render, left);
+	scenes[currentScene]->modelDraw(V, P, render, left);
 }
 
 void Scanner::drawText(mat4 *V, mat4 *P, FBO *render) {
-	scenes[0]->textDraw(V, P, render);
+	scenes[currentScene]->textDraw(V, P, render);
 }
 
 void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
@@ -112,7 +113,7 @@ void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
 
 float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	if(status == GRID || status == STILL || status == UNSCAN) {
-		scenes[0]->linesDraw(V, P, render);
+		scenes[currentScene]->linesDraw(V, P, render);
 		drawModel(V, P, render, left);
 		drawText(V, P, render);
 		drawGrid(V, P, render);
@@ -129,7 +130,11 @@ float Scanner::worldToClip(mat4 *V, mat4 *P, vec3 *v) {
 
 void Scanner::update() {
 	if(status == REST) { //NO CELL DETECTION
+		gridPositionRLT = 0;
 		if(statusChanged) {
+			currentScene++;
+			currentScene %= scenes.size();
+
 			cells->Play();
 			statusChanged = false;
 			lastTime = director::currentTime;
@@ -175,6 +180,7 @@ void Scanner::update() {
 
 
 	} else if(status == GRID) { //MOVING THE GRID FROM RIGHT TO LEFT
+		gridPositionRLT = 2;
 		if(statusChanged) {
 			gridPositionVec = cells->cells[scanningCell].p;
 			gridPositionVec.x += scanStart;
@@ -188,24 +194,30 @@ void Scanner::update() {
 		gridPosition += gridVelocity;
 
 		if(gridPosition > scanSize) {
-			status = scenes[0]->flowControl();
+			gridPositionRLT = 1;
+			status = scenes[currentScene]->flowControl();
 			statusChanged = true;
 		}
 
 
 	} else if(status == STILL) { //STILL TIME DISPLAYING THE SCAN RENDER
 		if(statusChanged) {
+			if(gridPositionRLT == 1) gridPositionVec.x -= 1000;
+			if(gridPositionRLT == 0) gridPositionVec.x += 1000;
+//			gridPosition *= 1000;
+//			gridPositionVec.x *= 1000;
 			statusChanged = false;
 			lastTime = director::currentTime;
 		}
 
-		if(director::currentTime-lastTime > scenes[0]->stillTime) {
-			status = scenes[0]->flowControl();
+		if(director::currentTime-lastTime > scenes[currentScene]->stillTime) {
+			status = scenes[currentScene]->flowControl();
 			statusChanged = true;
 		}
 
 
 	} else if(status == UNSCAN) { //MOVING THE GRID FROM LEFT TO RIGHT
+		gridPositionRLT = 2;
 		if(statusChanged) {
 			gridPositionVec = cells->cells[scanningCell].p;
 			gridPositionVec.x = gridPositionVec.x + scanStart - scanSize;
@@ -218,7 +230,8 @@ void Scanner::update() {
 		gridPosition -= gridVelocity;
 
 		if(gridPosition <= 0.0) {
-			status = scenes[0]->flowControl();
+			gridPositionRLT = 0;
+			status = scenes[currentScene]->flowControl();
 			statusChanged = true;
 		}
 	}
