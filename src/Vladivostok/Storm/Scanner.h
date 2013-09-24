@@ -7,6 +7,7 @@
 #include "Models.h"
 #include "Scenes/StormScene.h";
 #include "Scenes/First.h"
+#include "Scenes/Fourth.h"
 
 class Grid {
 public:
@@ -53,7 +54,8 @@ public:
 	TBO linesCircleLeft, linesCircleRight, linesQuadLeft, linesQuadRight;
 
 	//Scenes
-	FirstStormScene *first;
+	vector<StormScene*> scenes;
+//	FirstStormScene *first;
 
 
 	Scanner(CSParser *csp, Cells *cells, Rig *rig);

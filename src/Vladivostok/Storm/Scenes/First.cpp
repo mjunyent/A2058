@@ -104,6 +104,7 @@ void FirstRenderPolio::readConf(CSParser *csp) {
 						  csp->getf("Scenes.First.Polio.AO.quadraticAtt"));
 }
 
+
 FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 

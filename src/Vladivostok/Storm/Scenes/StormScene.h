@@ -18,12 +18,14 @@ public:
 	StormScene(Scanner *s);
 	
 	virtual void renderModel() {};
+	virtual void textDraw(mat4 *V, mat4 *P, FBO *render) {};
+	virtual void linesDraw(mat4 *V, mat4 *P, FBO *render) {};
+	virtual void modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {};
 
-	virtual void textDraw() {};
-	virtual void modelDraw() {};
-	virtual void linesDraw() {};
+	virtual STATE flowControl() { return STATE::REST; };
 
-//	void readConf(CSParser *csp);
+	virtual void readConf(CSParser *csp) {};
 
 	Scanner *scan;
+	float stillTime;
 };

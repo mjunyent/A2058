@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 2.0 ;1.0
+		EyeSep 0.0 ;2.0
 	}
 }
 
@@ -126,6 +126,22 @@ Scenes {
 				quadraticAtt 1;
 			}
 		}
+	}
+	
+	Fourth {
+		textHeight 15
+		linesHeight 30
+		stillTime 5.0 ;time after rendering the scan.
+		Fish {
+			size 25.0
+			AO {
+				bias 0.05;
+				radius 2;
+				linearAtt 1;
+				quadraticAtt 1;
+			}
+		}
+	
 	}
 }
 

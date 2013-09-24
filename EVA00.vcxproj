@@ -166,6 +166,7 @@
     <ClCompile Include="src\Vladivostok\Storm\Models.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scanner.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scenes\First.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Fourth.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scenes\StormScene.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Storm.cpp" />
     <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="src\Vladivostok\Storm\Models.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scanner.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scenes\First.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Fourth.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scenes\StormScene.h" />
     <ClInclude Include="src\Vladivostok\Storm\Storm.h" />
     <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.h" />

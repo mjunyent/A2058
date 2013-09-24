@@ -13,7 +13,7 @@ Model::Model(Shader *shader,
 			  float shininess,
 			  mat4 *M,
 			  float scale,
-			  TBO *diffuse_texture,
+			  char* diffuse_texture,
 			  char* bumpMap)
 {
 	this->shader = shader;
@@ -25,7 +25,10 @@ Model::Model(Shader *shader,
 	this->bitangents = bitangents;
 	this->indexs = indexs;
 
-	this->diffuse_texture = diffuse_texture;
+	if(diffuse_texture != NULL) {
+		this->diffuse_texture = TBO(diffuse_texture, true);
+		isTextured = true;
+	} else isTextured = false;
 	if(bumpMap != NULL) {
 		this->bumpMap = TBO(bumpMap, true);
 		isBump = true;
@@ -49,6 +52,9 @@ Model::Model(Shader *shader,
 
 	bumpMap_id = shader->getUniform("NormalTex");
 	isBumpMap_id = shader->getUniform("isNormalTex");
+
+	diffuse_texture_id = shader->getUniform("DiffuseTexture");
+	isTexture_id = shader->getUniform("isTextured");
 }
 
 void Model::render() {
@@ -64,6 +70,13 @@ void Model::render() {
 		glUniform1i(isBumpMap_id, 1);
 		bumpMap.bind(0);
 		glUniform1i(bumpMap_id, 0);
+	}
+
+	if(!isTextured) glUniform1i(isTexture_id, 0);
+	else {
+		glUniform1i(isTexture_id, 1);
+		diffuse_texture.bind(1);
+		glUniform1i(diffuse_texture_id, 1);
 	}
 
 	vertexs->enable(3);

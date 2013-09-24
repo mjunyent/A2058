@@ -15,7 +15,7 @@ class Model {
 		VBO *bitangents;
 		IBO *indexs;		//Indexs...
 
-		TBO *diffuse_texture;	//Texture for diffuse
+		TBO diffuse_texture;	//Texture for diffuse
 		TBO bumpMap;
 
 		float ambient_factor;	//Color parameters.
@@ -26,7 +26,7 @@ class Model {
 		float scale;
 		mat4 *M;				//Model matrix (pointer)
 
-		bool isBump;
+		bool isBump, isTextured;
 
 		GLint M_id, ambient_factor_id, diffuse_color_id, specular_color_id, shininess_id, scale_id, diffuse_texture_id,
 			  bumpMap_id, isTexture_id, isBumpMap_id;
@@ -44,7 +44,7 @@ class Model {
 			  float shininess,				//Shininess factor.
 			  mat4 *M,						//Model matrix.
 			  float scale,					//Object scale factor.
-			  TBO *diffuse_texture,			//Texture object.
+			  char* diffuse_texture,		//Texture object.
 			  char* bumpMap					//Bump map.
 			  );
 

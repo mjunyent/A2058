@@ -49,7 +49,6 @@ public:
 	//Parameters
 	float textHeight;
 	float linesHeight;
-	float stillTime;
 
 	FirstStormScene(CSParser *csp, Scanner *s);
 

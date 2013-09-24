@@ -17,6 +17,8 @@ uniform vec3 SpecularColor;
 uniform bool isNormalTex;
 uniform sampler2D NormalTex;
 
+uniform bool isTextured;
+uniform sampler2D DiffuseTexture;
 
 void main()
 {
@@ -26,6 +28,11 @@ void main()
 	} else {
 		normal_c = vec4((normalize(normal.xyz)+vec3(1.0,1.0,1.0))/2.0, AmbientFactor);
 	}
-	diffuse  = vec4(DiffuseColor.rgb, 0.0);
+	if(isTextured) {
+		diffuse.rgb = texture(DiffuseTexture, vec2(UV.x, 1-UV.y)).rgb;
+	} else {
+		diffuse  = vec4(DiffuseColor.rgb, 0.0);
+	}
+
 	specular = vec4(SpecularColor.rgb, shininess);
 }

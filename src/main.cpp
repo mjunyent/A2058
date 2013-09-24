@@ -24,8 +24,8 @@ int main(void) {
 
 	glfwMakeContextCurrent(windows[0]);
 
-//	A3dsHandler test("Models/Storm/1Polio.3DS", 0);
-//	test.saveNormalsToFile("1PolioNormals.txt");
+//	A3dsHandler test("Models/Storm/4Krilatka.3DS", 1);
+//	test.saveNormalsToFile("Models/Storm/4KrilatkaNormals.txt");
 
 	manager = new SceneManager(&currentTime);
 
@@ -52,7 +52,7 @@ int main(void) {
 	manager->addScene(new ModelTest(rig), 0, 1000000, 0.1);*/
 
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
-//	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
+	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	Timer timer(manager);
 

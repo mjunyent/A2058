@@ -52,7 +52,9 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	linesCircleRight = TBO("Images/Biotechnopolis/Lines/CircleRight.fw.png", true);
 	linesCircleRight.clamp(true);
 
-	first = new FirstStormScene(csp, this);
+	scenes.push_back( new FourthStormScene(csp, this) );
+	scenes.push_back( new FirstStormScene(csp, this) );
+//	first = new FirstStormScene(csp, this);
 }
 
 void Scanner::detect() {
@@ -73,16 +75,16 @@ void Scanner::detect() {
 
 void Scanner::renderModel() {
 	if(status == GRID || status == STILL || status == UNSCAN) {
-		first->renderModel();
+		scenes[0]->renderModel();
 	}
 }
 
 void Scanner::drawModel(mat4 *V, mat4 *P, FBO *render, bool left) {
-	first->modelDraw(V, P, render, left);
+	scenes[0]->modelDraw(V, P, render, left);
 }
 
 void Scanner::drawText(mat4 *V, mat4 *P, FBO *render) {
-	first->textDraw(V, P, render);
+	scenes[0]->textDraw(V, P, render);
 }
 
 void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
@@ -110,7 +112,7 @@ void Scanner::drawGrid(mat4 *V, mat4 *P, FBO *render) {
 
 float Scanner::draw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	if(status == GRID || status == STILL || status == UNSCAN) {
-		first->linesDraw(V, P, render);
+		scenes[0]->linesDraw(V, P, render);
 		drawModel(V, P, render, left);
 		drawText(V, P, render);
 		drawGrid(V, P, render);
@@ -186,7 +188,7 @@ void Scanner::update() {
 		gridPosition += gridVelocity;
 
 		if(gridPosition > scanSize) {
-			status = first->flowControl();
+			status = scenes[0]->flowControl();
 			statusChanged = true;
 		}
 
@@ -197,8 +199,8 @@ void Scanner::update() {
 			lastTime = director::currentTime;
 		}
 
-		if(director::currentTime-lastTime > first->stillTime) {
-			status = first->flowControl();
+		if(director::currentTime-lastTime > scenes[0]->stillTime) {
+			status = scenes[0]->flowControl();
 			statusChanged = true;
 		}
 
@@ -216,7 +218,7 @@ void Scanner::update() {
 		gridPosition -= gridVelocity;
 
 		if(gridPosition <= 0.0) {
-			status = first->flowControl();
+			status = scenes[0]->flowControl();
 			statusChanged = true;
 		}
 	}
