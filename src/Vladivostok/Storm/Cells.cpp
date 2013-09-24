@@ -54,6 +54,11 @@ void Cells::update() {
 			move = false;
 		}
 	}
+
+	if(reduceId != -1 && !move) {
+		cells[reduceId].p.z += slowGo;
+	}
+
 	if(!move) return;
 
 	if(play == 1) {
@@ -165,4 +170,5 @@ void Cells::readConf(CSParser *csp) {
 	MultDecr = csp->getf("Cells.Play.MultDecr");
 	MultIncr = csp->getf("Cells.Play.MultIncr");
 
+	slowGo = csp->getf("Cells.approachVel");
 }

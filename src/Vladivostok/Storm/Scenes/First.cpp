@@ -54,7 +54,6 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 
 	setup(cam);
 	Polio = NULL;
-	readConf(csp);
 
 	Polio_3DS = new A3dsHandler("Models/Storm/1Polio.3DS", 0);
 	Polio_3DS->readNormalsFromFile("Models/Storm/1PolioNormals.txt");
@@ -70,8 +69,8 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 					  Polio_3DS->indexs,
 					  0.4,
 					  vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
-					  vec3(1.0f, 1.0f, 1.0f),
-					  0.4f,
+					  vec3(0.1f, 0.1f, 0.1f),
+					  0.01f,
 					  &Polio_M,
 					  PolioSize/Polio_3DS->maxDimension,
 					  NULL,
@@ -80,6 +79,8 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 	dotheAA(true);
 	dotheDOF(false);
 	dotheAO(2, 0.05, vec2(2, 2), true);
+
+	readConf(csp);
 
 	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 }

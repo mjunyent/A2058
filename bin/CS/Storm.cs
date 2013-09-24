@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0 ;1.0
+		EyeSep 2.0 ;1.0
 	}
 }
 
@@ -65,7 +65,7 @@ Cells {
 	alphaVel 0.015	;Fadding in velocity.
 	
 	centerVelocity 0.001
-	centerPosition 50.0,0.0,-135.0
+	centerPosition 55.0,0.0,-145.0
 	centerUncertainty 10
 
 	Deflector {
@@ -79,6 +79,8 @@ Cells {
 		MultIncr 0.1
 		MultDecr 0.05
 	}
+	
+	approachVel 0.02
 }
 
 Scan {
@@ -87,8 +89,8 @@ Scan {
 		right 50
 		up    -25
 		down  25
-		near  -180 ;-130
-		far   -200 ;-140	
+		near  -200 ;-130
+		far   -220 ;-140	
 	}
 
 	Grid {
@@ -116,12 +118,12 @@ Scenes {
 			size 25.0
 		}
 		Polio {
-			size 35.0
+			size 25.0
 			AO {
-				bias 0.06;
-				radius 10;
-				linearAtt 2;
-				quadraticAtt 5;
+				bias 0.05;
+				radius 2;
+				linearAtt 1;
+				quadraticAtt 1;
 			}
 		}
 	}

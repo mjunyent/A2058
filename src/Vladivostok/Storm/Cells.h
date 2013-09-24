@@ -34,6 +34,7 @@ public:
 	int selectedCell;
 	float centerVelocity, centerUncertainty;
 	vec3 centerPosition;
+	float slowGo;
 
 	float MultMax, MultIncr, MultDecr;
 
