@@ -232,5 +232,8 @@ STATE FourthStormScene::flowControl() {
 
 	if(now == STATE::GRID) return STATE::STILL;
 	if(now == STATE::STILL) return STATE::UNSCAN;
-	if(now == STATE::UNSCAN) return STATE::REST;
+	if(now == STATE::UNSCAN) {
+		renderFish->rotateAlpha = 0;
+		return STATE::REST;
+	}
 }
