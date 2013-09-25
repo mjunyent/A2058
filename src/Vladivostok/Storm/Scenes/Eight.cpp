@@ -1,10 +1,103 @@
 #include "Eight.h"
 #include "../Scanner.h"
 
+
+EightRendererRBC::EightRendererRBC(CSParser *csp, Camera *cam) : Deferred() {
+	setup(cam);
+	this->csp = csp;
+
+	RBC_3DS = new A3dsHandler("Models/Storm/8RBC.3DS", 0);
+//	Flu_3DS->makeNormalsPerVertex();
+	RBC_3DS->readNormalsFromFile("Models/Storm/8RBCNormals.txt");
+	RBC_3DS->makeBoundingBox();
+
+	RBC = new Model(firstShad,
+					RBC_3DS->vertexs,
+					RBC_3DS->normals,
+					NULL,
+					NULL,
+					NULL,
+					RBC_3DS->indexs,
+					0.4,
+					vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
+					vec3(0.1f, 0.1f, 0.1f),
+					0.01f,
+					&RBC_M,
+					RBCSize/RBC_3DS->maxDimension,
+					NULL,
+					NULL);
+
+	dotheAA(true);
+	dotheDOF(false);
+	dotheAO(2, 0.05, vec2(2, 2), true);
+
+	readConf(csp);
+
+	for(int i=0; i<6; i++) {
+		rotVals[i] = 0.0;
+	}
+
+	setRotVals();
+}
+
+void EightRendererRBC::setPosition(vec3 *position) {
+	pos = position;
+
+	for(int i=0; i<6; i++) {
+		rotVals[i] += rotValue;
+	}
+}
+
+void EightRendererRBC::render(int s, double t) {
+	for(int i=0; i<6; i++) {
+		RBC_M = translate(*pos) * translate(RBCdisp[i]) * rotate(rotVals[i], rotVecs[i]) * translate(-RBC_3DS->center*RBC->scale);
+		RBC->render();
+	}
+}
+
+void EightRendererRBC::update(double t) {
+	readConf(csp);
+	setPosition(pos);
+}
+
+void EightRendererRBC::readConf(CSParser *csp) {
+	csp->parse();
+	RBCSize = csp->getf("Scenes.Eight.RBC.size");
+	RBC->scale = RBCSize/RBC_3DS->maxDimension;
+	
+	RBC->shininess = csp->getf("Scenes.Eight.RBC.shininess");
+	RBC->diffuse_color = csp->getvec3("Scenes.Eight.RBC.diffuseColor");
+	RBC->specular_color = csp->getvec3("Scenes.Eight.RBC.specularColor");
+
+	AO_radius = csp->getf("Scenes.Eight.RBC.AO.radius");
+	AO_bias   = csp->getf("Scenes.Eight.RBC.AO.bias");
+	AO_attenuation = vec2(csp->getf("Scenes.Eight.RBC.AO.linearAtt"),
+						  csp->getf("Scenes.Eight.RBC.AO.quadraticAtt"));
+
+	csp->readLights("Scenes.Eight.RBC.Lights");
+	csp->passToLight(lights);
+
+	RBCdisp[0] = csp->getvec3("Scenes.Eight.RBC.disp0");
+	RBCdisp[1] = csp->getvec3("Scenes.Eight.RBC.disp1");
+	RBCdisp[2] = csp->getvec3("Scenes.Eight.RBC.disp2");
+	RBCdisp[3] = csp->getvec3("Scenes.Eight.RBC.disp3");
+	RBCdisp[4] = csp->getvec3("Scenes.Eight.RBC.disp4");
+	RBCdisp[5] = csp->getvec3("Scenes.Eight.RBC.disp5");
+
+	rotValue = csp->getf("Scenes.Eight.RBC.rotationVel");
+}
+
+void EightRendererRBC::setRotVals() {
+	for(int i=0; i<6; i++) {
+		rotVecs[i] = normalize(vec3(randValue(-1,1), randValue(-1,1), randValue(-1,1)));
+	}
+}
+
+
 EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 
-//	renderFlu = new NinthRendererFlu(csp, scan->rig);
+	renderRBC = new EightRendererRBC(csp, scan->rig);
 
 	heart = TBO("Images/Biotechnopolis/heart.png", true);
 	text.clamp(true);
@@ -62,11 +155,11 @@ EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	heartPosition = 0.0;
 	heartVel = 0.0;
 	heartAlpha = 0.0;
+	heartZoom = false;
 }
 
 void EightStormScene::renderModel() {
-//	renderFlu->setPosition(&scan->cells->cells[scan->scanningCell].p);
-//	renderFlu->draw(0, 0);
+	renderRBC->draw(0, 0);
 }
 
 void EightStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
@@ -75,6 +168,31 @@ void EightStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p + direction*(zLate + heartPosition));
 
 	render->bind(false);
+	//if(heartAlpha > 0.5) {
+		glDisable(GL_DEPTH_TEST);
+		scan->mixShad->use();
+		if(left) {
+			renderRBC->outputBuffL->bind_texture(0, 0);
+			renderRBC->renderBufferL->bind_depth_texture(1);
+		}
+		else {
+			renderRBC->outputBuffR->bind_texture(0, 0);
+			renderRBC->renderBufferR->bind_depth_texture(1);
+		}
+
+		glUniform1i(scan->mix_showL_Id, 0);
+		glUniform1i(scan->mix_showR_Id, 1);
+
+		glUniform1i(scan->mix_TexR_Id, 0);
+		glUniform1i(scan->mix_DepthR_Id, 1);
+	
+		glUniform1f(scan->mix_position_Id, scan->worldToClip(V, P, &scan->gridPositionVec));
+		scan->quad->enable(3);
+		scan->quad_I->draw(GL_TRIANGLES);
+		scan->quad->disable();
+		glEnable(GL_DEPTH_TEST);
+	//}
+
 	heartShad->use();
 	heart.bind(0);
 	glUniformMatrix4fv(heart_M_Id, 1, GL_FALSE, &M[0][0]);
@@ -89,32 +207,8 @@ void EightStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	scan->quad_I->draw(GL_TRIANGLES);
 	scan->textQuadCoords->disable();
 	heartQuad->disable();
+
 	render->unbind();
-
-/*	render->bind(false);
-	glDisable(GL_DEPTH_TEST);
-	scan->mixShad->use();
-	if(left) {
-		renderFlu->outputBuffL->bind_texture(0, 0);
-		renderFlu->renderBufferL->bind_depth_texture(1);
-	}
-	else {
-		renderFlu->outputBuffR->bind_texture(0, 0);
-		renderFlu->renderBufferL->bind_depth_texture(1);
-	}
-
-	glUniform1i(scan->mix_showL_Id, 0);
-	glUniform1i(scan->mix_showR_Id, 1);
-
-	glUniform1i(scan->mix_TexR_Id, 0);
-	glUniform1i(scan->mix_DepthR_Id, 1);
-	
-	glUniform1f(scan->mix_position_Id, scan->worldToClip(V, P, &scan->gridPositionVec));
-	scan->quad->enable(3);
-	scan->quad_I->draw(GL_TRIANGLES);
-	scan->quad->disable();
-	glEnable(GL_DEPTH_TEST);
-	render->unbind();*/
 }
 
 void EightStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
@@ -176,15 +270,29 @@ void EightStormScene::readConf(CSParser *csp) {
 }
 
 void EightStormScene::update() {
-	heartVel += heartAccel; //you could integrate man...
-	heartPosition += heartVel;
-	heartAlpha = clamp(heartAlpha+heartAlphaVel, 0.0f, 1.0f);
+	if(heartZoom && heartAlpha < 1.0) {
+		heartVel += heartAccel; //you could integrate man...
+		heartPosition += heartVel;
+		heartAlpha = clamp(heartAlpha+heartAlphaVel, 0.0f, 1.0f);
+	}
+
+	renderRBC->setPosition(&scan->cells->cells[scan->scanningCell].p);
 }
 
 STATE EightStormScene::flowControl() {
 	STATE now = scan->status;
 
-	if(now == STATE::GRID) return STATE::STILL;
+	if(now == STATE::GRID) {
+		renderRBC->setRotVals();
+		heartZoom = true;
+		return STATE::STILL;
+	}
 	if(now == STATE::STILL) return STATE::UNSCAN;
-	if(now == STATE::UNSCAN) return STATE::REST;
+	if(now == STATE::UNSCAN) {
+		heartZoom = false;
+		heartPosition = 0.0;
+		heartVel = 0.0;
+		heartAlpha = 0.0;
+		return STATE::REST;
+	}
 }

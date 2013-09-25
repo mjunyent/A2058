@@ -131,7 +131,7 @@ void NinthStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	}
 	else {
 		renderFlu->outputBuffR->bind_texture(0, 0);
-		renderFlu->renderBufferL->bind_depth_texture(1);
+		renderFlu->renderBufferR->bind_depth_texture(1);
 	}
 
 	glUniform1i(scan->mix_showL_Id, 0);

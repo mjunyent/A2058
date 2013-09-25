@@ -9,14 +9,19 @@ public:
 	A3dsHandler *RBC_3DS;
 	Model *RBC;
 	mat4 RBC_M, rotate_M;
-	float FluSize, zLate, rotateVel;
+	float RBCSize, rotValue;
+	vec3 RBCdisp[6];
+	vec3 rotVecs[6];
+	float rotVals[6];
 
-	NinthRendererFlu(CSParser *csp, Camera *cam);
+	EightRendererRBC(CSParser *csp, Camera *cam);
 	void render(int s, double t);
 	void update(double t);
 	void setPosition(vec3 *position);
 
 	void readConf(CSParser *csp);
+
+	void setRotVals();
 
 	CSParser *csp;
 	vec3 *pos;
@@ -24,7 +29,7 @@ public:
 
 class EightStormScene : public StormScene {
 public:
-//	NinthRendererFlu *renderFlu;
+	EightRendererRBC *renderRBC;
 
 	Shader *heartShad;
 	VBO *textQuad, *linesQuad, *heartQuad;
@@ -42,6 +47,7 @@ public:
 	float heartVel;
 	float heartPosition;
 	float heartAlpha;
+	bool heartZoom;
 
 	EightStormScene(CSParser *csp, Scanner *s);
 

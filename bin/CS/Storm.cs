@@ -166,12 +166,41 @@ Scenes {
 	Eight {
 		textHeight 10
 		linesHeight 30
-		stillTime 50.0
+		stillTime 7.0
 		Heart {
 			zLate 5.0
-			height 30.0
+			height 35.0
 			acceleration 0.005
-			alphaVel 0.005
+			alphaVel 0.0045
+		}
+		RBC {
+			size 7.0
+			shininess 0.4
+			diffuseColor 0.8,0.100,0.23
+			specularColor 0.8,0.8,0.8
+			rotationVel 0.4
+			AO {
+				bias 0.05;
+				radius 10;
+				linearAtt 2.0;
+				quadraticAtt 2;
+			}
+			Lights {
+				number 1
+					Light1 {
+						type DIRECTIONAL
+						attenuation 2.0,0.0,0.0
+						direction 1.0,1.0,1.0
+						colour 1.0,1.0,1.0
+					}
+			}
+			
+			disp0 -8.0,5.0,24.0
+			disp1 1.0,-3.0,12.0
+			disp2 4.0,4.0,5.0
+			disp3 -5.0,2.0,0.0
+			disp4 -2.0,-6.0,-10.0
+			disp5 -4.0,-6.0,16.0
 		}
 	}
 	

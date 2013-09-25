@@ -8,7 +8,7 @@
 #include "Vladivostok/myGlow.h"
 #include "Vladivostok/ModelTest.h"
 
-#include "Vladivostok/Storm/Scenes/Ninth.h"
+#include "Vladivostok/Storm/Scenes/Eight.h"
 
 using namespace director;
 using namespace TOBAGO;
@@ -24,8 +24,8 @@ int main(void) {
 
 	glfwMakeContextCurrent(windows[0]);
 
-//	A3dsHandler test("Models/Storm/9Flu.3DS", 0);
-//	test.saveNormalsToFile("Models/Storm/9FluNormals.txt");
+//	A3dsHandler test("Models/Storm/8RBC.3DS", 0);
+//	test.saveNormalsToFile("Models/Storm/8RBCNormals.txt");
 
 	manager = new SceneManager(&currentTime);
 	/*
@@ -35,18 +35,16 @@ int main(void) {
 
 	vec3 cpos(50.0, 0.0, -135.0);
 
-	NinthRendererFlu bypass(&csp, &rig);
+	EightRendererRBC bypass(&csp, &rig);
 	bypass.setPosition(&cpos);
 	manager->addScene(&bypass, 1, 100000000000, 0.4);
-
-*/
-
+	*/
+	
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 	manager->addScene(&eyes,   2, 10000000, 0.1);
 	manager->addScene(&glow,   2, 10000000, 0.2);
-
-
+	
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
 	//manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 

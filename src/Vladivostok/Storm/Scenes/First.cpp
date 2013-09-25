@@ -169,7 +169,7 @@ void FirstStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	}
 	else {
 		renderFw->outputBuffR->bind_texture(0, 0);
-		renderFw->renderBufferL->bind_depth_texture(1);
+		renderFw->renderBufferR->bind_depth_texture(1);
 	}
 	if(scan->status == STATE::UNSCAN || !firstStill) {
 		if(left) {
@@ -178,7 +178,7 @@ void FirstStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 		}
 		else {
 			renderFp->outputBuffR->bind_texture(0, 2);
-			renderFp->renderBufferL->bind_depth_texture(3);
+			renderFp->renderBufferR->bind_depth_texture(3);
 		}
 	}
 
