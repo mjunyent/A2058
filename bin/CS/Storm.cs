@@ -163,6 +163,33 @@ Scenes {
 		}
 	}
 	
+	SixSeventh {
+		textHeight 15
+		linesHeight 30
+		stillTime 5.0
+		
+		Brain {
+			zLate 5.0
+			size 25.0
+			rotationVel 0.8
+			AO {
+				bias 0.05;
+				radius 20;
+				linearAtt 2.0;
+				quadraticAtt 0;
+			}
+			Lights {
+				number 1
+					Light1 {
+						type DIRECTIONAL
+						attenuation 2.0,0.0,0.0
+						direction 1.0,0.0,1.0
+						colour 1.0,1.0,1.0
+					}
+			}
+		}
+	}
+	
 	Eight {
 		textHeight 10
 		linesHeight 30
