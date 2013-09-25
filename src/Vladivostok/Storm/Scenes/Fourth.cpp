@@ -59,7 +59,7 @@ FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam) : Deferred() 
 void FourthRendererFish::setPosition(vec3 *position) {
 	pos = position;
 
-	rotateAlpha -= 0.1;
+	rotateAlpha -= rotateVel;
 
 	glm::mat4 rot = glm::rotate(rotateV.z, 0.0f, 0.0f, 1.0f) *
 					glm::rotate(rotateV.x, 1.0f, 0.0f, 0.0f) *
@@ -97,6 +97,7 @@ void FourthRendererFish::readConf(CSParser *csp) {
 	AO_attenuation = vec2(csp->getf("Scenes.Fourth.Fish.AO.linearAtt"),
 						  csp->getf("Scenes.Fourth.Fish.AO.quadraticAtt"));
 
+	rotateVel = csp->getf("Scenes.Fourth.Fish.rotateVel");
 	csp->readLights("Scenes.Fourth.Fish.Lights");
 	csp->passToLight(lights);
 }
@@ -138,7 +139,6 @@ FourthStormScene::FourthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 }
 
 void FourthStormScene::renderModel() {
-	renderFish->setPosition(&scan->cells->cells[scan->scanningCell].p);
 	renderFish->draw(0, 0);
 }
 
@@ -221,6 +221,10 @@ void FourthStormScene::readConf(CSParser *csp) {
 	textHeight	= csp->getf("Scenes.Fourth.textHeight");
 	linesHeight	= csp->getf("Scenes.Fourth.linesHeight");
 	stillTime	= csp->getf("Scenes.Fourth.stillTime");
+}
+
+void FourthStormScene::update() {
+	renderFish->setPosition(&scan->cells->cells[scan->scanningCell].p);
 }
 
 STATE FourthStormScene::flowControl() {

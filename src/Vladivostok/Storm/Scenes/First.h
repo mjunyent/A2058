@@ -11,6 +11,7 @@ public:
 	mat4 World_M, rotate_M;
 	float WorldSize;
 	float zLate;
+	float rotationVel;
 
 
 	FirstRendererWorld(CSParser *csp, Camera *cam);
@@ -28,6 +29,7 @@ public:
 	mat4 Polio_M, rotate_M;
 	float PolioSize;
 	float zLate;
+	float rotationVel;
 
 
 	FirstRenderPolio(CSParser *csp, Camera *cam);
@@ -60,6 +62,8 @@ public:
 	void modelDraw(mat4 *V, mat4 *P, FBO *render, bool left);
 
 	STATE flowControl();
+
+	void update();
 
 	void readConf(CSParser *csp);
 

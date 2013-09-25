@@ -24,6 +24,8 @@ public:
 
 	virtual STATE flowControl() { return STATE::REST; };
 
+	virtual void update() {};
+
 	virtual void readConf(CSParser *csp) {};
 
 	Scanner *scan;

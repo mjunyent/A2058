@@ -1,94 +1,24 @@
-#include "Ninth.h"
+#include "Eight.h"
 #include "../Scanner.h"
 
-NinthRendererFlu::NinthRendererFlu(CSParser *csp, Camera *cam) : Deferred() {
-	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Flu.frag");
-
-	setup(cam);
-	this->csp = csp;
-
-	Flu_3DS = new A3dsHandler("Models/Storm/9Flu.3DS", 0);
-//	Flu_3DS->makeNormalsPerVertex();
-	Flu_3DS->readNormalsFromFile("Models/Storm/9FluNormals.txt");
-	Flu_3DS->makeUVs();
-	Flu_3DS->makeTBNSpace();
-	Flu_3DS->makeBoundingBox();
-
-	Flu = new Model(firstShad,
-					Flu_3DS->vertexs,
-					Flu_3DS->normals,
-					Flu_3DS->UVs,
-					Flu_3DS->tangents,
-					Flu_3DS->bitangents,
-					Flu_3DS->indexs,
-					0.4,
-					vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
-					vec3(0.1f, 0.1f, 0.1f),
-					0.01f,
-					&Flu_M,
-					FluSize/Flu_3DS->maxDimension,
-					NULL,
-					"Images/estosiquesonnormalesguarras.fw.png");
-
-	dotheAA(true);
-	dotheDOF(false);
-	dotheAO(2, 0.05, vec2(2, 2), true);
-
-	readConf(csp);
-}
-
-void NinthRendererFlu::setPosition(vec3 *position) {
-	pos = position;
-
-	rotate_M = rotate_M * rotate(-1.0f*rotateVel, 0.0f, 1.0f, 0.0f);
-
-	vec3 dir = cam->position - *position;
-	dir = normalize(dir);
-	Flu_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M *
-			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Flu_3DS->center*Flu->scale);
-}
-
-void NinthRendererFlu::render(int s, double t) {
-	Flu->render();
-}
-
-void NinthRendererFlu::update(double t) {
-	readConf(csp);
-	setPosition(pos);
-}
-
-void NinthRendererFlu::readConf(CSParser *csp) {
-	csp->parse();
-	FluSize = csp->getf("Scenes.Ninth.Flu.size");
-	Flu->scale = FluSize/Flu_3DS->maxDimension;
-	
-	Flu->shininess = csp->getf("Scenes.Ninth.Flu.shininess");
-	Flu->diffuse_color = csp->getvec3("Scenes.Ninth.Flu.diffuseColor");
-	Flu->specular_color = csp->getvec3("Scenes.Ninth.Flu.specularColor");
-
-	zLate = csp->getf("Scenes.Ninth.Flu.zLate");
-
-	AO_radius = csp->getf("Scenes.Ninth.Flu.AO.radius");
-	AO_bias   = csp->getf("Scenes.Ninth.Flu.AO.bias");
-	AO_attenuation = vec2(csp->getf("Scenes.Ninth.Flu.AO.linearAtt"),
-						  csp->getf("Scenes.Ninth.Flu.AO.quadraticAtt"));
-
-	csp->readLights("Scenes.Ninth.Flu.Lights");
-	csp->passToLight(lights);
-
-	rotateVel = csp->getf("Scenes.Ninth.Flu.rotateVel");
-}
-
-
-
-
-NinthStormScene::NinthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
+EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 
-	renderFlu = new NinthRendererFlu(csp, scan->rig);
+//	renderFlu = new NinthRendererFlu(csp, scan->rig);
 
-	text = TBO("Images/Biotechnopolis/090R.fw.png", true);
+	heart = TBO("Images/Biotechnopolis/heart.png", true);
 	text.clamp(true);
+
+	text = TBO("Images/Biotechnopolis/080R.fw.png", true);
+	text.clamp(true);
+	
+	heartShad = new Shader("Shaders/Vladivostok/heart.vert", "Shaders/Vladivostok/heart.frag");
+	heart_M_Id = heartShad->getUniform("Model");
+	heart_V_Id = heartShad->getUniform("View");
+	heart_P_Id = heartShad->getUniform("Projection");
+	heart_sP_Id = heartShad->getUniform("screenPosition");
+	heart_Tex_Id = heartShad->getUniform("Tex");
+	heart_alpha_Id = heartShad->getUniform("alpha");
 
 	//Make texture Quads:
 	float ratio = float(scan->linesCircleRight.width)/float(scan->linesCircleRight.height);
@@ -104,6 +34,7 @@ NinthStormScene::NinthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	linesQuad = new VBO(linesRect, sizeof(float)*12, 0);
 
+
 	ratio = float(text.width)/float(text.height);
 	float textWidth = ratio*textHeight;
 
@@ -115,14 +46,52 @@ NinthStormScene::NinthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	};
 
 	textQuad = new VBO(rectText, sizeof(director::quad), 0);
+
+
+	ratio = float(heart.width)/float(heart.height);
+	float hearthWidth = ratio*heartHeight;
+
+	float heartRect[] = {
+		 -hearthWidth/2.0f,	 heartHeight/2.0f, 0.0f,
+		  hearthWidth/2.0f,	 heartHeight/2.0f, 0.0f,
+		  hearthWidth/2.0f,	-heartHeight/2.0f, 0.0f,
+		 -hearthWidth/2.0f,	-heartHeight/2.0f, 0.0f,
+	};
+
+	heartQuad = new VBO(heartRect, sizeof(director::quad), 0);
+	heartPosition = 0.0;
+	heartVel = 0.0;
+	heartAlpha = 0.0;
 }
 
-void NinthStormScene::renderModel() {
-	renderFlu->draw(0, 0);
+void EightStormScene::renderModel() {
+//	renderFlu->setPosition(&scan->cells->cells[scan->scanningCell].p);
+//	renderFlu->draw(0, 0);
 }
 
-void NinthStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
+void EightStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
+	vec3 direction = normalize(scan->rig->position-scan->cells->cells[scan->scanningCell].p);
+
+	mat4 M = translate(scan->cells->cells[scan->scanningCell].p + direction*(zLate + heartPosition));
+
 	render->bind(false);
+	heartShad->use();
+	heart.bind(0);
+	glUniformMatrix4fv(heart_M_Id, 1, GL_FALSE, &M[0][0]);
+	glUniformMatrix4fv(heart_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
+	glUniformMatrix4fv(heart_P_Id, 1, GL_FALSE, &(*P)[0][0]);
+	glUniform1f(heart_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
+	glUniform1i(heart_Tex_Id, 0);
+	glUniform1f(heart_alpha_Id, heartAlpha);
+	
+	heartQuad->enable(3);
+	scan->textQuadCoords->enable(3);
+	scan->quad_I->draw(GL_TRIANGLES);
+	scan->textQuadCoords->disable();
+	heartQuad->disable();
+	render->unbind();
+
+/*	render->bind(false);
 	glDisable(GL_DEPTH_TEST);
 	scan->mixShad->use();
 	if(left) {
@@ -145,10 +114,10 @@ void NinthStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	scan->quad_I->draw(GL_TRIANGLES);
 	scan->quad->disable();
 	glEnable(GL_DEPTH_TEST);
-	render->unbind();
+	render->unbind();*/
 }
 
-void NinthStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
+void EightStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
 
 	render->bind(false);
@@ -173,7 +142,7 @@ void NinthStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 
 }
 
-void NinthStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
+void EightStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
 
 	render->bind(false);
@@ -196,17 +165,23 @@ void NinthStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	render->unbind();
 }
 
-void NinthStormScene::update() {
-	renderFlu->setPosition(&scan->cells->cells[scan->scanningCell].p);
+void EightStormScene::readConf(CSParser *csp) {
+	textHeight	= csp->getf("Scenes.Eight.textHeight");
+	linesHeight	= csp->getf("Scenes.Eight.linesHeight");
+	stillTime	= csp->getf("Scenes.Eight.stillTime");
+	heartHeight = csp->getf("Scenes.Eight.Heart.height");
+	heartAccel	= csp->getf("Scenes.Eight.Heart.acceleration");
+	heartAlphaVel = csp->getf("Scenes.Eight.Heart.alphaVel");
+	zLate = csp->getf("Scenes.Eight.Heart.zLate");
 }
 
-void NinthStormScene::readConf(CSParser *csp) {
-	textHeight	= csp->getf("Scenes.Ninth.textHeight");
-	linesHeight	= csp->getf("Scenes.Ninth.linesHeight");
-	stillTime	= csp->getf("Scenes.Ninth.stillTime");
+void EightStormScene::update() {
+	heartVel += heartAccel; //you could integrate man...
+	heartPosition += heartVel;
+	heartAlpha = clamp(heartAlpha+heartAlphaVel, 0.0f, 1.0f);
 }
 
-STATE NinthStormScene::flowControl() {
+STATE EightStormScene::flowControl() {
 	STATE now = scan->status;
 
 	if(now == STATE::GRID) return STATE::STILL;

@@ -9,7 +9,7 @@ public:
 	A3dsHandler *Flu_3DS;
 	Model *Flu;
 	mat4 Flu_M, rotate_M;
-	float FluSize, zLate;
+	float FluSize, zLate, rotateVel;
 
 	NinthRendererFlu(CSParser *csp, Camera *cam);
 	void render(int s, double t);
@@ -40,6 +40,8 @@ public:
 	void textDraw(mat4 *V, mat4 *P, FBO *render);
 	void linesDraw(mat4 *V, mat4 *P, FBO *render);
 	void modelDraw(mat4 *V, mat4 *P, FBO *render, bool left);
+
+	void update();
 
 	STATE flowControl();
 

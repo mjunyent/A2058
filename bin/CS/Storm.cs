@@ -117,9 +117,11 @@ Scenes {
 		zLate 5.0
 		World {
 			size 25.0
+			rotationVel 1.0;
 		}
 		Polio {
 			size 25.0
+			rotationVel 1.0;
 			AO {
 				bias 0.05;
 				radius 2;
@@ -137,6 +139,8 @@ Scenes {
 		Fish {
 			size 35.0
 			rotate -10.0,-20.0,-50.0
+			rotateVel 0.06
+
 			AO {
 				bias 0.05;
 				radius 5;
@@ -159,6 +163,18 @@ Scenes {
 		}
 	}
 	
+	Eight {
+		textHeight 10
+		linesHeight 30
+		stillTime 50.0
+		Heart {
+			zLate 5.0
+			height 30.0
+			acceleration 0.005
+			alphaVel 0.005
+		}
+	}
+	
 	Ninth {
 		textHeight 15
 		linesHeight 30
@@ -169,8 +185,7 @@ Scenes {
 			shininess 0.1
 			diffuseColor 0.0,0.0,0.0
 			specularColor 0.6,0.6,0.6
-			interpolationStart 0.0,0.0,0.0
-			interpolationEnd   0.0,0.0,0.0
+			rotateVel 0.5
 
 			AO {
 				bias 0.05;

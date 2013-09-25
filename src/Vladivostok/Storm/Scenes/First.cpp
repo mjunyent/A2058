@@ -36,7 +36,7 @@ FirstRendererWorld::FirstRendererWorld(CSParser *csp, Camera *cam) : Deferred() 
 }
 
 void FirstRendererWorld::setPosition(vec3 *position) {
-	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
+	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
 
@@ -50,6 +50,7 @@ void FirstRendererWorld::render(int s, double t) {
 void FirstRendererWorld::readConf(CSParser *csp) {
 	WorldSize = csp->getf("Scenes.First.World.size");
 	zLate = csp->getf("Scenes.First.zLate");
+	rotationVel = csp->getf("Scenes.First.Polio.rotationVel");
 }
 
 
@@ -90,7 +91,7 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 }
 
 void FirstRenderPolio::setPosition(vec3 *position) {
-	rotate_M = rotate_M * rotate(-2.0f, 0.0f, 1.0f, 0.0f);
+	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
 	//glm::translate(-World_3DS->center*World->scale) *
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
@@ -109,6 +110,7 @@ void FirstRenderPolio::readConf(CSParser *csp) {
 	AO_bias   = csp->getf("Scenes.First.Polio.AO.bias");
 	AO_attenuation = vec2(csp->getf("Scenes.First.Polio.AO.linearAtt"),
 						  csp->getf("Scenes.First.Polio.AO.quadraticAtt"));
+	rotationVel = csp->getf("Scenes.First.Polio.rotationVel");
 }
 
 
@@ -153,9 +155,6 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 }
 
 void FirstStormScene::renderModel() {
-	renderFw->setPosition(&scan->cells->cells[scan->scanningCell].p);
-	renderFp->setPosition(&scan->cells->cells[scan->scanningCell].p);
-
 	renderFw->draw(0, 0);
 	if(scan->status == STATE::UNSCAN || !firstStill) renderFp->draw(0, 0);
 }
@@ -255,6 +254,11 @@ void FirstStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	scan->textQuadCoords->disable();
 	textQuad->disable();
 	render->unbind();
+}
+
+void FirstStormScene::update() {
+	renderFw->setPosition(&scan->cells->cells[scan->scanningCell].p);
+	renderFp->setPosition(&scan->cells->cells[scan->scanningCell].p);
 }
 
 void FirstStormScene::readConf(CSParser *csp) {

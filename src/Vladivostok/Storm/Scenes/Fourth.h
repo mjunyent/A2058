@@ -10,7 +10,7 @@ public:
 	Model *Fish, *Eye;
 	mat4 Fish_M, rotate_M, Eye_M;
 	float FishSize, EyeSize;
-	float rotateAlpha;
+	float rotateAlpha, rotateVel;
 	vec3 eyePos;
 	vec3 rotateV, transV;
 
@@ -44,6 +44,8 @@ public:
 	void modelDraw(mat4 *V, mat4 *P, FBO *render, bool left);
 
 	STATE flowControl();
+
+	void update();
 
 	void readConf(CSParser *csp);
 };
