@@ -54,6 +54,7 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 
 	currentScene = 0;
 
+	scenes.push_back( new NinthStormScene(csp, this) );
 	scenes.push_back( new FirstStormScene(csp, this) );
 	scenes.push_back( new FourthStormScene(csp, this) );
 }

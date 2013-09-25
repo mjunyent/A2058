@@ -31,7 +31,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0 ;2.0
+		EyeSep 2.0 ;2.0
 	}
 }
 
@@ -157,7 +157,37 @@ Scenes {
 			size 0.9
 			position 106.0,-16.0,30.0
 		}
+	}
 	
+	Ninth {
+		textHeight 15
+		linesHeight 30
+		stillTime 5.0
+		Flu {
+			size 28.0
+			zLate 10.0
+			shininess 0.1
+			diffuseColor 0.0,0.0,0.0
+			specularColor 0.6,0.6,0.6
+			interpolationStart 0.0,0.0,0.0
+			interpolationEnd   0.0,0.0,0.0
+
+			AO {
+				bias 0.05;
+				radius 10;
+				linearAtt 2.0;
+				quadraticAtt 2;
+			}
+			Lights {
+				number 1
+					Light1 {
+						type DIRECTIONAL
+						attenuation 2.0,0.0,0.0
+						direction 1.0,1.0,1.0
+						colour 1.0,1.0,1.0
+					}
+			}
+		}
 	}
 }
 
