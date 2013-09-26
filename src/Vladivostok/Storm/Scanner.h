@@ -54,6 +54,7 @@ public:
 	VBO *quad, *textQuadCoords;
 	IBO *quad_I;
 	FBO *impas;
+	FBO *renderBufferL, *renderBufferR;
 	Grid *grid;
 
 	TBO linesCircleLeft, linesCircleRight, linesQuadLeft, linesQuadRight;

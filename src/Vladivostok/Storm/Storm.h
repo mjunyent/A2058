@@ -45,6 +45,7 @@ public:
 	void readConf();
 
 private:
+	int lastRadius;
 	GLint billboard_M_Id, billboard_V_Id, billboard_P_Id,
 		  billboard_up_id, billboard_camPos_Id, billboard_r_Id,
 		  billboard_tex_Id, billboard_cellPos_Id, billboard_alpha_Id, billboard_side_Id;

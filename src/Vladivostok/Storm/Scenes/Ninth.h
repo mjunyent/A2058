@@ -11,7 +11,7 @@ public:
 	mat4 Flu_M, rotate_M;
 	float FluSize, zLate, rotateVel;
 
-	NinthRendererFlu(CSParser *csp, Camera *cam);
+	NinthRendererFlu(CSParser *csp, Camera *cam, FBO *rL, FBO *rR);
 	void render(int s, double t);
 	void update(double t);
 	void setPosition(vec3 *position);
@@ -34,7 +34,7 @@ public:
 	float textHeight;
 	float linesHeight;
 
-	NinthStormScene(CSParser *csp, Scanner *s);
+	NinthStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR);
 
 	void renderModel();
 	void textDraw(mat4 *V, mat4 *P, FBO *render);

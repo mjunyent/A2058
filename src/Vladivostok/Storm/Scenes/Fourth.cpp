@@ -1,7 +1,10 @@
 #include "Fourth.h"
 #include "../Scanner.h"
 
-FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam) : Deferred() {
+FourthRendererFish::FourthRendererFish(CSParser *csp, Camera *cam, FBO *rL, FBO *rR) : Deferred() {
+	renderBufferL = rL;
+	renderBufferR = rR;
+
 	setup(cam);
 	this->csp = csp;
 
@@ -103,10 +106,10 @@ void FourthRendererFish::readConf(CSParser *csp) {
 }
 
 
-FourthStormScene::FourthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
+FourthStormScene::FourthStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : StormScene(s) {
 	readConf(csp);
 
-	renderFish = new FourthRendererFish(csp, scan->rig);
+	renderFish = new FourthRendererFish(csp, scan->rig, rL, rR);
 
 	text = TBO("Images/Biotechnopolis/040R.fw.png", true);
 	text.clamp(true);

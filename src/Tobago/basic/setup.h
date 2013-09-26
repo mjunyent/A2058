@@ -13,7 +13,7 @@ namespace TOBAGO {
 	GLFWwindow* setup(int w, int h,
 					  int major, int minor,
 					  const char* name,
-					  GLFWmonitor *monitor);
+					  bool fullscreen);
 
     void initGLFW(int major, int minor); //and FMOD
 	GLFWwindow* createWindow(int w, int h,

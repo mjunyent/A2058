@@ -8,7 +8,7 @@
 #include "Vladivostok/myGlow.h"
 #include "Vladivostok/ModelTest.h"
 
-#include "Vladivostok/Storm/Scenes/SixSeventh.h"
+#include "Vladivostok/Storm/Scenes/Second.h"
 
 using namespace director;
 using namespace TOBAGO;
@@ -20,12 +20,15 @@ int main(void) {
 	csp.parse();
 
 	win = setup(csp.data.width, csp.data.height, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), NULL);
+//	win = setup(3840, 720, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), true);
 	windows.push_back(win);
 
 	glfwMakeContextCurrent(windows[0]);
 
-//	A3dsHandler test("Models/Storm/6Skull.3DS", 3);
-//	test.saveNormalsToFile("Models/Storm/6SkullNormals3.txt");
+//	glViewport(1280, 0, 2560, 720);
+
+//	A3dsHandler test("Models/Storm/2PlacodermIN.3DS", 0);
+//	test.saveNormalsToFile("Models/Storm/2PlacodermINNormals.txt");
 
 	manager = new SceneManager(&currentTime);
 	/*
@@ -35,20 +38,21 @@ int main(void) {
 
 	vec3 cpos(50.0, 0.0, -135.0);
 
-	SixthRendererSkull bypass(&csp, &rig);
+	SecondRendererInnerPlacoderm bypass(&csp, &rig);
 	bypass.setPosition(&cpos);
 	manager->addScene(&bypass, 1, 100000000000, 0.4);
 	*/
 
-
+	
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
-	manager->addScene(&eyes,   2, 10000000, 0.1);
-	manager->addScene(&glow,   2, 10000000, 0.2);
 
+	manager->addScene(&eyes,   4, 10000000, 0.1);
+	manager->addScene(&glow,   4, 10000000, 0.2);
+	
 
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
-	//manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
+	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	Timer timer(manager);
 

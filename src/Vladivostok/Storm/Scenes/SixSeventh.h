@@ -14,7 +14,7 @@ public:
 
 	vec3 teethUpTranslate, teethDownTranslate;
 
-	SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M);
+	SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M, FBO *rL, FBO *rR);
 	void render(int s, double t);
 
 	void setPosition(vec3 *position);
@@ -63,7 +63,7 @@ public:
 	float textHeight;
 	float linesHeight;
 
-	SixSeventhStormScene(CSParser *csp, Scanner *s);
+	SixSeventhStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR);
 
 	void renderModel();
 	void textDraw(mat4 *V, mat4 *P, FBO *render);

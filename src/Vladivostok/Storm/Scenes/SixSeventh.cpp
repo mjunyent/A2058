@@ -1,8 +1,10 @@
 #include "SixSeventh.h"
 #include "../Scanner.h"
 
-SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M) : Deferred() {
+SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M, FBO *rL, FBO *rR) : Deferred() {
 	this->csp = csp;
+	renderBufferL = rL;
+	renderBufferR = rR;
 
 	setup(cam);
 	
@@ -227,11 +229,11 @@ void SeventhRendererBrain::update(double t) {
 
 
 
-SixSeventhStormScene::SixSeventhStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
+SixSeventhStormScene::SixSeventhStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : StormScene(s) {
 	readConf(csp);
 
 	renderFp = new SeventhRendererBrain(csp, scan->rig);
-	renderFw = new SixthRendererSkull(csp, scan->rig, &renderFp->rotate_M);
+	renderFw = new SixthRendererSkull(csp, scan->rig, &renderFp->rotate_M, rL, rR);
 
 	firstStill = true;
 

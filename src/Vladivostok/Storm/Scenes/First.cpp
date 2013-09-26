@@ -1,7 +1,10 @@
 #include "First.h"
 #include "../Scanner.h"
 
-FirstRendererWorld::FirstRendererWorld(CSParser *csp, Camera *cam) : Deferred() {
+FirstRendererWorld::FirstRendererWorld(CSParser *csp, Camera *cam, FBO *rL, FBO *rR) : Deferred() {
+//	renderBufferL = rL;
+//	renderBufferR = rR;
+
 	setup(cam);
 
 	readConf(csp);
@@ -114,10 +117,10 @@ void FirstRenderPolio::readConf(CSParser *csp) {
 }
 
 
-FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
+FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : StormScene(s) {
 	readConf(csp);
 
-	renderFw = new FirstRendererWorld(csp, scan->rig);
+	renderFw = new FirstRendererWorld(csp, scan->rig, rL, rR);
 	renderFp = new FirstRenderPolio(csp, scan->rig);
 
 	firstStill = true;

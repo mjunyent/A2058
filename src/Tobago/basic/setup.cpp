@@ -51,9 +51,12 @@ void TOBAGO::initGLEW() {
 	}
 }
 
-GLFWwindow* TOBAGO::setup(int w, int h, int major, int minor, const char* name, GLFWmonitor *monitor) {
+GLFWwindow* TOBAGO::setup(int w, int h, int major, int minor, const char* name, bool fullscreen) {
 	initGLFW(major, minor);
 	GLFWwindow *ret;
+
+	GLFWmonitor *monitor = NULL;
+	if(fullscreen) monitor = glfwGetPrimaryMonitor();
 
 	ret = glfwCreateWindow(w, h, name, monitor, NULL);
 	if(!ret) {

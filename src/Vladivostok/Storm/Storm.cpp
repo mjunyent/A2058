@@ -21,7 +21,8 @@ Storm::Storm(CSParser *csp) {
 	left = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	right = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	
-	ballTex = TBO("Images/Balls/noMM/BallM300.fw.png", true);
+	ballTex = TBO("Images/Balls/noMM/BallM150.fw.png", true);
+	ballTex.clamp(true);
 	renderedCellTemp = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
 	renderedCell     = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
 
@@ -44,11 +45,12 @@ Storm::Storm(CSParser *csp) {
 	blur_amount_Id			= blur->getUniform("BlurAmount");
 	blur_strength_Id		= blur->getUniform("BlurStrength");
 
-	c = new Cells(80, csp);
+	c = new Cells(60, csp);
 
 	s = new Scanner(csp, c, myRig);
 	s->debSetup();
 
+	lastRadius = 0;
 }
 
 void Storm::draw(int s, double t) {
@@ -110,6 +112,15 @@ void Storm::readConf() {
 void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositionR, int side) {
 	int radius = 0;
 	float dist = length(myCam->position - c->cells[i].p);
+	mat4 idd = translate(c->cells[i].p);
+
+	vec4 screenP = myCam->P * myCam->V * idd * vec4(0,0,0,1);
+	screenP /= screenP.w;
+	if(!inRange(screenP.x, -1.1f, 1.1f) ||
+	   !inRange(screenP.y, -1.1f, 1.1f) ||
+	   !inRange(screenP.z, -1.1f, 1.1f)) {
+		   return;
+	}
 
 	if(dist < COCNear) {
 		radius = (int) -1*blurNearMax / (COCNear - myCam->znear) * dist + (blurNearMax*COCNear)/(COCNear - myCam->znear);
@@ -118,38 +129,39 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 	}
 	radius+=2;
 
-
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	if(lastRadius != radius) {
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
 	
-	renderedCellTemp->bind();
-		blur->use();
-		ballTex.bind(0);
-		glUniform1i(blur_tex_Id, 0);
-		glUniform1i(blur_orientation_Id, 0);
-		glUniform1i(blur_amount_Id, radius);
-		glUniform1f(blur_strength_Id, blurStrength);
-		glUniform2f(blur_texelSize_Id, 1.0/float(ballTex.width), 1.0/float(ballTex.height));
+		renderedCellTemp->bind();
+			blur->use();
+			ballTex.bind(0);
+			glUniform1i(blur_tex_Id, 0);
+			glUniform1i(blur_orientation_Id, 0);
+			glUniform1i(blur_amount_Id, radius);
+			glUniform1f(blur_strength_Id, blurStrength);
+			glUniform2f(blur_texelSize_Id, 1.0/float(ballTex.width), 1.0/float(ballTex.height));
 		
-		quad->enable(3);
-		quad_I->draw(GL_TRIANGLES);
-		quad->disable();
-	renderedCellTemp->unbind();
+			quad->enable(3);
+			quad_I->draw(GL_TRIANGLES);
+			quad->disable();
+		renderedCellTemp->unbind();
 	
-	renderedCell->bind();
-		renderedCellTemp->bind_texture(0, 0);
-		glUniform1i(blur_tex_Id, 0);
-		glUniform1i(blur_orientation_Id, 1);
+		renderedCell->bind();
+			renderedCellTemp->bind_texture(0, 0);
+			glUniform1i(blur_tex_Id, 0);
+			glUniform1i(blur_orientation_Id, 1);
 
-		quad->enable(3);
-		quad_I->draw(GL_TRIANGLES);
-		quad->disable();
-	renderedCell->unbind();
+			quad->enable(3);
+			quad_I->draw(GL_TRIANGLES);
+			quad->disable();
+		renderedCell->unbind();
 	
-	glEnable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+	}
 
-	mat4 idd = translate(c->cells[i].p);
+	lastRadius = radius;
 
 	//Left
 	left->bind(false);

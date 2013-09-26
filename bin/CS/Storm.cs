@@ -45,8 +45,8 @@ Storm {
 	DOF {
 		COCnear 70
 		COCfar  140
-		radiusNear 60
-		radiusFar 60
+		radiusNear 40
+		radiusFar 40
 	}
 }
 
@@ -127,6 +127,35 @@ Scenes {
 				radius 2;
 				linearAtt 1;
 				quadraticAtt 1;
+			}
+		}
+	}
+	
+	Second {
+		textHeight 10
+		linesHeight 30
+		stillTime 5.0
+
+		In {
+			size 25.0
+			shininess 0.4
+			diffuseColor 0.8,0.100,0.23
+			specularColor 0.8,0.8,0.8
+			rotationVel 0.4
+		}
+		AO {
+			bias 0.05;
+			radius 10;
+			linearAtt 2.0;
+			quadraticAtt 2;
+		}
+		Lights {
+			number 1
+			Light1 {
+				type DIRECTIONAL
+				attenuation 2.0,0.0,0.0
+				direction 1.0,1.0,1.0
+				colour 1.0,1.0,1.0
 			}
 		}
 	}

@@ -54,12 +54,15 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 
 	currentScene = 0;
 
-	scenes.push_back( new FirstStormScene(csp, this) );
-	scenes.push_back( new FourthStormScene(csp, this) );
-	scenes.push_back( new SixSeventhStormScene(csp, this) );
-	scenes.push_back( new EightStormScene(csp, this) );
-	scenes.push_back( new NinthStormScene(csp, this) );
+	bool calite[] = { true, true, true };
+	renderBufferL = new FBO(rig->width, rig->height, true, 3, calite);
+	renderBufferR = new FBO(rig->width, rig->height, true, 3, calite);
 
+	scenes.push_back( new FirstStormScene(csp, this, renderBufferL, renderBufferR) );
+//	scenes.push_back( new FourthStormScene(csp, this, renderBufferL, renderBufferR) );
+//	scenes.push_back( new SixSeventhStormScene(csp, this, renderBufferL, renderBufferR) );
+//	scenes.push_back( new EightStormScene(csp, this, renderBufferL, renderBufferR) );
+//	scenes.push_back( new NinthStormScene(csp, this, renderBufferL, renderBufferR) );
 }
 
 void Scanner::detect() {

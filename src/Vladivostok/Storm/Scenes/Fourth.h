@@ -14,7 +14,7 @@ public:
 	vec3 eyePos;
 	vec3 rotateV, transV;
 
-	FourthRendererFish(CSParser *csp, Camera *cam);
+	FourthRendererFish(CSParser *csp, Camera *cam, FBO *rL, FBO *rR);
 	void render(int s, double t);
 	void update(double t);
 	void setPosition(vec3 *position);
@@ -36,7 +36,7 @@ public:
 	float textHeight;
 	float linesHeight;
 
-	FourthStormScene(CSParser *csp, Scanner *s);
+	FourthStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR);
 
 	void renderModel();
 	void textDraw(mat4 *V, mat4 *P, FBO *render);

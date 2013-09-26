@@ -14,7 +14,7 @@ public:
 	float rotationVel;
 
 
-	FirstRendererWorld(CSParser *csp, Camera *cam);
+	FirstRendererWorld(CSParser *csp, Camera *cam, FBO *rL, FBO *rR);
 	void render(int s, double t);
 
 	void setPosition(vec3 *position);
@@ -54,7 +54,7 @@ public:
 	float textHeight;
 	float linesHeight;
 
-	FirstStormScene(CSParser *csp, Scanner *s);
+	FirstStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR);
 
 	void renderModel();
 	void textDraw(mat4 *V, mat4 *P, FBO *render);

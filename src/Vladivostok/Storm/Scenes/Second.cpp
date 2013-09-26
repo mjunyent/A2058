@@ -1,106 +1,84 @@
-#include "Eight.h"
+#include "Second.h"
 #include "../Scanner.h"
 
 
-EightRendererRBC::EightRendererRBC(CSParser *csp, Camera *cam, FBO *rL, FBO *rR) : Deferred() {
-	renderBufferL = rL;
-	renderBufferR = rR;
-
+SecondRendererInnerPlacoderm::SecondRendererInnerPlacoderm(CSParser *csp, Camera *cam) : Deferred() {
 	setup(cam);
 	this->csp = csp;
 
-	RBC_3DS = new A3dsHandler("Models/Storm/8RBC.3DS", 0);
+	Inner_3DS = new A3dsHandler("Models/Storm/2PlacodermIN.3DS", 0);
 //	Flu_3DS->makeNormalsPerVertex();
-	RBC_3DS->readNormalsFromFile("Models/Storm/8RBCNormals.txt");
-	RBC_3DS->makeBoundingBox();
+	Inner_3DS->readNormalsFromFile("Models/Storm/2PlacodermINNormals.txt");
+	Inner_3DS->makeBoundingBox();
 
-	RBC = new Model(firstShad,
-					RBC_3DS->vertexs,
-					RBC_3DS->normals,
-					NULL,
-					NULL,
-					NULL,
-					RBC_3DS->indexs,
-					0.4,
-					vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
-					vec3(0.1f, 0.1f, 0.1f),
-					0.01f,
-					&RBC_M,
-					RBCSize/RBC_3DS->maxDimension,
-					NULL,
-					NULL);
+	Inner = new Model(firstShad,
+					  Inner_3DS->vertexs,
+					  Inner_3DS->normals,
+					  NULL,
+					  NULL,
+					  NULL,
+					  Inner_3DS->indexs,
+					  0.4,
+					  vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
+					  vec3(0.1f, 0.1f, 0.1f),
+					  0.01f,
+					  &Inner_M,
+					  InnerSize/Inner_3DS->maxDimension,
+					  NULL,
+					  NULL);
 
 	dotheAA(true);
 	dotheDOF(false);
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
 	readConf(csp);
-
-	for(int i=0; i<6; i++) {
-		rotVals[i] = 0.0;
-	}
-
-	setRotVals();
 }
 
-void EightRendererRBC::setPosition(vec3 *position) {
+void SecondRendererInnerPlacoderm::setPosition(vec3 *position) {
 	pos = position;
 
-	for(int i=0; i<6; i++) {
-		rotVals[i] += rotValue;
-	}
+	rotate_M = rotate_M * rotate(-1.0f*rotVel, 0.0f, 1.0f, 0.0f);
+
+	vec3 dir = cam->position - *position;
+	dir = normalize(dir);
+	Inner_M = glm::translate(*position) * rotate_M *
+			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Inner_3DS->center*Inner->scale);
 }
 
-void EightRendererRBC::render(int s, double t) {
-	for(int i=0; i<6; i++) {
-		RBC_M = translate(*pos) * translate(RBCdisp[i]) * rotate(rotVals[i], rotVecs[i]) * translate(-RBC_3DS->center*RBC->scale);
-		RBC->render();
-	}
+void SecondRendererInnerPlacoderm::render(int s, double t) {
+	Inner->render();
 }
 
-void EightRendererRBC::update(double t) {
+void SecondRendererInnerPlacoderm::update(double t) {
 	readConf(csp);
 	setPosition(pos);
 }
 
-void EightRendererRBC::readConf(CSParser *csp) {
+void SecondRendererInnerPlacoderm::readConf(CSParser *csp) {
 	csp->parse();
-	RBCSize = csp->getf("Scenes.Eight.RBC.size");
-	RBC->scale = RBCSize/RBC_3DS->maxDimension;
+	InnerSize = csp->getf("Scenes.Second.In.size");
+	Inner->scale = InnerSize/Inner_3DS->maxDimension;
 	
-	RBC->shininess = csp->getf("Scenes.Eight.RBC.shininess");
-	RBC->diffuse_color = csp->getvec3("Scenes.Eight.RBC.diffuseColor");
-	RBC->specular_color = csp->getvec3("Scenes.Eight.RBC.specularColor");
+	Inner->shininess = csp->getf("Scenes.Second.In.shininess");
+	Inner->diffuse_color = csp->getvec3("Scenes.Second.In.diffuseColor");
+	Inner->specular_color = csp->getvec3("Scenes.Second.In.specularColor");
 
-	AO_radius = csp->getf("Scenes.Eight.RBC.AO.radius");
-	AO_bias   = csp->getf("Scenes.Eight.RBC.AO.bias");
-	AO_attenuation = vec2(csp->getf("Scenes.Eight.RBC.AO.linearAtt"),
-						  csp->getf("Scenes.Eight.RBC.AO.quadraticAtt"));
+	AO_radius = csp->getf("Scenes.Second.AO.radius");
+	AO_bias   = csp->getf("Scenes.Second.AO.bias");
+	AO_attenuation = vec2(csp->getf("Scenes.Second.AO.linearAtt"),
+						  csp->getf("Scenes.Second.AO.quadraticAtt"));
 
-	csp->readLights("Scenes.Eight.RBC.Lights");
+	csp->readLights("Scenes.Second.Lights");
 	csp->passToLight(lights);
 
-	RBCdisp[0] = csp->getvec3("Scenes.Eight.RBC.disp0");
-	RBCdisp[1] = csp->getvec3("Scenes.Eight.RBC.disp1");
-	RBCdisp[2] = csp->getvec3("Scenes.Eight.RBC.disp2");
-	RBCdisp[3] = csp->getvec3("Scenes.Eight.RBC.disp3");
-	RBCdisp[4] = csp->getvec3("Scenes.Eight.RBC.disp4");
-	RBCdisp[5] = csp->getvec3("Scenes.Eight.RBC.disp5");
-
-	rotValue = csp->getf("Scenes.Eight.RBC.rotationVel");
+	rotVel = csp->getf("Scenes.Second.In.rotationVel");
 }
 
-void EightRendererRBC::setRotVals() {
-	for(int i=0; i<6; i++) {
-		rotVecs[i] = normalize(vec3(randValue(-1,1), randValue(-1,1), randValue(-1,1)));
-	}
-}
-
-
-EightStormScene::EightStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : StormScene(s) {
+/*
+EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 
-	renderRBC = new EightRendererRBC(csp, scan->rig, rL, rR);
+	renderRBC = new EightRendererRBC(csp, scan->rig);
 
 	heart = TBO("Images/Biotechnopolis/heart.png", true);
 	text.clamp(true);
@@ -298,4 +276,4 @@ STATE EightStormScene::flowControl() {
 		heartAlpha = 0.0;
 		return STATE::REST;
 	}
-}
+}*/
