@@ -1,32 +1,52 @@
 #include "SixSeventh.h"
 #include "../Scanner.h"
 
-SeventhRendererBrain::SeventhRendererBrain(CSParser *csp, Camera *cam) : Deferred() {
+SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam) : Deferred() {
 	this->csp = csp;
-//	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Polio.frag");
 
 	setup(cam);
 	
-	Brain_3DS = new A3dsHandler("Models/Storm/7Brain.3DS", 0);
-	Brain_3DS->readNormalsFromFile("Models/Storm/7BrainNormals.txt");
-//	Polio_3DS->makeNormalsPerVertex();
-	Brain_3DS->makeBoundingBox();
+	Skull_3DS = new A3dsHandler("Models/Storm/6Skull.3DS", 0);
+	Skull_3DS->readNormalsFromFile("Models/Storm/6SkullNormals0.txt");
+	Skull_3DS->makeUVs();
+	Skull_3DS->makeBoundingBox();
 
-	Brain = new Model(firstShad,
-					  Brain_3DS->vertexs,
-					  Brain_3DS->normals,
+	Skull = new Model(firstShad,
+					  Skull_3DS->vertexs,
+					  Skull_3DS->normals,
+					  Skull_3DS->UVs,
 					  NULL,
 					  NULL,
-					  NULL,
-					  Brain_3DS->indexs,
-					  0.4,
+					  Skull_3DS->indexs,
+					  0.6,
 					  vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
-					  vec3(1.0f, 1.0f, 1.0f),
-					  0.51f,
-					  &Brain_M,
-					  BrainSize/Brain_3DS->maxDimension,
-					  NULL,
+					  vec3(0.4f, 0.4f, 0.4f),
+					  0.1f,
+					  &Skull_M,
+					  SkullSize/Skull_3DS->maxDimension,
+					  "Images/Textures/texture_skull.png",
 					  NULL);
+
+	Jaw_3DS = new A3dsHandler("Models/Storm/6Skull.3DS", 1);
+	Jaw_3DS->readNormalsFromFile("Models/Storm/6SkullNormals1.txt");
+	Jaw_3DS->makeUVs();
+	Jaw_3DS->makeBoundingBox();
+
+	Jaw = new Model(firstShad,
+					Jaw_3DS->vertexs,
+					Jaw_3DS->normals,
+					Jaw_3DS->UVs,
+					NULL,
+					NULL,
+					Jaw_3DS->indexs,
+					0.6,
+					vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
+					vec3(0.4f, 0.4f, 0.4f),
+					0.1f,
+					&Jaw_M,
+					SkullSize/Jaw_3DS->maxDimension,
+					"Images/Textures/texture_skull.png",
+					NULL);
 
 	dotheAA(true);
 	dotheDOF(false);
@@ -35,34 +55,48 @@ SeventhRendererBrain::SeventhRendererBrain(CSParser *csp, Camera *cam) : Deferre
 	readConf(csp);
 }
 
-void SeventhRendererBrain::setPosition(vec3 *position) {
+void SixthRendererSkull::setPosition(vec3 *position) {
 	pos = position;
-	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
+//	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
 	
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
-	Brain_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Brain_3DS->center*Brain->scale);
+//	Skull_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Brain_3DS->center*Brain->scale);
+
+	vec3 skullTranslate(0.0f, 0.880123f, 3.0925f);
+//	skullTranslate *= Skull->scale;
+
+	vec3 jawTranslate(0.0, -0.26, 4.25893);
+//	jawTranslate *= Skull->scale;
+
+	mat4 general = glm::translate(zLate*dir) * glm::translate(*position) * rotate(-90.0f, 1.0f, 0.0f, 0.0f)
+		    * glm::translate(-Skull_3DS->center*Skull->scale);
+
+	Skull_M = general*glm::translate(-skullTranslate);
+
+	Jaw_M = general * glm::translate(-jawTranslate);
 }
 
-void SeventhRendererBrain::render(int s, double t) {
-	Brain->render();
+void SixthRendererSkull::render(int s, double t) {
+	Skull->render();
+	Jaw->render();
 }
 
-void SeventhRendererBrain::readConf(CSParser *csp) {
-	zLate = csp->getf("Scenes.SixSeventh.Brain.zLate");
-	BrainSize = csp->getf("Scenes.SixSeventh.Brain.size");
-	Brain->scale = BrainSize/Brain_3DS->maxDimension;
-	AO_radius = csp->getf("Scenes.SixSeventh.Brain.AO.radius");
-	AO_bias   = csp->getf("Scenes.SixSeventh.Brain.AO.bias");
-	AO_attenuation = vec2(csp->getf("Scenes.SixSeventh.Brain.AO.linearAtt"),
-						  csp->getf("Scenes.SixSeventh.Brain.AO.quadraticAtt"));
-	rotationVel = csp->getf("Scenes.SixSeventh.Brain.rotationVel");
+void SixthRendererSkull::readConf(CSParser *csp) {
+	zLate = csp->getf("Scenes.SixSeventh.Skull.zLate");
+	SkullSize = csp->getf("Scenes.SixSeventh.Skull.size");
+	Skull->scale = SkullSize/Skull_3DS->maxDimension;
+	Jaw->scale = Skull->scale;
+	AO_radius = csp->getf("Scenes.SixSeventh.Skull.AO.radius");
+	AO_bias   = csp->getf("Scenes.SixSeventh.Skull.AO.bias");
+	AO_attenuation = vec2(csp->getf("Scenes.SixSeventh.Skull.AO.linearAtt"),
+						  csp->getf("Scenes.SixSeventh.Skull.AO.quadraticAtt"));
 
-	csp->readLights("Scenes.SixSeventh.Brain.Lights");
+	csp->readLights("Scenes.SixSeventh.Skull.Lights");
 	csp->passToLight(lights);
 }
 
-void SeventhRendererBrain::update(double t) {
+void SixthRendererSkull::update(double t) {
 	readConf(csp);
 	setPosition(pos);
 }

@@ -6,9 +6,9 @@
 
 class SixthRendererSkull : public Deferred {
 public:
-	A3dsHandler *Skull_3DS;
-	Model *Skull;
-	mat4 Skull_M;
+	A3dsHandler *Skull_3DS, *Jaw_3DS;
+	Model *Skull, *Jaw;
+	mat4 Skull_M, Jaw_M;
 	float SkullSize;
 	float zLate;
 

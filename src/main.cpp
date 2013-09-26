@@ -24,8 +24,8 @@ int main(void) {
 
 	glfwMakeContextCurrent(windows[0]);
 
-//	A3dsHandler test("Models/Storm/7Brain.3DS", 0);
-//	test.saveNormalsToFile("Models/Storm/7BrainNormals.txt");
+//	A3dsHandler test("Models/Storm/6Skull.3DS", 3);
+//	test.saveNormalsToFile("Models/Storm/6SkullNormals3.txt");
 
 	manager = new SceneManager(&currentTime);
 	
@@ -35,7 +35,7 @@ int main(void) {
 
 	vec3 cpos(50.0, 0.0, -135.0);
 
-	SeventhRendererBrain bypass(&csp, &rig);
+	SixthRendererSkull bypass(&csp, &rig);
 	bypass.setPosition(&cpos);
 	manager->addScene(&bypass, 1, 100000000000, 0.4);
 	
