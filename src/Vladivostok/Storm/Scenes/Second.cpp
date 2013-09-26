@@ -69,8 +69,8 @@ void SecondRendererInnerPlacoderm::setPosition(vec3 *position) {
 
 	for(int i=0; i<4; i++) {
 		vec4 dd(dir, 0.0);
-		dd = glm::rotate(i*360.0f/5.0f, 0.0f, 0.0f, 1.0f)*glm::rotate(-20.0f, 0.0f, 1.0f, 0.0f)*dd;
-		Inner_M[i] = glm::translate((zLate-i*2.0f*Inner->scale)*vec3(dd.x, dd.y, dd.z)) * glm::translate(*position) * rotate_M[i] *
+		dd = glm::rotate(i*360.0f/4.0f, 0.0f, 0.0f, 1.0f)*glm::rotate(-10.0f, 0.0f, 1.0f, 0.0f)*dd;
+		Inner_M[i] = glm::translate(i*4.0f, 0.0f, -i*Inner->scale) * glm::translate((zLate-i*Inner->scale)*vec3(dd.x, dd.y, dd.z)) * glm::translate(*position) * rotate_M[i] *
 			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Inner_3DS->center*Inner->scale);
 	}
 }
@@ -78,7 +78,7 @@ void SecondRendererInnerPlacoderm::setPosition(vec3 *position) {
 void SecondRendererInnerPlacoderm::render(int s, double t) {
 //	Inner->render();
 	
-	for(int i=0; i<4; i++) {
+	for(int i=0; i<1; i++) {
 		Inner->M = &Inner_M[i];
 		Inner->render();
 	}
@@ -160,7 +160,7 @@ void SecondRendererOutterPlacoderm::setPosition(vec3 *position) {
 }
 
 void SecondRendererOutterPlacoderm::render(int s, double t) {
-	for(int i=0; i<in->popCount; i++) {
+	for(int i=0; i<1; i++) {
 		Inner->M = &in->Inner_M[i];
 		Inner->render();
 	}

@@ -134,18 +134,18 @@ Scenes {
 	Second {
 		textHeight 10
 		linesHeight 30
-		stillTime 50.0
+		stillTime 5.0
 
 		In {
-			size 15.0
+			size 24.0
 			shininess 0.4
 			diffuseColor 0.4276,0.9053,0.6196 ;0.83,0.65,0.6196
 			specularColor 0.4,0.4,0.4
 			rotationVel 0.4
-			zoomVel 0.2
+			zoomVel 0.1
 		}
 		Out {
-			size 15.0
+			size 25.0
 			shininess 0.4
 			diffuseColor 0.3637,0.4164,0.3637
 			specularColor 1.0,1.0,1.0
