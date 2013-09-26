@@ -22,7 +22,7 @@ SecondRendererInnerPlacoderm::SecondRendererInnerPlacoderm(CSParser *csp, Camera
 					  vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
 					  vec3(0.1f, 0.1f, 0.1f),
 					  0.01f,
-					  &Inner_M,
+					  &Inner_M[0],
 					  InnerSize/Inner_3DS->maxDimension,
 					  NULL,
 					  NULL);
@@ -31,22 +31,57 @@ SecondRendererInnerPlacoderm::SecondRendererInnerPlacoderm(CSParser *csp, Camera
 	dotheDOF(false);
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
+	setValues();
+
 	readConf(csp);
+}
+
+void SecondRendererInnerPlacoderm::setValues() {
+	zLate = 0.0;
+	currentZoomVel = 0.0;
+	popCount = 1;
+	move = false;
+	for(int i=0; i<4; i++) {
+		rotationVector[i] = normalize(vec3(randValue(-1.0,1.0), randValue(-1.0, 1.0), randValue(-1.0, 1.0)));
+	}
+}
+
+void SecondRendererInnerPlacoderm::startMove() {
+	move = true;
 }
 
 void SecondRendererInnerPlacoderm::setPosition(vec3 *position) {
 	pos = position;
 
-	rotate_M = rotate_M * rotate(-1.0f*rotVel, 0.0f, 1.0f, 0.0f);
+	for(int i = 0; i<4; i++) {
+		rotate_M[i] = rotate_M[i] * rotate(-1.0f*rotVel, rotationVector[i]);
+	}
+
+	if(move) {
+		if(currentZoomVel < zoomVel) currentZoomVel += 0.05*zoomVel;
+		zLate += currentZoomVel;
+	}
+
+	if(popCount < 4 && int(zLate/(2.0*Inner->scale)) > popCount) popCount++;
 
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
-	Inner_M = glm::translate(*position) * rotate_M *
+
+	for(int i=0; i<4; i++) {
+		vec4 dd(dir, 0.0);
+		dd = glm::rotate(i*360.0f/5.0f, 0.0f, 0.0f, 1.0f)*glm::rotate(-20.0f, 0.0f, 1.0f, 0.0f)*dd;
+		Inner_M[i] = glm::translate((zLate-i*2.0f*Inner->scale)*vec3(dd.x, dd.y, dd.z)) * glm::translate(*position) * rotate_M[i] *
 			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Inner_3DS->center*Inner->scale);
+	}
 }
 
 void SecondRendererInnerPlacoderm::render(int s, double t) {
-	Inner->render();
+//	Inner->render();
+	
+	for(int i=0; i<4; i++) {
+		Inner->M = &Inner_M[i];
+		Inner->render();
+	}
 }
 
 void SecondRendererInnerPlacoderm::update(double t) {
@@ -72,27 +107,100 @@ void SecondRendererInnerPlacoderm::readConf(CSParser *csp) {
 	csp->passToLight(lights);
 
 	rotVel = csp->getf("Scenes.Second.In.rotationVel");
+	zoomVel = csp->getf("Scenes.Second.In.zoomVel");
 }
 
-/*
-EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
+
+
+SecondRendererOutterPlacoderm::SecondRendererOutterPlacoderm(CSParser *csp, Camera *cam, SecondRendererInnerPlacoderm *in) : Deferred() {
+	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Placoderm.frag");
+
+	setup(cam);
+	this->csp = csp;
+	this->in = in;
+
+	Inner_3DS = new A3dsHandler("Models/Storm/2PlacodermOUT.3DS", 0);
+	Inner_3DS->readNormalsFromFile("Models/Storm/2PlacodermOUTNormals.txt");
+	Inner_3DS->makeUVs();
+	Inner_3DS->makeTBNSpace();
+	Inner_3DS->makeBoundingBox();
+
+	Inner = new Model(firstShad,
+					  Inner_3DS->vertexs,
+					  Inner_3DS->normals,
+					  Inner_3DS->UVs,
+					  Inner_3DS->tangents,
+					  Inner_3DS->bitangents,
+					  Inner_3DS->indexs,
+					  0.4,
+					  vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
+					  vec3(0.1f, 0.1f, 0.1f),
+					  0.01f,
+					  &Inner_M,
+					  InnerSize/Inner_3DS->maxDimension,
+					  NULL,
+					  "Images/noisec.fw.png");
+
+	dotheAA(true);
+	dotheDOF(false);
+	dotheAO(2, 0.05, vec2(2, 2), true);
+
+	readConf(csp);
+}
+
+void SecondRendererOutterPlacoderm::setPosition(vec3 *position) {
+	pos = position;
+
+	rotate_M = rotate_M * rotate(-1.0f*rotVel, 0.0f, 1.0f, 0.0f);
+
+	vec3 dir = cam->position - *position;
+	dir = normalize(dir);
+	Inner_M = glm::translate(*position) * rotate_M *
+			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Inner_3DS->center*Inner->scale);
+}
+
+void SecondRendererOutterPlacoderm::render(int s, double t) {
+	for(int i=0; i<in->popCount; i++) {
+		Inner->M = &in->Inner_M[i];
+		Inner->render();
+	}
+}
+
+void SecondRendererOutterPlacoderm::update(double t) {
+	readConf(csp);
+	setPosition(pos);
+}
+
+void SecondRendererOutterPlacoderm::readConf(CSParser *csp) {
+	csp->parse();
+	InnerSize = csp->getf("Scenes.Second.Out.size");
+	Inner->scale = InnerSize/Inner_3DS->maxDimension;
+	
+	Inner->shininess = csp->getf("Scenes.Second.Out.shininess");
+	Inner->diffuse_color = csp->getvec3("Scenes.Second.Out.diffuseColor");
+	Inner->specular_color = csp->getvec3("Scenes.Second.Out.specularColor");
+
+	AO_radius = csp->getf("Scenes.Second.AO.radius");
+	AO_bias   = csp->getf("Scenes.Second.AO.bias");
+	AO_attenuation = vec2(csp->getf("Scenes.Second.AO.linearAtt"),
+						  csp->getf("Scenes.Second.AO.quadraticAtt"));
+
+	csp->readLights("Scenes.Second.Lights");
+	csp->passToLight(lights);
+
+	rotVel = csp->getf("Scenes.Second.In.rotationVel");
+}
+
+
+
+SecondStormScene::SecondStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 
-	renderRBC = new EightRendererRBC(csp, scan->rig);
+	inner = new SecondRendererInnerPlacoderm(csp, scan->rig);
+	outter = new SecondRendererOutterPlacoderm(csp, scan->rig, inner);
 
-	heart = TBO("Images/Biotechnopolis/heart.png", true);
+	text = TBO("Images/Biotechnopolis/020R.fw.png", true);
 	text.clamp(true);
-
-	text = TBO("Images/Biotechnopolis/080R.fw.png", true);
-	text.clamp(true);
-	
-	heartShad = new Shader("Shaders/Vladivostok/heart.vert", "Shaders/Vladivostok/heart.frag");
-	heart_M_Id = heartShad->getUniform("Model");
-	heart_V_Id = heartShad->getUniform("View");
-	heart_P_Id = heartShad->getUniform("Projection");
-	heart_sP_Id = heartShad->getUniform("screenPosition");
-	heart_Tex_Id = heartShad->getUniform("Tex");
-	heart_alpha_Id = heartShad->getUniform("alpha");
 
 	//Make texture Quads:
 	float ratio = float(scan->linesCircleRight.width)/float(scan->linesCircleRight.height);
@@ -108,7 +216,6 @@ EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	linesQuad = new VBO(linesRect, sizeof(float)*12, 0);
 
-
 	ratio = float(text.width)/float(text.height);
 	float textWidth = ratio*textHeight;
 
@@ -121,78 +228,54 @@ EightStormScene::EightStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	textQuad = new VBO(rectText, sizeof(director::quad), 0);
 
-
-	ratio = float(heart.width)/float(heart.height);
-	float hearthWidth = ratio*heartHeight;
-
-	float heartRect[] = {
-		 -hearthWidth/2.0f,	 heartHeight/2.0f, 0.0f,
-		  hearthWidth/2.0f,	 heartHeight/2.0f, 0.0f,
-		  hearthWidth/2.0f,	-heartHeight/2.0f, 0.0f,
-		 -hearthWidth/2.0f,	-heartHeight/2.0f, 0.0f,
-	};
-
-	heartQuad = new VBO(heartRect, sizeof(director::quad), 0);
-	heartPosition = 0.0;
-	heartVel = 0.0;
-	heartAlpha = 0.0;
-	heartZoom = false;
+	mixAlphaShad = new Shader("Shaders/Post/general.vert", "Shaders/Vladivostok/Scenes/PlacodermMix.frag");
+	mix_position_Id = mixAlphaShad->getUniform("position");
+	mix_TexIn_Id = mixAlphaShad->getUniform("TexIn");
+	mix_TexOut_Id = mixAlphaShad->getUniform("TexOut");
+	mix_DepthIn_Id = mixAlphaShad->getUniform("DepthIn");
+	mix_DepthOut_Id = mixAlphaShad->getUniform("DepthOut");
+	mix_OutAlpha_Id = mixAlphaShad->getUniform("alphaValue");
 }
 
-void EightStormScene::renderModel() {
-	renderRBC->draw(0, 0);
+void SecondStormScene::renderModel() {
+	inner->draw(0, 0);
+	outter->draw(0, 0);
 }
 
-void EightStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
+void SecondStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	vec3 direction = normalize(scan->rig->position-scan->cells->cells[scan->scanningCell].p);
 
-	mat4 M = translate(scan->cells->cells[scan->scanningCell].p + direction*(zLate + heartPosition));
-
 	render->bind(false);
-	//if(heartAlpha > 0.5) {
-		glDisable(GL_DEPTH_TEST);
-		scan->mixShad->use();
-		if(left) {
-			renderRBC->outputBuffL->bind_texture(0, 0);
-			renderRBC->renderBufferL->bind_depth_texture(1);
-		}
-		else {
-			renderRBC->outputBuffR->bind_texture(0, 0);
-			renderRBC->renderBufferR->bind_depth_texture(1);
-		}
+	glDisable(GL_DEPTH_TEST);
+	mixAlphaShad->use();
+	if(left) {
+		inner->outputBuffL->bind_texture(0, 0);
+		outter->outputBuffL->bind_texture(0, 1);
+		inner->renderBufferL->bind_depth_texture(2);
+		outter->renderBufferL->bind_depth_texture(3);
+	}
+	else {
+		inner->outputBuffR->bind_texture(0, 0);
+		outter->outputBuffR->bind_texture(0, 1);
+		inner->renderBufferR->bind_depth_texture(2);
+		outter->renderBufferR->bind_depth_texture(3);
+	}
 
-		glUniform1i(scan->mix_showL_Id, 0);
-		glUniform1i(scan->mix_showR_Id, 1);
-
-		glUniform1i(scan->mix_TexR_Id, 0);
-		glUniform1i(scan->mix_DepthR_Id, 1);
+	glUniform1i(mix_TexIn_Id, 0);
+	glUniform1i(mix_TexOut_Id, 1);
+	glUniform1i(mix_DepthIn_Id, 2);
+	glUniform1i(mix_DepthOut_Id, 3);
+	glUniform1f(mix_OutAlpha_Id, alphaVal);
 	
-		glUniform1f(scan->mix_position_Id, scan->worldToClip(V, P, &scan->gridPositionVec));
-		scan->quad->enable(3);
-		scan->quad_I->draw(GL_TRIANGLES);
-		scan->quad->disable();
-		glEnable(GL_DEPTH_TEST);
-	//}
-
-	heartShad->use();
-	heart.bind(0);
-	glUniformMatrix4fv(heart_M_Id, 1, GL_FALSE, &M[0][0]);
-	glUniformMatrix4fv(heart_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
-	glUniformMatrix4fv(heart_P_Id, 1, GL_FALSE, &(*P)[0][0]);
-	glUniform1f(heart_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
-	glUniform1i(heart_Tex_Id, 0);
-	glUniform1f(heart_alpha_Id, heartAlpha);
-	
-	heartQuad->enable(3);
-	scan->textQuadCoords->enable(3);
+	glUniform1f(mix_position_Id, scan->worldToClip(V, P, &scan->gridPositionVec));
+	scan->quad->enable(3);
 	scan->quad_I->draw(GL_TRIANGLES);
-	scan->textQuadCoords->disable();
-	heartQuad->disable();
-
+	scan->quad->disable();
+	glEnable(GL_DEPTH_TEST);
 	render->unbind();
 }
 
-void EightStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
+void SecondStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
 
 	render->bind(false);
@@ -217,7 +300,7 @@ void EightStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 
 }
 
-void EightStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
+void SecondStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
 
 	render->bind(false);
@@ -240,40 +323,28 @@ void EightStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	render->unbind();
 }
 
-void EightStormScene::readConf(CSParser *csp) {
-	textHeight	= csp->getf("Scenes.Eight.textHeight");
-	linesHeight	= csp->getf("Scenes.Eight.linesHeight");
-	stillTime	= csp->getf("Scenes.Eight.stillTime");
-	heartHeight = csp->getf("Scenes.Eight.Heart.height");
-	heartAccel	= csp->getf("Scenes.Eight.Heart.acceleration");
-	heartAlphaVel = csp->getf("Scenes.Eight.Heart.alphaVel");
-	zLate = csp->getf("Scenes.Eight.Heart.zLate");
+void SecondStormScene::readConf(CSParser *csp) {
+	textHeight	= csp->getf("Scenes.Second.textHeight");
+	linesHeight	= csp->getf("Scenes.Second.linesHeight");
+	stillTime	= csp->getf("Scenes.Second.stillTime");
+	alphaVal	= csp->getf("Scenes.Second.Out.opacity");
 }
 
-void EightStormScene::update() {
-	if(heartZoom && heartAlpha < 1.0) {
-		heartVel += heartAccel; //you could integrate man...
-		heartPosition += heartVel;
-		heartAlpha = clamp(heartAlpha+heartAlphaVel, 0.0f, 1.0f);
-	}
-
-	renderRBC->setPosition(&scan->cells->cells[scan->scanningCell].p);
+void SecondStormScene::update() {
+	inner->setPosition(&scan->cells->cells[scan->scanningCell].p);
+	outter->setPosition(&scan->cells->cells[scan->scanningCell].p);
 }
 
-STATE EightStormScene::flowControl() {
+STATE SecondStormScene::flowControl() {
 	STATE now = scan->status;
 
 	if(now == STATE::GRID) {
-		renderRBC->setRotVals();
-		heartZoom = true;
+		inner->startMove();
 		return STATE::STILL;
 	}
 	if(now == STATE::STILL) return STATE::UNSCAN;
 	if(now == STATE::UNSCAN) {
-		heartZoom = false;
-		heartPosition = 0.0;
-		heartVel = 0.0;
-		heartAlpha = 0.0;
+		inner->setValues();
 		return STATE::REST;
 	}
-}*/
+}
