@@ -192,11 +192,14 @@ Scenes {
 		Skull {
 			zLate 5.0
 			size 25.0
+			teethUpTranslate 0.00,1.28109,1.6
+			teethDownTranslate 0.00,-0.60,5.55
+			yLate 7.0
 			AO {
 				bias 0.05;
-				radius 20;
+				radius 10;
 				linearAtt 2.0;
-				quadraticAtt 0;
+				quadraticAtt 2;
 			}
 			Lights {
 				number 1

@@ -1,7 +1,7 @@
 #include "SixSeventh.h"
 #include "../Scanner.h"
 
-SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam) : Deferred() {
+SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M) : Deferred() {
 	this->csp = csp;
 
 	setup(cam);
@@ -48,45 +48,90 @@ SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam) : Deferred() 
 					"Images/Textures/texture_skull.png",
 					NULL);
 
+	teethUp_3DS = new A3dsHandler("Models/Storm/6Skull.3DS", 2);
+	teethUp_3DS->readNormalsFromFile("Models/Storm/6SkullNormals2.txt");
+	teethUp_3DS->makeUVs();
+	teethUp_3DS->makeBoundingBox();
+
+	teethUp = new Model(firstShad,
+						teethUp_3DS->vertexs,
+						teethUp_3DS->normals,
+						teethUp_3DS->UVs,
+						NULL,
+						NULL,
+						teethUp_3DS->indexs,
+						0.6,
+						vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
+						vec3(0.8f, 0.8f, 0.8f),
+						0.1f,
+						&teethUp_M,
+						SkullSize/teethUp_3DS->maxDimension,
+						"Images/Textures/texture_teeth.png",
+						NULL);
+
+	teethDown_3DS = new A3dsHandler("Models/Storm/6Skull.3DS", 3);
+	teethDown_3DS->readNormalsFromFile("Models/Storm/6SkullNormals3.txt");
+	teethDown_3DS->makeUVs();
+	teethDown_3DS->makeBoundingBox();
+
+	teethDown = new Model(firstShad,
+						  teethDown_3DS->vertexs,
+						  teethDown_3DS->normals,
+						  teethDown_3DS->UVs,
+						  NULL,
+						  NULL,
+						  teethDown_3DS->indexs,
+						  0.6,
+						  vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
+						  vec3(0.8f, 0.8f, 0.8f),
+						  0.1f,
+						  &teethDown_M,
+						  SkullSize/teethDown_3DS->maxDimension,
+						  "Images/Textures/texture_teeth.png",
+						  NULL);
+
 	dotheAA(true);
 	dotheDOF(false);
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
+	this->rotate_M = rotate_M;
 	readConf(csp);
 }
 
 void SixthRendererSkull::setPosition(vec3 *position) {
 	pos = position;
-//	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
 	
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
-//	Skull_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Brain_3DS->center*Brain->scale);
 
 	vec3 skullTranslate(0.0f, 0.880123f, 3.0925f);
-//	skullTranslate *= Skull->scale;
+	vec3 jawTranslate(0.0f, -0.26f, 4.25893f);
 
-	vec3 jawTranslate(0.0, -0.26, 4.25893);
-//	jawTranslate *= Skull->scale;
-
-	mat4 general = glm::translate(zLate*dir) * glm::translate(*position) * rotate(-90.0f, 1.0f, 0.0f, 0.0f)
+	mat4 general = glm::translate(0.0f, yLate, 0.0f) * glm::translate(*position) * *rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f)
 		    * glm::translate(-Skull_3DS->center*Skull->scale);
 
-	Skull_M = general*glm::translate(-skullTranslate);
-
-	Jaw_M = general * glm::translate(-jawTranslate);
+	Skull_M		= general * glm::translate(-skullTranslate);
+	Jaw_M		= general * glm::translate(-jawTranslate);
+	teethUp_M	= general * glm::translate(-teethUpTranslate);
+	teethDown_M = general * glm::translate(-teethDownTranslate);
 }
 
 void SixthRendererSkull::render(int s, double t) {
 	Skull->render();
 	Jaw->render();
+	teethUp->render();
+	teethDown->render();
 }
 
 void SixthRendererSkull::readConf(CSParser *csp) {
+	csp->parse();
+
 	zLate = csp->getf("Scenes.SixSeventh.Skull.zLate");
 	SkullSize = csp->getf("Scenes.SixSeventh.Skull.size");
 	Skull->scale = SkullSize/Skull_3DS->maxDimension;
 	Jaw->scale = Skull->scale;
+	teethUp->scale = Skull->scale;
+	teethDown->scale = Skull->scale;
 	AO_radius = csp->getf("Scenes.SixSeventh.Skull.AO.radius");
 	AO_bias   = csp->getf("Scenes.SixSeventh.Skull.AO.bias");
 	AO_attenuation = vec2(csp->getf("Scenes.SixSeventh.Skull.AO.linearAtt"),
@@ -94,6 +139,11 @@ void SixthRendererSkull::readConf(CSParser *csp) {
 
 	csp->readLights("Scenes.SixSeventh.Skull.Lights");
 	csp->passToLight(lights);
+
+	teethUpTranslate = csp->getvec3("Scenes.SixSeventh.Skull.teethUpTranslate");
+	teethDownTranslate = csp->getvec3("Scenes.SixSeventh.Skull.teethDownTranslate");
+
+	yLate = csp->getf("Scenes.SixSeventh.Skull.yLate");
 }
 
 void SixthRendererSkull::update(double t) {
@@ -127,7 +177,7 @@ SeventhRendererBrain::SeventhRendererBrain(CSParser *csp, Camera *cam) : Deferre
 					  NULL,
 					  Brain_3DS->indexs,
 					  0.4,
-					  vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
+					  vec3(120.0f/205.0f, 105.0f/205.0f, 80.0f/205.0f),
 					  vec3(1.0f, 1.0f, 1.0f),
 					  0.51f,
 					  &Brain_M,
@@ -180,8 +230,8 @@ void SeventhRendererBrain::update(double t) {
 SixSeventhStormScene::SixSeventhStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	readConf(csp);
 
-//	renderFw = new FirstRendererWorld(csp, scan->rig);
-//	renderFp = new FirstRenderPolio(csp, scan->rig);
+	renderFp = new SeventhRendererBrain(csp, scan->rig);
+	renderFw = new SixthRendererSkull(csp, scan->rig, &renderFp->rotate_M);
 
 	firstStill = true;
 
@@ -218,12 +268,12 @@ SixSeventhStormScene::SixSeventhStormScene(CSParser *csp, Scanner *s) : StormSce
 }
 
 void SixSeventhStormScene::renderModel() {
-//	renderFw->draw(0, 0);
-//	if(scan->status == STATE::UNSCAN || !firstStill) renderFp->draw(0, 0);
+	renderFw->draw(0, 0);
+	if(scan->status == STATE::UNSCAN || !firstStill) renderFp->draw(0, 0);
 }
 
 void SixSeventhStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
-/*	render->bind(false);
+	render->bind(false);
 	glDisable(GL_DEPTH_TEST);
 	scan->mixShad->use();
 	if(left) {
@@ -260,7 +310,7 @@ void SixSeventhStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	scan->quad_I->draw(GL_TRIANGLES);
 	scan->quad->disable();
 	glEnable(GL_DEPTH_TEST);
-	render->unbind();*/
+	render->unbind();
 }
 
 void SixSeventhStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
@@ -319,8 +369,8 @@ void SixSeventhStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 }
 
 void SixSeventhStormScene::update() {
-//	renderFw->setPosition(&scan->cells->cells[scan->scanningCell].p);
-//	renderFp->setPosition(&scan->cells->cells[scan->scanningCell].p);
+	renderFw->setPosition(&scan->cells->cells[scan->scanningCell].p);
+	renderFp->setPosition(&scan->cells->cells[scan->scanningCell].p);
 }
 
 void SixSeventhStormScene::readConf(CSParser *csp) {

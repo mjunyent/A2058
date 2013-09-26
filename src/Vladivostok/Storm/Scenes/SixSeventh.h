@@ -6,13 +6,15 @@
 
 class SixthRendererSkull : public Deferred {
 public:
-	A3dsHandler *Skull_3DS, *Jaw_3DS;
-	Model *Skull, *Jaw;
-	mat4 Skull_M, Jaw_M;
+	A3dsHandler *Skull_3DS, *Jaw_3DS, *teethUp_3DS, *teethDown_3DS;
+	Model *Skull, *Jaw, *teethUp, *teethDown;
+	mat4 Skull_M, Jaw_M, teethUp_M, teethDown_M, *rotate_M;
 	float SkullSize;
-	float zLate;
+	float zLate, yLate;
 
-	SixthRendererSkull(CSParser *csp, Camera *cam);
+	vec3 teethUpTranslate, teethDownTranslate;
+
+	SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M);
 	void render(int s, double t);
 
 	void setPosition(vec3 *position);
@@ -50,8 +52,8 @@ public:
 
 class SixSeventhStormScene : public StormScene {
 public:
-//	FirstRendererWorld *renderFw;
-//	FirstRenderPolio *renderFp;
+	SixthRendererSkull *renderFw;
+	SeventhRendererBrain *renderFp;
 	VBO *textQuad, *linesQuad;
 	TBO skullText, brainText;
 
