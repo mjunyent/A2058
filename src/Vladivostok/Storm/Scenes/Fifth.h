@@ -1,28 +1,25 @@
 #pragma once
-#ifndef STORM_THIRD
-#define STORM_THIRD
+#ifndef STORM_FIFTH
+#define STORM_FIFTH
 
 #include "StormScene.h"
 
-class ThirdStormScene : public StormScene {
+class FifthStormScene : public StormScene {
 public:
-	VBO *textQuad, *linesQuad, *jellyQuad;
-	TBO text;
-	vector<TBO*> jelly;
+	VBO *textQuad, *linesQuad, *evoQuad;
+	TBO text, squareLines;
+	vector<TBO*> evolution;
 
 	//Parameters
 	float textHeight;
 	float linesHeight;
-	float jellyHeight;
-	vec3 position, displacementVec;
-	float displacementVel;
+	float evoHeight;
+	vec3 evoTranslate;
 
 	//State Vars.
-	int jellyFrame;
-	bool skip;
-	float dispPos;
+	int evoFrame;
 
-	ThirdStormScene(CSParser *csp, Scanner *s);
+	FifthStormScene(CSParser *csp, Scanner *s);
 
 	void renderModel();
 	void textDraw(mat4 *V, mat4 *P, FBO *render);
