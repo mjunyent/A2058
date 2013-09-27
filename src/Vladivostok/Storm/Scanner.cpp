@@ -66,6 +66,7 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	scenes.push_back( new SixSeventhStormScene(csp, this, renderBufferL, renderBufferR) );
 	scenes.push_back( new EightStormScene(csp, this, renderBufferL, renderBufferR) );
 	scenes.push_back( new NinthStormScene(csp, this, renderBufferL, renderBufferR) );
+	scenes.push_back( new TenthStormScene(csp, this) );
 }
 
 void Scanner::detect() {

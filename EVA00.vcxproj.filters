@@ -226,6 +226,9 @@
     <ClCompile Include="src\Vladivostok\Storm\Scenes\Fifth.cpp">
       <Filter>Vladivostok\Storm\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Tenth.cpp">
+      <Filter>Vladivostok\Storm\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -382,6 +385,9 @@
       <Filter>Vladivostok\Storm\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="src\Vladivostok\Storm\Scenes\Fifth.h">
+      <Filter>Vladivostok\Storm\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Tenth.h">
       <Filter>Vladivostok\Storm\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

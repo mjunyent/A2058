@@ -308,7 +308,7 @@ Scenes {
 			disp5 -4.0,-6.0,16.0
 		}
 	}
-	
+
 	Ninth {
 		textHeight 15
 		linesHeight 30
@@ -337,6 +337,14 @@ Scenes {
 					}
 			}
 		}
+	}
+	
+	Tenth {
+		textHeight 20
+		linesHeight 30
+		stillTime 5.0
+		logoHeight 30
+		logoLate 0.5,-3.0,10.0
 	}
 }
 

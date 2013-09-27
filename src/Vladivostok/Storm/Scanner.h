@@ -14,6 +14,7 @@
 #include "Scenes/SixSeventh.h"
 #include "Scenes/Eight.h"
 #include "Scenes/Ninth.h"
+#include "Scenes/Tenth.h"
 
 class Grid {
 public:
