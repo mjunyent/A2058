@@ -9,7 +9,7 @@ FifthStormScene::FifthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	std::string filenamePre = "Images/Biotechnopolis/evolution/evolution";
 	std::string a = "0";
-	std::string b = "0";
+	std::string b = "1";
 	std::string filenamePost = ".png";
 
 	for(int i=0; i<evolution.size(); i++) {
@@ -31,13 +31,16 @@ FifthStormScene::FifthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	//Make texture Quads:
 	float ratio = float(squareLines.width)/float(squareLines.height);
+	float ratioEvo = float(evolution[0]->width)/float(evolution[0]->height);
+
 	float linesWidth = ratio*linesHeight;
-	float linesLeftEnd = -linesWidth + linesHeight/2.0f;
+	float linesRightEnd = (linesHeight*ratioEvo)/2.0f;
+	float linesLeftEnd = -linesWidth + linesRightEnd;
 
 	float linesRect[] = {
 		 linesLeftEnd,		 linesHeight/2.0f, 0.0f,
-		 linesHeight/2.0f,	 linesHeight/2.0f, 0.0f,
-		 linesHeight/2.0f,	-linesHeight/2.0f, 0.0f,
+		 linesRightEnd,		 linesHeight/2.0f, 0.0f,
+		 linesRightEnd,		-linesHeight/2.0f, 0.0f,
 		 linesLeftEnd,		-linesHeight/2.0f, 0.0f,
 	};
 
@@ -56,8 +59,7 @@ FifthStormScene::FifthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 
 	textQuad = new VBO(rectText, sizeof(director::quad), 0);
 
-	ratio = float(evolution[0]->width)/float(evolution[0]->height);
-	float evoWidth = ratio*evoHeight;
+	evoWidth = ratioEvo*evoHeight;
 
 	float heartRect[] = {
 		 -evoWidth/2.0f,	 evoHeight/2.0f, 0.0f,
@@ -69,45 +71,56 @@ FifthStormScene::FifthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	evoQuad = new VBO(heartRect, sizeof(director::quad), 0);
 
 	evoFrame = 0;
+	saveScanSize = 0.0;
 }
 
 void FifthStormScene::renderModel() {
 }
 
 void FifthStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
-	vec3 direction = normalize(scan->rig->position-scan->cells->cells[scan->scanningCell].p);
-
-	mat4 M = translate(scan->cells->cells[scan->scanningCell].p
-					 + direction*position.z
-					 + vec3(position.x, position.y, 0.0f)
-					 + displacementVec*dispPos);
-
-	render->bind(false);
-
-	scan->textShad->use();
-	jelly[jellyFrame]->bind(0);
-	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
-	glUniformMatrix4fv(scan->text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
-	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
-	glUniform1f(scan->text_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
-	glUniform1i(scan->text_rightTex_Id, 0);
-	glUniform1i(scan->text_leftTex_Id, 0);
-	glUniform1i(scan->text_showL_Id, 0);
-	glUniform1i(scan->text_showR_Id, 1);
-	
-	jellyQuad->enable(3);
-	scan->textQuadCoords->enable(3);
-	scan->quad_I->draw(GL_TRIANGLES);
-	scan->textQuadCoords->disable();
-	jellyQuad->disable();
-
-	render->unbind();
+//	vec3 direction = normalize(scan->rig->position-scan->cells->cells[scan->scanningCell].p);
 }
 
 void FifthStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
 
 	render->bind(false);
+	glDisable(GL_DEPTH_TEST);
+	scan->textShad->use();
+
+	if(evoFrame < evolution.size())	evolution[evoFrame]->bind(1);
+	if(evoFrame > 0)				evolution[evoFrame-1]->bind(0);
+
+	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
+	glUniformMatrix4fv(scan->text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
+	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
+	glUniform1f(scan->text_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
+
+	STATE what = scan->status;
+	if(what == STILL) what = last;
+
+	if(what == STATE::UNSCAN) {
+		glUniform1i(scan->text_rightTex_Id, 0);
+		glUniform1i(scan->text_leftTex_Id, 1);
+		if(evoFrame < evolution.size()) glUniform1i(scan->text_showL_Id, 1);
+		else glUniform1i(scan->text_showL_Id, 0);
+		if(evoFrame > 0) glUniform1i(scan->text_showR_Id, 1);
+		else glUniform1i(scan->text_showR_Id, 0);	
+	} else {
+		glUniform1i(scan->text_rightTex_Id, 1);
+		glUniform1i(scan->text_leftTex_Id, 0);
+		if(evoFrame < evolution.size()) glUniform1i(scan->text_showR_Id, 1);
+		else glUniform1i(scan->text_showR_Id, 0);
+		if(evoFrame > 0) glUniform1i(scan->text_showL_Id, 1);
+		else glUniform1i(scan->text_showL_Id, 0);	
+	}
+
+	evoQuad->enable(3);
+	scan->textQuadCoords->enable(3);
+	scan->quad_I->draw(GL_TRIANGLES);
+	scan->textQuadCoords->disable();
+	evoQuad->disable();
+
 	scan->textShad->use();
 	squareLines.bind(0);
 	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
@@ -116,7 +129,8 @@ void FifthStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 	glUniform1f(scan->text_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
 	glUniform1i(scan->text_rightTex_Id, 0);
 	glUniform1i(scan->text_leftTex_Id, 0);
-	glUniform1i(scan->text_showL_Id, 0);
+	if(evoFrame < evolution.size() && evoFrame > 0) glUniform1i(scan->text_showL_Id, 1);
+	else glUniform1i(scan->text_showL_Id, 0);
 	glUniform1i(scan->text_showR_Id, 1);
 	
 	linesQuad->enable(3);
@@ -124,10 +138,13 @@ void FifthStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 	scan->quad_I->draw(GL_TRIANGLES);
 	scan->textQuadCoords->disable();
 	linesQuad->disable();
+
+	glEnable(GL_DEPTH_TEST);
+
 	render->unbind();
 }
 
-void ThirdStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
+void FifthStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p);
 
 	render->bind(false);
@@ -138,9 +155,11 @@ void ThirdStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
 	glUniform1f(scan->text_sP_Id, (scan->worldToClip(V, P, &scan->gridPositionVec)+1.0f)/2.0f*float(render->width));
 	glUniform1i(scan->text_rightTex_Id, 0);
+	glUniform1i(scan->text_leftTex_Id, 0);
 
 	glUniform1i(scan->text_showR_Id, 1);
-	glUniform1i(scan->text_showL_Id, 0);
+	if(evoFrame < evolution.size() && evoFrame > 0) glUniform1i(scan->text_showL_Id, 1);
+	else glUniform1i(scan->text_showL_Id, 0);
 	
 	textQuad->enable(3);
 	scan->textQuadCoords->enable(3);
@@ -150,32 +169,47 @@ void ThirdStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	render->unbind();
 }
 
-void ThirdStormScene::readConf(CSParser *csp) {
-	textHeight	= csp->getf("Scenes.Third.textHeight");
-	linesHeight	= csp->getf("Scenes.Third.linesHeight");
-	stillTime	= csp->getf("Scenes.Third.stillTime");
-	jellyHeight = csp->getf("Scenes.Third.jellyHeight");
-	position	= csp->getvec3("Scenes.Third.translate");
-	displacementVel = csp->getf("Scenes.Third.displacementVel");
-	displacementVec = csp->getvec3("Scenes.Third.displacementVec");
+void FifthStormScene::readConf(CSParser *csp) {
+	textHeight	 = csp->getf("Scenes.Fifth.textHeight");
+	linesHeight	 = csp->getf("Scenes.Fifth.linesHeight");
+	stillTime	 = csp->getf("Scenes.Fifth.stillTime");
+	evoHeight	 = csp->getf("Scenes.Fifth.frameHeight");
+	evoTranslate = csp->getvec3("Scenes.Fifth.frameLate");
 }
 
-void ThirdStormScene::update() {
-	if(skip) {
-		jellyFrame++;
-		jellyFrame %= jelly.size();
-	}
-	skip = !skip;
-	dispPos += displacementVel;
+void FifthStormScene::update() {
+
 }
 
-STATE ThirdStormScene::flowControl() {
+STATE FifthStormScene::flowControl() {
 	STATE now = scan->status;
 
-	if(now == STATE::GRID) return STATE::STILL;
-	if(now == STATE::STILL) return STATE::UNSCAN;
+	if(now == STATE::GRID) {
+		last = now;
+		scan->side = 3;
+		saveDelRad = scan->gridDeleteRadius;
+		scan->gridDeleteRadius = 0.0f;
+		return STATE::STILL;
+	}
+	if(now == STATE::STILL) {
+		evoFrame++;
+		if(evoFrame == evolution.size()) scan->scanSize = saveScanSize;
+		if(last == STATE::GRID) return STATE::UNSCAN;
+		if(last == STATE::UNSCAN) return STATE::GRID;
+	}
 	if(now == STATE::UNSCAN) {
-		dispPos = 0.0;
-		return STATE::REST;
+		if(evoFrame == evolution.size()) {
+			evoFrame = 0;
+			scan->side = 1;
+			scan->gridDeleteRadius = saveDelRad;
+			saveScanSize = 0.0;
+			return STATE::REST;
+		}
+		if(saveScanSize == 0.0) {
+			saveScanSize = scan->scanSize;
+			scan->scanSize = evoWidth+scan->distanceFade;
+		}
+		last = now;
+		return STATE::STILL;
 	}
 }

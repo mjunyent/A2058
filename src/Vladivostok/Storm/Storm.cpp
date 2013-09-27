@@ -45,12 +45,13 @@ Storm::Storm(CSParser *csp) {
 	blur_amount_Id			= blur->getUniform("BlurAmount");
 	blur_strength_Id		= blur->getUniform("BlurStrength");
 
-	c = new Cells(60, csp);
+	c = new Cells(80, csp);
 
 	s = new Scanner(csp, c, myRig);
 	s->debSetup();
 
 	lastRadius = 0;
+	readConf();
 }
 
 void Storm::draw(int s, double t) {
@@ -85,7 +86,7 @@ void Storm::render(int s, double t) {
 }
 
 void Storm::update(double t) {
-	readConf();
+//	readConf();
 
 	c->update();
 	s->update();

@@ -47,11 +47,11 @@ int main(void) {
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 
-	manager->addScene(&eyes,   4, 10000000, 0.1);
-	manager->addScene(&glow,   4, 10000000, 0.2);
+	manager->addScene(&eyes,   40, 10000000, 0.1);
+	manager->addScene(&glow,   40, 10000000, 0.2);
 
-	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
-	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
+	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 40, 100000000, 1);
+//	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	Timer timer(manager);
 

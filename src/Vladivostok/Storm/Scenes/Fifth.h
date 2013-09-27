@@ -18,6 +18,10 @@ public:
 
 	//State Vars.
 	int evoFrame;
+	STATE last;
+	float saveDelRad;
+	float saveScanSize;
+	float evoWidth;
 
 	FifthStormScene(CSParser *csp, Scanner *s);
 

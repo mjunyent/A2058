@@ -210,6 +210,14 @@ Scenes {
 		}
 	}
 	
+	Fifth {
+		textHeight 15
+		linesHeight 25
+		stillTime 1.0 ;time after rendering the scan.
+		frameHeight 24.9
+		frameLate 0.0,0.0,0.0
+	}
+	
 	SixSeventh {
 		textHeight 15
 		linesHeight 30

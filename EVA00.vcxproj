@@ -166,6 +166,7 @@
     <ClCompile Include="src\Vladivostok\Storm\Models.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scanner.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scenes\Eight.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Fifth.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scenes\First.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scenes\Fourth.cpp" />
     <ClCompile Include="src\Vladivostok\Storm\Scenes\Ninth.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\Vladivostok\Storm\Models.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scanner.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scenes\Eight.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Fifth.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scenes\First.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scenes\Fourth.h" />
     <ClInclude Include="src\Vladivostok\Storm\Scenes\Ninth.h" />
