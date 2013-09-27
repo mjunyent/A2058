@@ -13,12 +13,12 @@ public:
 	TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering);
 	
 	//Creates texture from PNG.
-	TBO(char* filename, bool goodfiltering);
+	TBO(const char* filename, bool goodfiltering);
 	
 
 	void load(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering);
 
-	void load(char* filename, bool goodfiltering);
+	void load(const char* filename, bool goodfiltering);
 
 	//Binds to TextureUnit id
 	void bind(int id);

@@ -168,6 +168,16 @@ Scenes {
 		}
 	}
 	
+	Third {
+		textHeight 15
+		linesHeight 30
+		stillTime 5.0 ;time after rendering the scan.
+		jellyHeight 35.0
+		translate -2.0,-4.0,10.0
+		displacementVel 0.02;
+		displacementVec 0.4,1.0,0.0
+	}
+	
 	Fourth {
 		textHeight 15
 		linesHeight 30

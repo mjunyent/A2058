@@ -8,6 +8,7 @@
 #include "Scenes/StormScene.h";
 #include "Scenes/First.h"
 #include "Scenes/Second.h"
+#include "Scenes/Third.h"
 #include "Scenes/Fourth.h"
 #include "Scenes/SixSeventh.h"
 #include "Scenes/Eight.h"

@@ -19,7 +19,7 @@ TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLe
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-TBO::TBO(char* filename, bool goodfiltering) {
+TBO::TBO(const char* filename, bool goodfiltering) {
 //	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
@@ -52,7 +52,7 @@ void TBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum forma
 	this->height = height;
 }
 
-void TBO::load(char* filename, bool goodfiltering) {
+void TBO::load(const char* filename, bool goodfiltering) {
 	unsigned char* image;
 	unsigned w, h;
 	unsigned error;
