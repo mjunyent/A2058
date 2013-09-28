@@ -176,9 +176,9 @@ Scenes {
 		linesHeight 30
 		stillTime 5.0 ;time after rendering the scan.
 		jellyHeight 35.0
-		translate -2.0,-4.0,10.0
+		translate -4.0,-4.0,10.0
 		displacementVel 0.02;
-		displacementVec 0.4,1.0,0.0
+		displacementVec -1.0,0.8,5.0
 	}
 	
 	Fourth {
@@ -189,23 +189,35 @@ Scenes {
 		Fish {
 			size 35.0
 			rotate -10.0,-20.0,-50.0
-			rotateVel 0.06
-
+			rotateVel 0.1
+			factor 0.2
 			AO {
 				bias 0.05;
-				radius 5;
-				linearAtt 1;
-				quadraticAtt 1;
+				radius 10;
+				linearAtt 2;
+				quadraticAtt 0;
 			}
 			Lights {
-				number 1
+				number 3
 					Light1 {
 						type DIRECTIONAL
 						attenuation 2.0,0.0,0.0
-						direction -1.0,1.0,1.0
-						colour 0.5,0.5,1.0
+						direction -1.0,0.0,1.0
+						colour 0.6,1.0,0.6
 					}
-			}
+					Light2 {
+						type DIRECTIONAL
+						attenuation 2.0,0.0,0.0
+						direction 0.0,0.0,1.0
+						colour 0.6,1.0,0.6
+					}
+					Light3 {
+						type DIRECTIONAL
+						attenuation 2.0,0.0,0.0
+						direction 1.0,1.0,0.0
+						colour 0.6,1.0,0.6
+					}
+					}
 		}
 		Eye {
 			size 0.9

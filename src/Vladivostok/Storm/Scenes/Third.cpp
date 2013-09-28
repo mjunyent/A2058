@@ -78,7 +78,8 @@ void ThirdStormScene::renderModel() {
 }
 
 void ThirdStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
-	vec3 direction = normalize(scan->rig->position-scan->cells->cells[scan->scanningCell].p);
+	vec3 direction = normalize(scan->rig->position- 
+							  (scan->cells->cells[scan->scanningCell].p+vec3(position.x, position.y, 0.0f)+displacementVec*dispPos));
 
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p
 					 + direction*position.z
@@ -178,8 +179,14 @@ STATE ThirdStormScene::flowControl() {
 	STATE now = scan->status;
 
 	if(now == STATE::GRID) return STATE::STILL;
-	if(now == STATE::STILL) return STATE::UNSCAN;
+	if(now == STATE::STILL) {
+		scan->scanStart += 50;
+		scan->scanSize += 120;
+		return STATE::UNSCAN;
+	}
 	if(now == STATE::UNSCAN) {
+		scan->scanStart -= 50;
+		scan->scanSize -= 120;
 		dispPos = 0.0;
 		return STATE::REST;
 	}

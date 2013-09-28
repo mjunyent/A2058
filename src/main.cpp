@@ -8,7 +8,7 @@
 #include "Vladivostok/myGlow.h"
 #include "Vladivostok/ModelTest.h"
 
-#include "Vladivostok/Storm/Scenes/Second.h"
+#include "Vladivostok/Storm/Scenes/Fourth.h"
 
 using namespace director;
 using namespace TOBAGO;
@@ -31,17 +31,20 @@ int main(void) {
 //	test.saveNormalsToFile("Models/Storm/2PlacodermOUTNormals.txt");
 
 	manager = new SceneManager(&currentTime);
-/*
+	/*
 	//Scenes BYPASS:
 	Rig rig(csp.data.width, csp.data.height, csp.data.FOV, csp.data.zNear, csp.data.zFar, csp.data.CamPos,
 		csp.data.CamDir, csp.data.CamUp, csp.data.EyeSep, csp.data.FocalLength, csp.data.FocusDistance, csp.data.FStop);
 
 	vec3 cpos(50.0, 0.0, -135.0);
+	bool calite[] = { true, true, true };
+	FBO *renderBufferL = new FBO(rig.width, rig.height, true, 3, calite);
+	FBO *renderBufferR = new FBO(rig.width, rig.height, true, 3, calite);
 
-	SecondRendererInnerPlacoderm bypass(&csp, &rig);
+	FourthRendererFish bypass(&csp, &rig, renderBufferL, renderBufferR);
 	bypass.setPosition(&cpos);
 	manager->addScene(&bypass, 1, 100000000000, 0.4);
-	*/
+*/
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 

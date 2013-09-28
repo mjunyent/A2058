@@ -81,6 +81,7 @@ void FourthRendererFish::render(int s, double t) {
 }
 
 void FourthRendererFish::update(double t) {
+	csp->parse();
 	readConf(csp);
 	setPosition(pos);
 }
@@ -103,6 +104,7 @@ void FourthRendererFish::readConf(CSParser *csp) {
 	rotateVel = csp->getf("Scenes.Fourth.Fish.rotateVel");
 	csp->readLights("Scenes.Fourth.Fish.Lights");
 	csp->passToLight(lights);
+	Fish->ambient_factor = csp->getf("Scenes.Fourth.Fish.factor");
 }
 
 
