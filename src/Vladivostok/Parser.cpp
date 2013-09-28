@@ -16,6 +16,7 @@ void CSParser::parse() {
   data.width		 = pr.get<int>("Setup.Screen.width");
   data.height		 = pr.get<int>("Setup.Screen.height");
   data.windowTitle	 = pr.get<std::string>("Setup.Screen.title");
+  data.fullscreen	 = pr.get<std::string>("Setup.Screen.fullscreen") == "YES";
 
   data.oglMajor		 = pr.get<int>("Setup.OpenGL.Major");
   data.oglMinor		 = pr.get<int>("Setup.OpenGL.Minor");

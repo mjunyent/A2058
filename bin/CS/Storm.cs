@@ -3,6 +3,7 @@ Setup {
 		width 2560   ; 1920
 		height 720  ; 1080
 		title MyWindow
+		fullscreen YES
 	}
 
 	OpenGL {
@@ -26,12 +27,12 @@ View {
 	
 	Lens {
 		FocalLength  50.0
-		FocusDistance 250.0
+		FocusDistance 200.0
 		FStop 2.5
 	}
 	
 	Rig {
-		EyeSep 2.0 ;2.0
+		EyeSep 3.0		;2.0
 	}
 }
 
@@ -44,14 +45,14 @@ Storm {
 	blurStrength 0.0
 	DOF {
 		COCnear 70
-		COCfar  140
+		COCfar  200
 		radiusNear 40
 		radiusFar 40
 	}
 }
 
 Cells {
-	Velocity 1.0	;Depth velocity of cells.
+	Velocity 0.5	;Depth velocity of cells.
 	xRange 400		;New cells will appear in a -xRange to xRange x position.
 	yRange 80		;New cells will appear in a -yRange to yRange y position.
 	zNear 10		;New cells will disappear to reappear when they cross zNear.
@@ -75,9 +76,9 @@ Cells {
 	}
 	
 	Play {
-		MultMax 4.0
-		MultIncr 0.1
-		MultDecr 0.05
+		MultMax 2.5
+		MultIncr 0.03
+		MultDecr 0.01
 	}
 	
 	approachVel 0.02
@@ -98,7 +99,7 @@ Scan {
 		divisions 4;
 	}
 	
-	restTime 4.0 ;minimum time between end of scan and start of next.
+	restTime 5.0 ;minimum time between end of scan and start of next.
 	startTime 2.0 ;time between cell detected and start of grid draw.
 
 	gridVelocity  1.5 ; 1.0 ;velocity of the grid to move.
@@ -122,9 +123,11 @@ Scenes {
 		Polio {
 			size 25.0
 			rotationVel 1.0;
+			color 0.4,0.4,0.4
+			velocity 0.05
 			AO {
 				bias 0.05;
-				radius 2;
+				radius 1;
 				linearAtt 1;
 				quadraticAtt 1;
 			}
@@ -132,17 +135,17 @@ Scenes {
 	}
 	
 	Second {
-		textHeight 10
+		textHeight 20
 		linesHeight 30
 		stillTime 5.0
 
 		In {
 			size 24.0
-			shininess 0.4
+			shininess 1.0
 			diffuseColor 0.4276,0.9053,0.6196 ;0.83,0.65,0.6196
 			specularColor 0.4,0.4,0.4
-			rotationVel 0.4
-			zoomVel 0.1
+			rotationVel 0.7
+			zoomVel 0.12
 		}
 		Out {
 			size 25.0

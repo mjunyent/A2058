@@ -69,7 +69,7 @@ void SecondRendererInnerPlacoderm::setPosition(vec3 *position) {
 
 	for(int i=0; i<4; i++) {
 		vec4 dd(dir, 0.0);
-		dd = glm::rotate(i*360.0f/4.0f, 0.0f, 0.0f, 1.0f)*glm::rotate(-10.0f, 0.0f, 1.0f, 0.0f)*dd;
+		dd = glm::rotate(i*360.0f/4.0f, 0.0f, 0.0f, 1.0f)*glm::rotate(-30.0f, 0.0f, 1.0f, 0.0f)*dd;
 		Inner_M[i] = glm::translate(i*4.0f, 0.0f, -i*Inner->scale) * glm::translate((zLate-i*Inner->scale)*vec3(dd.x, dd.y, dd.z)) * glm::translate(*position) * rotate_M[i] *
 			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Inner_3DS->center*Inner->scale);
 	}
@@ -85,6 +85,7 @@ void SecondRendererInnerPlacoderm::render(int s, double t) {
 }
 
 void SecondRendererInnerPlacoderm::update(double t) {
+	csp->parse();
 	readConf(csp);
 	setPosition(pos);
 }

@@ -30,7 +30,10 @@ public:
 	float PolioSize;
 	float zLate;
 	float rotationVel;
-
+	vec3 polioColor, *pos;
+	float velocity;
+	float position;
+	CSParser *csp;
 
 	FirstRenderPolio(CSParser *csp, Camera *cam);
 	void render(int s, double t);
@@ -38,6 +41,8 @@ public:
 	void setPosition(vec3 *position);
 
 	void readConf(CSParser *csp);
+
+	void update(double t);
 };
 
 

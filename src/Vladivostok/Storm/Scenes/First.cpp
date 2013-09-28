@@ -58,6 +58,7 @@ void FirstRendererWorld::readConf(CSParser *csp) {
 
 
 FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
+	this->csp = csp;
 	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Polio.frag");
 
 	setup(cam);
@@ -89,19 +90,24 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
 	readConf(csp);
-
+	position = 0.0;
 	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
 }
 
 void FirstRenderPolio::setPosition(vec3 *position) {
+	pos = position;
 	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
 	//glm::translate(-World_3DS->center*World->scale) *
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
-	Polio_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Polio_3DS->center*Polio->scale);
+	this->position += velocity;
+	Polio_M = glm::translate((zLate+this->position)*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Polio_3DS->center*Polio->scale);
 }
 
 void FirstRenderPolio::render(int s, double t) {
+	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Polio.frag");
+
+	Polio->diffuse_color = polioColor;
 	Polio->render();
 }
 
@@ -114,8 +120,15 @@ void FirstRenderPolio::readConf(CSParser *csp) {
 	AO_attenuation = vec2(csp->getf("Scenes.First.Polio.AO.linearAtt"),
 						  csp->getf("Scenes.First.Polio.AO.quadraticAtt"));
 	rotationVel = csp->getf("Scenes.First.Polio.rotationVel");
+	polioColor = csp->getvec3("Scenes.First.Polio.color");
+	velocity = csp->getf("Scenes.First.Polio.velocity");
 }
 
+void FirstRenderPolio::update(double t) {
+	csp->parse();
+	readConf(csp);
+	setPosition(pos);
+}
 
 FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : StormScene(s) {
 	readConf(csp);
@@ -126,9 +139,9 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : 
 	firstStill = true;
 
 	worldText = TBO("Images/Biotechnopolis/010R.fw.png", true);
-	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
+//	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
 	worldText.clamp(true);
-	polioText.clamp(true);
+//	polioText.clamp(true);
 
 	//Make texture Quads:
 	float ratio = float(scan->linesCircleRight.width)/float(scan->linesCircleRight.height);
@@ -237,7 +250,7 @@ void FirstStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	render->bind(false);
 	scan->textShad->use();
 	worldText.bind(0);
-	if(scan->status == STATE::UNSCAN || !firstStill) polioText.bind(1);
+	if(scan->status == STATE::UNSCAN || !firstStill) worldText.bind(1);
 	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
 	glUniformMatrix4fv(scan->text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
 	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);
@@ -278,12 +291,14 @@ STATE FirstStormScene::flowControl() {
 		else {
 			scan->side = 1;
 			firstStill = true;
+			renderFp->position = 0.0;
 			return STATE::REST;
 		}
 	}
 
 	if(now == STATE::STILL)  {
 		if(firstStill) {
+			renderFp->position = 0.0;
 			firstStill = false;
 			scan->side = 3;
 			return STATE::UNSCAN;

@@ -24,6 +24,7 @@ public:
 
 		int nlights;
 		vector<Light::lamp> lights;
+		bool fullscreen;
 	} data;
 
 	CSParser(std::string filename);

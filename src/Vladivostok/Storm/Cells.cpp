@@ -44,7 +44,7 @@ void Cells::Play() {
 void Cells::update() {
 	if(reduce || !move) {
 		for(int i=0; i<cells.size(); i++) {
-			if(cells[i].p.z < zNear && cells[i].p.z > cells[reduceId].p.z) cells[i].p += cells[i].v;
+			if(cells[i].p.z < zNear && cells[i].p.z > cells[reduceId].p.z) cells[i].p += 2.0f*cells[i].v;
 		}
 	}
 	if(reduce) {
@@ -59,7 +59,10 @@ void Cells::update() {
 		cells[reduceId].p.z += slowGo;
 	}
 
-	if(!move) return;
+	if(!move) {
+		sort(sortedCells.begin(), sortedCells.end(), DepthSort() );
+		return;
+	}
 
 	if(play == 1) {
 		reduceMult += MultIncr;
