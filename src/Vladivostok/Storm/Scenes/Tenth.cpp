@@ -178,7 +178,16 @@ void TenthStormScene::update() {
 STATE TenthStormScene::flowControl() {
 	STATE now = scan->status;
 
+	if(textFrame == 0)
+		stillTime = 7.0;
+	else if(textFrame == 1)
+		stillTime = 8.0;
+	else
+		stillTime = 9.0;
+		
+
 	if(now == STATE::GRID) {
+		scan->cells->slowGo = 0.01;
 		last = now;
 		scan->side = 3;
 		saveDelRad = scan->gridDeleteRadius;
@@ -196,6 +205,7 @@ STATE TenthStormScene::flowControl() {
 			textFrame = 0;
 			scan->side = 1;
 			scan->gridDeleteRadius = saveDelRad;
+			scan->cells->slowGo = 0.02;
 			//saveScanSize = 0.0;
 			return STATE::REST;
 		}

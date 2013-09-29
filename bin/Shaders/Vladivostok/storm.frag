@@ -20,9 +20,9 @@ void main()
 	if(side == 2 && gl_FragCoord.x < cellPos) discard;
 	colour = texture(tex, VertexIn.UV); //Get the color from the texture
 	colour.a -= alpha;
-/*	colour.r = colour.r/3.0+colour.g/3.0+colour.b/3.0;
+	colour.r = colour.r/3.0+colour.g/3.0+colour.b/3.0;
 	colour.g = colour.r;
-	colour.b = colour.r;*/
+	colour.b = colour.r;
 	clamp(colour, 0.0, 1.0);
 
 	glowMap = vec4(0.0, 0.0, 0.0, colour.a);

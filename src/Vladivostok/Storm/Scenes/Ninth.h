@@ -9,7 +9,7 @@ public:
 	A3dsHandler *Flu_3DS;
 	Model *Flu;
 	mat4 Flu_M, rotate_M;
-	float FluSize, zLate, rotateVel;
+	float FluSize, zLate, rotateVel, zVel, zPos;
 
 	NinthRendererFlu(CSParser *csp, Camera *cam, FBO *rL, FBO *rR);
 	void render(int s, double t);

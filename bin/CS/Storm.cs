@@ -242,6 +242,7 @@ Scenes {
 			zLate 5.0
 			size 25.0
 			rotationVel 0.8
+			zVel 0.02
 			AO {
 				bias 0.05;
 				radius 20;
@@ -260,22 +261,22 @@ Scenes {
 		}
 		
 		Skull {
-			zLate 5.0
+			zLate 10.0
 			size 25.0
 			teethUpTranslate 0.00,1.28109,1.6
 			teethDownTranslate 0.00,-0.60,5.55
 			yLate 7.0
 			AO {
 				bias 0.05;
-				radius 10;
+				radius 5;
 				linearAtt 2.0;
-				quadraticAtt 2;
+				quadraticAtt 1;
 			}
 			Lights {
 				number 1
 					Light1 {
 						type DIRECTIONAL
-						attenuation 2.0,0.0,0.0
+						attenuation 3.0,0.0,0.0
 						direction 1.0,0.0,1.0
 						colour 1.0,1.0,1.0
 					}
@@ -284,7 +285,7 @@ Scenes {
 	}
 	
 	Eight {
-		textHeight 10
+		textHeight 15
 		linesHeight 30
 		stillTime 7.0
 		Heart {
@@ -297,11 +298,11 @@ Scenes {
 			size 7.0
 			shininess 0.4
 			diffuseColor 0.8,0.100,0.23
-			specularColor 0.8,0.8,0.8
+			specularColor 0.1,0.1,0.1
 			rotationVel 0.4
 			AO {
 				bias 0.05;
-				radius 10;
+				radius 20;
 				linearAtt 2.0;
 				quadraticAtt 2;
 			}
@@ -315,12 +316,12 @@ Scenes {
 					}
 			}
 			
-			disp0 -8.0,5.0,24.0
-			disp1 1.0,-3.0,12.0
-			disp2 4.0,4.0,5.0
-			disp3 -5.0,2.0,0.0
-			disp4 -2.0,-6.0,-10.0
-			disp5 -4.0,-6.0,16.0
+			disp0 -14.0,5.0,28.0
+			disp1 -1.0,-3.0,22.0
+			disp2 2.0,4.0,15.0
+			disp3 -12.0,2.0,40.0
+			disp4 -4.0,-6.0,0.0
+			disp5 -10.0,-8.0,26.0
 		}
 	}
 
@@ -329,12 +330,13 @@ Scenes {
 		linesHeight 30
 		stillTime 5.0
 		Flu {
-			size 28.0
-			zLate 10.0
+			size 22.0
+			zLate -15.0
 			shininess 0.1
-			diffuseColor 0.0,0.0,0.0
-			specularColor 0.6,0.6,0.6
+			diffuseColor 0.106,0.094,0.235
+			specularColor 0.02,0.02,0.02
 			rotateVel 0.5
+			velocity 0.15
 
 			AO {
 				bias 0.05;
@@ -355,9 +357,9 @@ Scenes {
 	}
 	
 	Tenth {
-		textHeight 20
+		textHeight 25
 		linesHeight 30
-		stillTime 5.0
+		stillTime 9.0
 		logoHeight 30
 		logoLate 0.5,-3.0,10.0
 	}

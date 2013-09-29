@@ -10,11 +10,11 @@ public:
 	Model *Skull, *Jaw, *teethUp, *teethDown;
 	mat4 Skull_M, Jaw_M, teethUp_M, teethDown_M, *rotate_M;
 	float SkullSize;
-	float zLate, yLate;
+	float *zLate, yLate;
 
 	vec3 teethUpTranslate, teethDownTranslate;
 
-	SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M, FBO *rL, FBO *rR);
+	SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M, float *zLate, FBO *rL, FBO *rR);
 	void render(int s, double t);
 
 	void setPosition(vec3 *position);
@@ -35,6 +35,8 @@ public:
 	float BrainSize;
 	float zLate;
 	float rotationVel;
+	float zVel;
+	float zPos;
 
 	SeventhRendererBrain(CSParser *csp, Camera *cam);
 	void render(int s, double t);

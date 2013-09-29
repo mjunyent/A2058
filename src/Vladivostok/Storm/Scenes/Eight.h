@@ -13,6 +13,7 @@ public:
 	vec3 RBCdisp[6];
 	vec3 rotVecs[6];
 	float rotVals[6];
+	float rotVelsAdded[6];
 
 	EightRendererRBC(CSParser *csp, Camera *cam, FBO *rL, FBO *rR);
 	void render(int s, double t);

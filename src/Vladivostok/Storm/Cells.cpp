@@ -147,6 +147,10 @@ void Cells::update() {
 	sort(sortedCells.begin(), sortedCells.end(), DepthSort() ); 
 }
 
+void Cells::sortThing() {
+			sort(sortedCells.begin(), sortedCells.end(), DepthSort() );
+}
+
 void Cells::readConf(CSParser *csp) {
 	vel		 = csp->getf("Cells.Velocity");
 	xRange	 = csp->getf("Cells.xRange");

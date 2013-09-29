@@ -86,8 +86,11 @@ void main(){
 			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a*spotlight;
 		}
 	}
+	
+	//Selfilumination HARDCODED MAN!
+//	color.rgb += 0.6*mix(vec3(0.486, 0.447, 0.0), vec3(1,1,1), 1.0-abs(dot(normalize(position-camera_position), normal)));
+	color.rgb += 0.4*mix(vec3(124.0f/255.0f, 114.0f/255.0f, 0.0), vec3(1,1,1), 1.0-abs(dot(normalize(position-camera_position), normal)));
 
-	color.rgb += 0.7*mix(vec3(0.106, 0.094, 0.235), vec3(0.561,0.469,0.542), min(1.0-abs(dot(normalize(position-camera_position), normal))+0.1, 0.8) );
 
 	//Background coloring.
 	float depth = texture(Depth, UV).x;

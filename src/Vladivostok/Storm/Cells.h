@@ -49,6 +49,7 @@ public:
 	void update();
 	void Play();
 	void select(int cell);
+	void sortThing();
 
 	void readConf(CSParser *csp);
 };

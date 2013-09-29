@@ -23,10 +23,10 @@ NinthRendererFlu::NinthRendererFlu(CSParser *csp, Camera *cam, FBO *rL, FBO *rR)
 					Flu_3DS->tangents,
 					Flu_3DS->bitangents,
 					Flu_3DS->indexs,
-					0.4,
+					0.2,
 					vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
 					vec3(0.1f, 0.1f, 0.1f),
-					0.01f,
+					0.1f,
 					&Flu_M,
 					FluSize/Flu_3DS->maxDimension,
 					NULL,
@@ -37,16 +37,18 @@ NinthRendererFlu::NinthRendererFlu(CSParser *csp, Camera *cam, FBO *rL, FBO *rR)
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
 	readConf(csp);
+	zPos = zLate;
 }
 
 void NinthRendererFlu::setPosition(vec3 *position) {
 	pos = position;
 
-	rotate_M = rotate_M * rotate(-1.0f*rotateVel, 0.0f, 1.0f, 0.0f);
+	rotate_M = rotate_M * rotate(-1.0f*rotateVel, 0.7f, 1.0f, 0.0f);
 
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
-	Flu_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M *
+	zPos += zVel;
+	Flu_M = glm::translate(zPos*dir) * glm::translate(*position) * rotate_M *
 			rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Flu_3DS->center*Flu->scale);
 }
 
@@ -79,6 +81,7 @@ void NinthRendererFlu::readConf(CSParser *csp) {
 	csp->passToLight(lights);
 
 	rotateVel = csp->getf("Scenes.Ninth.Flu.rotateVel");
+	zVel = csp->getf("Scenes.Ninth.Flu.velocity");
 }
 
 
@@ -213,5 +216,8 @@ STATE NinthStormScene::flowControl() {
 
 	if(now == STATE::GRID) return STATE::STILL;
 	if(now == STATE::STILL) return STATE::UNSCAN;
-	if(now == STATE::UNSCAN) return STATE::REST;
+	if(now == STATE::UNSCAN) {
+		renderFlu->zPos = renderFlu->zLate;
+		return STATE::REST;
+	}
 }

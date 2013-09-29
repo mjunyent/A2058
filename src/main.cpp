@@ -8,8 +8,8 @@
 #include "Vladivostok/myGlow.h"
 #include "Vladivostok/ModelTest.h"
 
-#include "Vladivostok/Storm/Scenes/Fourth.h"
-
+#include "Vladivostok/Storm/Scenes/SixSeventh.h"
+//#define SCENE
 using namespace director;
 using namespace TOBAGO;
 
@@ -31,7 +31,8 @@ int main(void) {
 //	test.saveNormalsToFile("Models/Storm/2PlacodermOUTNormals.txt");
 
 	manager = new SceneManager(&currentTime);
-	/*
+
+#ifdef SCENE
 	//Scenes BYPASS:
 	Rig rig(csp.data.width, csp.data.height, csp.data.FOV, csp.data.zNear, csp.data.zFar, csp.data.CamPos,
 		csp.data.CamDir, csp.data.CamUp, csp.data.EyeSep, csp.data.FocalLength, csp.data.FocusDistance, csp.data.FStop);
@@ -40,17 +41,19 @@ int main(void) {
 	bool calite[] = { true, true, true };
 	FBO *renderBufferL = new FBO(rig.width, rig.height, true, 3, calite);
 	FBO *renderBufferR = new FBO(rig.width, rig.height, true, 3, calite);
-
-	FourthRendererFish bypass(&csp, &rig, renderBufferL, renderBufferR);
+	mat4 id = translate(0.0f,0.0f,0.0f);
+	SeventhRendererBrain bybypass(&csp, &rig);
+	SixthRendererSkull bypass(&csp, &rig, &bybypass.rotate_M, renderBufferL, renderBufferR);
 	bypass.setPosition(&cpos);
 	manager->addScene(&bypass, 1, 100000000000, 0.4);
-*/
+
+#else
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 
 	manager->addScene(&eyes,   4, 10000000, 0.1);
 	manager->addScene(&glow,   4, 10000000, 0.2);
-
+#endif
 	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
 //	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 

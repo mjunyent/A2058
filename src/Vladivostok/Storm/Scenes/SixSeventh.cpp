@@ -1,11 +1,11 @@
 #include "SixSeventh.h"
 #include "../Scanner.h"
 
-SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M, FBO *rL, FBO *rR) : Deferred() {
+SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *rotate_M, float *zLate, FBO *rL, FBO *rR) : Deferred() {
 	this->csp = csp;
 	renderBufferL = rL;
 	renderBufferR = rR;
-
+	this->zLate = zLate;
 	setup(cam);
 	
 	Skull_3DS = new A3dsHandler("Models/Storm/6Skull.3DS", 0);
@@ -20,7 +20,7 @@ SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *ro
 					  NULL,
 					  NULL,
 					  Skull_3DS->indexs,
-					  0.6,
+					  0.4,
 					  vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
 					  vec3(0.4f, 0.4f, 0.4f),
 					  0.1f,
@@ -41,7 +41,7 @@ SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *ro
 					NULL,
 					NULL,
 					Jaw_3DS->indexs,
-					0.6,
+					0.4,
 					vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
 					vec3(0.4f, 0.4f, 0.4f),
 					0.1f,
@@ -62,7 +62,7 @@ SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *ro
 						NULL,
 						NULL,
 						teethUp_3DS->indexs,
-						0.6,
+						0.4,
 						vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
 						vec3(0.8f, 0.8f, 0.8f),
 						0.1f,
@@ -83,7 +83,7 @@ SixthRendererSkull::SixthRendererSkull(CSParser *csp, Camera *cam, glm::mat4 *ro
 						  NULL,
 						  NULL,
 						  teethDown_3DS->indexs,
-						  0.6,
+						  0.4,
 						  vec3(120.0f/255.0f, 105.0f/255.0f, 80.0f/255.0f),
 						  vec3(0.8f, 0.8f, 0.8f),
 						  0.1f,
@@ -109,7 +109,7 @@ void SixthRendererSkull::setPosition(vec3 *position) {
 	vec3 skullTranslate(0.0f, 0.880123f, 3.0925f);
 	vec3 jawTranslate(0.0f, -0.26f, 4.25893f);
 
-	mat4 general = glm::translate(0.0f, yLate, 0.0f) * glm::translate(*position) * *rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f)
+	mat4 general = glm::translate(*zLate*dir) * glm::translate(0.0f, yLate, 0.0f) * glm::translate(*position) * glm::rotate(90.0f, 0.0f, 1.0f, 0.0f) * *rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f)
 		    * glm::translate(-Skull_3DS->center*Skull->scale);
 
 	Skull_M		= general * glm::translate(-skullTranslate);
@@ -128,7 +128,7 @@ void SixthRendererSkull::render(int s, double t) {
 void SixthRendererSkull::readConf(CSParser *csp) {
 	csp->parse();
 
-	zLate = csp->getf("Scenes.SixSeventh.Skull.zLate");
+//	zLate = csp->getf("Scenes.SixSeventh.Skull.zLate");
 	SkullSize = csp->getf("Scenes.SixSeventh.Skull.size");
 	Skull->scale = SkullSize/Skull_3DS->maxDimension;
 	Jaw->scale = Skull->scale;
@@ -192,15 +192,17 @@ SeventhRendererBrain::SeventhRendererBrain(CSParser *csp, Camera *cam) : Deferre
 	dotheAO(2, 0.05, vec2(2, 2), true);
 
 	readConf(csp);
+	zPos = zLate;
 }
 
 void SeventhRendererBrain::setPosition(vec3 *position) {
 	pos = position;
 	rotate_M = rotate_M * rotate(-1.0f*rotationVel, 0.0f, 1.0f, 0.0f);
+	zPos += zVel;
 	
 	vec3 dir = cam->position - *position;
 	dir = normalize(dir);
-	Brain_M = glm::translate(zLate*dir) * glm::translate(*position) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Brain_3DS->center*Brain->scale);
+	Brain_M = glm::translate(zPos*dir) * glm::translate(*position) * glm::rotate(110.0f, 0.0f, 1.0f, 0.0f) * rotate_M * rotate(-90.0f, 1.0f, 0.0f, 0.0f) * glm::translate(-Brain_3DS->center*Brain->scale);
 }
 
 void SeventhRendererBrain::render(int s, double t) {
@@ -219,6 +221,8 @@ void SeventhRendererBrain::readConf(CSParser *csp) {
 
 	csp->readLights("Scenes.SixSeventh.Brain.Lights");
 	csp->passToLight(lights);
+
+	zVel = csp->getf("Scenes.SixSeventh.Brain.zVel");
 }
 
 void SeventhRendererBrain::update(double t) {
@@ -233,7 +237,7 @@ SixSeventhStormScene::SixSeventhStormScene(CSParser *csp, Scanner *s, FBO *rL, F
 	readConf(csp);
 
 	renderFp = new SeventhRendererBrain(csp, scan->rig);
-	renderFw = new SixthRendererSkull(csp, scan->rig, &renderFp->rotate_M, rL, rR);
+	renderFw = new SixthRendererSkull(csp, scan->rig, &renderFp->rotate_M, &renderFp->zPos, rL, rR);
 
 	firstStill = true;
 
@@ -389,6 +393,7 @@ STATE SixSeventhStormScene::flowControl() {
 		else {
 			scan->side = 1;
 			firstStill = true;
+			renderFp->zPos = renderFp->zLate;
 			return STATE::REST;
 		}
 	}

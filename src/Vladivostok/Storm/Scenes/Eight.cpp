@@ -5,6 +5,7 @@
 EightRendererRBC::EightRendererRBC(CSParser *csp, Camera *cam, FBO *rL, FBO *rR) : Deferred() {
 	renderBufferL = rL;
 	renderBufferR = rR;
+	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/RBC.frag");
 
 	setup(cam);
 	this->csp = csp;
@@ -21,10 +22,10 @@ EightRendererRBC::EightRendererRBC(CSParser *csp, Camera *cam, FBO *rL, FBO *rR)
 					NULL,
 					NULL,
 					RBC_3DS->indexs,
-					0.4,
+					0.2,
 					vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
 					vec3(0.1f, 0.1f, 0.1f),
-					0.01f,
+					0.1f,
 					&RBC_M,
 					RBCSize/RBC_3DS->maxDimension,
 					NULL,
@@ -47,7 +48,7 @@ void EightRendererRBC::setPosition(vec3 *position) {
 	pos = position;
 
 	for(int i=0; i<6; i++) {
-		rotVals[i] += rotValue;
+		rotVals[i] += rotValue+rotVelsAdded[i];
 	}
 }
 
@@ -93,6 +94,7 @@ void EightRendererRBC::readConf(CSParser *csp) {
 void EightRendererRBC::setRotVals() {
 	for(int i=0; i<6; i++) {
 		rotVecs[i] = normalize(vec3(randValue(-1,1), randValue(-1,1), randValue(-1,1)));
+		rotVelsAdded[i] = randValue(-0.1,0.1);
 	}
 }
 
@@ -159,6 +161,8 @@ EightStormScene::EightStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : 
 	heartVel = 0.0;
 	heartAlpha = 0.0;
 	heartZoom = false;
+
+	renderRBC->setRotVals();
 }
 
 void EightStormScene::renderModel() {
@@ -171,7 +175,7 @@ void EightStormScene::modelDraw(mat4 *V, mat4 *P, FBO *render, bool left) {
 	mat4 M = translate(scan->cells->cells[scan->scanningCell].p + direction*(zLate + heartPosition));
 
 	render->bind(false);
-	//if(heartAlpha > 0.5) {
+	//if(heartAlpha > 0.1) {
 		glDisable(GL_DEPTH_TEST);
 		scan->mixShad->use();
 		if(left) {
@@ -286,7 +290,6 @@ STATE EightStormScene::flowControl() {
 	STATE now = scan->status;
 
 	if(now == STATE::GRID) {
-		renderRBC->setRotVals();
 		heartZoom = true;
 		return STATE::STILL;
 	}
@@ -296,6 +299,7 @@ STATE EightStormScene::flowControl() {
 		heartPosition = 0.0;
 		heartVel = 0.0;
 		heartAlpha = 0.0;
+		renderRBC->setRotVals();
 		return STATE::REST;
 	}
 }
