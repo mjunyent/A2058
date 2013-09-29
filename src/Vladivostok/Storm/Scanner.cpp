@@ -54,19 +54,46 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 
 	currentScene = 0;
 
+	this->csp = csp;
+
 	bool calite[] = { true, true, true };
 	renderBufferL = new FBO(rig->width, rig->height, true, 3, calite);
 	renderBufferR = new FBO(rig->width, rig->height, true, 3, calite);
+}
 
-//	scenes.push_back( new FirstStormScene(csp, this, renderBufferL, renderBufferR) );
-//	scenes.push_back( new SecondStormScene(csp, this) );
-//	scenes.push_back( new ThirdStormScene(csp, this) );
-//	scenes.push_back( new FourthStormScene(csp, this, renderBufferL, renderBufferR) );
-//	scenes.push_back( new FifthStormScene(csp, this) );
-//	scenes.push_back( new SixSeventhStormScene(csp, this, renderBufferL, renderBufferR) );
-//	scenes.push_back( new EightStormScene(csp, this, renderBufferL, renderBufferR) );
-//	scenes.push_back( new NinthStormScene(csp, this, renderBufferL, renderBufferR) );
-	scenes.push_back( new TenthStormScene(csp, this) );
+void Scanner::load(int id) {
+	switch (id)
+	{
+	case 0:
+		scenes.push_back( new FirstStormScene(csp, this, renderBufferL, renderBufferR) );
+		break;
+	case 1:
+		scenes.push_back( new SecondStormScene(csp, this) );
+		break;
+	case 2:
+		scenes.push_back( new ThirdStormScene(csp, this) );
+		break;
+	case 3:
+		scenes.push_back( new FourthStormScene(csp, this, renderBufferL, renderBufferR) );
+		break;
+	case 4:
+		scenes.push_back( new FifthStormScene(csp, this) );
+		break;
+	case 5:
+		scenes.push_back( new SixSeventhStormScene(csp, this, renderBufferL, renderBufferR) );
+		break;
+	case 6:
+		scenes.push_back( new EightStormScene(csp, this, renderBufferL, renderBufferR) );
+		break;
+	case 7:
+		scenes.push_back( new NinthStormScene(csp, this, renderBufferL, renderBufferR) );
+		break;
+	case 8:
+		scenes.push_back( new TenthStormScene(csp, this) );
+		break;
+	default:
+		break;
+	}	
 }
 
 void Scanner::detect() {
@@ -331,6 +358,7 @@ void Scanner::readConf(CSParser *csp) {
 
 
 Grid::Grid(float size, int divisions) {
+	/*
 	//Do the quad.
 	pushVertex(0.0, size/2.0, -size/2.0);
 	pushVertex(0.0, size/2.0,  size/2.0);
@@ -353,7 +381,9 @@ Grid::Grid(float size, int divisions) {
 		pushVertex(0.0,  -size/2.0, -size/2.0+i*step);
 		pushVertex(0.0,   size/2.0, -size/2.0+i*step);
 	}
-
+	*/
+	pushVertex(0.0, -size/2.0, 0.0);
+	pushVertex(0.0,  size/2.0, 0.0);
 	lines = new VBO(lineline, 0);
 }
 

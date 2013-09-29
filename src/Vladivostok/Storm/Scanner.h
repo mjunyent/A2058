@@ -60,6 +60,7 @@ public:
 	FBO *impas;
 	FBO *renderBufferL, *renderBufferR;
 	Grid *grid;
+	CSParser *csp;
 
 	TBO linesCircleLeft, linesCircleRight, linesQuadLeft, linesQuadRight;
 
@@ -82,6 +83,8 @@ public:
 
 	void readConf(CSParser *csp);
 	void update();
+
+	void load(int id);
 
 	GLint grid_M_Id, grid_V_Id, grid_P_Id, grid_centerPosition_Id, grid_radius_Id, grid_alpha_Id;
 	GLint mix_position_Id, mix_TexL_Id, mix_TexR_Id, mix_DepthL_Id, mix_DepthR_Id, mix_showL_Id, mix_showR_Id;

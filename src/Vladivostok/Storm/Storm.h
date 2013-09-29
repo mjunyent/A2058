@@ -10,7 +10,8 @@ class Storm : public Scene {
 public:
 	Shader *billboardShad;
 	VBO *singlePoint;
-	TBO ballTex;
+//	TBO ballTex;
+	vector<TBO*> ballTex;
 
 	FBO *left, *right;
 

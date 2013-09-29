@@ -7,7 +7,7 @@
 
 using namespace std;
 
-enum STEREOTYPE { STEREO_NONE, STEREO_ANAGLYPH_RC, STEREO_ANAGLYPH_GM };
+enum STEREOTYPE { STEREO_NONE, STEREO_ANAGLYPH_RC, STEREO_ANAGLYPH_GM, STEREO_SIDEBYSIDE };
 
 class RenderQuad : public Scene {
 public:

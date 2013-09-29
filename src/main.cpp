@@ -19,8 +19,10 @@ int main(void) {
 	CSParser csp("CS/Storm.cs");
 	csp.parse();
 
+//	win = setup(1920, 1080, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), true);
 	if(csp.data.fullscreen) win = setup(3840, 720, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), true);
 	else win = setup(csp.data.width, csp.data.height, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), NULL);
+
 	windows.push_back(win);
 
 	glfwMakeContextCurrent(windows[0]);
@@ -31,33 +33,129 @@ int main(void) {
 //	test.saveNormalsToFile("Models/Storm/2PlacodermOUTNormals.txt");
 
 	manager = new SceneManager(&currentTime);
-
-#ifdef SCENE
-	//Scenes BYPASS:
-	Rig rig(csp.data.width, csp.data.height, csp.data.FOV, csp.data.zNear, csp.data.zFar, csp.data.CamPos,
-		csp.data.CamDir, csp.data.CamUp, csp.data.EyeSep, csp.data.FocalLength, csp.data.FocusDistance, csp.data.FStop);
-
-	vec3 cpos(50.0, 0.0, -135.0);
-	bool calite[] = { true, true, true };
-	FBO *renderBufferL = new FBO(rig.width, rig.height, true, 3, calite);
-	FBO *renderBufferR = new FBO(rig.width, rig.height, true, 3, calite);
-	mat4 id = translate(0.0f,0.0f,0.0f);
-	SeventhRendererBrain bybypass(&csp, &rig);
-	SixthRendererSkull bypass(&csp, &rig, &bybypass.rotate_M, renderBufferL, renderBufferR);
-	bypass.setPosition(&cpos);
-	manager->addScene(&bypass, 1, 100000000000, 0.4);
-
-#else
 	Storm eyes(&csp);
 	myGlowScene glow(8.0, 0.4, 0, eyes.left->textures[1], eyes.right->textures[1]);
 
-	manager->addScene(&eyes,   4, 10000000, 0.1);
-	manager->addScene(&glow,   4, 10000000, 0.2);
-#endif
-	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), 4, 100000000, 1);
+
+	TBO LoadingImage("Images/Loading.fw.png", true);
+	Shader LoadingShader("Shaders/Post/general.vert", "Shaders/Vladivostok/loading.frag");
+	GLint texId = LoadingShader.getUniform("Tex");
+	GLint tillId = LoadingShader.getUniform("till");
+	VBO VQuad(director::quad, sizeof(quad), 0);
+	IBO IQuad(director::quad_I, sizeof(quad_I));
+
+	eyes.s->load(0);/*
+	eyes.s->load(1);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 300.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+
+	eyes.s->load(2);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 600.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+
+	eyes.s->load(3);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 690.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+
+	eyes.s->load(4);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 1250.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+	
+	eyes.s->load(5);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 1550.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+	
+	eyes.s->load(6);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 1870.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+	
+	eyes.s->load(7);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 2220.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+
+	eyes.s->load(8);
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	LoadingShader.use();
+	LoadingImage.bind(0);
+	glUniform1i(texId, 0);
+	glUniform1f(tillId, 2560.0/2560.0);
+	VQuad.enable(3);
+	IQuad.draw(GL_TRIANGLES);
+	VQuad.disable();
+	glfwSwapBuffers(win);
+	*/
 //	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
+	bool close = false;
+	while(!close) {
+		if(glfwGetKey(win, GLFW_KEY_SPACE)) close = true;
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		LoadingShader.use();
+		LoadingImage.bind(0);
+		glUniform1i(texId, 0);
+		glUniform1f(tillId, 2560.0/2560.0);
+		VQuad.enable(3);
+		IQuad.draw(GL_TRIANGLES);
+		VQuad.disable();
+		glfwSwapBuffers(win);
+		glfwPollEvents();
+	}
+
 	Timer timer(manager);
+
+	manager->addScene(&eyes, director::currentTime+2, 10000000, 0.1);
+	manager->addScene(&glow, director::currentTime+2, 10000000, 0.2);
+	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), director::currentTime+2, 100000000, 1);
+
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

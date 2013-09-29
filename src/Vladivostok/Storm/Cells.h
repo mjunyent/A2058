@@ -10,6 +10,7 @@ struct Cell
 	vec3 p;
 	vec3 v;
 	float alpha;
+	int color;
 };
 
 struct DepthSort
@@ -23,6 +24,7 @@ class Cells {
 public:
 	vector<Cell> cells;
 	vector<Cell*> sortedCells;
+
 	float xRange, yRange, zNear, zFar, zFarAway;
 	float vel;
 	bool move;

@@ -21,10 +21,15 @@ Storm::Storm(CSParser *csp) {
 	left = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	right = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	
-	ballTex = TBO("Images/Balls/noMM/BallM150.fw.png", true);
-	ballTex.clamp(true);
-	renderedCellTemp = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
-	renderedCell     = new FBO(ballTex.width, ballTex.height, false, 1, lecalite);
+	ballTex.push_back(new TBO("Images/Balls/6P/1.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6P/2.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6P/3.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6P/4.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6P/5.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6P/6.png", true));
+	ballTex[0]->clamp(true);
+	renderedCellTemp = new FBO(ballTex[0]->width, ballTex[0]->height, false, 1, lecalite);
+	renderedCell     = new FBO(ballTex[0]->width, ballTex[0]->height, false, 1, lecalite);
 
 	billboardShad = new Shader("Shaders/Vladivostok/storm.vert", "Shaders/Vladivostok/storm.geom", "Shaders/Vladivostok/storm.frag");
 	billboard_M_Id		 = billboardShad->getUniform("Model");
@@ -74,13 +79,12 @@ void Storm::draw(int s, double t) {
 
 void Storm::render(int s, double t) {
 	for(int i=0; i<c->sortedCells.size(); i++) {
-		if(c->sortedCells[i]->id != this->s->scanningCell || this->s->status == STATE::START) renderCell(c->sortedCells[i]->id, 2, 2, 0);
+		if(c->sortedCells[i]->id != this->s->scanningCell || this->s->status == STATE::START)  renderCell(c->sortedCells[i]->id, 2, 2, 0);
 		else {
 			float leftPos = this->s->draw(&myRig->V_left, &myCam->P, left, true);
 			float rightPos = this->s->draw(&myRig->V_right, &myCam->P, right, false);
 			renderCell(this->s->scanningCell, leftPos, rightPos, this->s->side);
 		}
-
 	}
 }
 
@@ -90,6 +94,7 @@ void Storm::update(double t) {
 	c->update();
 	s->update();
 	c->sortThing();
+
 //	s->detect();
 }
 
@@ -130,18 +135,18 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 	}
 	radius+=2;
 
-	if(lastRadius != radius) {
+//	if(lastRadius != radius) {
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	
 		renderedCellTemp->bind();
 			blur->use();
-			ballTex.bind(0);
+			ballTex[c->cells[i].color]->bind(0);
 			glUniform1i(blur_tex_Id, 0);
 			glUniform1i(blur_orientation_Id, 0);
 			glUniform1i(blur_amount_Id, radius);
 			glUniform1f(blur_strength_Id, blurStrength);
-			glUniform2f(blur_texelSize_Id, 1.0/float(ballTex.width), 1.0/float(ballTex.height));
+			glUniform2f(blur_texelSize_Id, 1.0/float(ballTex[c->cells[i].color]->width), 1.0/float(ballTex[c->cells[i].color]->height));
 		
 			quad->enable(3);
 			quad_I->draw(GL_TRIANGLES);
@@ -160,9 +165,9 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 	
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
-	}
+//	}
 
-	lastRadius = radius;
+//	lastRadius = radius;
 
 	//Left
 	left->bind(false);

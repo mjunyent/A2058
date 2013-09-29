@@ -16,6 +16,10 @@ RenderQuad::RenderQuad(STEREOTYPE st) {
 		shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/AnaglyphGM.frag");
 		LeftID = shad->getUniform("LeftTex");
 		RightID = shad->getUniform("RightTex");
+	} else if(this->st == STEREO_SIDEBYSIDE) {
+		shad = new Shader("Shaders/ScreenTexture.vert", "Shaders/3D/SidebySide.frag");
+		LeftID = shad->getUniform("LeftTex");
+		RightID = shad->getUniform("RightTex");
 	}
 
 	quad = new VBO(director::quad, sizeof(director::quad), 0);

@@ -105,8 +105,6 @@ void FirstRenderPolio::setPosition(vec3 *position) {
 }
 
 void FirstRenderPolio::render(int s, double t) {
-	secondShad = new Shader("Shaders/Deferred/second.vert", "Shaders/Vladivostok/Scenes/Polio.frag");
-
 	Polio->diffuse_color = polioColor;
 	Polio->render();
 }

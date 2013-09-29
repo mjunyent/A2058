@@ -3,7 +3,7 @@ Setup {
 		width 2560   ; 1920
 		height 720  ; 1080
 		title MyWindow
-		fullscreen YES
+		fullscreen NO
 	}
 
 	OpenGL {
@@ -44,9 +44,9 @@ Storm {
 	Size 15.0
 	blurStrength 0.0
 	DOF {
-		COCnear 70
+		COCnear 110
 		COCfar  200
-		radiusNear 40
+		radiusNear 500
 		radiusFar 40
 	}
 }
@@ -85,7 +85,7 @@ Cells {
 }
 
 Scan {
-	box {
+	box { ; 352.132
 		left  -60
 		right 50
 		up    -25
@@ -95,7 +95,7 @@ Scan {
 	}
 
 	Grid {
-		size 30;
+		size 3000;
 		divisions 4;
 	}
 	
@@ -121,10 +121,10 @@ Scenes {
 			rotationVel 1.0;
 		}
 		Polio {
-			size 25.0
+			size 15.0
 			rotationVel 1.0;
 			color 0.4,0.4,0.4
-			velocity 0.05
+			velocity 0.1
 			AO {
 				bias 0.05;
 				radius 1;
@@ -185,12 +185,12 @@ Scenes {
 		textHeight 15
 		linesHeight 30
 		stillTime 5.0 ;time after rendering the scan.
-		translate -12.0,5.0,10.0
+		translate -6.0,0.0,10.0
 		Fish {
 			size 35.0
-			rotate -10.0,-20.0,-50.0
-			rotateVel 0.1
-			factor 0.2
+			rotate 0.0,0.0,-20.0
+			rotateVel 0.17
+			factor 0.6
 			AO {
 				bias 0.05;
 				radius 10;
@@ -198,18 +198,18 @@ Scenes {
 				quadraticAtt 0;
 			}
 			Lights {
-				number 3
+				number 2
 					Light1 {
 						type DIRECTIONAL
 						attenuation 2.0,0.0,0.0
-						direction -1.0,0.0,1.0
-						colour 0.6,1.0,0.6
+						direction 1.0,1.0,1.0
+						colour 0.5,0.5,1.0
 					}
 					Light2 {
 						type DIRECTIONAL
 						attenuation 2.0,0.0,0.0
-						direction 0.0,0.0,1.0
-						colour 0.6,1.0,0.6
+						direction 1.0,1.0,0.0
+						colour 0.6,0.6,1.0
 					}
 					Light3 {
 						type DIRECTIONAL
@@ -217,7 +217,7 @@ Scenes {
 						direction 1.0,1.0,0.0
 						colour 0.6,1.0,0.6
 					}
-					}
+			}
 		}
 		Eye {
 			size 0.9

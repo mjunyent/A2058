@@ -174,8 +174,6 @@ void NinthStormScene::linesDraw(mat4 *V, mat4 *P, FBO *render) {
 	scan->textQuadCoords->disable();
 	linesQuad->disable();
 	render->unbind();
-
-
 }
 
 void NinthStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {

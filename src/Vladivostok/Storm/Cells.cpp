@@ -15,7 +15,7 @@ Cells::Cells(int n, CSParser *csp) {
 						  randValue(std::min(zNear, zFarAway), std::max(zNear, zFarAway)));
 		cells[i].v = vec3(0, 0, vel);
 		cells[i].alpha = 1.0;
-
+		cells[i].color = (int)randValue(1, 4.99999999999);
 		sortedCells[i] = &cells[i];
 	}
 
@@ -86,6 +86,7 @@ void Cells::update() {
 						  randValue(-yRange, yRange),
 						  randValue(std::min(zFar, zFarAway), std::max(zFar, zFarAway)));
 			cells[i].alpha = 1.0;
+			cells[i].color = (int)randValue(0, 5.99999999999);
 			cells[i].v = vec3(0, 0, vel);
 		}
 		
@@ -144,7 +145,7 @@ void Cells::update() {
 		}
 	}
 
-	sort(sortedCells.begin(), sortedCells.end(), DepthSort() ); 
+	sort(sortedCells.begin(), sortedCells.end(), DepthSort() );
 }
 
 void Cells::sortThing() {
