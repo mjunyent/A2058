@@ -76,7 +76,7 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 					  NULL,
 					  NULL,
 					  Polio_3DS->indexs,
-					  0.4,
+					  0.05,
 					  vec3(124.0f/255.0f, 114.0f/255.0f, 0.0f),
 					  vec3(0.1f, 0.1f, 0.1f),
 					  0.01f,
@@ -91,7 +91,7 @@ FirstRenderPolio::FirstRenderPolio(CSParser *csp, Camera *cam) : Deferred() {
 
 	readConf(csp);
 	position = 0.0;
-	lights->addDirectionalLight(glm::vec3(2.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0));
+	lights->addDirectionalLight(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
 }
 
 void FirstRenderPolio::setPosition(vec3 *position) {
@@ -137,9 +137,9 @@ FirstStormScene::FirstStormScene(CSParser *csp, Scanner *s, FBO *rL, FBO *rR) : 
 	firstStill = true;
 
 	worldText = TBO("Images/Biotechnopolis/010R.fw.png", true);
-//	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
+	polioText = TBO("Images/Biotechnopolis/011R.fw.png", true);
 	worldText.clamp(true);
-//	polioText.clamp(true);
+	polioText.clamp(true);
 
 	//Make texture Quads:
 	float ratio = float(scan->linesCircleRight.width)/float(scan->linesCircleRight.height);
@@ -248,7 +248,7 @@ void FirstStormScene::textDraw(mat4 *V, mat4 *P, FBO *render) {
 	render->bind(false);
 	scan->textShad->use();
 	worldText.bind(0);
-	if(scan->status == STATE::UNSCAN || !firstStill) worldText.bind(1);
+	if(scan->status == STATE::UNSCAN || !firstStill) polioText.bind(1);
 	glUniformMatrix4fv(scan->text_M_Id, 1, GL_FALSE, &M[0][0]);
 	glUniformMatrix4fv(scan->text_V_Id, 1, GL_FALSE, &(*V)[0][0]); 
 	glUniformMatrix4fv(scan->text_P_Id, 1, GL_FALSE, &(*P)[0][0]);

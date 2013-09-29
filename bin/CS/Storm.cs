@@ -3,7 +3,7 @@ Setup {
 		width 2560   ; 1920
 		height 720  ; 1080
 		title MyWindow
-		fullscreen NO
+		fullscreen YES
 	}
 
 	OpenGL {
@@ -46,7 +46,7 @@ Storm {
 	DOF {
 		COCnear 110
 		COCfar  200
-		radiusNear 500
+		radiusNear 90
 		radiusFar 40
 	}
 }
@@ -82,6 +82,9 @@ Cells {
 	}
 	
 	approachVel 0.02
+	
+	alphaReduceVel 0.015
+	minimumReduceAlpha 0.4
 }
 
 Scan {
@@ -100,7 +103,7 @@ Scan {
 	}
 	
 	restTime 5.0 ;minimum time between end of scan and start of next.
-	startTime 2.0 ;time between cell detected and start of grid draw.
+	startTime 4.0 ;time between cell detected and start of grid draw.
 
 	gridVelocity  1.5 ; 1.0 ;velocity of the grid to move.
 	deleteRadius 10.5
@@ -112,7 +115,7 @@ Scan {
 
 Scenes {
 	First {
-		textHeight 20
+		textHeight 22
 		linesHeight 30
 		stillTime 5.0 ;time after rendering the scan.
 		zLate 5.0
@@ -360,7 +363,7 @@ Scenes {
 		textHeight 25
 		linesHeight 30
 		stillTime 9.0
-		logoHeight 30
+		logoHeight 80
 		logoLate 0.5,-3.0,10.0
 	}
 }

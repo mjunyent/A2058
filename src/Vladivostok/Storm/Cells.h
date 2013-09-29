@@ -37,6 +37,7 @@ public:
 	float centerVelocity, centerUncertainty;
 	vec3 centerPosition;
 	float slowGo;
+	float alphaReduceVel, minimumReduceAlpha;
 
 	float MultMax, MultIncr, MultDecr;
 

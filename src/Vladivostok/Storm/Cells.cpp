@@ -45,6 +45,7 @@ void Cells::update() {
 	if(reduce || !move) {
 		for(int i=0; i<cells.size(); i++) {
 			if(cells[i].p.z < zNear && cells[i].p.z > cells[reduceId].p.z) cells[i].p += 2.0f*cells[i].v;
+			if(i != selectedCell) cells[i].alpha = std::min(cells[i].alpha+alphaReduceVel, 1.0f-minimumReduceAlpha);
 		}
 	}
 	if(reduce) {
@@ -179,4 +180,7 @@ void Cells::readConf(CSParser *csp) {
 	MultIncr = csp->getf("Cells.Play.MultIncr");
 
 	slowGo = csp->getf("Cells.approachVel");
+
+	alphaReduceVel = csp->getf("Cells.alphaReduceVel");
+	minimumReduceAlpha = csp->getf("Cells.minimumReduceAlpha");
 }

@@ -5,7 +5,7 @@ TenthStormScene::TenthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	cout << "Loading Tenth Scene..." << endl;
 	readConf(csp);
 
-	logo = TBO("Images/Biotechnopolis/biotechnopolis_logo.png", true);
+	logo = TBO("Images/Biotechnopolis/biotechnopolis_logo_blackandwhite.png", true);
 	logo.clamp(true);
 
 	text = vector<TBO*>(3);
