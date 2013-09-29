@@ -47,6 +47,7 @@ public:
 	int side; //0 draw all, 1 show right, 2 show left, 3 show none.
 	int currentScene;
 	int gridPositionRLT; //0 right, 1 left, 2 traveling.
+	float initialRestTime;
 
 	//Render things.
 	Rig *rig;

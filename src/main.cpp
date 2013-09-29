@@ -51,7 +51,7 @@ int main(void) {
 
 	eyes.c->selectedCell = 1;
 
-	eyes.s->load(0);
+/*	eyes.s->load(0);
 	eyes.s->load(1);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -62,7 +62,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-
+	
 	eyes.s->load(2);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -117,7 +117,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-
+	*/
 	eyes.s->load(7);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -128,7 +128,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-
+	/*
 	eyes.s->load(8);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -139,7 +139,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-
+	*/
 //	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	bool close = false;
@@ -159,10 +159,9 @@ int main(void) {
 
 	Timer timer(manager);
 
-	manager->addScene(&eyes, director::currentTime+2, 10000000, 0.1);
-	manager->addScene(&glow, director::currentTime+2, 10000000, 0.2);
-	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), director::currentTime+2, 100000000, 1);
-
+	manager->addScene(&eyes, director::currentTime+4, 10000000, 0.1);
+	manager->addScene(&glow, director::currentTime+4, 10000000, 0.2);
+	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), director::currentTime+4, 100000000, 1);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

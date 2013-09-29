@@ -59,6 +59,8 @@ Scanner::Scanner(CSParser *csp, Cells *cells, Rig *rig) {
 	bool calite[] = { true, true, true };
 	renderBufferL = new FBO(rig->width, rig->height, true, 3, calite);
 	renderBufferR = new FBO(rig->width, rig->height, true, 3, calite);
+
+	lastTime = -10.0;
 }
 
 void Scanner::load(int id) {
@@ -93,7 +95,7 @@ void Scanner::load(int id) {
 		break;
 	default:
 		break;
-	}	
+	}
 }
 
 void Scanner::detect() {
@@ -177,8 +179,9 @@ void Scanner::update() {
 			statusChanged = false;
 			lastTime = director::currentTime;
 		}
-
-		if(director::currentTime - lastTime > restTime) {
+		float currentRestTime = restTime;
+		if(currentScene == 0) currentRestTime = initialRestTime;
+		if(director::currentTime - lastTime > currentRestTime) {
 			status = DETECTING;
 			statusChanged = true;
 		}
@@ -190,10 +193,16 @@ void Scanner::update() {
 			lastTime = director::currentTime;
 		}
 
-		detect();
+		if(lastTime < 0.0) {
+			lastTime += 0.1;
+		} else {
+			detect();
+			lastTime = director::currentTime; 
+		}
 
 		if(scanningCell != -1) {
 			status = START;
+			lastTime = director::currentTime; 
 			statusChanged = true;
 		}
 
@@ -350,6 +359,8 @@ void Scanner::readConf(CSParser *csp) {
 
 	gridDeleteRadius = csp->getf("Scan.deleteRadius");
 	distanceFade = csp->getf("Scan.distanceFade");
+
+	initialRestTime = csp->getf("Scan.initialRestTime");
 }
 
 

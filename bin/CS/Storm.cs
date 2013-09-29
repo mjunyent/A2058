@@ -3,7 +3,7 @@ Setup {
 		width 2560   ; 1920
 		height 720  ; 1080
 		title MyWindow
-		fullscreen YES
+		fullscreen NO
 	}
 
 	OpenGL {
@@ -46,7 +46,7 @@ Storm {
 	DOF {
 		COCnear 110
 		COCfar  200
-		radiusNear 90
+		radiusNear 80
 		radiusFar 40
 	}
 }
@@ -103,6 +103,7 @@ Scan {
 	}
 	
 	restTime 5.0 ;minimum time between end of scan and start of next.
+	initialRestTime 5.0;
 	startTime 4.0 ;time between cell detected and start of grid draw.
 
 	gridVelocity  1.5 ; 1.0 ;velocity of the grid to move.
@@ -167,9 +168,9 @@ Scenes {
 			number 1
 			Light1 {
 				type DIRECTIONAL
-				attenuation 2.0,0.0,0.0
-				direction 1.0,1.0,1.0
-				colour 1.0,1.0,1.0
+				attenuation 1.0,0.0,0.0
+				direction 0.0,-1.0,0.0
+				colour 0.0,1.0,1.0
 			}
 		}
 	}
@@ -178,7 +179,7 @@ Scenes {
 		textHeight 15
 		linesHeight 30
 		stillTime 5.0 ;time after rendering the scan.
-		jellyHeight 35.0
+		jellyHeight 50.0
 		translate -4.0,-4.0,10.0
 		displacementVel 0.02;
 		displacementVec -1.0,0.8,5.0
@@ -192,7 +193,7 @@ Scenes {
 		Fish {
 			size 35.0
 			rotate 0.0,0.0,-20.0
-			rotateVel 0.17
+			rotateVel 0.16
 			factor 0.6
 			AO {
 				bias 0.05;
@@ -205,7 +206,7 @@ Scenes {
 					Light1 {
 						type DIRECTIONAL
 						attenuation 2.0,0.0,0.0
-						direction 1.0,1.0,1.0
+						direction 0.0,-1.0,0.0
 						colour 0.5,0.5,1.0
 					}
 					Light2 {
@@ -213,12 +214,6 @@ Scenes {
 						attenuation 2.0,0.0,0.0
 						direction 1.0,1.0,0.0
 						colour 0.6,0.6,1.0
-					}
-					Light3 {
-						type DIRECTIONAL
-						attenuation 2.0,0.0,0.0
-						direction 1.0,1.0,0.0
-						colour 0.6,1.0,0.6
 					}
 			}
 		}
@@ -250,14 +245,14 @@ Scenes {
 				bias 0.05;
 				radius 20;
 				linearAtt 2.0;
-				quadraticAtt 0;
+				quadraticAtt 10.0;
 			}
 			Lights {
 				number 1
 					Light1 {
 						type DIRECTIONAL
-						attenuation 2.0,0.0,0.0
-						direction 1.0,0.0,1.0
+						attenuation 1.0,0.0,0.0
+						direction 0.0,-1.0,0.0
 						colour 1.0,1.0,1.0
 					}
 			}
@@ -273,14 +268,14 @@ Scenes {
 				bias 0.05;
 				radius 5;
 				linearAtt 2.0;
-				quadraticAtt 1;
+				quadraticAtt 2.0;
 			}
 			Lights {
 				number 1
 					Light1 {
 						type DIRECTIONAL
-						attenuation 3.0,0.0,0.0
-						direction 1.0,0.0,1.0
+						attenuation 1.0,0.0,0.0
+						direction 0.0,-1.0,0.0
 						colour 1.0,1.0,1.0
 					}
 			}		
@@ -313,8 +308,8 @@ Scenes {
 				number 1
 					Light1 {
 						type DIRECTIONAL
-						attenuation 2.0,0.0,0.0
-						direction 1.0,1.0,1.0
+						attenuation 1.0,0.0,0.0
+						direction 0.0,-1.0,0.0
 						colour 1.0,1.0,1.0
 					}
 			}
@@ -333,13 +328,13 @@ Scenes {
 		linesHeight 30
 		stillTime 5.0
 		Flu {
-			size 22.0
-			zLate -15.0
+			size 10.0
+			zLate 10.0
 			shininess 0.1
 			diffuseColor 0.106,0.094,0.235
 			specularColor 0.02,0.02,0.02
 			rotateVel 0.5
-			velocity 0.15
+			velocity 0.20
 
 			AO {
 				bias 0.05;
@@ -351,8 +346,8 @@ Scenes {
 				number 1
 					Light1 {
 						type DIRECTIONAL
-						attenuation 2.0,0.0,0.0
-						direction 1.0,1.0,1.0
+						attenuation 1.0,0.0,0.0
+						direction 0.0,-1.0,0.0
 						colour 1.0,1.0,1.0
 					}
 			}
