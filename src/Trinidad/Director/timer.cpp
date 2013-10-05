@@ -75,7 +75,7 @@ void Timer::update() {
 		cumulativeTime -= FRAME_LENGHT;
 		iterations++;
 		if(iterations > MAX_ITERATIONS) {
-			TOBAGO::log.write(WARNING) << "Timer max iteration achieved";
+			//TOBAGO::log.write(WARNING) << "Timer max iteration achieved";
 			break;
 		}
 	}

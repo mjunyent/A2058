@@ -51,7 +51,7 @@ int main(void) {
 
 	eyes.c->selectedCell = 1;
 
-/*	eyes.s->load(0);
+	eyes.s->load(0);
 	eyes.s->load(1);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -117,7 +117,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-	*/
+
 	eyes.s->load(7);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -128,7 +128,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-	/*
+
 	eyes.s->load(8);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	LoadingShader.use();
@@ -139,7 +139,7 @@ int main(void) {
 	IQuad.draw(GL_TRIANGLES);
 	VQuad.disable();
 	glfwSwapBuffers(win);
-	*/
+
 //	manager->addScene(new FrameRate(20, 20, 200, 80), 4, 10000000, 2);
 
 	bool close = false;

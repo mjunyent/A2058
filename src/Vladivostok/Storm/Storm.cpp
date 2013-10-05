@@ -122,9 +122,9 @@ void Storm::renderCell(int i, float cellScreenPositionL, float cellScreenPositio
 
 	vec4 screenP = myCam->P * myCam->V * idd * vec4(0,0,0,1);
 	screenP /= screenP.w;
-	if(!inRange(screenP.x, -1.1f, 1.1f) ||
-	   !inRange(screenP.y, -1.1f, 1.1f) ||
-	   !inRange(screenP.z, -1.1f, 1.1f)) {
+	if(!inRange(screenP.x, -1.3f, 1.3f) ||
+	   !inRange(screenP.y, -1.3f, 1.3f) ||
+	   !inRange(screenP.z, -1.2f, 1.2f)) {
 		   return;
 	}
 

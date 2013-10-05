@@ -2,8 +2,8 @@ Setup {
 	Screen {
 		width 2560   ; 1920
 		height 720  ; 1080
-		title MyWindow
-		fullscreen NO
+		title Biotechnopolis
+		fullscreen YES
 	}
 
 	OpenGL {
@@ -15,7 +15,7 @@ Setup {
 View {
 	Perspective {
 		FOV 25.0
-		zNear 6.0
+		zNear 3.0
 		zFar 700.0
 	}
 	
