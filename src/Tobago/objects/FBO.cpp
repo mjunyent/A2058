@@ -8,7 +8,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	int maxDrawBuffers;
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
 	if(maxDrawBuffers <= ntbo) {
-		global::log.warning("FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!");
+		TOBAGO::log.write(WARNING) << "FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!";
 	}
 
 	glGenFramebuffers(1, &theID);
@@ -19,6 +19,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	textures.resize(ntbo);
 
 	for(int i=0; i<ntbo; i++) {
+		//Maybe GL_RGBA32F
 		textures[i] = new TBO(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D, textures[i]->theID, 0);
 	}
@@ -39,7 +40,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 		status = false;
 	} else status = true;
 
-	if(!status) global::log.error("Error creating FBO");
+	if(!status) TOBAGO::log.write(ERROR) << "Error creating FBO";
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -53,7 +54,7 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 	int maxDrawBuffers;
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
 	if(maxDrawBuffers <= ntbo) {
-		global::log.warning("FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!");
+		TOBAGO::log.write(WARNING) << "FBO: Be careful not to exceed MAX_DRAW_BUFFERS number!";
 	}
 
 	glGenFramebuffers(1, &theID);
@@ -61,13 +62,13 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 
 	depthtexture = NULL;
 
-	for(int i=0; i<texs.size(); i++) {
-		texs[i]->load(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite);
+	for(unsigned int i=0; i<texs.size(); i++) {
+		texs[i]->load(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite[i]);
 	}
 	if(depth != NULL) depth->load(GL_DEPTH_COMPONENT24, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0, false);
 
 	// Set "renderedTexture" as our colour attachement #0
-	for(int i=0; i<texs.size(); i++) {
+	for(unsigned int i=0; i<texs.size(); i++) {
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D, texs[i]->theID, 0);
 	}
 	if(depth != NULL) glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,  depth->theID, 0);
@@ -84,24 +85,29 @@ FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qua
 		status = false;
 	} else status = true;
 
+	if(!status) TOBAGO::log.write(ERROR) << "Error creating FBO";
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FBO::bind() 
+void FBO::bind(bool erase) 
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, theID);				//bind buffer
+	glGetIntegerv(GL_VIEWPORT, viewport);
+//	glPushAttrib(GL_VIEWPORT_BIT | GL_ENABLE_BIT);			//push viewport and enable config
 	glViewport(0, 0, width, height);						//set viewport
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clean things
+	if(erase) glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clean things
 }
 
 void FBO::unbind() 
 {
+//	glPopAttrib();											//pop config
+	glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);	//set viewport
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, global::width, global::height);
 }
 
 void FBO::erase() {
-	for(int i=0; i<textures.size(); i++) textures[i]->erase();
+	for(unsigned int i=0; i<textures.size(); i++) textures[i]->erase();
 	if(depthtexture != NULL) depthtexture->erase();
 //	glDeleteRenderbuffers(1, &depthrenderbuffer);
 	glDeleteFramebuffers(1, &theID);
@@ -122,36 +128,36 @@ void FBO::shout_error(GLenum error) {
 	switch (error)
 	{
 		case GL_FRAMEBUFFER_UNDEFINED:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_UNDEFINED");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_UNDEFINED";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
 			break;
 		case GL_FRAMEBUFFER_UNSUPPORTED:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_UNSUPPORTED");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_UNSUPPORTED";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
-			global::log.error("FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS";
 			break;
 		case GL_FRAMEBUFFER_COMPLETE:
-			global::log.error("FBO Creation ok, why is this in LOG?");
+			TOBAGO::log.write(ERROR) << "FBO Creation ok, why is this in LOG?";
 			break;
 		case 0:
-			global::log.error("FBO Creation error: 0 returned");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: 0 returned";
 		default:
-			global::log.error("FBO Creation error: Error not recognised");
+			TOBAGO::log.write(ERROR) << "FBO Creation error: Error not recognised";
 		break;
 	}
 	/* http://www.opengl.org/sdk/docs/man3/xhtml/glCheckFramebufferStatus.xml

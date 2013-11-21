@@ -1,12 +1,19 @@
 #ifndef NO_3DS
 
 #pragma once
-#include "../Tobago.h"
-#include "lib3ds.h"
+#include "../objects/VBO.h"
+#include "../objects/IBO.h"
+#include "../basic/log.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <vector>
+
+#include <glm/glm.hpp>
+#include <lib3ds.h>
+
 
 static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin);
 
@@ -21,22 +28,46 @@ static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const 
 class A3dsHandler{
 public:
 	IBO *indexs;
+	vector<IBO*> indexsByMaterial;
 	VBO *vertexs;
 	VBO *normals;
+	VBO *UVs;
+	VBO *tangents;
+	VBO *bitangents;
+	glm::vec3 maximums, minimums, center, edges;
+	float maxDimension;
 	Lib3dsFile *f;
 	Lib3dsMesh *mesh;
 	Lib3dsFace *faces;
 
+	float *ndata;
+
 	A3dsHandler(char *filename);
 	A3dsHandler(char *filename, int meshid);
 
+	//Per vertex things
 	void makeVBOwithIBO(int id);
-	void makeVBO(int id);		//without IBO, 3 vertex per face.
-	void makeNormals();			//1 normal per face
-	void calculateNormals();	//1 normal per vertex
+	void makeFuckingNormals();
+	void makeNormalsPerVertex();	//1 normal per vertex
+	void saveNormalsToFile(const char* filename);
+	void readNormalsFromFile(const char* filename);
+	void makeUVs();
+	void makeTBNSpace();
+	void makeIndexsByMaterial();
+
+	//Per face things
+	void makeVBO(int id);			//without IBO (IBO is 0,1,2,3,...) just if you need it, 3 vertex per face.
+	void makeVBO(int id, int material); 
+	void makeNormalsPerFace();		//1 normal per face
+
+	//Other things
+	void makeBoundingBox();
+
+	glm::mat4 getModelMatrix();
 
 private:
 	void loadFile(char *filename);
+	glm::vec3 calcFaceNormal(int i); //face index
 };
 
 #endif

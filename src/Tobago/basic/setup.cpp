@@ -1,77 +1,85 @@
 #include "setup.h"
 
-using namespace std;
-
-void OGL::init(int w	, int h , 
-	int r , int g , int b , 
-	int alpha , int depth , int stencil , 
-	char *name , int major , int minor ,
-	int aa , GLFWmonitor *monitor ) 
+void TOBAGO::initGLFW(int major, int minor) 
 {
-	global::width = w;
-	global::height = h;
-
-	//////////
-	// GLFW //
-	//////////
 	if( !glfwInit() ) {
-		cerr << "glfwInit fail'd" << endl;
+		TOBAGO::log.write(ERROR) << "glfwInit fail'd";
 		exit ( EXIT_FAILURE );
 	}
 	glfwSetErrorCallback(error_callback);
-	glfwWindowHint(GLFW_SAMPLES, aa);
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor); 
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	//	glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-	//	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-	global::MainWindow = glfwCreateWindow(w, h, name, monitor, NULL);
-	if( !global::MainWindow )
-	{
-		global::log.error("GLFW could not create main window");
-		glfwTerminate();
-		exit( EXIT_FAILURE );
-	}
-	glfwSetInputMode(global::MainWindow, GLFW_STICKY_KEYS, GL_TRUE);
-	glfwSetWindowSizeCallback(global::MainWindow, resize_callback);
-	
-	glfwMakeContextCurrent(global::MainWindow);
-
-	glEnable( GL_DEPTH_TEST );
-	glDepthFunc( GL_LESS );
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glViewport(0, 0, w, h); //dunou if necessary.
-
-
-	//////////
-	// GLEW //
-	//////////
-	glewExperimental=GL_TRUE;
-	if( glewInit()!=GLEW_OK ) {
-		cerr << "glewInit fail'd" << endl;
-		glfwTerminate();
-		exit( EXIT_FAILURE );
-	}
-
+	//glfwWindowHint(GLFW_SAMPLES, 4);
 
 #ifndef NO_SOUND
 	initSound();
 #endif
 }
 
-void resize_callback( GLFWwindow *window, int width, int height ) {
-	global::width = width;
-	global::height = height;
-	glViewport(0, 0, width, height); //dunou if necessary.
-	cout << "UEUEUEUEUEUE" << endl;
+GLFWwindow* TOBAGO::createWindow(int w, int h, const char* name, GLFWmonitor *monitor, GLFWwindow *window) {
+	GLFWwindow *ret;
+	ret = glfwCreateWindow(w, h, name, monitor, window);
+	if(!ret) {
+		TOBAGO::log.write(ERROR) << "GLFW could not create window";
+		glfwTerminate();
+		exit( EXIT_FAILURE );
+	}
+
+	glfwMakeContextCurrent(ret);
+	GLuint vertex_array;
+	glGenVertexArrays(1, &vertex_array);
+	glBindVertexArray(vertex_array);
+
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LESS );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	return ret;
 }
 
-void error_callback(int error, const char* description) {
-	global::log.error(description);
+void TOBAGO::initGLEW() {
+	glewExperimental=GL_TRUE;
+	GLenum err = glewInit();
+	if(err != GLEW_OK) {
+		TOBAGO::log.write(ERROR) << "glewInit fail'd: " << glewGetErrorString(err);
+		glfwTerminate();
+		exit( EXIT_FAILURE );
+	}
 }
 
-/*void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+GLFWwindow* TOBAGO::setup(int w, int h, int major, int minor, const char* name, bool fullscreen) {
+	initGLFW(major, minor);
+	GLFWwindow *ret;
 
-}*/
+	GLFWmonitor *monitor = NULL;
+	if(fullscreen) monitor = glfwGetPrimaryMonitor();
+
+	ret = glfwCreateWindow(w, h, name, monitor, NULL);
+	if(!ret) {
+		TOBAGO::log.write(ERROR) << "GLFW could not create main window";
+		glfwTerminate();
+		exit( EXIT_FAILURE );
+	}
+
+	glfwMakeContextCurrent(ret);
+	initGLEW();
+
+	GLuint vertex_array;
+	glGenVertexArrays(1, &vertex_array);
+	glBindVertexArray(vertex_array);
+
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LESS );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	return ret;
+}
+
+void TOBAGO::error_callback(int error, const char* description) {
+	TOBAGO::log.write(ERROR) << description;
+}

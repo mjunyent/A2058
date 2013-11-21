@@ -4,11 +4,10 @@
 #include <iostream>
 #include <cstdlib>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <fmod.hpp>
+#include <fmod_errors.h>
 
-#include "fmod.hpp"
-#include "fmod_errors.h"
+#include "../basic/log.h"
 
 /*
 	FMOD Ex API :

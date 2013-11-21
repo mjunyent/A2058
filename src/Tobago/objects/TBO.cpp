@@ -1,14 +1,16 @@
 #include "TBO.h"
 
 TBO::TBO() {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	width = 0;
+	height = 0;
 }
 
 TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
@@ -17,8 +19,8 @@ TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLe
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-TBO::TBO(char* filename, bool goodfiltering) {
-	glEnable(GL_TEXTURE_2D);
+TBO::TBO(const char* filename, bool goodfiltering) {
+//	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
@@ -28,7 +30,7 @@ TBO::TBO(char* filename, bool goodfiltering) {
 }
 
 void TBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
-	glEnable(GL_TEXTURE_2D); //just in case...
+//	glEnable(GL_TEXTURE_2D); //just in case...
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(goodfiltering) {
@@ -45,18 +47,24 @@ void TBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum forma
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data);
 
 	glBindTexture(GL_TEXTURE_2D, 0); //just in case...
+
+	this->width = width;
+	this->height = height;
 }
 
-void TBO::load(char* filename, bool goodfiltering) {
+void TBO::load(const char* filename, bool goodfiltering) {
 	unsigned char* image;
 	unsigned w, h;
 	unsigned error;
-	
+
 	error = LodePNG_decode32_file(&image, &w, &h, filename);
-	if(error) global::log.error("Error loading PNG");
+	if(error) TOBAGO::log.write(ERROR) << "Error loading PNG";
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 
-	glEnable(GL_TEXTURE_2D);
+	this->width = w;
+	this->height = h;
+
+//	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(goodfiltering) {
@@ -83,7 +91,7 @@ void TBO::bind(int id) {
 }
 
 void TBO::qualite(bool qualite) {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(qualite) {
@@ -103,4 +111,16 @@ void TBO::qualite(bool qualite) {
 void TBO::erase() {
 	glDeleteTextures(1, &theID);
 //	glDisable(GL_TEXTURE_2D); //not sure...
+}
+
+void TBO::clamp(bool doit) {
+	glBindTexture(GL_TEXTURE_2D, theID);
+
+	if(!doit) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	} else {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
 }

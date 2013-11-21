@@ -1,0 +1,30 @@
+; Simple cells config file
+
+Camera {
+	fov 45.0
+	znear 2.0
+	zfar 200.0
+	
+	px -25.0
+	py 18.0
+	pz -25.0
+	
+	dx 1.0
+	dy -0.5
+	dz 1.0
+	
+	upx 0.0
+	upy 1.0
+	upz 0.0
+}
+
+Lens {
+	fl 8.0
+	fl 3.0
+	fd 50.0
+	fs 0.1
+}
+
+Rig {
+	eyesep 0.2;
+}

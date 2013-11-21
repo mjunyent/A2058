@@ -28,6 +28,10 @@ uniform sampler2D Depth;
 
 uniform mat4 invPV;
 
+uniform sampler2D Background;
+uniform vec3 bgColor;
+uniform bool isBgTex;
+
 //http://webglfactory.blogspot.com.es/2011/05/how-to-convert-world-to-screen.html
 vec4 get3dPoint(in vec2 p) {
 	float depth = texture(Depth, p).x;
@@ -36,11 +40,12 @@ vec4 get3dPoint(in vec2 p) {
 
 	point = invPV*point;
 	return point/point.w;
-} 
+}
+
 void main(){
 	vec3 diffuseColor = texture( Diffuse, UV ).rgb;
 	vec3 specularColor = texture( Specular, UV ).rgb;
-	vec3 normal = texture( Normal, UV ).xyz; //check normalization
+	vec3 normal = (texture( Normal, UV ).xyz)*2.0 - vec3(1.0, 1.0, 1.0); //check normalization
 	float ambientFactor = texture(Normal, UV).w;
 	vec3 position = get3dPoint(UV).xyz;
 	float shininess = 100.0*texture(Specular, UV).a;
@@ -53,7 +58,7 @@ void main(){
 		float spotlight = 0.0;
 
 		if(lights[i].type == 0) { //Directional
-			lightDir = lights[i].Direction;
+			lightDir = normalize(lights[i].Direction);
 			d = 0;
 			spotlight = 1.0;
 		} else if(lights[i].type == 1) { //Point
@@ -64,7 +69,7 @@ void main(){
 			lightDir = normalize(lights[i].Position - position);
 			d = distance(position, lights[i].Position);
 
-            spotlight = max(-dot(lightDir, lights[i].Direction), 0.0);
+            spotlight = max(-dot(lightDir, normalize(lights[i].Direction)), 0.0);
             float spotlightFade = clamp((lights[i].OuterCutoff - spotlight) / (lights[i].OuterCutoff - lights[i].InnerCutoff), 0.0, 1.0);
 		//	spotlightFade = 1.0-spotlightFade;
             spotlight = pow(spotlight * spotlightFade, lights[i].Exponent);
@@ -72,15 +77,21 @@ void main(){
 
 
 		float l  = dot(normal, lightDir);
-		if(l >= 0.0) {
-            vec3 r = normalize(reflect(lightDir, normal));
-            float s = pow(max(dot(r, normalize(position-camera_position)), 0.0), shininess);
+		if(l > 0.0) {
+            vec3 r = -normalize(reflect(lightDir, normal));
+            float s = pow(max(dot(r, normalize(-position+camera_position)), 0.0), shininess);
 
             float a = 1.0 / (lights[i].Attenuation.x + (lights[i].Attenuation.y * d) + (lights[i].Attenuation.z * d * d));
 
 			color.rgb += (l*diffuseColor + s*specularColor)*lights[i].Colour*a*spotlight;
-		//	color.rgb = vec3(spotlight, spotlight, spotlight);
 		}
+	}
+
+	//Background coloring.
+	float depth = texture(Depth, UV).x;
+	if(depth == 1.0) {
+		if(isBgTex) color.rgb = texture(Background, vec2(UV.x, -UV.y)).rgb;
+		else color.rgb = bgColor;
 	}
 
 	color.w = 1.0;

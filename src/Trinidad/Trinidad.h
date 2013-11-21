@@ -1,9 +1,18 @@
-#include "Utils/SoundSpectrum.h" //Draws the spectrum of a song.
-#include "Utils/FrameRate.h" //Draws framerate.
-#include "Utils/Camera.h" //Camera controlled with keyboard.
-#include "Utils/Rig.h" //3D Camera Rig
+#include "Director/director.h"
+#include "Director/timer.h"
+#include "Director/SceneManager.h"
 
-#include "Basic/Deferred.h"
-#include "Basic/LaunchShader.h"
-#include "Basic/RenderModel.h"
-#include "Basic/RenderToBuffer.h"  //Scenes to bind/unbind frambuffers.
+#include "Scenes/FrameRate.h"
+#include "Scenes/Sphere.h"
+#include "Scenes/Floor.h"
+#include "Scenes/Blur.h"
+#include "Scenes/Glow.h"
+#include "Scenes/RenderQuad.h"
+#include "Scenes/SkyBox.h"
+#include "Scenes/DOF.h"
+
+#include "Corella/Light.h"
+#include "Corella/Camera.h"
+#include "Corella/Rig.h"
+#include "Corella/Model.h"
+#include "Corella/Deferred.h"

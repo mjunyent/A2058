@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Buffer_Object.h"
+#include <cstdlib>
+#include <vector>
 
 class VBO : public Buffer_Object
 {
@@ -11,11 +13,13 @@ class VBO : public Buffer_Object
 	GLuint theIndex;
 	VBO() {};
 	VBO( GLfloat *theArray, GLuint theSizeof , GLuint theIx );
-	VBO( vector<float> theArray, GLuint theIx );
+	VBO( std::vector<float> theArray, GLuint theIx );
 	//Habilitar puntero.
 	void enable( GLubyte Rn );
 	void draw( GLushort );
 	//Deshabilitar puntero.
 	void disable();
 	~VBO();
+
+	int components;
 };

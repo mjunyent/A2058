@@ -1,4 +1,5 @@
 /intermediate/
+/intermediate64/
 /*.sln
 /*.sdf
 /*.v11.suo
@@ -8,3 +9,5 @@
 /bin/EVA00.pdb
 /bin/fmod.log
 /bin/log.txt
+bin/logTobago.txt
+logTobago.txt

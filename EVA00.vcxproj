@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -21,7 +29,20 @@
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
@@ -34,7 +55,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -45,6 +72,13 @@
     <LibraryPath>$(SolutionDir)lib\win32;$(SolutionDir)lib\win32\debug;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\win64;$(SolutionDir)lib\win64\debug;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
+    <IntDir>intermediate64\</IntDir>
+    <OutDir>$(SolutionDir)\bin\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -54,6 +88,17 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;fmodexL_vc.lib;lib3ds.lib;oscpack.lib;Ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;fmodexL64_vc.lib;lib3ds.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,68 +114,127 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ShaderToy\ShaderToy.cpp" />
     <ClCompile Include="src\Tobago\basic\basic.cpp" />
-    <ClCompile Include="src\Tobago\basic\global.cpp" />
     <ClCompile Include="src\Tobago\basic\log.cpp" />
     <ClCompile Include="src\Tobago\basic\setup.cpp" />
-    <ClCompile Include="src\Tobago\basic\timer.cpp" />
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp" />
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp" />
-    <ClCompile Include="src\Tobago\handlers\SceneManager.cpp" />
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp" />
     <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp" />
     <ClCompile Include="src\Tobago\objects\FBO.cpp" />
     <ClCompile Include="src\Tobago\objects\IBO.cpp" />
-    <ClCompile Include="src\Tobago\objects\Light.cpp" />
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
-    <ClCompile Include="src\Tobago\objects\Model.cpp" />
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
-    <ClCompile Include="src\Tobago\objects\SShader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\Deferred.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\LaunchShader.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\RenderModel.cpp" />
-    <ClCompile Include="src\Trinidad\Basic\RenderToBuffer.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\Camera.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\FrameRate.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\Rig.cpp" />
-    <ClCompile Include="src\Trinidad\Utils\SoundSpectrum.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Camera.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Deferred.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Light.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Model.cpp" />
+    <ClCompile Include="src\Trinidad\Corella\Rig.cpp" />
+    <ClCompile Include="src\Trinidad\Director\director.cpp" />
+    <ClCompile Include="src\Trinidad\Director\SceneManager.cpp" />
+    <ClCompile Include="src\Trinidad\Director\timer.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\Blur.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\DOF.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\Floor.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\Glow.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\RenderQuad.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\SkyBox.cpp" />
+    <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp" />
+    <ClCompile Include="src\Vladivostok\FloatingBalls.cpp" />
+    <ClCompile Include="src\Vladivostok\ModelTest.cpp" />
+    <ClCompile Include="src\Vladivostok\myGlow.cpp" />
+    <ClCompile Include="src\Vladivostok\Parser.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Cells.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Models.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scanner.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Eight.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Fifth.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\First.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Fourth.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Ninth.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Second.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\SixSeventh.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\StormScene.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Tenth.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Scenes\Third.cpp" />
+    <ClCompile Include="src\Vladivostok\Storm\Storm.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.cpp" />
+    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ShaderToy\ShaderToy.h" />
     <ClInclude Include="src\Tobago\basic\basic.h" />
-    <ClInclude Include="src\Tobago\basic\global.h" />
     <ClInclude Include="src\Tobago\basic\log.h" />
     <ClInclude Include="src\Tobago\basic\setup.h" />
-    <ClInclude Include="src\Tobago\basic\timer.h" />
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h" />
     <ClInclude Include="src\Tobago\handlers\FontHandler.h" />
-    <ClInclude Include="src\Tobago\handlers\SceneManager.h" />
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h" />
     <ClInclude Include="src\Tobago\objects\Buffer_Object.h" />
     <ClInclude Include="src\Tobago\objects\FBO.h" />
     <ClInclude Include="src\Tobago\objects\IBO.h" />
-    <ClInclude Include="src\Tobago\objects\Light.h" />
     <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h" />
-    <ClInclude Include="src\Tobago\objects\Model.h" />
     <ClInclude Include="src\Tobago\objects\Shader.h" />
-    <ClInclude Include="src\Tobago\objects\SShader.h" />
     <ClInclude Include="src\Tobago\objects\TBO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
-    <ClInclude Include="src\Trinidad\Basic\Deferred.h" />
-    <ClInclude Include="src\Trinidad\Basic\LaunchShader.h" />
-    <ClInclude Include="src\Trinidad\Basic\RenderModel.h" />
-    <ClInclude Include="src\Trinidad\Basic\RenderToBuffer.h" />
+    <ClInclude Include="src\Trinidad\Corella\Camera.h" />
+    <ClInclude Include="src\Trinidad\Corella\Deferred.h" />
+    <ClInclude Include="src\Trinidad\Corella\Light.h" />
+    <ClInclude Include="src\Trinidad\Corella\Model.h" />
+    <ClInclude Include="src\Trinidad\Corella\Rig.h" />
+    <ClInclude Include="src\Trinidad\Director\director.h" />
+    <ClInclude Include="src\Trinidad\Director\SceneManager.h" />
+    <ClInclude Include="src\Trinidad\Director\timer.h" />
+    <ClInclude Include="src\Trinidad\Scenes\Blur.h" />
+    <ClInclude Include="src\Trinidad\Scenes\DOF.h" />
+    <ClInclude Include="src\Trinidad\Scenes\Floor.h" />
+    <ClInclude Include="src\Trinidad\Scenes\FrameRate.h" />
+    <ClInclude Include="src\Trinidad\Scenes\Glow.h" />
+    <ClInclude Include="src\Trinidad\Scenes\RenderQuad.h" />
+    <ClInclude Include="src\Trinidad\Scenes\SkyBox.h" />
+    <ClInclude Include="src\Trinidad\Scenes\Sphere.h" />
     <ClInclude Include="src\Trinidad\Trinidad.h" />
-    <ClInclude Include="src\Trinidad\Utils\Camera.h" />
-    <ClInclude Include="src\Trinidad\Utils\FrameRate.h" />
-    <ClInclude Include="src\Trinidad\Utils\Rig.h" />
-    <ClInclude Include="src\Trinidad\Utils\SoundSpectrum.h" />
+    <ClInclude Include="src\Vladivostok\FloatingBalls.h" />
+    <ClInclude Include="src\Vladivostok\ModelTest.h" />
+    <ClInclude Include="src\Vladivostok\myGlow.h" />
+    <ClInclude Include="src\Vladivostok\Parser.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Cells.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Models.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scanner.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Eight.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Fifth.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\First.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Fourth.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Ninth.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Second.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\SixSeventh.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\StormScene.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Tenth.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Scenes\Third.h" />
+    <ClInclude Include="src\Vladivostok\Storm\Storm.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.h" />
+    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Shaders\3D\AnaglyphRC.frag" />
@@ -144,6 +248,8 @@
     <None Include="bin\Shaders\Deferred\first.vert" />
     <None Include="bin\Shaders\Deferred\second.frag" />
     <None Include="bin\Shaders\Deferred\second.vert" />
+    <None Include="bin\Shaders\Deferred\third.frag" />
+    <None Include="bin\Shaders\Deferred\third.vert" />
     <None Include="bin\Shaders\InfoRender.frag" />
     <None Include="bin\Shaders\InfoRender.vert" />
     <None Include="bin\Shaders\MVPTransform.vert" />

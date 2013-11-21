@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 Shader::Shader(const char *vertex, const char *fragment) {
-    load(vertex, fragment);
+    load(vertex, NULL, fragment);
     compile();
     link();
 }
@@ -12,39 +12,63 @@ Shader::Shader(const char *vertex, const char *fragment, bool verbose) {
     link();
 }
 
-bool Shader::load(const char *vertex, const char *fragment) {
-    char *vs, *fs;
-    bool ret = true;
+Shader::Shader(const char *vertex, const char *geometry, const char *fragment) {
+	load(vertex, geometry, fragment);
+    compile();
+    link();
+}
 
-    v = glCreateShader(GL_VERTEX_SHADER);
-    f = glCreateShader(GL_FRAGMENT_SHADER);
+bool Shader::load(const char *vertex, const char *geometry, const char *fragment) {
+	bool ret = true;
+	v = g = f = -1;
 
-    //Loading vertex shader.
-    vs = textFileRead(vertex);
-    if (vs == NULL) {
-        global::log.error("Vertex shader file wasn't read correctly:");
-        global::log.error(vertex);
-        ret = false;
-    }
+	if(vertex != NULL) {
+		char *vs;
+		v = glCreateShader(GL_VERTEX_SHADER);
 
-    vv = vs;
+		//Loading vertex shader.
+		vs = textFileRead(vertex);
+		if (vs == NULL) {
+			TOBAGO::log.write(ERROR) << "Vertex shader wasn't read correctly: " << vertex;
+		    ret = false;
+	    } else {
+			vv = vs;
+			if(ret) glShaderSource(v, 1, &vv, NULL);
+			free(vs);
+		}
+	}
 
-    //Loading fragment shader.
-    fs = textFileRead(fragment);
-    if(fs == NULL) {
-        global::log.error("Fragment shader file wasn't read correctly:");
-        global::log.error(fragment);
-        ret = false;
-    }
-    
-    ff = fs;
+	if(geometry != NULL) {
+		char *gs;
+		g = glCreateShader(GL_GEOMETRY_SHADER);
 
-    if(ret) {
-        glShaderSource(v, 1, &vv, NULL);
-        glShaderSource(f, 1, &ff, NULL);
-        free(vs);
-        free(fs);
-    }
+		//Loading geometry shader.
+		gs = textFileRead(geometry);
+		if (gs == NULL) {
+			TOBAGO::log.write(ERROR) << "Geometry shader wasn't read correctly: " << geometry;
+			ret = false;
+		} else {
+			gg = gs;
+			if(ret) glShaderSource(g, 1, &gg, NULL);
+			free(gs);
+		}
+	}
+
+	if(fragment != NULL) {
+		char *fs;
+	    f = glCreateShader(GL_FRAGMENT_SHADER);
+
+		//Loading fragment shader.
+	    fs = textFileRead(fragment);
+	    if(fs == NULL) {
+			TOBAGO::log.write(ERROR) << "Fragment shader file wasn't read correctly:" << fragment;
+	        ret = false;
+	    } else {
+		    ff = fs;
+			if(ret) glShaderSource(f, 1, &ff, NULL);
+			free(fs);
+		}
+	}
 
     return ret;
 }
@@ -61,28 +85,36 @@ void Shader::loadmemory(const char *vertex, const char *fragment) {
 }
 
 bool Shader::compile() {
-    glCompileShader(v);
-    glCompileShader(f);
+	bool cv, cg, cf;
+	cv = cg = cf = false;
 
-	bool cv = printShaderInfoLog(v); //returns true if error
-    bool cf = printShaderInfoLog(f); //returns true if error
-	return !(cv || cf); //returns false if error	
+	if(v != -1) {
+		glCompileShader(v);
+		cv = printShaderInfoLog(v); //returns true if error
+	}
+	if(g != -1) {
+		glCompileShader(g);
+	    cg = printShaderInfoLog(g); //returns true if error
+	}
+	if(f != -1) {
+		glCompileShader(f);
+		cf = printShaderInfoLog(f); //returns true if error
+	}
 	
-	return 1;
-
+	return !(cv || cg || cf); //returns false if error		
 }
 
 bool Shader::link() {
     p = glCreateProgram();
 
-    glAttachShader(p, v);
-    glAttachShader(p, f);
+	if(v != -1)    glAttachShader(p, v);
+	if(g != -1)	   glAttachShader(p, g);
+	if(f != -1)    glAttachShader(p, f);
 
     glLinkProgram(p);
     bool pl = printProgramInfoLog(p); //returns true if error
 
     return !pl;
-	return 1;
 }
 
 void Shader::use() {
@@ -153,11 +185,10 @@ bool Shader::printShaderInfoLog(GLuint obj)
     {
         infoLog = (char *)malloc(infologLength);
         glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
-        global::log.error("Shader compiling error:");
-        global::log.error(infoLog);
-        free(infoLog); 
+		TOBAGO::log.write(ERROR) << "Shader compiling error:" << infoLog;
+        free(infoLog);
     }
-	
+
     return !(infologLength > 1);
 }
 
@@ -173,10 +204,9 @@ bool Shader::printProgramInfoLog(GLuint obj)
     {
         infoLog = (char *)malloc(infologLength);
         glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
-        global::log.error("Shader program linking error:");
-        global::log.error(infoLog);
+		TOBAGO::log.write(ERROR) << "Shader program linking error:" << infoLog;
         free(infoLog);
     }
-    
+
     return !(infologLength > 1);
 }

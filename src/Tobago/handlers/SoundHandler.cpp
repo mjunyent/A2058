@@ -11,8 +11,8 @@ void ERRCHECK(FMOD_RESULT result)
 {
     if (result != FMOD_OK)
     {
-        printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
-        exit(-1);
+		TOBAGO::log.write(ERROR) << "FMOD Error!" << result << FMOD_ErrorString(result);
+		exit(EXIT_FAILURE);
     }
 }
 
@@ -88,7 +88,7 @@ void SoundHandler::setVel(float v) {
 double SoundHandler::getEnergy() {
 	getWave();
 	double sum = 0.0;
-	for(int i=0; i<len; i++) {
+	for(unsigned int i=0; i<len; i++) {
 		sum += WAVE[i]*WAVE[i];
 	}
 

@@ -1,40 +1,26 @@
-//
-//  setup.h
-//  Lynx1
-//
-
 #pragma once
-#ifndef setup_h
-#define setup_h
+#ifndef TOBAGO_SETUP
+#define TOBAGO_SETUP
 
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
-#include "global.h"
-
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <stdlib.h>
+#include "log.h"
+#include "../handlers/SoundHandler.h"
 
-namespace OGL {
-	/*init(window width, window height
-		red buffer bits, green buffer bits, blue buffer bits,
-		alpha buffer bits, depth buffer bits, stencil buffer bits,
-		window name,
-		OPENGL version,
-		Antialising rate
-		Window mode);
-	*/
-    void init(
-		int w	, int h , 
-		int r , int g , int b , 
-		int alpha , int depth , int stencil , 
-		char *name ,
-		int major , int minor ,
-		int aa , GLFWmonitor *monitor
-		 );
+namespace TOBAGO {
+	GLFWwindow* setup(int w, int h,
+					  int major, int minor,
+					  const char* name,
+					  bool fullscreen);
 
+    void initGLFW(int major, int minor); //and FMOD
+	GLFWwindow* createWindow(int w, int h,
+							 const char* name,
+							 GLFWmonitor *monitor, GLFWwindow *window);
+	void initGLEW();
+	void error_callback(int error, const char* description);
 }
-
-void resize_callback( GLFWwindow *window, int width, int height );
-void error_callback(int error, const char* description);
 
 #endif

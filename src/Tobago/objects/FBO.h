@@ -1,22 +1,22 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "Buffer_Object.h"
-#include "TBO.h"
-#include "../basic/global.h"
 #include <iostream>
+
+#include "../basic/log.h"
+#include "TBO.h"
 
 using namespace std;
 
-//Modificarla para poder añadir Coloratachments y depthbuffers y pollas como te de la gana, sin límite.
 class FBO {
 private:
 //	GLuint depthrenderbuffer;
-	GLsizei width, height;
 	bool deltex;
 	void shout_error(GLenum error);
+	int viewport[4];
 
 public:
+	GLsizei width, height;
 	int ntbo;
 	vector<TBO*> textures;
 	TBO *depthtexture;
@@ -26,7 +26,7 @@ public:
 
 	FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qualite);
 
-	void bind();
+	void bind(bool erase=true);
 
 	void unbind();
 

@@ -2,37 +2,27 @@
 
 using namespace std;
 
-Log::Log(char* name) {
-    filename = name;
-
-	fstream IN;
-	IN.open(filename);
-	
-
-   output = new ofstream;
-    (*output).open(filename);
-    if (!(*output)) {
-        cerr << "Unable to open file " << filename << endl;
-    }
-	
-
-    *output << endl << endl  << "A2058 \t Error Log \t " << filename << endl  << endl;
+Log::Log(const char* name) {
+	m_out = new ofstream;
+	(*m_out).open(name);
+	if(!(*m_out)) cerr << "Unable to open file " << name << endl;
+	(*m_out) << "A2058 \t Error Log \t " << name << endl;
 }
 
-void Log::error(const char* message) {
-    *output << glfwGetTime() << "\t ERROR: " << message << endl;
+Log::~Log() {
+	delete m_out;
 }
 
-void Log::warning(const char* message) {
-    *output << glfwGetTime() << "\t WARNING: " << message << endl;
+ofstream& Log::write(LogLevel ERRNO) {
+	(*m_out) << endl << glfwGetTime() << "\t ";
+	if(ERRNO == ERROR)			(*m_out) << "ERROR";
+	else if (ERRNO == WARNING) 	(*m_out) << "WARNING";
+	else if (ERRNO == INFO) 	(*m_out) << "INFO";
+	else if (ERRNO == DEBUG) 	(*m_out) << "DEBUG";
+	(*m_out) << ": ";
+	return (*m_out);
 }
 
-void Log::message(const char* message) {
-    *output << glfwGetTime() << "\t MESSAGE: " << message << endl;
-}
-
-void Log::close() {
-    *output << glfwGetTime() << "\t ****** \t CLOSSING LOG \t ******" << endl;
-    (*output).close();
-    
+namespace TOBAGO {
+	Log log = Log("logTobago.txt");
 }

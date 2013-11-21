@@ -1,0 +1,698 @@
+ INFO : M3D_VERSION (0x2) size=10
+ INFO : MDATA (0x3D3D) size=9838
+ INFO : 	MESH_VERSION (0x3D3E) size=10
+ INFO : 	MAT_ENTRY (0xAFFF) size=209
+ INFO : 		MAT_NAME (0xA000) size=23
+ INFO : 		  NAME=_untitledmembran
+ INFO : 		MAT_AMBIENT (0xA010) size=24
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 			LIN_COLOR_24 (0x12) size=9
+ INFO : 		MAT_DIFFUSE (0xA020) size=24
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 			LIN_COLOR_24 (0x12) size=9
+ INFO : 		MAT_SPECULAR (0xA030) size=24
+ INFO : 			COLOR_24 (0x11) size=9
+ INFO : 			LIN_COLOR_24 (0x12) size=9
+ INFO : 		MAT_SHININESS (0xA040) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_SHIN2PCT (0xA041) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_TRANSPARENCY (0xA050) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_XPFALL (0xA052) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_REFBLUR (0xA053) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		MAT_SHADING (0xA100) size=8
+ INFO : 		MAT_SELF_ILPCT (0xA084) size=14
+ INFO : 			INT_PERCENTAGE (0x30) size=8
+ INFO : 		***UNKNOWN*** (0xA08A) size=6
+ WARN : 		Unknown Chunk: ***UNKNOWN*** (0xA08A)
+ INFO : 		MAT_WIRE_SIZE (0xA087) size=10
+ INFO : 	MASTER_SCALE (0x100) size=10
+ INFO : 	NAMED_OBJECT (0x4000) size=9603
+ INFO : 		  NAME=default
+ INFO : 		N_TRI_OBJECT (0x4100) size=9589
+ INFO : 			POINT_ARRAY (0x4110) size=3776
+ INFO : 			TEX_VERTS (0x4140) size=2520
+ INFO : 			MESH_MATRIX (0x4160) size=54
+ INFO : 			FACE_ARRAY (0x4120) size=3233
+ INFO : 				MSH_MAT_GROUP (0x4130) size=665
+ INFO : KFDATA (0xB000) size=221
+ INFO : 	KFHDR (0xB00A) size=21
+ INFO : 	KFSEG (0xB008) size=14
+ INFO : 	KFCURTIME (0xB009) size=10
+ INFO : 	OBJECT_NODE_TAG (0xB002) size=170
+ INFO : 		NODE_ID (0xB030) size=8
+ INFO : 			ID=0
+ INFO : 		NODE_HDR (0xB010) size=20
+ INFO : 			NAME=default
+ INFO : 			PARENT=-1
+ INFO : 		PIVOT (0xB013) size=18
+ INFO : 		POS_TRACK_TAG (0xB020) size=38
+ INFO : 		ROT_TRACK_TAG (0xB021) size=42
+ INFO : 		SCL_TRACK_TAG (0xB022) size=38
+Dumping meshes:
+  default vertices=314 faces=320
+  matrix:
+1.000000 0.000000 0.000000 1.617572 
+0.000000 1.000000 0.000000 0.420690 
+0.000000 0.000000 1.000000 0.034396 
+0.000000 0.000000 0.000000 1.000000 
+  vertices (x, y, z, u, v):
+       0.00947   -0.00517    1.78277   0.50000    0.50000
+       0.47257    0.14530    1.71495   0.62982    0.54218
+       0.00947    0.48177    1.71495   0.50000    0.63650
+       0.90042    0.28432    1.51664   0.74975    0.58115
+       0.47787    0.63953    1.59465   0.63130    0.68072
+       0.00947    0.93163    1.51664   0.50000    0.76260
+       1.26045    0.40130    1.20296   0.85067    0.61394
+       0.94627    0.79172    1.29026   0.76260    0.72338
+       0.47787    1.13203    1.29026   0.63130    0.81878
+       0.00947    1.31018    1.20296   0.50000    0.86872
+       1.52524    0.48734    0.79776   0.63806    0.72338
+       1.26045    0.88823    0.90202   0.75044    0.75261
+       0.90042    1.22112    0.93767   0.74975    0.84375
+       0.47257    1.46066    0.90202   0.37018    0.75261
+       0.00947    1.58861    0.79776   0.50000    0.72338
+       0.29568   -0.39910    1.71495   0.58023    0.38957
+       0.56011   -0.76305    1.51664   0.65435    0.28755
+       0.76736   -0.25142    1.59465   0.71245    0.43097
+       0.78262   -1.06931    1.20296   0.71673    0.20170
+       1.05684   -0.64986    1.29026   0.79360    0.31928
+       1.23576   -0.09923    1.29026   0.84375    0.47363
+       0.94627   -1.29456    0.79776   0.76260    0.72338
+       1.24572   -0.91884    0.90202   0.84654    0.75261
+       1.45106   -0.47357    0.93767   0.36870    0.76260
+       1.54666    0.00736    0.90202   0.50351    0.75261
+      -0.27674   -0.39911    1.71495   0.41977    0.38957
+      -0.54116   -0.76305    1.51664   0.34565    0.28755
+       0.00947   -0.80206    1.59465   0.50000    0.27662
+      -0.76367   -1.06931    1.20296   0.28327    0.20170
+      -0.28001   -1.20050    1.29026   0.41885    0.16493
+       0.29896   -1.20050    1.29026   0.58115    0.16493
+      -0.92733   -1.29456    0.79776   0.23740    0.72338
+      -0.47746   -1.46325    0.90202   0.36350    0.75261
+       0.00947   -1.52094    0.93767   0.50000    0.76260
+       0.49641   -1.46325    0.90202   0.63650    0.75261
+      -0.45363    0.14530    1.71495   0.37018    0.54218
+      -0.88148    0.28432    1.51664   0.25025    0.58115
+      -0.74841   -0.25142    1.59465   0.28755    0.43097
+      -1.24151    0.40130    1.20296   0.14933    0.61394
+      -1.21682   -0.09923    1.29026   0.15625    0.47363
+      -1.03790   -0.64987    1.29026   0.20640    0.31928
+      -1.50630    0.48734    0.79776   0.36194    0.72338
+      -1.52772    0.00736    0.90202   0.49649    0.75261
+      -1.43212   -0.47357    0.93767   0.63130    0.76260
+      -1.22678   -0.91884    0.90202   0.75612    0.75261
+      -0.45893    0.63953    1.59465   0.36870    0.68072
+      -0.45893    1.13203    1.29027   0.36870    0.81878
+      -0.92733    0.79172    1.29027   0.23740    0.72338
+      -0.45363    1.46066    0.90202   0.62982    0.75261
+      -0.88148    1.22112    0.93767   0.74975    0.76260
+      -1.24151    0.88823    0.90202   0.14933    0.75044
+       0.00947   -0.00517   -1.78103   0.50000    0.50000
+       0.29568    0.38877   -1.71321   0.41977    0.61043
+       0.47257   -0.15564   -1.71321   0.37018    0.45782
+       0.56011    0.75272   -1.51490   0.34565    0.71245
+       0.76736    0.24109   -1.59291   0.28755    0.56903
+       0.90042   -0.29465   -1.51490   0.25025    0.41885
+       0.78262    1.05897   -1.20122   0.28327    0.79830
+       1.05684    0.63953   -1.28852   0.20640    0.68072
+       1.23576    0.08889   -1.28852   0.15625    0.52637
+       1.26045   -0.41163   -1.20122   0.14933    0.38606
+       0.94627    1.28422   -0.79602   0.23740    0.27662
+       1.24572    0.90851   -0.90027   0.15346    0.24739
+       1.45106    0.46323   -0.93593   0.63130    0.23740
+       1.54666   -0.01770   -0.90027   0.49649    0.24739
+       1.52524   -0.49767   -0.79602   0.36194    0.27662
+       0.00947   -0.49210   -1.71321   0.50000    0.36350
+       0.47787   -0.64986   -1.59291   0.36870    0.31928
+       0.00947   -0.94197   -1.51490   0.50000    0.23740
+       0.94627   -0.80206   -1.28852   0.23740    0.27662
+       0.47787   -1.14237   -1.28852   0.36870    0.18122
+       0.00947   -1.32052   -1.20122   0.50000    0.13128
+       1.26045   -0.89857   -0.90027   0.24956    0.24739
+       0.90042   -1.23146   -0.93593   0.25025    0.15625
+       0.47257   -1.47100   -0.90027   0.62982    0.24739
+       0.00947   -1.59895   -0.79602   0.50000    0.27662
+      -0.45363   -0.15564   -1.71321   0.62982    0.45782
+      -0.45893   -0.64986   -1.59291   0.63130    0.31928
+      -0.88148   -0.29465   -1.51490   0.74975    0.41885
+      -0.45893   -1.14237   -1.28852   0.63130    0.18122
+      -0.92733   -0.80206   -1.28852   0.76260    0.27662
+      -1.24151   -0.41163   -1.20122   0.85067    0.38606
+      -0.45363   -1.47100   -0.90027   0.37018    0.24739
+      -0.88148   -1.23146   -0.93593   0.25025    0.23740
+      -1.24151   -0.89857   -0.90027   0.85067    0.24956
+      -1.50630   -0.49767   -0.79602   0.63806    0.27662
+      -0.27674    0.38877   -1.71321   0.58023    0.61043
+      -0.74841    0.24108   -1.59291   0.71245    0.56903
+      -0.54116    0.75272   -1.51490   0.65435    0.71245
+      -1.21682    0.08889   -1.28852   0.84375    0.52637
+      -1.03790    0.63953   -1.28852   0.79360    0.68072
+      -0.76367    1.05897   -1.20122   0.71673    0.79830
+      -1.52772   -0.01770   -0.90027   0.50351    0.24739
+      -1.43212    0.46323   -0.93593   0.36870    0.23740
+      -1.22678    0.90851   -0.90027   0.24388    0.24739
+      -0.92733    1.28422   -0.79602   0.76260    0.27662
+       0.00947    0.79172   -1.59291   0.50000    0.72338
+      -0.28001    1.19016   -1.28853   0.58115    0.83507
+       0.29896    1.19016   -1.28853   0.41885    0.83507
+      -0.47746    1.45291   -0.90027   0.63650    0.24739
+       0.00947    1.51060   -0.93593   0.50000    0.23740
+       0.49641    1.45291   -0.90027   0.36350    0.24739
+       0.29568    1.70412    0.41508   0.41977    0.61611
+       0.76736    1.53048    0.49338   0.28755    0.63806
+       0.56011    1.68952    0.00087   0.34565    0.50000
+       1.23576    1.19016    0.49338   0.15625    0.63806
+       1.05684    1.43642    0.00087   0.20640    0.50000
+       0.78262    1.54591   -0.41334   0.28327    0.38389
+       1.54666    0.79524    0.41508   0.72437    0.61611
+       1.45106    1.04220    0.00087   0.79360    0.50000
+       1.24572    1.20945   -0.41334   0.84048    0.38389
+       1.72355    0.25083    0.41508   0.57176    0.61611
+       1.70416   -0.25142    0.49338   0.43097    0.63806
+       1.79137   -0.00517    0.00087   0.50000    0.50000
+       1.52524   -0.80206    0.49338   0.27662    0.63806
+       1.70416   -0.55580    0.00087   0.34565    0.50000
+       1.72355   -0.26116   -0.41334   0.42824    0.38389
+       1.24572   -1.21978    0.41508   0.15952    0.61611
+       1.45106   -1.05254    0.00087   0.20640    0.50000
+       1.54666   -0.80557   -0.41334   0.27563    0.38389
+       0.78262   -1.55625    0.41508   0.71673    0.61611
+       0.29896   -1.69301    0.49338   0.58115    0.63806
+       0.56011   -1.69986    0.00087   0.65435    0.50000
+      -0.28001   -1.69301    0.49338   0.41885    0.63806
+       0.00947   -1.78707    0.00087   0.50000    0.50000
+       0.29569   -1.71446   -0.41334   0.58023    0.38389
+      -0.76367   -1.55625    0.41508   0.28327    0.61611
+      -0.54116   -1.69986    0.00087   0.34565    0.50000
+      -0.27674   -1.71446   -0.41334   0.41977    0.38389
+      -1.22678   -1.21979    0.41508   0.84048    0.61611
+      -1.50630   -0.80206    0.49338   0.72338    0.63806
+      -1.43212   -1.05254    0.00087   0.79360    0.50000
+      -1.68522   -0.25142    0.49338   0.56903    0.63806
+      -1.68522   -0.55581    0.00087   0.65435    0.50000
+      -1.52772   -0.80557   -0.41334   0.72437    0.38389
+      -1.70461    0.25083    0.41508   0.42824    0.61611
+      -1.77243   -0.00517    0.00087   0.50000    0.50000
+      -1.70461   -0.26116   -0.41334   0.57176    0.38389
+      -1.52772    0.79524    0.41508   0.27563    0.61611
+      -1.21682    1.19016    0.49338   0.84375    0.63806
+      -1.43212    1.04220    0.00087   0.20640    0.50000
+      -0.74841    1.53048    0.49338   0.71245    0.63806
+      -1.03790    1.43642    0.00087   0.79360    0.50000
+      -1.22678    1.20944   -0.41334   0.84654    0.38389
+      -0.27674    1.70412    0.41508   0.58023    0.61611
+      -0.54117    1.68952    0.00087   0.65435    0.50000
+      -0.76367    1.54591   -0.41334   0.71673    0.38389
+       1.70416    0.24109   -0.49163   0.56903    0.36194
+       1.52524    0.79172   -0.49163   0.72338    0.36194
+       1.70416    0.54547    0.00087   0.65435    0.50000
+       0.76736   -1.54082   -0.49163   0.71245    0.36194
+       1.23576   -1.20050   -0.49163   0.84375    0.36194
+       1.05684   -1.44676    0.00087   0.79360    0.50000
+      -1.21682   -1.20050   -0.49163   0.15625    0.36194
+      -0.74841   -1.54082   -0.49163   0.28755    0.36194
+      -1.03790   -1.44676    0.00087   0.20640    0.50000
+      -1.50630    0.79172   -0.49163   0.27662    0.36194
+      -1.68522    0.24108   -0.49163   0.43097    0.36194
+      -1.68522    0.54547    0.00087   0.34565    0.50000
+       0.29896    1.68267   -0.49163   0.41885    0.36194
+      -0.28001    1.68267   -0.49163   0.58115    0.36194
+       0.00947    1.77673    0.00087   0.50000    0.50000
+       1.26045    0.40130    1.20296   0.61394    0.83697
+       1.26045    0.88823    0.90202   0.85067    0.75044
+       0.47787    1.13203    1.29026   0.36870    0.86144
+       0.90042    1.22112    0.93767   0.25025    0.76260
+       0.00947    1.31018    1.20296   0.50000    0.83697
+       0.94627    0.79172    1.29026   0.72338    0.86144
+       1.26045    0.40130    1.20296   0.61394    0.83697
+       0.00947    1.31018    1.20296   0.50000    0.83697
+       0.47787    1.13203    1.29026   0.36870    0.86144
+       0.78262   -1.06931    1.20296   0.71673    0.83697
+       1.05684   -0.64986    1.29026   0.31928    0.86144
+       1.24572   -0.91884    0.90202   0.24388    0.75261
+       1.23576   -0.09923    1.29026   0.47363    0.86144
+       1.26045    0.40130    1.20296   0.61394    0.83697
+       1.24572   -0.91884    0.90202   0.84654    0.24388
+       1.23576   -0.09923    1.29026   0.47363    0.86144
+       1.05684   -0.64986    1.29026   0.31928    0.86144
+       1.26045    0.40130    1.20296   0.61394    0.83697
+       1.23576   -0.09923    1.29026   0.47363    0.86144
+      -0.76367   -1.06931    1.20296   0.28327    0.83697
+      -0.28001   -1.20050    1.29026   0.41885    0.86144
+       0.29896   -1.20050    1.29026   0.58115    0.86144
+       0.78262   -1.06931    1.20296   0.71673    0.83697
+      -0.28001   -1.20050    1.29026   0.41885    0.86144
+      -0.76367   -1.06931    1.20296   0.28327    0.83697
+       0.29896   -1.20050    1.29026   0.58115    0.86144
+      -0.28001   -1.20050    1.29026   0.41885    0.86144
+       0.78262   -1.06931    1.20296   0.71673    0.83697
+       0.29896   -1.20050    1.29026   0.58115    0.86144
+      -1.24151    0.40130    1.20296   0.38606    0.83697
+      -1.21682   -0.09923    1.29026   0.52637    0.86144
+      -1.03790   -0.64987    1.29026   0.68072    0.86144
+      -0.76367   -1.06931    1.20296   0.28327    0.83697
+      -1.22678   -0.91884    0.90202   0.15346    0.75261
+      -1.21682   -0.09923    1.29026   0.52637    0.86144
+      -1.24151    0.40130    1.20296   0.38606    0.83697
+      -1.03790   -0.64987    1.29026   0.68072    0.86144
+      -1.21682   -0.09923    1.29026   0.52637    0.86144
+      -1.22678   -0.91884    0.90202   0.15346    0.24388
+       0.00947    1.31018    1.20296   0.50000    0.83697
+      -0.45893    1.13203    1.29027   0.63130    0.86144
+      -0.88148    1.22112    0.93767   0.25025    0.84375
+      -1.24151    0.40130    1.20296   0.38606    0.83697
+      -1.24151    0.88823    0.90202   0.24956    0.75261
+      -0.45893    1.13203    1.29027   0.63130    0.86144
+       0.00947    1.31018    1.20296   0.50000    0.83697
+      -0.88148    1.22112    0.93767   0.25025    0.84375
+      -1.24151    0.40130    1.20296   0.38606    0.83697
+      -0.92733    0.79172    1.29027   0.27662    0.86144
+      -1.24151    0.88823    0.90202   0.24956    0.75261
+       0.78262    1.05897   -1.20122   0.28327    0.16303
+       1.24572    0.90851   -0.90027   0.75612    0.24739
+       1.05684    0.63953   -1.28852   0.68072    0.13856
+       1.23576    0.08889   -1.28852   0.52637    0.13856
+       1.26045   -0.41163   -1.20122   0.38606    0.16303
+       1.24572    0.90851   -0.90027   0.15346    0.75612
+       1.05684    0.63953   -1.28852   0.68072    0.13856
+       1.23576    0.08889   -1.28852   0.52637    0.13856
+       1.26045   -0.41163   -1.20122   0.38606    0.16303
+       1.23576    0.08889   -1.28852   0.52637    0.13856
+       1.26045   -0.41163   -1.20122   0.38606    0.16303
+       1.26045   -0.89857   -0.90027   0.14933    0.24956
+       0.90042   -1.23146   -0.93593   0.74975    0.23740
+       0.47787   -1.14237   -1.28852   0.63130    0.13856
+       0.00947   -1.32052   -1.20122   0.50000    0.16303
+       1.26045   -0.41163   -1.20122   0.38606    0.16303
+       0.94627   -0.80206   -1.28852   0.27662    0.13856
+       0.00947   -1.32052   -1.20122   0.50000    0.16303
+       0.47787   -1.14237   -1.28852   0.63130    0.13856
+       0.00947   -1.32052   -1.20122   0.50000    0.16303
+      -0.45893   -1.14237   -1.28852   0.36870    0.13856
+      -0.88148   -1.23146   -0.93593   0.74975    0.15625
+      -1.24151   -0.89857   -0.90027   0.75044    0.24739
+      -1.24151   -0.41163   -1.20122   0.61394    0.16303
+       0.00947   -1.32052   -1.20122   0.50000    0.16303
+      -0.45893   -1.14237   -1.28852   0.36870    0.13856
+      -0.88148   -1.23146   -0.93593   0.74975    0.15625
+      -1.24151   -0.89857   -0.90027   0.75044    0.24739
+      -1.24151   -0.41163   -1.20122   0.61394    0.16303
+      -0.92733   -0.80206   -1.28852   0.72338    0.13856
+      -1.24151   -0.41163   -1.20122   0.61394    0.16303
+      -1.21682    0.08889   -1.28852   0.47363    0.13856
+      -1.03790    0.63953   -1.28852   0.31928    0.13856
+      -1.22678    0.90851   -0.90027   0.84654    0.24739
+      -0.76367    1.05897   -1.20122   0.71673    0.16303
+      -1.24151   -0.41163   -1.20122   0.61394    0.16303
+      -1.21682    0.08889   -1.28852   0.47363    0.13856
+      -1.03790    0.63953   -1.28852   0.31928    0.13856
+      -1.21682    0.08889   -1.28852   0.47363    0.13856
+      -1.22678    0.90851   -0.90027   0.84654    0.75612
+      -0.76367    1.05897   -1.20122   0.71673    0.16303
+      -0.28001    1.19016   -1.28853   0.58115    0.13856
+       0.29896    1.19016   -1.28853   0.41885    0.13856
+       0.78262    1.05897   -1.20122   0.28327    0.16303
+      -0.76367    1.05897   -1.20122   0.71673    0.16303
+      -0.28001    1.19016   -1.28853   0.58115    0.13856
+       0.29896    1.19016   -1.28853   0.41885    0.13856
+      -0.28001    1.19016   -1.28853   0.58115    0.13856
+       0.78262    1.05897   -1.20122   0.28327    0.16303
+       0.29896    1.19016   -1.28853   0.41885    0.13856
+       0.90042    1.22112    0.93767   0.25025    0.76260
+       0.90042    1.22112    0.93767   0.25025    0.76260
+       1.26045    0.88823    0.90202   0.14933    0.75261
+       0.90042    1.22112    0.93767   0.25025    0.76260
+       1.23576    1.19016    0.49338   0.83507    0.63806
+       1.05684    1.43642    0.00087   0.90411    0.50000
+       1.24572    1.20945   -0.41334   0.15346    0.38389
+       1.23576    1.19016    0.49338   0.83507    0.63806
+       1.05684    1.43642    0.00087   0.90411    0.50000
+       1.23576    1.19016    0.49338   0.83507    0.63806
+       1.24572    1.20945   -0.41334   0.15346    0.38389
+       1.24572   -0.91884    0.90202   0.24388    0.75261
+       1.24572   -0.91884    0.90202   0.24388    0.75261
+       0.94627   -1.29456    0.79776   0.13856    0.72338
+       1.24572   -0.91884    0.90202   0.24388    0.75261
+      -0.92733   -1.29456    0.79776   0.86144    0.72338
+      -1.24151    0.88823    0.90202   0.24956    0.75261
+      -1.24151    0.88823    0.90202   0.85067    0.75261
+      -1.21682    1.19016    0.49338   0.16493    0.63806
+      -1.24151    0.88823    0.90202   0.24956    0.75261
+      -1.21682    1.19016    0.49338   0.16493    0.63806
+      -1.43212    1.04220    0.00087   0.90411    0.50000
+      -1.43212    1.04220    0.00087   0.90411    0.50000
+       1.24572    0.90851   -0.90027   0.75612    0.24739
+       0.94627    1.28422   -0.79602   0.86144    0.27662
+       1.24572    0.90851   -0.90027   0.75612    0.24739
+       1.24572    0.90851   -0.90027   0.75612    0.24739
+       0.90042   -1.23146   -0.93593   0.74975    0.23740
+       1.26045   -0.89857   -0.90027   0.85067    0.24739
+       0.90042   -1.23146   -0.93593   0.74975    0.23740
+       0.90042   -1.23146   -0.93593   0.74975    0.23740
+       1.23576   -1.20050   -0.49163   0.16493    0.36194
+       1.45106   -1.05254    0.00087   0.90411    0.50000
+       1.24572   -1.21978    0.41508   0.84654    0.61611
+       1.24572   -1.21978    0.41508   0.84654    0.61611
+       1.23576   -1.20050   -0.49163   0.16493    0.36194
+       1.45106   -1.05254    0.00087   0.90411    0.50000
+       1.24572   -1.21978    0.41508   0.84654    0.61611
+      -1.24151   -0.89857   -0.90027   0.75044    0.24739
+      -1.24151   -0.89857   -0.90027   0.14933    0.24739
+      -1.21682   -1.20050   -0.49163   0.83507    0.36194
+      -1.21682   -1.20050   -0.49163   0.83507    0.36194
+      -1.24151   -0.89857   -0.90027   0.75044    0.24739
+      -1.22678   -1.21979    0.41508   0.15346    0.61611
+      -1.43212   -1.05254    0.00087   0.09589    0.50000
+      -1.43212   -1.05254    0.00087   0.09589    0.50000
+      -1.22678   -1.21979    0.41508   0.15346    0.61611
+      -1.22678   -1.21979    0.41508   0.15346    0.61611
+      -1.22678    1.20944   -0.41334   0.15952    0.38389
+      -0.92733    1.28422   -0.79602   0.13856    0.27662
+      -1.22678    1.20944   -0.41334   0.15952    0.38389
+      -1.22678    1.20944   -0.41334   0.15952    0.38389
+  facelist:
+       2    0    1  flags:7  smoothing:0  material:"0"
+       4    1    3  flags:7  smoothing:0  material:"0"
+       2    4    5  flags:7  smoothing:0  material:"0"
+       2    1    4  flags:7  smoothing:0  material:"0"
+       7    3    6  flags:7  smoothing:0  material:"0"
+       8    4    7  flags:7  smoothing:0  material:"0"
+       5    8    9  flags:7  smoothing:0  material:"0"
+       4    3    7  flags:7  smoothing:0  material:"0"
+       5    4    8  flags:7  smoothing:0  material:"0"
+      11  162   10  flags:7  smoothing:0  material:"0"
+      12    7  163  flags:7  smoothing:0  material:"0"
+     164  165   13  flags:7  smoothing:0  material:"0"
+     166   13   14  flags:7  smoothing:0  material:"0"
+     167  168   11  flags:7  smoothing:0  material:"0"
+       8    7   12  flags:7  smoothing:0  material:"0"
+     169  170   13  flags:7  smoothing:0  material:"0"
+       1    0   15  flags:7  smoothing:0  material:"0"
+      17   15   16  flags:7  smoothing:0  material:"0"
+       1   17    3  flags:7  smoothing:0  material:"0"
+       1   15   17  flags:7  smoothing:0  material:"0"
+      19   16   18  flags:7  smoothing:0  material:"0"
+      20   17   19  flags:7  smoothing:0  material:"0"
+       3   20    6  flags:7  smoothing:0  material:"0"
+      17   16   19  flags:7  smoothing:0  material:"0"
+       3   17   20  flags:7  smoothing:0  material:"0"
+      22  171   21  flags:7  smoothing:0  material:"0"
+      23  172  173  flags:7  smoothing:0  material:"0"
+     174   23   24  flags:7  smoothing:0  material:"0"
+     175   24   10  flags:7  smoothing:0  material:"0"
+      19   18  176  flags:7  smoothing:0  material:"0"
+     177  178   23  flags:7  smoothing:0  material:"0"
+     179  180   24  flags:7  smoothing:0  material:"0"
+      15    0   25  flags:7  smoothing:0  material:"0"
+      27   25   26  flags:7  smoothing:0  material:"0"
+      15   27   16  flags:7  smoothing:0  material:"0"
+      15   25   27  flags:7  smoothing:0  material:"0"
+      29   26   28  flags:7  smoothing:0  material:"0"
+      30   27   29  flags:7  smoothing:0  material:"0"
+      16   30   18  flags:7  smoothing:0  material:"0"
+      27   26   29  flags:7  smoothing:0  material:"0"
+      16   27   30  flags:7  smoothing:0  material:"0"
+      32  181   31  flags:7  smoothing:0  material:"0"
+      33  182   32  flags:7  smoothing:0  material:"0"
+     183   33   34  flags:7  smoothing:0  material:"0"
+     184   34   21  flags:7  smoothing:0  material:"0"
+     185  186   32  flags:7  smoothing:0  material:"0"
+     187  188   33  flags:7  smoothing:0  material:"0"
+     189  190   34  flags:7  smoothing:0  material:"0"
+       0   35   25  flags:7  smoothing:0  material:"0"
+      37   35   36  flags:7  smoothing:0  material:"0"
+      25   37   26  flags:7  smoothing:0  material:"0"
+      25   35   37  flags:7  smoothing:0  material:"0"
+      39   36   38  flags:7  smoothing:0  material:"0"
+      37   39   40  flags:7  smoothing:0  material:"0"
+      26   40   28  flags:7  smoothing:0  material:"0"
+      37   36   39  flags:7  smoothing:0  material:"0"
+      26   37   40  flags:7  smoothing:0  material:"0"
+      42  191   41  flags:7  smoothing:0  material:"0"
+      43  192   42  flags:7  smoothing:0  material:"0"
+     193   43   44  flags:7  smoothing:0  material:"0"
+     194  195   31  flags:7  smoothing:0  material:"0"
+     196  197   42  flags:7  smoothing:0  material:"0"
+     198  199   43  flags:7  smoothing:0  material:"0"
+      28   40  200  flags:7  smoothing:0  material:"0"
+       0    2   35  flags:7  smoothing:0  material:"0"
+      45    2    5  flags:7  smoothing:0  material:"0"
+      35   45   36  flags:7  smoothing:0  material:"0"
+      35    2   45  flags:7  smoothing:0  material:"0"
+      46    5    9  flags:7  smoothing:0  material:"0"
+      45   46   47  flags:7  smoothing:0  material:"0"
+      36   47   38  flags:7  smoothing:0  material:"0"
+      45    5   46  flags:7  smoothing:0  material:"0"
+      36   45   47  flags:7  smoothing:0  material:"0"
+      48  201   14  flags:7  smoothing:0  material:"0"
+      49  202   48  flags:7  smoothing:0  material:"0"
+      47  203   50  flags:7  smoothing:0  material:"0"
+     204  205   41  flags:7  smoothing:0  material:"0"
+     206  207   48  flags:7  smoothing:0  material:"0"
+      47   46  208  flags:7  smoothing:0  material:"0"
+     209  210  211  flags:7  smoothing:0  material:"0"
+      52   53   51  flags:7  smoothing:0  material:"0"
+      54   55   52  flags:7  smoothing:0  material:"0"
+      55   56   53  flags:7  smoothing:0  material:"0"
+      52   55   53  flags:7  smoothing:0  material:"0"
+      57   58   54  flags:7  smoothing:0  material:"0"
+      58   59   55  flags:7  smoothing:0  material:"0"
+      59   60   56  flags:7  smoothing:0  material:"0"
+      54   58   55  flags:7  smoothing:0  material:"0"
+      59   56   55  flags:7  smoothing:0  material:"0"
+      61   62  212  flags:7  smoothing:0  material:"0"
+     213   63  214  flags:7  smoothing:0  material:"0"
+      63   64  215  flags:7  smoothing:0  material:"0"
+      64   65  216  flags:7  smoothing:0  material:"0"
+      57  217   58  flags:7  smoothing:0  material:"0"
+     218   63  219  flags:7  smoothing:0  material:"0"
+      64  220  221  flags:7  smoothing:0  material:"0"
+      53   66   51  flags:7  smoothing:0  material:"0"
+      56   67   53  flags:7  smoothing:0  material:"0"
+      67   68   66  flags:7  smoothing:0  material:"0"
+      53   67   66  flags:7  smoothing:0  material:"0"
+      60   69   56  flags:7  smoothing:0  material:"0"
+      69   70   67  flags:7  smoothing:0  material:"0"
+      70   71   68  flags:7  smoothing:0  material:"0"
+      56   69   67  flags:7  smoothing:0  material:"0"
+      70   68   67  flags:7  smoothing:0  material:"0"
+      65   72  222  flags:7  smoothing:0  material:"0"
+     223   73   69  flags:7  smoothing:0  material:"0"
+     224   74  225  flags:7  smoothing:0  material:"0"
+      74   75  226  flags:7  smoothing:0  material:"0"
+     227   72  228  flags:7  smoothing:0  material:"0"
+      69   73   70  flags:7  smoothing:0  material:"0"
+      74  229  230  flags:7  smoothing:0  material:"0"
+      66   76   51  flags:7  smoothing:0  material:"0"
+      68   77   66  flags:7  smoothing:0  material:"0"
+      77   78   76  flags:7  smoothing:0  material:"0"
+      77   76   66  flags:7  smoothing:0  material:"0"
+      71   79   68  flags:7  smoothing:0  material:"0"
+      79   80   77  flags:7  smoothing:0  material:"0"
+      80   81   78  flags:7  smoothing:0  material:"0"
+      68   79   77  flags:7  smoothing:0  material:"0"
+      80   78   77  flags:7  smoothing:0  material:"0"
+      75   82  231  flags:7  smoothing:0  material:"0"
+      82   83  232  flags:7  smoothing:0  material:"0"
+     233   84   80  flags:7  smoothing:0  material:"0"
+     234   85  235  flags:7  smoothing:0  material:"0"
+     236   82  237  flags:7  smoothing:0  material:"0"
+     238   80   79  flags:7  smoothing:0  material:"0"
+     239  240  241  flags:7  smoothing:0  material:"0"
+      76   86   51  flags:7  smoothing:0  material:"0"
+      78   87   76  flags:7  smoothing:0  material:"0"
+      87   88   86  flags:7  smoothing:0  material:"0"
+      87   86   76  flags:7  smoothing:0  material:"0"
+      81   89   78  flags:7  smoothing:0  material:"0"
+      89   90   87  flags:7  smoothing:0  material:"0"
+      90   91   88  flags:7  smoothing:0  material:"0"
+      78   89   87  flags:7  smoothing:0  material:"0"
+      90   88   87  flags:7  smoothing:0  material:"0"
+      85   92  242  flags:7  smoothing:0  material:"0"
+      92   93  243  flags:7  smoothing:0  material:"0"
+      93   94  244  flags:7  smoothing:0  material:"0"
+     245   95  246  flags:7  smoothing:0  material:"0"
+     247   92  248  flags:7  smoothing:0  material:"0"
+      93  249  250  flags:7  smoothing:0  material:"0"
+     251   91   90  flags:7  smoothing:0  material:"0"
+      86   52   51  flags:7  smoothing:0  material:"0"
+      88   96   86  flags:7  smoothing:0  material:"0"
+      96   54   52  flags:7  smoothing:0  material:"0"
+      96   52   86  flags:7  smoothing:0  material:"0"
+      91   97   88  flags:7  smoothing:0  material:"0"
+      97   98   96  flags:7  smoothing:0  material:"0"
+      98   57   54  flags:7  smoothing:0  material:"0"
+      88   97   96  flags:7  smoothing:0  material:"0"
+      98   54   96  flags:7  smoothing:0  material:"0"
+      95   99  252  flags:7  smoothing:0  material:"0"
+      99  100  253  flags:7  smoothing:0  material:"0"
+     100  101  254  flags:7  smoothing:0  material:"0"
+     101   61  255  flags:7  smoothing:0  material:"0"
+     256   99  257  flags:7  smoothing:0  material:"0"
+     100  258  259  flags:7  smoothing:0  material:"0"
+     101  260  261  flags:7  smoothing:0  material:"0"
+      14   13  102  flags:7  smoothing:0  material:"0"
+      13  262  103  flags:7  smoothing:0  material:"0"
+     102  103  104  flags:7  smoothing:0  material:"0"
+      13  103  102  flags:7  smoothing:0  material:"0"
+     263  264  105  flags:7  smoothing:0  material:"0"
+     103  105  106  flags:7  smoothing:0  material:"0"
+     104  106  107  flags:7  smoothing:0  material:"0"
+     103  265  105  flags:7  smoothing:0  material:"0"
+     104  103  106  flags:7  smoothing:0  material:"0"
+      11   10  108  flags:7  smoothing:0  material:"0"
+     266  108  109  flags:7  smoothing:0  material:"0"
+     267  109  110  flags:7  smoothing:0  material:"0"
+     107  268   61  flags:7  smoothing:0  material:"0"
+     269   11  108  flags:7  smoothing:0  material:"0"
+     270  271  109  flags:7  smoothing:0  material:"0"
+     107  106  272  flags:7  smoothing:0  material:"0"
+      10   24  111  flags:7  smoothing:0  material:"0"
+      24   23  112  flags:7  smoothing:0  material:"0"
+     111  112  113  flags:7  smoothing:0  material:"0"
+      24  112  111  flags:7  smoothing:0  material:"0"
+      23  273  114  flags:7  smoothing:0  material:"0"
+     112  114  115  flags:7  smoothing:0  material:"0"
+     113  115  116  flags:7  smoothing:0  material:"0"
+     112   23  114  flags:7  smoothing:0  material:"0"
+     113  112  115  flags:7  smoothing:0  material:"0"
+     274  275  117  flags:7  smoothing:0  material:"0"
+     114  117  118  flags:7  smoothing:0  material:"0"
+     115  118  119  flags:7  smoothing:0  material:"0"
+     116  119   65  flags:7  smoothing:0  material:"0"
+     114  276  117  flags:7  smoothing:0  material:"0"
+     115  114  118  flags:7  smoothing:0  material:"0"
+     116  115  119  flags:7  smoothing:0  material:"0"
+      21   34  120  flags:7  smoothing:0  material:"0"
+      34   33  121  flags:7  smoothing:0  material:"0"
+     120  121  122  flags:7  smoothing:0  material:"0"
+      34  121  120  flags:7  smoothing:0  material:"0"
+      33   32  123  flags:7  smoothing:0  material:"0"
+     121  123  124  flags:7  smoothing:0  material:"0"
+     122  124  125  flags:7  smoothing:0  material:"0"
+     121   33  123  flags:7  smoothing:0  material:"0"
+     122  121  124  flags:7  smoothing:0  material:"0"
+      32   31  126  flags:7  smoothing:0  material:"0"
+     123  126  127  flags:7  smoothing:0  material:"0"
+     124  127  128  flags:7  smoothing:0  material:"0"
+     125  128   75  flags:7  smoothing:0  material:"0"
+     123   32  126  flags:7  smoothing:0  material:"0"
+     123  127  124  flags:7  smoothing:0  material:"0"
+     125  124  128  flags:7  smoothing:0  material:"0"
+     277   44  129  flags:7  smoothing:0  material:"0"
+      44   43  130  flags:7  smoothing:0  material:"0"
+     129  130  131  flags:7  smoothing:0  material:"0"
+      44  130  129  flags:7  smoothing:0  material:"0"
+      43   42  132  flags:7  smoothing:0  material:"0"
+     130  132  133  flags:7  smoothing:0  material:"0"
+     131  133  134  flags:7  smoothing:0  material:"0"
+      43  132  130  flags:7  smoothing:0  material:"0"
+     130  133  131  flags:7  smoothing:0  material:"0"
+      42   41  135  flags:7  smoothing:0  material:"0"
+     132  135  136  flags:7  smoothing:0  material:"0"
+     133  136  137  flags:7  smoothing:0  material:"0"
+     134  137   85  flags:7  smoothing:0  material:"0"
+     132   42  135  flags:7  smoothing:0  material:"0"
+     132  136  133  flags:7  smoothing:0  material:"0"
+     133  137  134  flags:7  smoothing:0  material:"0"
+      41  278  138  flags:7  smoothing:0  material:"0"
+     279   49  139  flags:7  smoothing:0  material:"0"
+     138  280  140  flags:7  smoothing:0  material:"0"
+     281  282  138  flags:7  smoothing:0  material:"0"
+      49   48  141  flags:7  smoothing:0  material:"0"
+     139  141  142  flags:7  smoothing:0  material:"0"
+     283  142  143  flags:7  smoothing:0  material:"0"
+      49  141  139  flags:7  smoothing:0  material:"0"
+     139  142  284  flags:7  smoothing:0  material:"0"
+      48   14  144  flags:7  smoothing:0  material:"0"
+     141  144  145  flags:7  smoothing:0  material:"0"
+     142  145  146  flags:7  smoothing:0  material:"0"
+     143  146   95  flags:7  smoothing:0  material:"0"
+     141   48  144  flags:7  smoothing:0  material:"0"
+     141  145  142  flags:7  smoothing:0  material:"0"
+     142  146  143  flags:7  smoothing:0  material:"0"
+     116   65   64  flags:7  smoothing:0  material:"0"
+     147   64   63  flags:7  smoothing:0  material:"0"
+     113  116  147  flags:7  smoothing:0  material:"0"
+     147  116   64  flags:7  smoothing:0  material:"0"
+     285  148   63  flags:7  smoothing:0  material:"0"
+     148  149  147  flags:7  smoothing:0  material:"0"
+     149  111  113  flags:7  smoothing:0  material:"0"
+     148  147   63  flags:7  smoothing:0  material:"0"
+     149  113  147  flags:7  smoothing:0  material:"0"
+     286  110  287  flags:7  smoothing:0  material:"0"
+     110  109  148  flags:7  smoothing:0  material:"0"
+     109  108  149  flags:7  smoothing:0  material:"0"
+     108   10  111  flags:7  smoothing:0  material:"0"
+     110  148  288  flags:7  smoothing:0  material:"0"
+     109  149  148  flags:7  smoothing:0  material:"0"
+     108  111  149  flags:7  smoothing:0  material:"0"
+     125   75   74  flags:7  smoothing:0  material:"0"
+     150   74  289  flags:7  smoothing:0  material:"0"
+     122  125  150  flags:7  smoothing:0  material:"0"
+     150  125   74  flags:7  smoothing:0  material:"0"
+     290  151  291  flags:7  smoothing:0  material:"0"
+     151  152  150  flags:7  smoothing:0  material:"0"
+     152  120  122  flags:7  smoothing:0  material:"0"
+     151  150  292  flags:7  smoothing:0  material:"0"
+     152  122  150  flags:7  smoothing:0  material:"0"
+      65  119   72  flags:7  smoothing:0  material:"0"
+     119  118  293  flags:7  smoothing:0  material:"0"
+     294  295  152  flags:7  smoothing:0  material:"0"
+     296   21  120  flags:7  smoothing:0  material:"0"
+     119  297   72  flags:7  smoothing:0  material:"0"
+     298  152  151  flags:7  smoothing:0  material:"0"
+     299  120  152  flags:7  smoothing:0  material:"0"
+     134   85  300  flags:7  smoothing:0  material:"0"
+     153  301   83  flags:7  smoothing:0  material:"0"
+     131  134  302  flags:7  smoothing:0  material:"0"
+     303  134  304  flags:7  smoothing:0  material:"0"
+      82  154   83  flags:7  smoothing:0  material:"0"
+     155  153  154  flags:7  smoothing:0  material:"0"
+     305  306  155  flags:7  smoothing:0  material:"0"
+     154  153   83  flags:7  smoothing:0  material:"0"
+     155  307  153  flags:7  smoothing:0  material:"0"
+      75  128   82  flags:7  smoothing:0  material:"0"
+     128  127  154  flags:7  smoothing:0  material:"0"
+     126  155  127  flags:7  smoothing:0  material:"0"
+      31  308  126  flags:7  smoothing:0  material:"0"
+     128  154   82  flags:7  smoothing:0  material:"0"
+     127  155  154  flags:7  smoothing:0  material:"0"
+     126  309  155  flags:7  smoothing:0  material:"0"
+     310  311   94  flags:7  smoothing:0  material:"0"
+     156   94   93  flags:7  smoothing:0  material:"0"
+     140  312  156  flags:7  smoothing:0  material:"0"
+     156  313   94  flags:7  smoothing:0  material:"0"
+      92  157   93  flags:7  smoothing:0  material:"0"
+     158  156  157  flags:7  smoothing:0  material:"0"
+     138  140  158  flags:7  smoothing:0  material:"0"
+     157  156   93  flags:7  smoothing:0  material:"0"
+     158  140  156  flags:7  smoothing:0  material:"0"
+      85  137   92  flags:7  smoothing:0  material:"0"
+     137  136  157  flags:7  smoothing:0  material:"0"
+     135  158  136  flags:7  smoothing:0  material:"0"
+      41  138  135  flags:7  smoothing:0  material:"0"
+     137  157   92  flags:7  smoothing:0  material:"0"
+     136  158  157  flags:7  smoothing:0  material:"0"
+     135  138  158  flags:7  smoothing:0  material:"0"
+     107   61  101  flags:7  smoothing:0  material:"0"
+     159  101  100  flags:7  smoothing:0  material:"0"
+     104  107  159  flags:7  smoothing:0  material:"0"
+     159  107  101  flags:7  smoothing:0  material:"0"
+      99  160  100  flags:7  smoothing:0  material:"0"
+     160  161  159  flags:7  smoothing:0  material:"0"
+     161  102  104  flags:7  smoothing:0  material:"0"
+     160  159  100  flags:7  smoothing:0  material:"0"
+     161  104  159  flags:7  smoothing:0  material:"0"
+      95  146   99  flags:7  smoothing:0  material:"0"
+     146  145  160  flags:7  smoothing:0  material:"0"
+     144  161  145  flags:7  smoothing:0  material:"0"
+      14  102  144  flags:7  smoothing:0  material:"0"
+     146  160   99  flags:7  smoothing:0  material:"0"
+     145  161  160  flags:7  smoothing:0  material:"0"
+     144  102  161  flags:7  smoothing:0  material:"0"
+
