@@ -33,8 +33,9 @@ void main(){
 			color.w = 1.0;
 			color = clamp(color, 0.0, 1.0);
 		}
+	} else {
+		discard;
 	}
-
 
 	glowMap = vec4(0.0, 0.0, 0.0, 1.0);
 }
