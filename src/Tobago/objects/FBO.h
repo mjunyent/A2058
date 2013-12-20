@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "../basic/log.h"
+#include "../utility/log.h"
 #include "TBO.h"
 
 using namespace std;

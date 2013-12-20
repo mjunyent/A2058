@@ -7,7 +7,7 @@
 #include <fmod.hpp>
 #include <fmod_errors.h>
 
-#include "../basic/log.h"
+#include "../utility/log.h"
 
 /*
 	FMOD Ex API :
@@ -34,7 +34,7 @@ class SoundHandler{
 		void getSpectrum();
 		void getWave();
 		double SoundTime();
-		void PlotWave();
+//		void PlotWave();
 
 		double getEnergy();
 

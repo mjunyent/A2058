@@ -5,7 +5,7 @@
 #include <cstring>
 #include <iostream>
 #include <fstream>
-#include <GLFW/glfw3.h>
+#include <ctime>
 
 using namespace std;
 //http://stackoverflow.com/questions/5028302/small-logger-class
@@ -22,6 +22,7 @@ public:
 
 private:
 	ofstream *m_out; //ostream to be more flexible.
+	clock_t begin_time;
 };
 
 namespace TOBAGO {

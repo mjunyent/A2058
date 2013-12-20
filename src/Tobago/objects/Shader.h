@@ -9,7 +9,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "../basic/log.h"
+#include "../utility/log.h"
 #include <cstdio>
 #include <cstdlib>
 

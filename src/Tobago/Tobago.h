@@ -1,24 +1,8 @@
-#include <GL/glew.h> //OPENGL Libs...
-#include <GLFW/glfw3.h>
+#include "init/initTobago.h"
+#include "init/initGLFW.h"
 
-#include <glm/glm.hpp> //GLM Libs...
-#include <glm/gtx/transform.hpp>
-#include <glm/gtx/vector_angle.hpp>
-
-
-#ifdef GLEWLIB
-	#pragma comment(lib, "glew32s.lib");
-#endif
-
-#include <iostream>
-#define _USE_MATH_DEFINES
-#include <cmath>
-#include <vector>
-
-#include "basic/log.h" //simple log class.
-
-#include "basic/basic.h" //functions to change coordinates sistem (pixel, screen or normalized).
-#include "basic/setup.h" //functions to initialize the screen and the stuff.
+#include "utility/log.h" //simple log class.
+#include "utility/basic.h" //functions to change coordinates sistem (pixel, screen or normalized).
 
 #include "objects/Buffer_Object.h" //abstract class to manage buffer objects.
 #include "objects/FBO.h" //framebuffer object class.

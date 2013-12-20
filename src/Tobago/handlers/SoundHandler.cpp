@@ -66,6 +66,7 @@ double SoundHandler::SoundTime(){
 	return double(ret)/1000.0f;
 }
 
+/*
 void SoundHandler::PlotWave(){
 	float offs = 2 / float(len) ; //Avance de x
 	float x = -1.00f;
@@ -78,7 +79,7 @@ void SoundHandler::PlotWave(){
 		x += offs;
 	}
 	glEnd();
-}
+}*/
 
 void SoundHandler::setVel(float v) {
 	playVel = v;

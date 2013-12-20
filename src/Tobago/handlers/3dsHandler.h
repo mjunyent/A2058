@@ -3,7 +3,7 @@
 #pragma once
 #include "../objects/VBO.h"
 #include "../objects/IBO.h"
-#include "../basic/log.h"
+#include "../utility/log.h"
 
 #include <stdio.h>
 #include <stdlib.h>

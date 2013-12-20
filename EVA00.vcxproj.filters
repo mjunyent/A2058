@@ -8,15 +8,6 @@
     <Filter Include="Tobago">
       <UniqueIdentifier>{d1e16012-1cf1-4075-a08b-81989595bf42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tobago\Basic">
-      <UniqueIdentifier>{ad7da67a-5519-411b-8248-1b9146650f4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tobago\Basic\Headers">
-      <UniqueIdentifier>{4c797724-3b5d-488a-836b-e6ba51a0ad53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tobago\Basic\Sources">
-      <UniqueIdentifier>{1fa39859-f581-4f63-bad2-6007ad217156}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tobago\Objects">
       <UniqueIdentifier>{8e38d105-74e8-440b-b4eb-fc511afc82f5}</UniqueIdentifier>
     </Filter>
@@ -47,40 +38,16 @@
     <Filter Include="Shaders\3D">
       <UniqueIdentifier>{0651ba0f-1d26-4344-bc90-bc44c5c7988c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vladivostok">
-      <UniqueIdentifier>{15316fea-ea28-4f67-80d8-beb29eba95cc}</UniqueIdentifier>
+    <Filter Include="Tobago\Init">
+      <UniqueIdentifier>{e01f5305-eaba-4185-b0f3-168bf043ac90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Trinidad">
-      <UniqueIdentifier>{bb8a1c0b-abe0-44e1-aefd-8d826455d2af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Trinidad\Director">
-      <UniqueIdentifier>{5ab93ba2-1a54-4b15-ad0b-7bd061698458}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Trinidad\Corella">
-      <UniqueIdentifier>{19c62440-fac0-47d8-9315-beabe7f46c4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Trinidad\Scenes">
-      <UniqueIdentifier>{df780056-13f1-41a9-9020-c4dabbc51429}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vladivostok\Tests, Old &amp; Deprecated">
-      <UniqueIdentifier>{223ce23c-b519-4ab9-9cdd-34641660f060}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vladivostok\Storm">
-      <UniqueIdentifier>{04a51f63-9d1e-4c39-81fa-9af2484eaf74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vladivostok\Storm\Scenes">
-      <UniqueIdentifier>{873a1c0e-9462-4c09-b5d9-2f21b5f4c269}</UniqueIdentifier>
+    <Filter Include="Tobago\Utility">
+      <UniqueIdentifier>{ad7da67a-5519-411b-8248-1b9146650f4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\basic\log.cpp">
-      <Filter>Tobago\Basic\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\basic\setup.cpp">
-      <Filter>Tobago\Basic\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp">
       <Filter>Tobago\Objects\lodepng</Filter>
@@ -109,136 +76,25 @@
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tobago\basic\basic.cpp">
-      <Filter>Tobago\Basic\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Trinidad\Director\timer.cpp">
-      <Filter>Trinidad\Director</Filter>
+    <ClCompile Include="src\Tobago\init\initGLFW.cpp">
+      <Filter>Tobago\Init</Filter>
     </ClCompile>
-    <ClCompile Include="src\Trinidad\Director\SceneManager.cpp">
-      <Filter>Trinidad\Director</Filter>
+    <ClCompile Include="src\Tobago\init\initTobago.cpp">
+      <Filter>Tobago\Init</Filter>
     </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\FrameRate.cpp">
-      <Filter>Trinidad\Scenes</Filter>
+    <ClCompile Include="src\Tobago\utility\basic.cpp">
+      <Filter>Tobago\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\Trinidad\Director\director.cpp">
-      <Filter>Trinidad\Director</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Corella\Model.cpp">
-      <Filter>Trinidad\Corella</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Corella\Light.cpp">
-      <Filter>Trinidad\Corella</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Corella\Deferred.cpp">
-      <Filter>Trinidad\Corella</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Corella\Camera.cpp">
-      <Filter>Trinidad\Corella</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\Sphere.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\Floor.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\Blur.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Corella\Rig.cpp">
-      <Filter>Trinidad\Corella</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\RenderQuad.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\Glow.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\SkyBox.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\FloatingBalls.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Parser.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.cpp">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.cpp">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.cpp">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.cpp">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trinidad\Scenes\DOF.cpp">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Cells.cpp">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scanner.cpp">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Storm.cpp">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\myGlow.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Models.cpp">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\ModelTest.cpp">
-      <Filter>Vladivostok</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\StormScene.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\First.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Fourth.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Ninth.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Eight.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\SixSeventh.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Second.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Third.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Fifth.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vladivostok\Storm\Scenes\Tenth.cpp">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
+    <ClCompile Include="src\Tobago\utility\log.cpp">
+      <Filter>Tobago\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
       <Filter>Tobago</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\basic\log.h">
-      <Filter>Tobago\Basic\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tobago\basic\setup.h">
-      <Filter>Tobago\Basic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h">
       <Filter>Tobago\Objects\lodepng</Filter>
@@ -267,128 +123,20 @@
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tobago\basic\basic.h">
-      <Filter>Tobago\Basic\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Trinidad\Director\timer.h">
-      <Filter>Trinidad\Director</Filter>
+    <ClInclude Include="src\Tobago\init\initGLFW.h">
+      <Filter>Tobago\Init</Filter>
     </ClInclude>
-    <ClInclude Include="src\Trinidad\Director\SceneManager.h">
-      <Filter>Trinidad\Director</Filter>
+    <ClInclude Include="src\Tobago\init\initTobago.h">
+      <Filter>Tobago\Init</Filter>
     </ClInclude>
-    <ClInclude Include="src\Trinidad\Trinidad.h">
-      <Filter>Trinidad</Filter>
+    <ClInclude Include="src\Tobago\utility\basic.h">
+      <Filter>Tobago\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\FrameRate.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Director\director.h">
-      <Filter>Trinidad\Director</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Corella\Model.h">
-      <Filter>Trinidad\Corella</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Corella\Light.h">
-      <Filter>Trinidad\Corella</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Corella\Deferred.h">
-      <Filter>Trinidad\Corella</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Corella\Camera.h">
-      <Filter>Trinidad\Corella</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\Sphere.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\Floor.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\Blur.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Corella\Rig.h">
-      <Filter>Trinidad\Corella</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\RenderQuad.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\Glow.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\SkyBox.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\FloatingBalls.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Parser.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\AOTest.h">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Cilinder.h">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\SimpleCells.h">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Tests, Old &amp; Deprecated\Spheres.h">
-      <Filter>Vladivostok\Tests, Old &amp; Deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Trinidad\Scenes\DOF.h">
-      <Filter>Trinidad\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Cells.h">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scanner.h">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Storm.h">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\myGlow.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Models.h">
-      <Filter>Vladivostok\Storm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\ModelTest.h">
-      <Filter>Vladivostok</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\StormScene.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\First.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Fourth.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Ninth.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Eight.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\SixSeventh.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Second.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Third.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Fifth.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vladivostok\Storm\Scenes\Tenth.h">
-      <Filter>Vladivostok\Storm\Scenes</Filter>
+    <ClInclude Include="src\Tobago\utility\log.h">
+      <Filter>Tobago\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

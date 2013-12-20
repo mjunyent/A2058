@@ -7,6 +7,7 @@ Log::Log(const char* name) {
 	(*m_out).open(name);
 	if(!(*m_out)) cerr << "Unable to open file " << name << endl;
 	(*m_out) << "A2058 \t Error Log \t " << name << endl;
+	begin_time = clock();
 }
 
 Log::~Log() {
@@ -14,7 +15,7 @@ Log::~Log() {
 }
 
 ofstream& Log::write(LogLevel ERRNO) {
-	(*m_out) << endl << glfwGetTime() << "\t ";
+	(*m_out) << endl << float(clock()-begin_time)/CLOCKS_PER_SEC << "\t ";
 	if(ERRNO == ERROR)			(*m_out) << "ERROR";
 	else if (ERRNO == WARNING) 	(*m_out) << "WARNING";
 	else if (ERRNO == INFO) 	(*m_out) << "INFO";
