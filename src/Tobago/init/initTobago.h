@@ -29,7 +29,7 @@
 class initTobago {
 public:
 	enum contextProvider {
-		#ifndef DONT_USE_GLFW
+		#ifndef NO_GLFW
 			useGLFW
 		#endif
 	};
@@ -41,7 +41,7 @@ public:
 
 	int openGLMajor, openGLMinor, width, height;
 
-	#ifndef DONT_USE_GLFW
+	#ifndef NO_GLFW
 		contextGLFW *glfwInit;
 	#endif
 };

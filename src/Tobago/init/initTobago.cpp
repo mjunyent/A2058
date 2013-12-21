@@ -5,7 +5,7 @@ initTobago::initTobago(contextProvider context,
 					   int major, int minor,
 					   const char* name, bool fullscreen) {
 	//OpenGL context and Window
-	#ifndef DONT_USE_GLFW
+	#ifndef NO_GLFW
 	if(context == useGLFW) {
 		glfwInit = new contextGLFW(major, minor);
 		GLFWmonitor *monitor;
@@ -25,7 +25,7 @@ initTobago::initTobago(contextProvider context,
 	}
 
 	//FMOD
-	#ifndef DONT_USE_FMOD
+	#ifndef NO_FMOD
 	initSound();
 	#endif
 

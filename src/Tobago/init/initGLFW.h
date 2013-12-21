@@ -1,5 +1,5 @@
 #pragma once
-#ifndef DONT_USE_GLFW
+#ifndef NO_GLFW
 #ifndef TOBAGO_INITGLFW
 #define TOBAGO_INITGLFW
 

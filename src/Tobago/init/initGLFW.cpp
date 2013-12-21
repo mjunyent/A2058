@@ -1,4 +1,4 @@
-#ifndef DONT_USE_GLFW
+#ifndef NO_GLFW
 #include "initGLFW.h"
 
 contextGLFW::contextGLFW(int major, int minor) {

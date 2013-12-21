@@ -1,4 +1,4 @@
-#ifndef NO_SOUND
+#ifndef NO_FMOD
 
 #include "SoundHandler.h"
 

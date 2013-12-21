@@ -3,6 +3,6 @@
         <Property Name="WorkingDirectory" Value="C:\Users\Marc\Documents\A2058\bin" />
     </SettingsPointModel>
     <SettingsPointModel DefinitionId="4ae4108e-96a4-491d-99d1-3697cd027eb7" DisplayName="Shader Compilation">
-        <Property Name="GlobalIncludes" Value="C:\Users\Marc\Documents\A2058\bin\Shaders" />
+        <Property Name="GlobalIncludes" Value="C:\Users\Marc\Documents\A2058\bin" />
     </SettingsPointModel>
 </ProjectSettingsModel>

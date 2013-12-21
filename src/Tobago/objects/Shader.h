@@ -16,10 +16,13 @@
 class Shader {
 public:
     Shader() { };
+	//From file
     Shader(const char *vertex, const char *fragment); //load, compile and link the shaders at one call.
 	Shader(const char *vertex, const char *geometry, const char *fragment);
-    Shader(const char *vertex, const char *fragment, bool verbose); //load, compile and link the shaders LOAD FROM MEMORY, VERBOSE NOT IMPLEMENTED.
-    bool load(const char *vertex, const char *geometry, const char *fragment); //returns true if everything is ok.
+	//From memory
+	Shader(const char *vertex, const char *fragment, bool verbose); //load, compile and link the shaders LOAD FROM MEMORY, VERBOSE NOT IMPLEMENTED.
+
+	bool load(const char *vertex, const char *geometry, const char *fragment); //returns true if everything is ok.
 	void loadmemory(const char *vertex, const char *fragment);
     bool compile(); //returns true if everything ok.
     bool link(); //returns true if everything ok.
@@ -31,6 +34,7 @@ public:
     void uni_float(char *name, float value);
     void uni_int(char *name, int value);
 	GLuint p;
+
 private:
     GLint v, g, f; //this should be glUint but, meh.
     const char *vv, *gg, *ff;
