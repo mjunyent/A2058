@@ -32,7 +32,7 @@ View {
 	}
 	
 	Rig {
-		EyeSep 0.0		;3.0		;2.0
+		EyeSep 3.0		;2.0
 	}
 }
 
