@@ -5,7 +5,7 @@ TenthStormScene::TenthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	cout << "Loading Tenth Scene..." << endl;
 	readConf(csp);
 
-	logo = TBO("Images/Biotechnopolis/biotechnopolis_logo_blackandwhite.png", true);
+	logo = TBO("Images/Biotechnopolis/biotechnopolis_logo.png", true);
 	logo.clamp(true);
 
 	text = vector<TBO*>(3);
@@ -49,10 +49,10 @@ TenthStormScene::TenthStormScene(CSParser *csp, Scanner *s) : StormScene(s) {
 	float logoWidth = ratio*logoHeight;
 
 	float heartRect[] = {
-		 -logoWidth/2.0f,	 logoHeight/2.0f, 0.0f,
-		  logoWidth/2.0f,	 logoHeight/2.0f, 0.0f,
-		  logoWidth/2.0f,	-logoHeight/2.0f, 0.0f,
-		 -logoWidth/2.0f,	-logoHeight/2.0f, 0.0f,
+		 -logoWidth/4.0f,	 logoHeight/4.0f, 0.0f,
+		  logoWidth/4.0f,	 logoHeight/4.0f, 0.0f,
+		  logoWidth/4.0f,	-logoHeight/4.0f, 0.0f,
+		 -logoWidth/4.0f,	-logoHeight/4.0f, 0.0f,
 	};
 
 	logoQuad = new VBO(heartRect, sizeof(director::quad), 0);

@@ -21,12 +21,12 @@ Storm::Storm(CSParser *csp) {
 	left = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	right = new FBO(csp->data.width, csp->data.height, true, 2, lecaliteD);
 	
-	ballTex.push_back(new TBO("Images/Balls/6P/1.png", true));
-	ballTex.push_back(new TBO("Images/Balls/6P/2.png", true));
-	ballTex.push_back(new TBO("Images/Balls/6P/3.png", true));
-	ballTex.push_back(new TBO("Images/Balls/6P/4.png", true));
-	ballTex.push_back(new TBO("Images/Balls/6P/5.png", true));
-	ballTex.push_back(new TBO("Images/Balls/6P/6.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6PA/ballM300.fw.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6PA/ballM300.fw.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6PA/ballM300.fw.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6PA/ballM300.fw.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6PA/ballM300.fw.png", true));
+	ballTex.push_back(new TBO("Images/Balls/6PA/ballM300.fw.png", true));
 	ballTex[0]->clamp(true);
 	renderedCellTemp = new FBO(ballTex[0]->width, ballTex[0]->height, false, 1, lecalite);
 	renderedCell     = new FBO(ballTex[0]->width, ballTex[0]->height, false, 1, lecalite);
