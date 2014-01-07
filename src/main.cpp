@@ -26,7 +26,7 @@ int main(void) {
 
 //	win = setup(1920, 1080, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), true);
 	if(csp.data.fullscreen) win = setup(3840, 720, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), true);
-	else win = setup(2*csp.data.width, csp.data.height, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), NULL);
+	else win = setup(csp.data.width, csp.data.height, csp.data.oglMajor, csp.data.oglMinor, csp.data.windowTitle.c_str(), NULL);
 
 	windows.push_back(win);
 
@@ -161,8 +161,8 @@ int main(void) {
 
 	manager->addScene(&eyes, director::currentTime+4, 10000000, 0.1);
 	manager->addScene(&glow, director::currentTime+4, 10000000, 0.2);
-//	manager->addScene(new RenderQuad(STEREO_ANAGLYPH_RC), director::currentTime+4, 100000000, 1);
-	manager->addScene(new RenderQuad(STEREO_SIDEBYSIDE), director::currentTime+4, 100000000, 1);
+	manager->addScene(new RenderQuad(STEREO_NONE), director::currentTime+4, 100000000, 1);
+//	manager->addScene(new RenderQuad(STEREO_SIDEBYSIDE), director::currentTime+4, 100000000, 1);
 
 	while(!glfwWindowShouldClose(win)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
