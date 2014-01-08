@@ -1,0 +1,49 @@
+A2058 	 Error Log 	 logTobago.txt
+
+0.581281	 ERROR: Shader program linking error:Fragment info
+-------------
+0(4) : warning C7050: "colour.w" might be used before being initialized
+
+0.717311	 ERROR: Shader program linking error:Fragment info
+-------------
+0(4) : warning C7050: "color.xyz" might be used before being initialized
+
+0.719228	 ERROR: Shader program linking error:Fragment info
+-------------
+0(4) : warning C7050: "color.w" might be used before being initialized
+
+1.07382	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+2.60293	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+2.60316	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+2.60336	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+2.95161	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+3.10613	 ERROR: Shader program linking error:Fragment info
+-------------
+0(4) : warning C7050: "color.xyz" might be used before being initialized
+
+30.644	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+30.6441	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+30.6443	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+30.6444	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+30.6446	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+31.6454	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+31.6456	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+31.646	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+31.6462	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+31.6465	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+32.6053	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+32.6054	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+32.6055	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+32.6056	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+32.6058	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+32.8638	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+32.8639	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+32.8642	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+32.8643	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA252)
+32.8645	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+33.4251	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)
+34.0287	 ERROR: Shader program linking error:Fragment info
+-------------
+0(4) : warning C7050: "colour.w" might be used before being initialized
+
+34.1648	 WARNING: 3dsHandler error when reading: Unknown Chunk: ***UNKNOWN*** (0xA08A)

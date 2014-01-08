@@ -116,13 +116,13 @@ void VesselScene::update(double t) {
 			appearing = false;
 			disappearing = true;
 			skipNoInfo = true;
-			appear = 1.0;
+			appear = 0.98;
 			*command = -1;
 		} else if(*command == 1) {
 			appearing = false;
 			disappearing = true;
 			skipNoInfo = false;
-			appear = 1.0;
+			appear = 0.98;
 			*command = -1;
 		}
 	}
@@ -207,8 +207,8 @@ void VesselScene::updateInfo() {
 	if(appearing) appear += 0.02;
 	if(disappearing) appear -= 0.05;
 
-	if(appear >= 1.0) {
-		appear = 1.0;
+	if(appear >= 0.98) {
+		appear = 0.98;
 		appearing = false;
 	}
 	if(appear < 0.0) {
