@@ -1,7 +1,16 @@
 #include "Tobago/Tobago.h" //Tobago contains basic opengl inicialitzation, object managers and everything you need to ease your code.
+#include "Tobago/Init/ContextGLFW.h"
 
 int main(void) {
-	initTobago init(initTobago::useGLFW, 1280, 720, 4, 1, "Test", false);
+	TobagoInitGLFW(4, 1);
+	ContextGLFW asdf = ContextGLFW(1280, 720, "Test", NULL, NULL);
+	ContextGLFW fdsa = ContextGLFW(1280, 720, "Test2", NULL, NULL);
+	vector<Context*> pppp;
+	pppp.push_back(&asdf);
+	pppp.push_back(&fdsa);
+	Tobago.init(pppp);
+
+	Tobago.use(0);
 
 	Shader simple("simple.vert", "simple.frag");
 
@@ -37,8 +46,11 @@ int main(void) {
 //	VBO vq(quad, sizeof(float)*12, 0);
 //	IBO vqi(quad_I, sizeof(GLushort)*6);
 
-	while(!glfwWindowShouldClose(init.glfwInit->windows[0])) {
+	while(Tobago.enabled(0)) {
+		Tobago.use(0);
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+		glViewport(0, 0, Tobago.contexts[0]->width, Tobago.contexts[0]->height);
 
 		simple.use();
 
@@ -49,12 +61,11 @@ int main(void) {
 //		vqi.draw(GL_TRIANGLES);
 //		vq.disable();
 		
-		glfwSwapBuffers(init.glfwInit->windows[0]);
-		glfwPollEvents();
-		if(glfwGetKey(init.glfwInit->windows[0], GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(init.glfwInit->windows[0], GL_TRUE);
+		Tobago.swap(0);
+		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(1)) Tobago.stop(1);
 	}
 
-	glfwDestroyWindow(init.glfwInit->windows[0]);
+//	glfwDestroyWindow(init.glfwInit->windows[0]);
 
 	glfwTerminate();
 	exit(EXIT_SUCCESS);

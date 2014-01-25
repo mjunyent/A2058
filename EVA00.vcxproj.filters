@@ -79,9 +79,6 @@
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp">
       <Filter>Tobago\Handlers\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tobago\init\initGLFW.cpp">
-      <Filter>Tobago\Init</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\init\initTobago.cpp">
       <Filter>Tobago\Init</Filter>
     </ClCompile>
@@ -90,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="src\Tobago\utility\log.cpp">
       <Filter>Tobago\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tobago\init\ContextGLFW.cpp">
+      <Filter>Tobago\Init</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +126,6 @@
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h">
       <Filter>Tobago\Handlers\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tobago\init\initGLFW.h">
-      <Filter>Tobago\Init</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tobago\init\initTobago.h">
       <Filter>Tobago\Init</Filter>
     </ClInclude>
@@ -137,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="src\Tobago\utility\log.h">
       <Filter>Tobago\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\init\ContextGLFW.h">
+      <Filter>Tobago\Init</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

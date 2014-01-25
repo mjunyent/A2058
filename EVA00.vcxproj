@@ -132,7 +132,7 @@
     <ClCompile Include="src\Tobago\handlers\3dsHandler.cpp" />
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp" />
     <ClCompile Include="src\Tobago\handlers\SoundHandler.cpp" />
-    <ClCompile Include="src\Tobago\init\initGLFW.cpp" />
+    <ClCompile Include="src\Tobago\init\ContextGLFW.cpp" />
     <ClCompile Include="src\Tobago\init\initTobago.cpp" />
     <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp" />
     <ClCompile Include="src\Tobago\objects\FBO.cpp" />
@@ -148,7 +148,7 @@
     <ClInclude Include="src\Tobago\handlers\3dsHandler.h" />
     <ClInclude Include="src\Tobago\handlers\FontHandler.h" />
     <ClInclude Include="src\Tobago\handlers\SoundHandler.h" />
-    <ClInclude Include="src\Tobago\init\initGLFW.h" />
+    <ClInclude Include="src\Tobago\init\ContextGLFW.h" />
     <ClInclude Include="src\Tobago\init\initTobago.h" />
     <ClInclude Include="src\Tobago\objects\Buffer_Object.h" />
     <ClInclude Include="src\Tobago\objects\FBO.h" />

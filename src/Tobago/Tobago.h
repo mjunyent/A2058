@@ -1,5 +1,4 @@
 #include "init/initTobago.h"
-#include "init/initGLFW.h"
 
 #include "utility/log.h" //simple log class.
 #include "utility/basic.h" //functions to change coordinates sistem (pixel, screen or normalized).

@@ -3,11 +3,6 @@
 #define TOBAGO_INITTOBAGO
 
 #include <GL/glew.h>
-#ifdef GLEWLIB
-	#pragma comment(lib, "glew32s.lib");
-#endif
-
-#include "initGLFW.h"
 
 #include <glm/glm.hpp> //GLM Libs...
 #include <glm/gtx/transform.hpp>
@@ -21,29 +16,39 @@
 #include <cmath>
 #include <vector>
 
-//Initializes:
-// an OpenGL context
-// GLEW
-// FMOD (if enabled)
-// a window
-class initTobago {
+class Context {
 public:
-	enum contextProvider {
-		#ifndef NO_GLFW
-			useGLFW
-		#endif
+	bool enabled;
+	int width, height;
+	Context() { 
+		enabled = false;
+		width = -1;
+		height = -1;
 	};
-
-	initTobago(contextProvider context,
-			   int width, int height,
-			   int major, int minor,
-			   const char* name, bool fullscreen);
-
-	int openGLMajor, openGLMinor, width, height;
-
-	#ifndef NO_GLFW
-		contextGLFW *glfwInit;
-	#endif
+	virtual void init() { enabled = true; };
+	virtual void use() {};
+	virtual void stop() {};
+	virtual void swap() {};
 };
+
+class TobagoHandler {
+public:
+	TobagoHandler(const char* logName = "logTobago.txt");
+	void init(vector<Context*> contexts);
+	void init(Context* c);
+
+	bool enabled(int id);
+	void use(int id);
+	void stop(int id);
+	void swap(int id);
+
+	Log *log;
+	vector<Context*> contexts;
+
+private:
+	void initContextsGlewFmod();
+};
+
+extern TobagoHandler Tobago;
 
 #endif
