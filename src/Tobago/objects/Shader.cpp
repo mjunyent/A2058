@@ -16,18 +16,12 @@ Shader::~Shader() {
 }
 
 bool Shader::loadFromFile(GLenum type, const char* filename) {
-	std::ifstream fp;
-	fp.open(filename, std::ios_base::in);
-	if(!fp) {
-		Tobago.log->write(ERROR) << "Error opening shader file: " << filename;
+	std::string buffer;
+	if(!readFile(filename, buffer)) {
+		Tobago.log->write(ERROR) << "Could not open " << filename << " shader file.";
 		return false;
 	}
 
-	std::string line, buffer;
-	while(std::getline(fp, line)) {
-		buffer.append(line);
-		buffer.append("\r\n");
-	}
 	return loadFromString(type, buffer.c_str());
 }
 
@@ -37,7 +31,7 @@ bool Shader::loadFromString(GLenum type, const char* source) {
 	glShaderSource(shader, 1, &source, NULL);
 	glCompileShader(shader);
 
-	if(printShaderInfoLog(shader)) return false;
+	if(printShaderInfoLog(shader, source)) return false;
 
 	shaders[numShaders] = shader;
 	numShaders++;
@@ -112,7 +106,51 @@ void Shader::operator()(const string& uniform, glm::mat4 *m4) {
 	glUniformMatrix4fv(uniformList[uniform], 1, GL_FALSE, &(*m4)[0][0]);
 }
 
-bool Shader::printShaderInfoLog(GLuint shader) {
+bool Shader::readFile(const char* filename, std::string& buffer) {
+	std::ifstream fp;
+	fp.open(filename, std::ios_base::in);
+	if(!fp) return false;
+
+	std::string line;
+	bool commented = false;
+	while(std::getline(fp, line)) {
+		std::size_t openMLComment, closeMLComment, include, lineComment;
+		openMLComment = line.find("/*");
+		closeMLComment = line.find("*/");
+		include = line.find("#include");
+		lineComment = line.find("//");
+
+		if(openMLComment != std::string::npos) commented = true;
+		if(closeMLComment != std::string::npos) commented = false;
+
+		//Not in comment, include appears in the line, and there is no line comment or it's after include.
+		if(!commented && include != std::string::npos &&
+			(lineComment == std::string::npos || lineComment > include)	) {
+				std::size_t start = line.find("\"");
+				std::size_t end = line.find("\"", start+1);
+				std::string includeFile = line.substr(start+1, end-start-1);
+				std::cout << "Include Found: " << line << std::endl;
+				std::cout << includeFile << endl;
+
+				buffer.append("//Included file: ");
+				buffer.append(includeFile);
+				buffer.append("\r\n");
+				if(!readFile(includeFile.c_str(), buffer)) {
+					Tobago.log->write(WARNING) << "Could not open shader file: " << includeFile << " included from " << filename;
+				}
+				buffer.append("//End of included file\r\n");
+		} else {
+			buffer.append(line);
+			buffer.append("\r\n");
+		}
+	}
+
+	fp.close();
+
+	return true;
+}
+
+bool Shader::printShaderInfoLog(GLuint shader, const char* source) {
     int infologLength = 0;
     int charsWritten  = 0;
 
@@ -122,7 +160,7 @@ bool Shader::printShaderInfoLog(GLuint shader) {
     {
         GLchar *infoLog = new GLchar[infologLength];
         glGetShaderInfoLog(shader, infologLength, &charsWritten, infoLog);
-		Tobago.log->write(ERROR) << "Shader compiling error:" << infoLog;
+		Tobago.log->write(ERROR) << "Shader compiling error:" << std::endl << infoLog << "Full shader dump: " << endl << source << "END of Shader dump" << endl;
         delete [] infoLog;
 		return true;
     }

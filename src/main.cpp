@@ -11,7 +11,7 @@ int main(void) {
 	Tobago.init(pppp);
 
 	
-	Tobago.log->write(ERROR) << "PEROQUECOM;O!";
+	Tobago.log->write(DEBUG) << "PEROQUECOM;O!";
 
 
 	Tobago.use(0);

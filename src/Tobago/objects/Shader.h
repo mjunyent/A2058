@@ -42,8 +42,9 @@ public:
 	void operator()(const string& uniform, glm::mat4 *m4);
 
 	GLuint p;
-	bool printShaderInfoLog(GLuint shader); //checks for errors, return true if errors found.
+	bool printShaderInfoLog(GLuint shader, const char* source); //checks for errors, return true if errors found.
 	bool printProgramInfoLog(GLuint program);
+	bool readFile(const char* filename, std::string& buffer);
 	GLuint shaders[5];
 	int numShaders;
 	std::map<std::string, GLint> attributeList;
