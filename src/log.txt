@@ -12,3 +12,19 @@ Warning: In the deferred engine you have a problem with GL_BLEND. Now it works b
 
 Fix resize_callback/framebuffer callback
 Vertex array problem.
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+Shader error reporting: Give best error location (printshaderinfolog).
+Shader <- add operators for textures and shit (or not).

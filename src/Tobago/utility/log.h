@@ -19,6 +19,7 @@ public:
 	virtual ~Log();
 
 	ofstream& write(LogLevel ERRNO);
+	void flush();
 
 private:
 	ofstream *m_out; //ostream to be more flexible.

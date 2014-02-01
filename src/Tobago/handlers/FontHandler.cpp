@@ -1,6 +1,6 @@
 #include "FontHandler.h"
 
-char *FontHandler_vertex = \
+const char *FontHandler_vertex = \
 	"#version 330 core\n"
 	"layout( location = 0) in vec2 spacecoord; "
 	"layout( location = 1) in vec2 theUV; "
@@ -10,7 +10,7 @@ char *FontHandler_vertex = \
 	"gl_Position.xyz = vec3(spacecoord,0); "
 	"}";
 
-char *FontHandler_fragment= \
+const char *FontHandler_fragment= \
 	"#version 330 core\n"
 	"in vec2 UV; "
 	"uniform sampler2D theTex; "
@@ -27,8 +27,10 @@ FontHandler::FontHandler(char* FontName) {
 	CWidth  = 32;	
 	CharsPerRow = 16;
 	Alphabet = new TBO(FontName,true);
-	TexReader = new Shader(FontHandler_vertex, FontHandler_fragment, true);
-	TextureID = TexReader->getUniform("theTex");
+	TexReader.loadFromString(GL_VERTEX_SHADER, FontHandler_vertex);
+	TexReader.loadFromString(GL_FRAGMENT_SHADER, FontHandler_fragment);
+	TexReader.link();
+	TexReader.addUniform("theTex");
 }
 
 FontHandler::FontHandler(char* FontName, unsigned StartingChar, unsigned CellHeight, unsigned CellWidth, unsigned Square){
@@ -37,8 +39,10 @@ FontHandler::FontHandler(char* FontName, unsigned StartingChar, unsigned CellHei
 	CWidth  = CellWidth;
 	CharsPerRow = Square / CWidth ;
 	Alphabet = new TBO(FontName,true);
-	TexReader = new Shader(FontHandler_vertex, FontHandler_fragment, true);
-	TextureID = TexReader->getUniform("theTex");
+	TexReader.loadFromString(GL_VERTEX_SHADER, FontHandler_vertex);
+	TexReader.loadFromString(GL_FRAGMENT_SHADER, FontHandler_fragment);
+	TexReader.link();
+	TexReader.addUniform("theTex");
 }
 
 TBO FontHandler::StringTex(char* Message, unsigned len){
@@ -100,10 +104,10 @@ TBO FontHandler::StringTex(char* Message, unsigned len){
 
 	VBO QuadCoord(QuadsCoord,0);
 	VBO QuadUV   (QuadsUV	,1);
-	TexReader->use();
+	TexReader.use();
 	ret->bind();
 	Alphabet->bind(0);
-	glUniform1i( TextureID, 0 );
+	TexReader("theTex", 0);
 	QuadCoord.enable(2);
 	QuadUV.enable(2);
 	QuadCoord.draw( GL_TRIANGLES );

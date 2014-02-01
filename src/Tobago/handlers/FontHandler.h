@@ -31,13 +31,12 @@
 class FontHandler {
 	private :
 		TBO* Alphabet;
-		Shader* TexReader;
+		Shader TexReader;
 		// Esto realmente son enteros, se usa float para aligerar el trabajo de conversion del programa.
 		unsigned StartingCharacter;
 		unsigned CHeight;
 		unsigned CWidth ;
 		unsigned CharsPerRow;
-		GLuint TextureID;
 		FBO* ret;
 
 	public :

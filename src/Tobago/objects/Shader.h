@@ -7,40 +7,47 @@
 #ifndef shader_h
 #define shader_h
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include "../utility/log.h"
+#include "../init/initTobago.h"
 #include <cstdio>
 #include <cstdlib>
 
+#include <string>
+#include <fstream>
+#include <map>
+
 class Shader {
 public:
-    Shader() { };
-	//From file
-    Shader(const char *vertex, const char *fragment); //load, compile and link the shaders at one call.
-	Shader(const char *vertex, const char *geometry, const char *fragment);
-	//From memory
-	Shader(const char *vertex, const char *fragment, bool verbose); //load, compile and link the shaders LOAD FROM MEMORY, VERBOSE NOT IMPLEMENTED.
+	Shader();
+	~Shader();
 
-	bool load(const char *vertex, const char *geometry, const char *fragment); //returns true if everything is ok.
-	void loadmemory(const char *vertex, const char *fragment);
-    bool compile(); //returns true if everything ok.
-    bool link(); //returns true if everything ok.
-	//void getV(GLuint BID , char *name_t);
-    void use();
-    //void unuse();
-	GLint getUniform(const char *name);
+	bool loadFromFile(GLenum type, const char* filename); //false -> shader not added (error), true -> shadder added.
+	bool loadFromString(GLenum type, const char* source);
+	bool link();
 
-    void uni_float(char *name, float value);
-    void uni_int(char *name, int value);
+	void use();
+
+	void addUniform(const string& uniform);
+	void addAttribute(const string& attribute);
+
+	GLint operator[](const string& attribute);
+	GLint operator()(const string& uniform);
+
+	void operator()(const string& uniform, GLfloat v0);
+	void operator()(const string& uniform, GLint v0);
+	void operator()(const string& uniform, glm::vec2 *v2);
+	void operator()(const string& uniform, glm::vec3 *v3);
+	void operator()(const string& uniform, glm::vec4 *v4);
+	void operator()(const string& uniform, glm::mat2 *m2);
+	void operator()(const string& uniform, glm::mat3 *m3);
+	void operator()(const string& uniform, glm::mat4 *m4);
+
 	GLuint p;
-
-private:
-    GLint v, g, f; //this should be glUint but, meh.
-    const char *vv, *gg, *ff;
-    char *textFileRead(const char *fn);
-    bool printShaderInfoLog(GLuint obj); //returns true if error.
-    bool printProgramInfoLog(GLuint obj); //returns true if error.
+	bool printShaderInfoLog(GLuint shader); //checks for errors, return true if errors found.
+	bool printProgramInfoLog(GLuint program);
+	GLuint shaders[5];
+	int numShaders;
+	std::map<std::string, GLint> attributeList;
+	std::map<std::string, GLint> uniformList;
 };
 
 #endif

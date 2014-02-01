@@ -24,6 +24,10 @@ ofstream& Log::write(LogLevel ERRNO) {
 	return (*m_out);
 }
 
+void Log::flush() {
+	(*m_out).flush();
+}
+
 namespace TOBAGO {
 	Log log = Log("logTobago.txt");
 }

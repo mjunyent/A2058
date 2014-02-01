@@ -10,9 +10,18 @@ int main(void) {
 	pppp.push_back(&fdsa);
 	Tobago.init(pppp);
 
+	
+	Tobago.log->write(ERROR) << "PEROQUECOM;O!";
+
+
 	Tobago.use(0);
 
-	Shader simple("simple.vert", "simple.frag");
+	Shader simple;
+	simple.loadFromFile(GL_VERTEX_SHADER, "simple.vert");
+	simple.loadFromFile(GL_FRAGMENT_SHADER, "simple.frag");
+	simple.link();
+	simple.addUniform("a");
+	simple.addUniform("cosa");
 
 	float quad[] = { 
 		-1.0f,  1.0f, 0.0f,	//0 UP, LEFT
@@ -45,6 +54,7 @@ int main(void) {
 
 //	VBO vq(quad, sizeof(float)*12, 0);
 //	IBO vqi(quad_I, sizeof(GLushort)*6);
+	Tobago.log->flush();
 
 	while(Tobago.enabled(0)) {
 		Tobago.use(0);
@@ -53,6 +63,8 @@ int main(void) {
 		glViewport(0, 0, Tobago.contexts[0]->width, Tobago.contexts[0]->height);
 
 		simple.use();
+		simple("a", 1.0f);
+		simple("cosa", 1.0f);
 
 		glBindVertexArray(vertex_array);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
@@ -64,6 +76,7 @@ int main(void) {
 		Tobago.swap(0);
 		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(1)) Tobago.stop(1);
 	}
+
 
 //	glfwDestroyWindow(init.glfwInit->windows[0]);
 

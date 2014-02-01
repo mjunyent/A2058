@@ -1,212 +1,149 @@
 #include "Shader.h"
 
-Shader::Shader(const char *vertex, const char *fragment) {
-    load(vertex, NULL, fragment);
-    compile();
-    link();
+
+Shader::Shader() {
+	numShaders = 0;
+	p = 0;
+	attributeList.clear();
+	uniformList.clear();
 }
 
-Shader::Shader(const char *vertex, const char *fragment, bool verbose) {
-    loadmemory(vertex, fragment);
-    compile();
-    link();
+Shader::~Shader() {
+	attributeList.clear();
+	uniformList.clear();
+	for(int i=0; i<numShaders; i++) glDeleteShader(shaders[i]);
+	glDeleteProgram(p);
 }
 
-Shader::Shader(const char *vertex, const char *geometry, const char *fragment) {
-	load(vertex, geometry, fragment);
-    compile();
-    link();
+bool Shader::loadFromFile(GLenum type, const char* filename) {
+	std::ifstream fp;
+	fp.open(filename, std::ios_base::in);
+	if(!fp) {
+		Tobago.log->write(ERROR) << "Error opening shader file: " << filename;
+		return false;
+	}
+
+	std::string line, buffer;
+	while(std::getline(fp, line)) {
+		buffer.append(line);
+		buffer.append("\r\n");
+	}
+	return loadFromString(type, buffer.c_str());
 }
 
-bool Shader::load(const char *vertex, const char *geometry, const char *fragment) {
-	bool ret = true;
-	v = g = f = -1;
+bool Shader::loadFromString(GLenum type, const char* source) {
+	GLuint shader = glCreateShader(type);
 
-	if(vertex != NULL) {
-		char *vs;
-		v = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(shader, 1, &source, NULL);
+	glCompileShader(shader);
 
-		//Loading vertex shader.
-		vs = textFileRead(vertex);
-		if (vs == NULL) {
-			TOBAGO::log.write(ERROR) << "Vertex shader wasn't read correctly: " << vertex;
-		    ret = false;
-	    } else {
-			vv = vs;
-			if(ret) glShaderSource(v, 1, &vv, NULL);
-			free(vs);
-		}
-	}
+	if(printShaderInfoLog(shader)) return false;
 
-	if(geometry != NULL) {
-		char *gs;
-		g = glCreateShader(GL_GEOMETRY_SHADER);
-
-		//Loading geometry shader.
-		gs = textFileRead(geometry);
-		if (gs == NULL) {
-			TOBAGO::log.write(ERROR) << "Geometry shader wasn't read correctly: " << geometry;
-			ret = false;
-		} else {
-			gg = gs;
-			if(ret) glShaderSource(g, 1, &gg, NULL);
-			free(gs);
-		}
-	}
-
-	if(fragment != NULL) {
-		char *fs;
-	    f = glCreateShader(GL_FRAGMENT_SHADER);
-
-		//Loading fragment shader.
-	    fs = textFileRead(fragment);
-	    if(fs == NULL) {
-			TOBAGO::log.write(ERROR) << "Fragment shader file wasn't read correctly:" << fragment;
-	        ret = false;
-	    } else {
-		    ff = fs;
-			if(ret) glShaderSource(f, 1, &ff, NULL);
-			free(fs);
-		}
-	}
-
-    return ret;
-}
-
-void Shader::loadmemory(const char *vertex, const char *fragment) {
-    v = glCreateShader(GL_VERTEX_SHADER);
-    f = glCreateShader(GL_FRAGMENT_SHADER);
-
-    //Loading vertex shader.
-    glShaderSource(v, 1, &vertex, NULL);
-
-    //Loading fragment shader.
-	glShaderSource(f, 1, &fragment, NULL);
-}
-
-bool Shader::compile() {
-	bool cv, cg, cf;
-	cv = cg = cf = false;
-
-	if(v != -1) {
-		glCompileShader(v);
-		cv = printShaderInfoLog(v); //returns true if error
-	}
-	if(g != -1) {
-		glCompileShader(g);
-	    cg = printShaderInfoLog(g); //returns true if error
-	}
-	if(f != -1) {
-		glCompileShader(f);
-		cf = printShaderInfoLog(f); //returns true if error
-	}
-	
-	return !(cv || cg || cf); //returns false if error		
+	shaders[numShaders] = shader;
+	numShaders++;
+	return true;
 }
 
 bool Shader::link() {
-    p = glCreateProgram();
+	p = glCreateProgram();
 
-	if(v != -1)    glAttachShader(p, v);
-	if(g != -1)	   glAttachShader(p, g);
-	if(f != -1)    glAttachShader(p, f);
+	for(int i=0; i<numShaders; i++) glAttachShader(p, shaders[i]);
+	glLinkProgram(p);
 
-    glLinkProgram(p);
-    bool pl = printProgramInfoLog(p); //returns true if error
+	if(printProgramInfoLog(p)) return false;
 
-    return !pl;
+	return true;
 }
 
 void Shader::use() {
-    glUseProgram(p);
+	glUseProgram(p);
 }
 
-GLint Shader::getUniform(const char *name) {
-	return glGetUniformLocation(p, name);
+
+void Shader::addUniform(const string& uniform) {
+	GLint uid = glGetUniformLocation(p, uniform.c_str());
+	if(uid == -1) Tobago.log->write(WARNING) << "Uniform not found: " << uniform;
+	uniformList[uniform] = uid;
 }
 
-/*void Shader::unuse() {
-    glUseProgram(0);
-}*/
-//El shader 0 o shader trivial no hace falta llamarlo.
-
-
-void Shader::uni_float(char *name, float value) {
-    GLint loc = glGetUniformLocation(p, name);
-    glUniform1f(loc, value);
+void Shader::addAttribute(const string& attribute) {
+	GLint aid = glGetAttribLocation(p, attribute.c_str());
+	if(aid == -1) Tobago.log->write(WARNING) << "Attribute not found: " << attribute;
+	attributeList[attribute] = aid;
 }
 
-void Shader::uni_int(char *name, int value) {
-    GLint loc = glGetUniformLocation(p, name);
-    glUniform1i(loc, value);
+GLint Shader::operator[](const string& attribute) {
+	return attributeList[attribute];
 }
 
-/*
-void setShaders() {
-    GLint loc = glGetUniformLocation(p, "tex");
-    
-    glUniform1i(loc, 0);
-}*/
-
-
-char *Shader::textFileRead(const char *fn) {
-    FILE *fp;
-    char *content = NULL;
-    
-    int count=0;
-
-    if (fn != NULL) {
-        fp = fopen(fn,"rt");
-
-        if (fp != NULL) {
-            fseek(fp, 0, SEEK_END);
-            count = int(ftell(fp));
-            rewind(fp);
-            if (count > 0) {
-                content = (char *)malloc(sizeof(char) * (count+1));
-                count = int(fread(content,sizeof(char),count,fp));
-                content[count] = '\0';
-            }
-            fclose(fp);
-        }
-    }
-    return content;
+GLint Shader::operator()(const string& uniform) {
+	return uniformList[uniform];
 }
 
-bool Shader::printShaderInfoLog(GLuint obj)
-{
+void Shader::operator()(const string& uniform, GLfloat v0) {
+	glUniform1f(uniformList[uniform], v0);
+}
+
+void Shader::operator()(const string& uniform, GLint v0) {
+	glUniform1i(uniformList[uniform], v0);
+}
+
+void Shader::operator()(const string& uniform, glm::vec2 *v2) {
+	glUniform2fv(uniformList[uniform], 1, &(*v2)[0]);
+}
+
+void Shader::operator()(const string& uniform, glm::vec3 *v3) {
+	glUniform3fv(uniformList[uniform], 1, &(*v3)[0]);
+}
+
+void Shader::operator()(const string& uniform, glm::vec4 *v4) {
+	glUniform4fv(uniformList[uniform], 1, &(*v4)[0]);
+}
+
+void Shader::operator()(const string& uniform, glm::mat2 *m2) {
+	glUniformMatrix2fv(uniformList[uniform], 1, GL_FALSE, &(*m2)[0][0]);
+}
+
+void Shader::operator()(const string& uniform, glm::mat3 *m3) {
+	glUniformMatrix3fv(uniformList[uniform], 1, GL_FALSE, &(*m3)[0][0]);
+}
+
+void Shader::operator()(const string& uniform, glm::mat4 *m4) {
+	glUniformMatrix4fv(uniformList[uniform], 1, GL_FALSE, &(*m4)[0][0]);
+}
+
+bool Shader::printShaderInfoLog(GLuint shader) {
     int infologLength = 0;
     int charsWritten  = 0;
-    char *infoLog;
 
-    glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &infologLength);
+    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infologLength);
 	
     if (infologLength > 1)
     {
-        infoLog = (char *)malloc(infologLength);
-        glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
-		TOBAGO::log.write(ERROR) << "Shader compiling error:" << infoLog;
-        free(infoLog);
+        GLchar *infoLog = new GLchar[infologLength];
+        glGetShaderInfoLog(shader, infologLength, &charsWritten, infoLog);
+		Tobago.log->write(ERROR) << "Shader compiling error:" << infoLog;
+        delete [] infoLog;
+		return true;
     }
 
-    return !(infologLength > 1);
+	return false;
 }
 
-bool Shader::printProgramInfoLog(GLuint obj)
-{
+bool Shader::printProgramInfoLog(GLuint program) {
     int infologLength = 0;
     int charsWritten  = 0;
-    char *infoLog;
     
-    glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &infologLength);
-    
+    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infologLength);
+
     if (infologLength > 1)
     {
-        infoLog = (char *)malloc(infologLength);
-        glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
-		TOBAGO::log.write(ERROR) << "Shader program linking error:" << infoLog;
-        free(infoLog);
+		GLchar *infoLog = new GLchar[infologLength];
+        glGetProgramInfoLog(program, infologLength, &charsWritten, infoLog);
+		Tobago.log->write(ERROR) << "Shader program linking error:" << infoLog;
+		delete [] infoLog;
+		return true;
     }
 
-    return !(infologLength > 1);
+	return false;
 }
