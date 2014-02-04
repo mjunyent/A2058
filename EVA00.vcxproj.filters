@@ -91,6 +91,9 @@
     <ClCompile Include="src\Tobago\init\ContextGLFW.cpp">
       <Filter>Tobago\Init</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tobago\objects\VAO.cpp">
+      <Filter>Tobago\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tobago\Tobago.h">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="src\Tobago\init\ContextGLFW.h">
       <Filter>Tobago\Init</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tobago\objects\VAO.h">
+      <Filter>Tobago\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -129,8 +129,6 @@ bool Shader::readFile(const char* filename, std::string& buffer) {
 				std::size_t start = line.find("\"");
 				std::size_t end = line.find("\"", start+1);
 				std::string includeFile = line.substr(start+1, end-start-1);
-				std::cout << "Include Found: " << line << std::endl;
-				std::cout << includeFile << endl;
 
 				buffer.append("//Included file: ");
 				buffer.append(includeFile);

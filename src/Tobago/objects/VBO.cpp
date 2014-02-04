@@ -1,5 +1,16 @@
 #include "VBO.h"
 
+NewVBO::NewVBO() {
+	glGenBuffers(1, &id);
+}
+
+void NewVBO::populate(std::vector<float>& data) {
+	glBindBuffer(GL_ARRAY_BUFFER, id);
+	glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(float), &data[0], GL_STATIC_DRAW);
+}
+
+
+
 VBO::VBO( GLfloat *theArray, GLuint theSizeof , GLuint theIx)
 {
 	theBytes = theSizeof;

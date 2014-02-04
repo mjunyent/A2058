@@ -140,6 +140,7 @@
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
+    <ClCompile Include="src\Tobago\objects\VAO.cpp" />
     <ClCompile Include="src\Tobago\objects\VBO.cpp" />
     <ClCompile Include="src\Tobago\utility\basic.cpp" />
     <ClCompile Include="src\Tobago\utility\log.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="src\Tobago\objects\lodepng\lodepng.h" />
     <ClInclude Include="src\Tobago\objects\Shader.h" />
     <ClInclude Include="src\Tobago\objects\TBO.h" />
+    <ClInclude Include="src\Tobago\objects\VAO.h" />
     <ClInclude Include="src\Tobago\objects\VBO.h" />
     <ClInclude Include="src\Tobago\Tobago.h" />
     <ClInclude Include="src\Tobago\utility\basic.h" />

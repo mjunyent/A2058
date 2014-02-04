@@ -1,6 +1,31 @@
-#pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#ifndef BUFFEROBJECT_H
+#define BUFFEROBJECT_H
+
+#include "../init/initTobago.h"
+
+class BO {
+public:
+	enum IOType	{ READ, WRITE, RW };
+
+	BO(GLenum type);
+	BO(BO *bo);
+	~BO();
+	void bind();
+	void bind(GLenum target);
+	void data(const void* data, GLsizeiptr size, GLenum usage); //GL_a_b: a = { STATIC, DYNAMIC, STREAM }, b = {DRAW, READ, COPY}
+	void copy(BO *from);
+	void* map(IOType io);
+	void unmap();
+//	void clear(); OGL 4.3 http://www.opengl.org/wiki/Buffer_Object#Clearing
+//	void invalidate(); OGL 4.3
+
+//	void stream(); Read.
+
+	GLuint id;
+	GLenum type;
+	GLenum usage;
+	GLintptr size;
+};
 
 class Buffer_Object
 {
@@ -18,3 +43,4 @@ class Buffer_Object
 	//Destructor propiamente dicho , no hay por que llamarlo.
 	~Buffer_Object();
 };
+#endif

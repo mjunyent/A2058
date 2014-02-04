@@ -4,6 +4,15 @@
 #include <cstdlib>
 #include <vector>
 
+class NewVBO {
+public:
+	NewVBO();
+
+	void populate(std::vector<float>& data);
+
+	GLuint id;
+};
+
 class VBO : public Buffer_Object
 {
 	public :

@@ -1,16 +1,12 @@
 //
-//  shader.h
-//  Lynx1
+//  Shader.h
 //
 
-#pragma once
 #ifndef shader_h
 #define shader_h
 
 #include "../init/initTobago.h"
-#include <cstdio>
 #include <cstdlib>
-
 #include <string>
 #include <fstream>
 #include <map>
