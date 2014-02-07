@@ -136,12 +136,10 @@
     <ClCompile Include="src\Tobago\init\initTobago.cpp" />
     <ClCompile Include="src\Tobago\objects\Buffer_Object.cpp" />
     <ClCompile Include="src\Tobago\objects\FBO.cpp" />
-    <ClCompile Include="src\Tobago\objects\IBO.cpp" />
     <ClCompile Include="src\Tobago\objects\lodepng\lodepng.cpp" />
     <ClCompile Include="src\Tobago\objects\Shader.cpp" />
     <ClCompile Include="src\Tobago\objects\TBO.cpp" />
     <ClCompile Include="src\Tobago\objects\VAO.cpp" />
-    <ClCompile Include="src\Tobago\objects\VBO.cpp" />
     <ClCompile Include="src\Tobago\utility\basic.cpp" />
     <ClCompile Include="src\Tobago\utility\log.cpp" />
   </ItemGroup>

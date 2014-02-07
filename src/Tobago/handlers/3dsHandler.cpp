@@ -126,7 +126,7 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 		vdata[i+1] = mesh->vertices[e][1];
 		vdata[i+2] = mesh->vertices[e][2];
 	}
-	vertexs = new VBO(vdata, sizeof(float)*mesh->nvertices*3, 0);
+	vertexs = new oldVBO(vdata, sizeof(float)*mesh->nvertices*3, 0);
 
 	GLushort *fdata = new GLushort[mesh->nfaces*3];
 //	cout << "Number of faces: " << mesh->nfaces << endl;
@@ -136,11 +136,11 @@ void A3dsHandler::makeVBOwithIBO(int id) {
 		fdata[i+2] = faces[e].index[2];
 	}
 
-	indexs = new IBO(fdata, sizeof(GLushort)*mesh->nfaces*3);
+	indexs = new oldIBO(fdata, sizeof(GLushort)*mesh->nfaces*3);
 }
 
 void A3dsHandler::makeIndexsByMaterial() {
-	indexsByMaterial = vector<IBO*>(f->nmaterials);
+	indexsByMaterial = vector<oldIBO*>(f->nmaterials);
 
 	GLushort *fdata = new GLushort[mesh->nfaces*3];
 
@@ -155,7 +155,7 @@ void A3dsHandler::makeIndexsByMaterial() {
 			}
 		}
 
-		indexsByMaterial[i] = new IBO(fdata, sizeof(GLushort)*size);
+		indexsByMaterial[i] = new oldIBO(fdata, sizeof(GLushort)*size);
 	}
 }
 
@@ -187,13 +187,13 @@ void A3dsHandler::makeVBO(int id, int material) {
 		}
 	}
 
-	vertexs = new VBO(vdata, sizeof(float)*nMfaces*3*3, 0);
+	vertexs = new oldVBO(vdata, sizeof(float)*nMfaces*3*3, 0);
 
 	for(int k=0; k<nMfaces*3; k++) {
 		idata[k] = k;
 	}
 
-	indexs = new IBO(idata, sizeof(GLushort)*nMfaces*3);
+	indexs = new oldIBO(idata, sizeof(GLushort)*nMfaces*3);
 
 }
 
@@ -216,7 +216,7 @@ void A3dsHandler::makeVBO(int id) {
 		idata[k] = k;
 	}
 
-	indexs = new IBO(idata, sizeof(GLushort)*mesh->nfaces*3);
+	indexs = new oldIBO(idata, sizeof(GLushort)*mesh->nfaces*3);
 
 	int i=0;
 	for(int e=0; e<mesh->nfaces; e++) {
@@ -230,7 +230,7 @@ void A3dsHandler::makeVBO(int id) {
 		}
 	}
 
-	vertexs = new VBO(vdata, sizeof(float)*mesh->nfaces*3*3, 0);
+	vertexs = new oldVBO(vdata, sizeof(float)*mesh->nfaces*3*3, 0);
 }
 
 void A3dsHandler::makeFuckingNormals() {
@@ -294,7 +294,7 @@ void A3dsHandler::makeNormalsPerVertex() {
 		ndata[3*i+2] = normal.z;
 	}
 
-	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
+	normals = new oldVBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
 }
 
 void A3dsHandler::saveNormalsToFile(const char* filename) {
@@ -326,7 +326,7 @@ void A3dsHandler::readNormalsFromFile(const char* filename) {
 
 	for(int i=0; i<mesh->nvertices*3; i++) input >> ndata[i];
 
-	normals = new VBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
+	normals = new oldVBO(ndata, sizeof(float)*mesh->nvertices*3, 1);
 }
 
 glm::vec3 A3dsHandler::calcFaceNormal(int i) {
@@ -371,7 +371,7 @@ void A3dsHandler::makeNormalsPerFace() {
 		}
 	}
 
-	normals = new VBO(ndata, sizeof(float)*mesh->nfaces*3*3, 1);
+	normals = new oldVBO(ndata, sizeof(float)*mesh->nfaces*3*3, 1);
 
 	/*
 	int i=0;
@@ -401,7 +401,7 @@ void A3dsHandler::makeUVs() {
 		ndata[2*i+1] = mesh->texcos[i][1];
 	}
 
-	UVs = new VBO(ndata, sizeof(float)*mesh->nvertices*2, 2);
+	UVs = new oldVBO(ndata, sizeof(float)*mesh->nvertices*2, 2);
 }
 
 glm::mat4 A3dsHandler::getModelMatrix() {
@@ -489,8 +489,8 @@ void A3dsHandler::makeTBNSpace() {
 		tdata[3*i+2] = t.z;
 	}
 
-	tangents = new VBO(tdata, sizeof(float)*mesh->nvertices*3, 3);
-	bitangents = new VBO(bdata, sizeof(float)*mesh->nvertices*3, 4);
+	tangents = new oldVBO(tdata, sizeof(float)*mesh->nvertices*3, 3);
+	bitangents = new oldVBO(bdata, sizeof(float)*mesh->nvertices*3, 4);
 }
 
 void A3dsHandler::makeBoundingBox() {

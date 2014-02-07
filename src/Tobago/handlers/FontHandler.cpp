@@ -102,8 +102,8 @@ TBO FontHandler::StringTex(char* Message, unsigned len){
 		QuadsUV.push_back(1.0f - uv_y);
 	}
 
-	VBO QuadCoord(QuadsCoord,0);
-	VBO QuadUV   (QuadsUV	,1);
+	oldVBO QuadCoord(QuadsCoord,0);
+	oldVBO QuadUV   (QuadsUV	,1);
 	TexReader.use();
 	ret->bind();
 	Alphabet->bind(0);

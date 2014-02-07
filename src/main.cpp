@@ -9,10 +9,8 @@ int main(void) {
 	pppp.push_back(&asdf);
 	pppp.push_back(&fdsa);
 	Tobago.init(pppp);
-
 	
 	Tobago.log->write(DEBUG) << "PEROQUECOM;O!";
-
 
 	Tobago.use(0);
 
@@ -23,11 +21,11 @@ int main(void) {
 	simple.addUniform("a");
 	simple.addUniform("cosa");
 
-	float quad[] = { 
-		-1.0f,  1.0f, 0.0f,	//0 UP, LEFT
-		1.0f,  1.0f, 0.0f, //1 UP, RIGHT
-		1.0f, -1.0f, 0.0f, //2 DOWN, RIGHT
-		-1.0f, -1.0f, 0.0f  //3 DOWN, LEFT
+	float quad[] = {
+		-1.0f,  1.0f,  0.0f, //0 UP, LEFT
+		 1.0f,  1.0f,  0.0f, //1 UP, RIGHT
+		 1.0f, -1.0f,  0.0f, //2 DOWN, RIGHT
+		-1.0f, -1.0f,  0.0f  //3 DOWN, LEFT
 	};
 
 	GLushort quad_I[] = {
@@ -35,39 +33,22 @@ int main(void) {
 		1, 3, 2
 	};
 
-	BO vboBO(GL_ARRAY_BUFFER);
-	vboBO.data(&quad[0], sizeof(float)*12, GL_STATIC_DRAW);
+	GLushort quad_II[] = {
+		0, 3, 1,
+		1, 3, 2
+	};
+
+	VAO vaoVAO;
+	VBO vboBO(quad, 15);
+	IBO iboBO(quad_I, 6);
 	BO mene(&vboBO);
 
-	BO iboBO(GL_ELEMENT_ARRAY_BUFFER);
-	iboBO.data(&quad_I[0], sizeof(GLushort)*6, GL_STATIC_DRAW);
-
-
-	GLuint vertex_array, vboID, iboID;
-	glGenVertexArrays(1, &vertex_array);
-	glBindVertexArray(vertex_array);
-	iboBO.bind();
-
-/*	glGenBuffers(1, &vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*12, &quad[0], GL_STATIC_DRAW);*/
-
-	vboBO.bind();
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(0);
-
-
-/*	glGenBuffers(1, &iboID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*6, &quad_I[0], GL_STATIC_DRAW);*/
+	vaoVAO.addAttribute(0, 3, &vboBO);
+	vaoVAO.addIBO(&iboBO);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-//	VBO vq(quad, sizeof(float)*12, 0);
-//	IBO vqi(quad_I, sizeof(GLushort)*6);
 	Tobago.log->flush();
-
 
 	while(Tobago.enabled(0)) {
 		Tobago.use(0);
@@ -75,19 +56,16 @@ int main(void) {
 
 		glViewport(0, 0, Tobago.contexts[0]->width, Tobago.contexts[0]->height);
 		float* ray = (float*)vboBO.map(BO::RW);
-		ray[0] = sin(glfwGetTime());
+		ray[3] = sin(glfwGetTime());
+		ray[4] = cos(glfwGetTime());
 		vboBO.unmap();
 
 		simple.use();
 		simple("a", 1.0f);
 		simple("cosa", 1.0f);
 
-		glBindVertexArray(vertex_array);
+		vaoVAO.bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
-
-//		vq.enable(3);
-//		vqi.draw(GL_TRIANGLES);
-//		vq.disable();
 		
 		Tobago.swap(0);
 		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(1)) Tobago.stop(1);

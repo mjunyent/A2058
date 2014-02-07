@@ -3,32 +3,87 @@
 #include "Buffer_Object.h"
 #include <cstdlib>
 #include <vector>
+#include <type_traits>
 
-class NewVBO {
+class VBO : public BO {
 public:
-	NewVBO();
+	template<class T>
+	VBO(std::vector<T>& data) : BO(GL_ARRAY_BUFFER) {
+		this->data(&data[0], data.size()*sizeof(T), GL_STATIC_DRAW);
+		elements = data.size();
+		sizeofelement = sizeof(T);
 
-	void populate(std::vector<float>& data);
+		//http://www.opengl.org/wiki/Vertex_Buffer_Object#Component_type
+		if(std::is_same<T, int>::value) {
+			type = GL_INT;
+		} else if(std::is_same<T, unsigned int>::value) {
+			type = GL_UNSIGNED_INT;
+		} else if(std::is_same<T, short>::value) {
+			type = GL_SHORT;
+		} else if(std::is_same<T, unsigned short>::value) {
+			type = GL_UNSIGNED_SHORT;
+		} else if(std::is_same<T, float>::value) {
+			type = GL_FLOAT;
+		} else if(std::is_same<T, double>::value) {
+			type = GL_DOUBLE;
+		} else if(std::is_same<T, char>::value) {
+			type = GL_BYTE;
+		} else if(std::is_same<T, unsigned char>::value) {
+			type = GL_UNSIGNED_BYTE;
+		} else {
+			Tobago.log->write(ERROR) << "VBO datatype not valid.";
+		}
+	}
 
-	GLuint id;
+	template<class T>
+	VBO(const T* data, int elements) : BO(GL_ARRAY_BUFFER) {
+		this->data(data, elements*sizeof(T), GL_STATIC_DRAW);
+		this->elements = elements;
+		sizeofelement = sizeof(T);
+
+		if(std::is_same<T, int>::value) {
+			type = GL_INT;
+		} else if(std::is_same<T, unsigned int>::value) {
+			type = GL_UNSIGNED_INT;
+		} else if(std::is_same<T, short>::value) {
+			type = GL_SHORT;
+		} else if(std::is_same<T, unsigned short>::value) {
+			type = GL_UNSIGNED_SHORT;
+		} else if(std::is_same<T, float>::value) {
+			type = GL_FLOAT;
+		} else if(std::is_same<T, double>::value) {
+			type = GL_DOUBLE;
+		} else if(std::is_same<T, char>::value) {
+			type = GL_BYTE;
+		} else if(std::is_same<T, unsigned char>::value) {
+			type = GL_UNSIGNED_BYTE;
+		} else {
+			Tobago.log->write(ERROR) << "VBO datatype not valid.";
+		}
+	}
+
+	int elements;
+	int sizeofelement;
+	GLenum type;
 };
 
-class VBO : public Buffer_Object
+
+class oldVBO : public Buffer_Object
 {
 	public :
 	//El conjunto de floats que , leidos de 3 en 3 , forman los vertices.
 	GLfloat *theFloats;
 	//El indice del buffer.
 	GLuint theIndex;
-	VBO() {};
-	VBO( GLfloat *theArray, GLuint theSizeof , GLuint theIx );
-	VBO( std::vector<float> theArray, GLuint theIx );
+	oldVBO() {};
+	oldVBO( GLfloat *theArray, GLuint theSizeof , GLuint theIx ) {};
+	oldVBO( std::vector<float> theArray, GLuint theIx ) {};
 	//Habilitar puntero.
-	void enable( GLubyte Rn );
-	void draw( GLushort );
+	void enable( GLubyte Rn ) {};
+	void draw( GLushort ) {};
 	//Deshabilitar puntero.
-	void disable();
-	~VBO();
+	void disable() {};
+	~oldVBO() {};
 
 	int components;
 };

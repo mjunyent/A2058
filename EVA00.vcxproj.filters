@@ -58,16 +58,10 @@
     <ClCompile Include="src\Tobago\objects\FBO.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tobago\objects\IBO.cpp">
-      <Filter>Tobago\Objects\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tobago\objects\Shader.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\objects\TBO.cpp">
-      <Filter>Tobago\Objects\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tobago\objects\VBO.cpp">
       <Filter>Tobago\Objects\Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Tobago\handlers\FontHandler.cpp">

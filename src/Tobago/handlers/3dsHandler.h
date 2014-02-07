@@ -27,13 +27,13 @@ static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const 
 
 class A3dsHandler{
 public:
-	IBO *indexs;
-	vector<IBO*> indexsByMaterial;
-	VBO *vertexs;
-	VBO *normals;
-	VBO *UVs;
-	VBO *tangents;
-	VBO *bitangents;
+	oldIBO *indexs;
+	vector<oldIBO*> indexsByMaterial;
+	oldVBO *vertexs;
+	oldVBO *normals;
+	oldVBO *UVs;
+	oldVBO *tangents;
+	oldVBO *bitangents;
 	glm::vec3 maximums, minimums, center, edges;
 	float maxDimension;
 	Lib3dsFile *f;

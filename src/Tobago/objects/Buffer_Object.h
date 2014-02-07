@@ -12,14 +12,14 @@ public:
 	~BO();
 	void bind();
 	void bind(GLenum target);
+	void unbind();
 	void data(const void* data, GLsizeiptr size, GLenum usage); //GL_a_b: a = { STATIC, DYNAMIC, STREAM }, b = {DRAW, READ, COPY}
+	void subdata(const void* data, GLintptr offset, GLsizeiptr size);
 	void copy(BO *from);
 	void* map(IOType io);
 	void unmap();
 //	void clear(); OGL 4.3 http://www.opengl.org/wiki/Buffer_Object#Clearing
 //	void invalidate(); OGL 4.3
-
-//	void stream(); Read.
 
 	GLuint id;
 	GLenum type;

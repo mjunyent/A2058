@@ -9,6 +9,7 @@
 #include "objects/Shader.h" //Shader from file manager class.
 #include "objects/TBO.h" //Texture buffer object class.
 #include "objects/VBO.h" //Vertex buffer object class.
+#include "objects/VAO.h" //Vertex array object class.
 
 #include "handlers/FontHandler.h" //Font manager and text renderer.
 #include "handlers/SoundHandler.h" //Sound manager, loads and plays a song, includes FFT.

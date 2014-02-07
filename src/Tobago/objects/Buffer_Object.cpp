@@ -30,11 +30,21 @@ void BO::bind(GLenum target) {
 	glBindBuffer(target, id);
 }
 
+void BO::unbind()
+{
+	glBindBuffer(type, 0);
+}
+
 void BO::data(const void* data, GLsizeiptr size, GLenum usage) {
 	bind();
 	this->usage = usage;
 	this->size = size;
 	glBufferData(type, size, data, usage);
+}
+
+void BO::subdata(const void* data, GLintptr offset, GLsizeiptr size) {
+	bind();
+	glBufferSubData(type, offset, size, data);
 }
 
 void BO::copy(BO *from) {
@@ -70,6 +80,7 @@ void* BO::map(IOType io) {
 void BO::unmap() {
 	glUnmapBuffer(type);
 }
+
 
 
 
