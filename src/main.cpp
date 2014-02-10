@@ -38,7 +38,7 @@ int main(void) {
 		1, 3, 2
 	};
 
-	VAO vaoVAO;
+	VAO vaoVAO(GL_TRIANGLES);
 	VBO vboBO(quad, 15);
 	IBO iboBO(quad_I, 6);
 	BO mene(&vboBO);
@@ -64,8 +64,8 @@ int main(void) {
 		simple("a", 1.0f);
 		simple("cosa", 1.0f);
 
-		vaoVAO.bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
+		vaoVAO.drawElementsInstanced(2);
+//		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
 		
 		Tobago.swap(0);
 		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(1)) Tobago.stop(1);

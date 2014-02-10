@@ -7,7 +7,7 @@ class BO {
 public:
 	enum IOType	{ READ, WRITE, RW };
 
-	BO(GLenum type);
+	BO(GLenum target);
 	BO(BO *bo);
 	~BO();
 	void bind();
@@ -22,7 +22,7 @@ public:
 //	void invalidate(); OGL 4.3
 
 	GLuint id;
-	GLenum type;
+	GLenum target;
 	GLenum usage;
 	GLintptr size;
 };

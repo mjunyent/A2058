@@ -1,8 +1,9 @@
 #include "VAO.h"
 
-VAO::VAO() {
+VAO::VAO(GLenum mode) {
 	glGenVertexArrays(1, &id);
-	hasIBO = false;
+	ibo = NULL;
+	this->mode = mode;
 }
 
 void VAO::bind() {
@@ -35,18 +36,46 @@ void VAO::addDoubleAttribute(GLuint index, int dimension, VBO* vbo, int stride /
 }
 
 void VAO::addIBO(IBO *ibo) {
-	hasIBO = true;
+	this->ibo = ibo;
 	bind();
 	ibo->bind();
 }
 
+void VAO::instancedAttribute(GLuint index, GLuint div /* = 1 */) {
+	bind();
+	glVertexAttribDivisor(index, div); 
+}
+
 void VAO::enableAttribute(GLuint index) {
+	bind();
 	glEnableVertexAttribArray(index);
 }
 
 void VAO::disableAttribute(GLuint index) {
+	bind();
 	glDisableVertexAttribArray(index);
 }
+
+void VAO::drawArrays(GLsizei elements) {
+	bind();
+	glDrawArrays(mode, 0, elements);
+}
+
+void VAO::drawElements() {
+	bind();
+	glDrawElements(mode, ibo->elements, ibo->type, (void*)0);
+}
+
+void VAO::drawArraysInstanced(GLsizei elements, GLsizei times) {
+	bind();
+	glDrawArraysInstanced(mode, 0, elements, times);
+}
+
+void VAO::drawElementsInstanced(GLsizei times) {
+	bind();
+	glDrawElementsInstanced(mode, ibo->elements, ibo->type, (void*)0, times);
+
+} 
 
 VAO::~VAO() {
 	glDeleteVertexArrays(1, &id);

@@ -1,19 +1,19 @@
 #include "Buffer_Object.h"
 
-BO::BO(GLenum type) {
+BO::BO(GLenum target) {
 	glGenBuffers(1, &id);
-	glBindBuffer(type, id);
-	this->type = type;
+	glBindBuffer(target, id);
+	this->target = target;
 }
 
 BO::BO(BO *bo) {
 	glGenBuffers(1, &id);
-	glBindBuffer(bo->type, id);
-	this->type = bo->type;
+	glBindBuffer(bo->target, id);
+	this->target = bo->target;
 	this->size = bo->size;
 	this->usage = bo->usage;
 
-	glBufferData(type, size, NULL, usage);
+	glBufferData(target, size, NULL, usage);
 
 	copy(bo);
 }
@@ -23,28 +23,27 @@ BO::~BO() {
 }
 
 void BO::bind() {
-	glBindBuffer(type, id);
+	glBindBuffer(target, id);
 }
 
 void BO::bind(GLenum target) {
 	glBindBuffer(target, id);
 }
 
-void BO::unbind()
-{
-	glBindBuffer(type, 0);
+void BO::unbind() {
+	glBindBuffer(target, 0);
 }
 
 void BO::data(const void* data, GLsizeiptr size, GLenum usage) {
 	bind();
 	this->usage = usage;
 	this->size = size;
-	glBufferData(type, size, data, usage);
+	glBufferData(target, size, data, usage);
 }
 
 void BO::subdata(const void* data, GLintptr offset, GLsizeiptr size) {
 	bind();
-	glBufferSubData(type, offset, size, data);
+	glBufferSubData(target, offset, size, data);
 }
 
 void BO::copy(BO *from) {
@@ -74,11 +73,11 @@ void* BO::map(IOType io) {
 		break;
 	}
 
-	return glMapBufferRange(type, 0, size, access);
+	return glMapBufferRange(target, 0, size, access);
 }
 
 void BO::unmap() {
-	glUnmapBuffer(type);
+	glUnmapBuffer(target);
 }
 
 

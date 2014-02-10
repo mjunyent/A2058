@@ -8,7 +8,7 @@
 class VAO
 {
 public:
-	VAO();
+	VAO(GLenum mode);
 	~VAO();
 
 	void bind();
@@ -19,11 +19,20 @@ public:
 	void addDoubleAttribute(GLuint index, int dimension, VBO* vbo, int stride = 0, int offset = 0);
 	void addIBO(IBO *ibo);
 
+	void instancedAttribute(GLuint index, GLuint div = 1);
+
 	void enableAttribute(GLuint index);
 	void disableAttribute(GLuint index);
 
+	void drawArrays(GLsizei elements);
+	void drawElements();
+
+	void VAO::drawArraysInstanced(GLsizei elements, GLsizei times);
+	void VAO::drawElementsInstanced(GLsizei times);
+
 	GLuint id;
-	bool hasIBO;
+	GLenum mode;
+	IBO *ibo;
 };
 
 
