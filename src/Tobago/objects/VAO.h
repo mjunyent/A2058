@@ -24,15 +24,25 @@ public:
 	void enableAttribute(GLuint index);
 	void disableAttribute(GLuint index);
 
-	void drawArrays(GLsizei elements);
+	void setDrawArraysNumberOfElements(GLsizei elements);
+	void setMultiDrawArraysNumberOfElements(vector<GLsizei>& multipleElements);
+	void setMultiDrawElementsNumberOfIndices(vector<GLsizei>& multipleIndices);
+
+	void drawArrays();
 	void drawElements();
 
-	void VAO::drawArraysInstanced(GLsizei elements, GLsizei times);
-	void VAO::drawElementsInstanced(GLsizei times);
+	void drawArraysInstanced(GLsizei elements, GLsizei times);
+	void drawElementsInstanced(GLsizei times);
+
+	void multiDrawArrays();
+	void multiDrawElements();
 
 	GLuint id;
 	GLenum mode;
 	IBO *ibo;
+	GLsizei elements;
+	vector<GLsizei> arraysFirst, arraysCount;
+	vector<GLsizei> multipleIndices;
 };
 
 

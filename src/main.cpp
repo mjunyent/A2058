@@ -2,7 +2,7 @@
 #include "Tobago/Init/ContextGLFW.h"
 
 int main(void) {
-	TobagoInitGLFW(4, 1);
+	TobagoInitGLFW(3, 3);
 	ContextGLFW asdf = ContextGLFW(1280, 720, "Test", NULL, NULL);
 	ContextGLFW fdsa = ContextGLFW(1280, 720, "Test2", NULL, NULL);
 	vector<Context*> pppp;
