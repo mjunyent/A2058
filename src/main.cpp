@@ -64,7 +64,7 @@ int main(void) {
 		simple("a", 1.0f);
 		simple("cosa", 1.0f);
 
-		vaoVAO.drawElementsInstanced(2);
+		vaoVAO.drawInstanced(2);
 //		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
 		
 		Tobago.swap(0);

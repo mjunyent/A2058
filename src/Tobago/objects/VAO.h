@@ -28,10 +28,12 @@ public:
 	void setMultiDrawArraysNumberOfElements(vector<GLsizei>& multipleElements);
 	void setMultiDrawElementsNumberOfIndices(vector<GLsizei>& multipleIndices);
 
+	void draw();
 	void drawArrays();
 	void drawElements();
 
-	void drawArraysInstanced(GLsizei elements, GLsizei times);
+	void drawInstanced(GLsizei times);
+	void drawArraysInstanced(GLsizei times);
 	void drawElementsInstanced(GLsizei times);
 
 	void multiDrawArrays();

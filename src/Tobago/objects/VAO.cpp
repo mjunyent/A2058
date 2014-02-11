@@ -77,6 +77,11 @@ void VAO::setMultiDrawElementsNumberOfIndices(vector<GLsizei>& multipleIndices) 
 //TODO	this->multipleIndices = multipleIndices;
 }
 
+void VAO::draw() {
+	if(ibo == NULL) drawArrays();
+	else drawElements();
+}
+
 void VAO::drawArrays() {
 	bind();
 	glDrawArrays(mode, 0, elements);
@@ -87,7 +92,12 @@ void VAO::drawElements() {
 	glDrawElements(mode, ibo->elements, ibo->type, (void*)0);
 }
 
-void VAO::drawArraysInstanced(GLsizei elements, GLsizei times) {
+void VAO::drawInstanced(GLsizei times) {
+	if(ibo == NULL) drawArraysInstanced(times);
+	else drawElementsInstanced(times);
+}
+
+void VAO::drawArraysInstanced(GLsizei times) {
 	bind();
 	glDrawArraysInstanced(mode, 0, elements, times);
 }
