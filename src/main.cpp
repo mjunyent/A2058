@@ -3,14 +3,12 @@
 
 int main(void) {
 	TobagoInitGLFW(3, 3);
+
 	ContextGLFW asdf = ContextGLFW(1280, 720, "Test", NULL, NULL);
-	ContextGLFW fdsa = ContextGLFW(1280, 720, "Test2", NULL, NULL);
 	vector<Context*> pppp;
 	pppp.push_back(&asdf);
-	pppp.push_back(&fdsa);
+
 	Tobago.init(pppp);
-	
-	Tobago.log->write(DEBUG) << "PEROQUECOM;O!";
 
 	Tobago.use(0);
 
@@ -18,8 +16,8 @@ int main(void) {
 	simple.loadFromFile(GL_VERTEX_SHADER, "simple.vert");
 	simple.loadFromFile(GL_FRAGMENT_SHADER, "simple.frag");
 	simple.link();
-	simple.addUniform("a");
-	simple.addUniform("cosa");
+	simple.addUniform("azul");
+	simple.addUniform("MVP");
 
 	float quad[] = {
 		-1.0f,  1.0f,  0.0f, //0 UP, LEFT
@@ -33,73 +31,39 @@ int main(void) {
 		1, 3, 2
 	};
 
-	GLushort quad_II[] = {
-		0, 3, 1,
-		1, 3, 2
-	};
-
-	float quadSep[] = {
-		-1.0f,  1.0f,  0.0f, //0 UP, LEFT		0
-		1.0f,  1.0f,  0.0f, //1 UP, RIGHT		1
-		-1.0f, -1.0f,  0.0f,  //3 DOWN, LEFT	2
-
-		1.0f,  1.0f,  0.0f, //1 UP, RIGHT		0
-		1.0f, -1.0f,  0.0f, //2 DOWN, RIGHT		1
-		-1.0f, -1.0f,  0.0f  //3 DOWN, LEFT		2
-	};
-
-	GLushort sepQI[] = {
-		0,2,1,
-		0,2,1
-	};
+	VBO vboBO(quad, 12);
+	IBO iboBO(quad_I, 6);
 
 	VAO vaoVAO(GL_TRIANGLES);
-	VBO vboBO(quadSep, 18);
-	IBO iboBO(sepQI, 6);
-	BO mene(&vboBO);
-
 	vaoVAO.addAttribute(0, 3, &vboBO);
 	vaoVAO.addIBO(&iboBO);
 
-	vector<GLsizei> ss, vv;
-	ss.push_back(3);
-	ss.push_back(3);
-
-	vv.push_back(0);
-	vv.push_back(3);
-
-	vaoVAO.setMultiDrawElementsNumberOfIndices(ss, vv);
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glm::mat4 projection = glm::perspective(90.0f, 1280.0f/720.0f, 0.1f, 100.0f);
+	
 	Tobago.log->flush();
 
 	while(Tobago.enabled(0)) {
-		Tobago.use(0);
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 		glViewport(0, 0, Tobago.contexts[0]->width, Tobago.contexts[0]->height);
-		float* ray = (float*)vboBO.map(BO::RW);
-		ray[3] = sin(glfwGetTime());
-		ray[4] = cos(glfwGetTime());
-		vboBO.unmap();
 		
-		simple.use();
-		simple("a", 1.0f);
-		simple("cosa", 1.0f);
+		glm::mat4 View       = glm::lookAt(
+			glm::vec3(sin(glfwGetTime())*4,cos(glfwGetTime())*4,3), // Camera is at (4,3,3), in World Space
+			glm::vec3(0,0,0), // and looks at the origin
+			glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
+			);
+		glm::mat4 mvp = projection*View;
 
-		vaoVAO.multiDrawElements();
-//		vaoVAO.draw();
-//		vaoVAO.drawInstanced(2);
-//		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
-		
+
+		simple.use();
+		simple("azul", (float)sin(10.0f*glfwGetTime()));
+		simple("MVP", &mvp);
+		vaoVAO.draw();
+
 		Tobago.swap(0);
-		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(1)) Tobago.stop(1);
+		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(0)) Tobago.stop(0);
 	}
 
-
-//	glfwDestroyWindow(init.glfwInit->windows[0]);
-
+	Tobago.log->flush();
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

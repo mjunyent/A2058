@@ -4,8 +4,8 @@ in vec2 UV;
 
 layout(location = 0) out vec4 color;
 
-#include "uniforms.frag" //esto incluye cosas
+uniform float azul;
 
 void main(){
-	color = vec4(UV, a*cosa, 1.0);
+	color = vec4(UV, azul, 1.0);
 }
