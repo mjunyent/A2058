@@ -38,13 +38,37 @@ int main(void) {
 		1, 3, 2
 	};
 
+	float quadSep[] = {
+		-1.0f,  1.0f,  0.0f, //0 UP, LEFT		0
+		1.0f,  1.0f,  0.0f, //1 UP, RIGHT		1
+		-1.0f, -1.0f,  0.0f,  //3 DOWN, LEFT	2
+
+		1.0f,  1.0f,  0.0f, //1 UP, RIGHT		0
+		1.0f, -1.0f,  0.0f, //2 DOWN, RIGHT		1
+		-1.0f, -1.0f,  0.0f  //3 DOWN, LEFT		2
+	};
+
+	GLushort sepQI[] = {
+		0,2,1,
+		0,2,1
+	};
+
 	VAO vaoVAO(GL_TRIANGLES);
-	VBO vboBO(quad, 15);
-	IBO iboBO(quad_I, 6);
+	VBO vboBO(quadSep, 18);
+	IBO iboBO(sepQI, 6);
 	BO mene(&vboBO);
 
 	vaoVAO.addAttribute(0, 3, &vboBO);
 	vaoVAO.addIBO(&iboBO);
+
+	vector<GLsizei> ss, vv;
+	ss.push_back(3);
+	ss.push_back(3);
+
+	vv.push_back(0);
+	vv.push_back(3);
+
+	vaoVAO.setMultiDrawElementsNumberOfIndices(ss, vv);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -59,12 +83,14 @@ int main(void) {
 		ray[3] = sin(glfwGetTime());
 		ray[4] = cos(glfwGetTime());
 		vboBO.unmap();
-
+		
 		simple.use();
 		simple("a", 1.0f);
 		simple("cosa", 1.0f);
 
-		vaoVAO.drawInstanced(2);
+		vaoVAO.multiDrawElements();
+//		vaoVAO.draw();
+//		vaoVAO.drawInstanced(2);
 //		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
 		
 		Tobago.swap(0);

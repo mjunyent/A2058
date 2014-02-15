@@ -9,9 +9,9 @@ out vec2 UV;
 void main(){
 	vec3 p = vertexPosition;
 	
-	if(gl_InstanceID == 0) p.y = (p.y-1.0)/2.0;
+/*	if(gl_InstanceID == 0) p.y = (p.y-1.0)/2.0;
 	else p.y = (p.y+1.0)/2.0;
-	
+	*/
 	gl_Position =  vec4(p,1);
 	UV = (p.xy+vec2(1,1))/2.0;
 }

@@ -44,6 +44,8 @@ void TobagoHandler::initContextsGlewFmod() {
 		exit( EXIT_FAILURE );
 	}
 
+	glGetError(); //Purgue GL_INVALID_ENUM glew error, (it's ok, it's not our fault).
+
 	//FMOD
 	#ifndef NO_FMOD
 	initSound();

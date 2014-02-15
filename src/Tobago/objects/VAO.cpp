@@ -18,7 +18,7 @@ void VAO::unbind() {
 void VAO::addAttribute(GLuint index, int dimension, VBO* vbo, int stride /* = 0 */, int offset /* = 0 */, GLboolean normalized /* = GL_FALSE */) {
 	bind();
 	vbo->bind();
-	if(elements < 0) elements = vbo->elements;
+	if(elements < 0) elements = vbo->elements / dimension;
 	glVertexAttribPointer(index, dimension, vbo->type, normalized, stride, (void*)(vbo->sizeofelement*offset));
 	glEnableVertexAttribArray(index);
 }
@@ -26,7 +26,7 @@ void VAO::addAttribute(GLuint index, int dimension, VBO* vbo, int stride /* = 0 
 void VAO::addIntAttribute(GLuint index, int dimension, VBO* vbo, int stride /* = 0 */, int offset /* = 0 */) {
 	bind();
 	vbo->bind();
-	if(elements < 0) elements = vbo->elements;
+	if(elements < 0) elements = vbo->elements / dimension;
 	glVertexAttribIPointer(index, dimension, vbo->type, stride, (void*)(vbo->sizeofelement*offset));
 	glEnableVertexAttribArray(index);
 }
@@ -34,7 +34,7 @@ void VAO::addIntAttribute(GLuint index, int dimension, VBO* vbo, int stride /* =
 void VAO::addDoubleAttribute(GLuint index, int dimension, VBO* vbo, int stride /* = 0 */, int offset /* = 0 */) {
 	bind();
 	vbo->bind();
-	if(elements < 0) elements = vbo->elements;
+	if(elements < 0) elements = vbo->elements / dimension;
 	glVertexAttribLPointer(index, dimension, vbo->type, stride, (void*)(vbo->sizeofelement*offset));
 	glEnableVertexAttribArray(index);
 }
@@ -73,8 +73,21 @@ void VAO::setMultiDrawArraysNumberOfElements(vector<GLsizei>& multipleElements) 
 	}
 }
 
-void VAO::setMultiDrawElementsNumberOfIndices(vector<GLsizei>& multipleIndices) {
-//TODO	this->multipleIndices = multipleIndices;
+void VAO::setMultiDrawElementsNumberOfIndices(vector<GLsizei>& multipleIndices, vector<GLsizei>& numberofElements) {
+	int s;
+	if(ibo->type == GL_UNSIGNED_BYTE) s = 1;
+	else if(ibo->type == GL_UNSIGNED_SHORT) s = 2;
+	else s = 4;
+
+	elementsCount = multipleIndices;
+	vertexsOffset = numberofElements;
+
+	elementsOffset.push_back((GLvoid*)0);
+	GLsizei accum = 0;
+	for(int i=0; i<multipleIndices.size()-1; i++) {
+		accum += multipleIndices[i]*s;
+		elementsOffset.push_back((GLvoid*)accum);
+	}
 }
 
 void VAO::draw() {
@@ -107,13 +120,19 @@ void VAO::drawElementsInstanced(GLsizei times) {
 	glDrawElementsInstanced(mode, ibo->elements, ibo->type, (void*)0, times);
 }
 
+void VAO::multiDraw() {
+	if(ibo == NULL) multiDrawArrays();
+	else multiDrawElements();
+}
+
 void VAO::multiDrawArrays() {
 	bind();
 	glMultiDrawArrays(mode, &arraysFirst[0], &arraysCount[0], arraysFirst.size());
 }
 
 void VAO::multiDrawElements() {
-//TODO	bind();
+	bind();
+	glMultiDrawElementsBaseVertex(mode, &elementsCount[0], ibo->type, (GLvoid**)&elementsOffset[0], vertexsOffset.size(), &vertexsOffset[0]);
 }
 
 VAO::~VAO() {

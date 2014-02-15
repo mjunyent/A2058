@@ -26,7 +26,7 @@ public:
 
 	void setDrawArraysNumberOfElements(GLsizei elements);
 	void setMultiDrawArraysNumberOfElements(vector<GLsizei>& multipleElements);
-	void setMultiDrawElementsNumberOfIndices(vector<GLsizei>& multipleIndices);
+	void setMultiDrawElementsNumberOfIndices(vector<GLsizei>& numberOfIndices, vector<GLsizei>& vertexsOffset);
 
 	void draw();
 	void drawArrays();
@@ -36,6 +36,7 @@ public:
 	void drawArraysInstanced(GLsizei times);
 	void drawElementsInstanced(GLsizei times);
 
+	void multiDraw();
 	void multiDrawArrays();
 	void multiDrawElements();
 
@@ -44,7 +45,8 @@ public:
 	IBO *ibo;
 	GLsizei elements;
 	vector<GLsizei> arraysFirst, arraysCount;
-	vector<GLsizei> multipleIndices;
+	vector<GLsizei> vertexsOffset, elementsCount;
+	vector<GLvoid*> elementsOffset;
 };
 
 
