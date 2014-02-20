@@ -41,6 +41,12 @@ int main(void) {
 	glm::mat4 projection = glm::perspective(90.0f, 1280.0f/720.0f, 0.1f, 100.0f);
 	
 	Tobago.log->flush();
+	Texture mm("Images/Background.png");
+	mm.generateMipmap();
+	mm.bindToGLSL(0);
+
+//	TBO test("Images/Background.png", true);
+//	test.bind(0);
 
 	while(Tobago.enabled(0)) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

@@ -1,5 +1,175 @@
 #include "TBO.h"
 
+Texture::Texture(GLenum target) {
+	this->target = target;
+	if(target == GL_TEXTURE_2D_MULTISAMPLE || target == GL_TEXTURE_2D_MULTISAMPLE_ARRAY) multisample = true;
+	else multisample = false;
+	width = height = depth = 0;
+	samples = 1;
+	glGenTextures(1, &id);
+}
+
+Texture::Texture(const char* filename) {
+	this->target = GL_TEXTURE_2D;
+	width = height = depth = 0;
+	samples = 1;
+	multisample = false;
+	glGenTextures(1, &id);
+	loadFromPNG(filename);
+}
+
+Texture::~Texture() {
+	glDeleteTextures(1, &id);
+}
+
+void Texture::bind() {
+	glBindTexture(target, id);
+}
+
+void Texture::unbind() {
+	glBindTexture(target, 0);
+}
+
+void Texture::generateMipmap() {
+	bind();
+	glGenerateMipmap(target);
+}
+
+void Texture::bindToGLSL(unsigned int id) {
+	glActiveTexture(GL_TEXTURE0+id);
+	bind();
+}
+
+void Texture::loadFromPNG(const char* filename) {
+	unsigned char* image;
+	unsigned w, h;
+	unsigned error;
+
+	error = LodePNG_decode32_file(&image, &w, &h, filename);
+	if(error) Tobago.log->write(ERROR) << "Error loading PNG texture: " << filename;
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+	setData(w, h, image);
+	free(image);
+}
+
+void Texture::setData(int width, int height,
+					  const GLvoid *data /* = NULL */,
+					  int mipmapLevel /* = 0 */,
+					  GLenum dataType /* = GL_UNSIGNED_BYTE */,
+					  GLenum internalFormat /* = GL_RGBA */,
+					  GLenum format /* = GL_RGBA */) {
+	bind();
+	glTexImage2D(target, mipmapLevel, internalFormat, width, height, 0, format, dataType, data);
+	this->width = width;
+	this->height = height;
+}
+
+void Texture::setData(int width, int height, int depth,
+					  const GLvoid *data /* = NULL */,
+					  int mipmapLevel /* = 0 */,
+					  GLenum dataType /* = GL_UNSIGNED_BYTE */,
+					  GLenum internalFormat /* = GL_RGBA */,
+					  GLenum format /* = GL_RGBA */) {
+	bind();
+	glTexImage2D(target, mipmapLevel, internalFormat, width, height, 0, format, dataType, data);
+	this->width = width;
+	this->height = height;
+	this->depth = depth;
+}
+
+void Texture::setData(int width,
+					  const GLvoid *data /* = NULL */,
+					  int mipmapLevel /* = 0 */,
+					  GLenum dataType /* = GL_UNSIGNED_BYTE */,
+					  GLenum internalFormat /* = GL_RGBA */,
+					  GLenum format /* = GL_RGBA */) {
+	bind();
+	glTexImage2D(target, mipmapLevel, internalFormat, width, height, 0, format, dataType, data);
+	this->width = width;
+}
+
+void Texture::setDataMultisample(int width, int height,
+								 int samples,
+								 GLenum internalFormat /* = GL_RGBA */,
+								 GLboolean fixedLocation /* = true */) {
+	bind();
+	glTexImage2DMultisample(target, samples, internalFormat, width, height, fixedLocation);
+	this->width = width;
+	this->height = height;
+}
+
+void Texture::setDataMultisample(int width, int height, int depth,
+								 int samples,
+								 GLenum internalFormat /* = GL_RGBA */,
+								 GLboolean fixedLocation /* = true */) {
+	bind();
+	glTexImage3DMultisample(target, samples, internalFormat, width, height, depth, fixedLocation);
+	this->width = width;
+	this->height = height;
+	this->depth = depth;
+}
+
+void Texture::setMipmapLevels(unsigned int min, unsigned int max) {
+	bind();
+	glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, min);
+	glTexParameteri(target, GL_TEXTURE_MAX_LEVEL,  max);
+}
+
+void Texture::setSwizzle(GLint r, GLint g, GLint b, GLint a) {
+	GLint swizzleMask[] = {r, g, b, a};
+	bind();
+	glTexParameteriv(target, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
+}
+
+void Texture::setMagnificationFilter(GLenum filter) {
+	bind();
+	glTexParameteri(target, GL_TEXTURE_MAG_FILTER, filter);
+}
+
+void Texture::setMinificationFilter(GLenum filter) {
+	bind();
+	glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filter);
+}
+
+void Texture::setAnisotropicFilter(float samples) {
+	bind();
+	glTexParameterf(target, GL_TEXTURE_MAX_ANISOTROPY_EXT, samples);
+}
+
+void Texture::setTextureWrapS(GLenum mode) {
+	bind();
+	glTexParameteri(target, GL_TEXTURE_WRAP_S, mode);
+}
+
+void Texture::setTextureWrapT(GLenum mode) {
+	bind();
+	glTexParameteri(target, GL_TEXTURE_WRAP_T, mode);
+}
+
+void Texture::setTextureWrapR(GLenum mode) {
+	bind();
+	glTexParameteri(target, GL_TEXTURE_WRAP_R, mode);
+}
+
+void Texture::setBorderColor(glm::vec4 *color) {
+	bind();
+	glTexParameterfv(target, GL_TEXTURE_BORDER_COLOR, &(*color)[0]);
+}
+
+void Texture::setComparisonMode(bool enabled) {
+	if(enabled) {
+		glTexParameteri(target, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+	} else {
+		glTexParameteri(target, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+	}
+}
+
+void Texture::setComparisonFunction(GLenum f) {
+	glTexParameteri(target, GL_TEXTURE_COMPARE_FUNC, f);
+}
+
+
 TBO::TBO() {
 //	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
