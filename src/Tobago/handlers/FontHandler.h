@@ -30,7 +30,7 @@
 
 class FontHandler {
 	private :
-		TBO* Alphabet;
+		oldTBO* Alphabet;
 		Shader TexReader;
 		// Esto realmente son enteros, se usa float para aligerar el trabajo de conversion del programa.
 		unsigned StartingCharacter;
@@ -43,5 +43,5 @@ class FontHandler {
 		FontHandler(char*); // Por defecto las tres variables valdran 32.
 		FontHandler(char*, unsigned, unsigned, unsigned,unsigned);
 		//FBO StringTexA(char*, unsigned); //Here is the fucking perleman.
-		TBO StringTex(char*, unsigned); //Here is the fucking perleman.
+		oldTBO StringTex(char*, unsigned); //Here is the fucking perleman.
 };

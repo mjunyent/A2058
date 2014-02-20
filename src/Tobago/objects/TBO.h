@@ -4,21 +4,22 @@
 #include "lodepng/lodepng.h"
 #include "../utility/log.h"
 #include "../init/initTobago.h"
+#include "Buffer_Object.h"
 
-/* Types of texture:
-	GL_TEXTURE_1D							<- glTexImage1D
-	GL_TEXTURE_2D							<- glTexImage2D
-	GL_TEXTURE_3D							<- glTexImage3D
-	GL_TEXTURE_1D_ARRAY						<- glTexImage2D
-	GL_TEXTURE_2D_ARRAY						<- glTexImage3D
-	GL_TEXTURE_RECTANGLE					<- glTexImage2D (level must be 0).
-	GL_TEXTURE_BUFFER
-	GL_TEXTURE_2D_MULTISAMPLE				<- glTexImage2DMultisample
-	GL_TEXTURE_2D_MULTISAMPLE_ARRAY			<- glTexImage3DMultisample
-	(and others).
-*/
 class Texture {
 public:
+	/* Types of texture:
+		GL_TEXTURE_1D							<- glTexImage1D
+		GL_TEXTURE_2D							<- glTexImage2D
+		GL_TEXTURE_3D							<- glTexImage3D
+		GL_TEXTURE_1D_ARRAY						<- glTexImage2D
+		GL_TEXTURE_2D_ARRAY						<- glTexImage3D
+		GL_TEXTURE_RECTANGLE					<- glTexImage2D (level must be 0).
+		GL_TEXTURE_BUFFER
+		GL_TEXTURE_2D_MULTISAMPLE				<- glTexImage2DMultisample
+		GL_TEXTURE_2D_MULTISAMPLE_ARRAY			<- glTexImage3DMultisample
+		(and others).
+	*/
 	Texture(GLenum target);
 	Texture(const char* filename);
 	~Texture();
@@ -98,7 +99,7 @@ public:
 				 GLenum internalFormat = GL_RGBA,
 				 GLenum format = GL_RGBA);
 
-	
+	/* Like setData for multisample textures */
 	void setDataMultisample(int width, int height,
 							int samples,
 							GLenum internalFormat = GL_RGBA,
@@ -109,7 +110,14 @@ public:
 							GLenum internalFormat = GL_RGBA,
 							GLboolean fixedLocation = false);
 
+	/* Set BO where data comes from, only for GL_TEXTURE_BUFFER
+	   Internal size like in setData. GL_[components][size][type]
+	   Examples: GL_R16 (normalized), GL_RG8I, GL_RGB16F, GL_RGBA32UI...
+	*/
+	void setBuffer(GLenum internalFormat, BO* buffer);
+
 	// TODO http://stackoverflow.com/questions/425401/what-is-the-preferred-way-to-show-large-images-in-opengl 
+	// TODO glTexSubImage*D
 
 	//Texture Parameters//
 
@@ -169,16 +177,16 @@ public:
 	int width, height, depth, samples;
 };
 
-class TBO {
+class oldTBO {
 public:
 	//Creates empty texture, (fill with load).
-	TBO();
+	oldTBO();
 	
 	//Creates texture from array.
-	TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering);
+	oldTBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering);
 	
 	//Creates texture from PNG.
-	TBO(const char* filename, bool goodfiltering);
+	oldTBO(const char* filename, bool goodfiltering);
 	
 
 	void load(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering);

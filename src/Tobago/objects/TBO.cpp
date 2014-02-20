@@ -110,6 +110,11 @@ void Texture::setDataMultisample(int width, int height, int depth,
 	this->depth = depth;
 }
 
+void Texture::setBuffer(GLenum internalFormat, BO* buffer) {
+	bind();
+	glTexBuffer(target, internalFormat, buffer->id);
+}
+
 void Texture::setMipmapLevels(unsigned int min, unsigned int max) {
 	bind();
 	glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, min);
@@ -170,7 +175,7 @@ void Texture::setComparisonFunction(GLenum f) {
 }
 
 
-TBO::TBO() {
+oldTBO::oldTBO() {
 //	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
@@ -179,7 +184,7 @@ TBO::TBO() {
 	height = 0;
 }
 
-TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
+oldTBO::oldTBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
 //	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
@@ -189,7 +194,7 @@ TBO::TBO(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLe
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-TBO::TBO(const char* filename, bool goodfiltering) {
+oldTBO::oldTBO(const char* filename, bool goodfiltering) {
 //	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &theID);
 	glBindTexture(GL_TEXTURE_2D, theID);
@@ -199,7 +204,7 @@ TBO::TBO(const char* filename, bool goodfiltering) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
+void oldTBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* data, bool goodfiltering) {
 //	glEnable(GL_TEXTURE_2D); //just in case...
 	glBindTexture(GL_TEXTURE_2D, theID);
 
@@ -222,7 +227,7 @@ void TBO::load(GLint internalFormat, GLsizei width, GLsizei height, GLenum forma
 	this->height = height;
 }
 
-void TBO::load(const char* filename, bool goodfiltering) {
+void oldTBO::load(const char* filename, bool goodfiltering) {
 	unsigned char* image;
 	unsigned w, h;
 	unsigned error;
@@ -254,13 +259,13 @@ void TBO::load(const char* filename, bool goodfiltering) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TBO::bind(int id) {
+void oldTBO::bind(int id) {
 	// Bind our texture in Texture Unit 0
 	glActiveTexture(GL_TEXTURE0+id);
 	glBindTexture(GL_TEXTURE_2D, theID);
 }
 
-void TBO::qualite(bool qualite) {
+void oldTBO::qualite(bool qualite) {
 //	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, theID);
 
@@ -278,12 +283,12 @@ void TBO::qualite(bool qualite) {
 
 }
 
-void TBO::erase() {
+void oldTBO::erase() {
 	glDeleteTextures(1, &theID);
 //	glDisable(GL_TEXTURE_2D); //not sure...
 }
 
-void TBO::clamp(bool doit) {
+void oldTBO::clamp(bool doit) {
 	glBindTexture(GL_TEXTURE_2D, theID);
 
 	if(!doit) {

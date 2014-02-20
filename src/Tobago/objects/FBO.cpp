@@ -20,12 +20,12 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 
 	for(int i=0; i<ntbo; i++) {
 		//Maybe GL_RGBA32F
-		textures[i] = new TBO(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite[i]);
+		textures[i] = new oldTBO(GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0, qualite[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D, textures[i]->theID, 0);
 	}
 
 	if(dbo) {
-		depthtexture = new TBO(GL_DEPTH_COMPONENT24, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0, false);
+		depthtexture = new oldTBO(GL_DEPTH_COMPONENT24, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0, false);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,  depthtexture->theID, 0);
 	}
 
@@ -45,7 +45,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-FBO::FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qualite) 
+FBO::FBO(GLsizei width, GLsizei height, vector<oldTBO*> texs, oldTBO *depth, bool *qualite) 
 {
 	this->width = width;
 	this->height = height;

@@ -26,7 +26,7 @@ FontHandler::FontHandler(char* FontName) {
 	CHeight = 32;
 	CWidth  = 32;	
 	CharsPerRow = 16;
-	Alphabet = new TBO(FontName,true);
+	Alphabet = new oldTBO(FontName,true);
 	TexReader.loadFromString(GL_VERTEX_SHADER, FontHandler_vertex);
 	TexReader.loadFromString(GL_FRAGMENT_SHADER, FontHandler_fragment);
 	TexReader.link();
@@ -38,16 +38,16 @@ FontHandler::FontHandler(char* FontName, unsigned StartingChar, unsigned CellHei
 	CHeight = CellHeight;
 	CWidth  = CellWidth;
 	CharsPerRow = Square / CWidth ;
-	Alphabet = new TBO(FontName,true);
+	Alphabet = new oldTBO(FontName,true);
 	TexReader.loadFromString(GL_VERTEX_SHADER, FontHandler_vertex);
 	TexReader.loadFromString(GL_FRAGMENT_SHADER, FontHandler_fragment);
 	TexReader.link();
 	TexReader.addUniform("theTex");
 }
 
-TBO FontHandler::StringTex(char* Message, unsigned len){
-	TBO rett;
-	vector<TBO*> tmpsent;
+oldTBO FontHandler::StringTex(char* Message, unsigned len){
+	oldTBO rett;
+	vector<oldTBO*> tmpsent;
 	tmpsent.push_back(&rett);
 	bool tmpsent_bool[] = {true};
 	ret = new FBO(CWidth * len, CHeight, tmpsent, NULL, tmpsent_bool);

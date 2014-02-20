@@ -18,13 +18,13 @@ private:
 public:
 	GLsizei width, height;
 	int ntbo;
-	vector<TBO*> textures;
-	TBO *depthtexture;
+	vector<oldTBO*> textures;
+	oldTBO *depthtexture;
 	bool status;
 
 	FBO(GLsizei width, GLsizei height, bool bdo, int ntbo, bool *qualite);
 
-	FBO(GLsizei width, GLsizei height, vector<TBO*> texs, TBO *depth, bool *qualite);
+	FBO(GLsizei width, GLsizei height, vector<oldTBO*> texs, oldTBO *depth, bool *qualite);
 
 	void bind(bool erase=true);
 
