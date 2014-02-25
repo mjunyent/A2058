@@ -18,9 +18,7 @@ public:
 
 	void setViewPort(int width, int height);
 
-	void addTexture(Texture* t, FBOAttachment type, int mipmapLevel=0, int layer=0);
-	void addDepthTexture(Texture* t);
-	void addStencilTexture(Texture* t);
+	void attachTexture(Texture* t, FBOAttachment type, int mipmapLevel=0, int layer=0);
 
 	GLuint id;
 	int width, height;
