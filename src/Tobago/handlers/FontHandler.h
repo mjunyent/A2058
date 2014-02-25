@@ -37,7 +37,7 @@ class FontHandler {
 		unsigned CHeight;
 		unsigned CWidth ;
 		unsigned CharsPerRow;
-		FBO* ret;
+		oldFBO* ret;
 
 	public :
 		FontHandler(char*); // Por defecto las tres variables valdran 32.

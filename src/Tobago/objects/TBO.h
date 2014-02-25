@@ -132,8 +132,7 @@ public:
 
 	//Sampling parameters//
 
-	/* Magnification filter type. Can be GL_LINEAR, GL_NEAREST
-	 */
+	/* Magnification filter type. Can be GL_LINEAR, GL_NEAREST */
 	void setMagnificationFilter(GLenum filter);
 
 	/* Minification filter type. Without mipmap can be GL_NEAREST, GL_LINEAR

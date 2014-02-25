@@ -1,6 +1,48 @@
 #include "FBO.h"
 
-FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite) 
+FBO::FBO() {
+	glGenFramebuffers(1, &id);
+}
+
+void FBO::bind() {
+	glBindFramebuffer(GL_FRAMEBUFFER, id);
+}
+
+void FBO::unbind() {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FBO::setViewPort(int width, int height) {
+	this->width = width;
+	this->height = height;
+}
+
+void FBO::attachTexture(Texture* t, FBOAttachment type, int mipmapLevel/* =0 */, int layer/* =0 */) {
+	GLenum attachmentPoint;
+	if(type == DEPTH) {
+		attachmentPoint = GL_DEPTH_ATTACHMENT;
+	} else if (type == STENCIL) {
+		attachmentPoint = GL_STENCIL_ATTACHMENT;
+	} else {
+		attachmentPoint = GL_COLOR_ATTACHMENT0 + (type-COLOR0);
+	}
+
+	bind();
+	t->bind();
+
+	if(t->target == GL_TEXTURE_1D || t->target == GL_TEXTURE_BUFFER) {
+		glFramebufferTexture1D(GL_FRAMEBUFFER, attachmentPoint, t->target, t->id, mipmapLevel);
+	} else if(t->target == GL_TEXTURE_2D
+		   || t->target == GL_TEXTURE_RECTANGLE
+		   || t->target == GL_TEXTURE_2D_MULTISAMPLE) {
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentPoint, t->target, t->id, mipmapLevel);
+	} else { /* GL_TEXTURE_1D_ARRAY, GL_TEXTURE_2D_ARRAY, GL_TEXTURE_3D, GL_TEXTURE_2D_MULTISAMPLE_ARRAY */
+		glFramebufferTextureLayer(GL_FRAMEBUFFER, attachmentPoint, t->id, mipmapLevel, layer);
+	}
+}
+
+oldFBO::oldFBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite) 
 {
 	this->width = width;
 	this->height = height;
@@ -45,7 +87,7 @@ FBO::FBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-FBO::FBO(GLsizei width, GLsizei height, vector<oldTBO*> texs, oldTBO *depth, bool *qualite) 
+oldFBO::oldFBO(GLsizei width, GLsizei height, vector<oldTBO*> texs, oldTBO *depth, bool *qualite) 
 {
 	this->width = width;
 	this->height = height;
@@ -90,7 +132,7 @@ FBO::FBO(GLsizei width, GLsizei height, vector<oldTBO*> texs, oldTBO *depth, boo
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FBO::bind(bool erase) 
+void oldFBO::bind(bool erase) 
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, theID);				//bind buffer
 	glGetIntegerv(GL_VIEWPORT, viewport);
@@ -99,32 +141,32 @@ void FBO::bind(bool erase)
 	if(erase) glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clean things
 }
 
-void FBO::unbind() 
+void oldFBO::unbind() 
 {
 //	glPopAttrib();											//pop config
 	glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);	//set viewport
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FBO::erase() {
+void oldFBO::erase() {
 	for(unsigned int i=0; i<textures.size(); i++) textures[i]->erase();
 	if(depthtexture != NULL) depthtexture->erase();
 //	glDeleteRenderbuffers(1, &depthrenderbuffer);
 	glDeleteFramebuffers(1, &theID);
 }
 
-void FBO::bind_texture(int texture, int id) 
+void oldFBO::bind_texture(int texture, int id) 
 {
 	textures[texture]->bind(id);
 }
 
-void FBO::bind_depth_texture(int id)
+void oldFBO::bind_depth_texture(int id)
 {
 	depthtexture->bind(id);
 }
 
 
-void FBO::shout_error(GLenum error) {
+void oldFBO::shout_error(GLenum error) {
 	switch (error)
 	{
 		case GL_FRAMEBUFFER_UNDEFINED:
