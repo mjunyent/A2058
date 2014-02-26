@@ -16,12 +16,12 @@ public:
 	void bind();
 	void unbind();
 
-	void setViewPort(int width, int height);
+	void setViewPortCoords(int startX, int startY, int width, int height);
 
 	void attachTexture(Texture* t, FBOAttachment type, int mipmapLevel=0, int layer=0);
 
 	GLuint id;
-	int width, height;
+	int offsetX, offsetY, width, height;
 	//Texture 0 is Depth, 1 is Stencil, 2+ color attachments.
 	vector<Texture*> textures;
 };

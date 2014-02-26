@@ -2,6 +2,9 @@
 
 FBO::FBO() {
 	glGenFramebuffers(1, &id);
+	this->offsetX = this->offsetY = 0;
+	this->width = this->height = INT_MAX;
+	this->textures = vector<Texture*>(18, NULL);
 }
 
 void FBO::bind() {
@@ -12,12 +15,15 @@ void FBO::unbind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FBO::setViewPort(int width, int height) {
+void FBO::setViewPortCoords(int startX, int startY, int width, int height) {
 	this->width = width;
 	this->height = height;
+	this->offsetX = startX;
+	this->offsetY = startY;
 }
 
 void FBO::attachTexture(Texture* t, FBOAttachment type, int mipmapLevel/* =0 */, int layer/* =0 */) {
+	//Get type of attachment given FBOAttachment type.
 	GLenum attachmentPoint;
 	if(type == DEPTH) {
 		attachmentPoint = GL_DEPTH_ATTACHMENT;
@@ -40,6 +46,10 @@ void FBO::attachTexture(Texture* t, FBOAttachment type, int mipmapLevel/* =0 */,
 	} else { /* GL_TEXTURE_1D_ARRAY, GL_TEXTURE_2D_ARRAY, GL_TEXTURE_3D, GL_TEXTURE_2D_MULTISAMPLE_ARRAY */
 		glFramebufferTextureLayer(GL_FRAMEBUFFER, attachmentPoint, t->id, mipmapLevel, layer);
 	}
+
+	this->width = min(this->width, t->width);
+	this->height = min(this->height, t->height);
+	this->textures[type] = t;
 }
 
 oldFBO::oldFBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite) 
