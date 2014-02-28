@@ -45,6 +45,18 @@ int main(void) {
 	mm.generateMipmap();
 	mm.bindToGLSL(0);
 
+	FBO mySuperCoolFBO;
+	Texture fboTachment(GL_TEXTURE_2D_MULTISAMPLE);
+	fboTachment.setDataMultisample(1280, 720, 16);
+//	fboTachment.setData(1280, 720);
+	mySuperCoolFBO.bind();
+		mySuperCoolFBO.attachTexture(&fboTachment, FBO::COLOR0);
+		mySuperCoolFBO.setDrawBuffers();
+		mySuperCoolFBO.isFBOcomplete();
+	mySuperCoolFBO.unbind();
+
+
+
 //	TBO test("Images/Background.png", true);
 //	test.bind(0);
 
@@ -52,6 +64,8 @@ int main(void) {
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glViewport(0, 0, Tobago.contexts[0]->width, Tobago.contexts[0]->height);
 		
+		mySuperCoolFBO.use();
+
 		glm::mat4 View       = glm::lookAt(
 			glm::vec3(sin(glfwGetTime())*4,cos(glfwGetTime())*4,3), // Camera is at (4,3,3), in World Space
 			glm::vec3(0,0,0), // and looks at the origin
@@ -64,6 +78,20 @@ int main(void) {
 		simple("azul", (float)sin(10.0f*glfwGetTime()));
 		simple("MVP", &mvp);
 		vaoVAO.draw();
+
+		mySuperCoolFBO.unuse();
+
+		//Copy buffer to screen.
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, mySuperCoolFBO.id);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+		glReadBuffer(GL_COLOR_ATTACHMENT0);
+
+		glBlitFramebuffer(0, 0, 1280, 720,
+						  0, 0, 1280, 720,
+						  GL_COLOR_BUFFER_BIT, GL_LINEAR);
+
+	//	fboTachment.bindToGLSL(1);
 
 		Tobago.swap(0);
 		if(glfwGetKey(asdf.window, GLFW_KEY_ESCAPE) && Tobago.enabled(0)) Tobago.stop(0);

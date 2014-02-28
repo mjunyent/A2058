@@ -4,7 +4,24 @@ FBO::FBO() {
 	glGenFramebuffers(1, &id);
 	this->offsetX = this->offsetY = 0;
 	this->width = this->height = INT_MAX;
-	this->textures = vector<Texture*>(18, NULL);
+	this->depth = 0;
+	this->textures = vector<Texture*>(20, NULL);
+	clearFlag = GL_COLOR_BUFFER_BIT;
+}
+
+FBO::~FBO() {
+	glDeleteFramebuffers(1, &id);
+}
+
+void FBO::use(bool clear) {
+	bind();
+	viewPort();
+	if(clear) glClear(clearFlag);
+}
+
+void FBO::unuse() {
+	popViewPort();
+	unbind();
 }
 
 void FBO::bind() {
@@ -22,18 +39,55 @@ void FBO::setViewPortCoords(int startX, int startY, int width, int height) {
 	this->offsetY = startY;
 }
 
+void FBO::setDrawBuffers(FBOAttachment* buffers, int size) {
+	drawBuffers = new GLenum[size];
+	drawBuffersSize = size;
+	for(int i=0; i<size; i++) {
+		if(buffers[i] == NONE) drawBuffers[i] = GL_NONE;
+		else drawBuffers[i] = GL_COLOR_ATTACHMENT0 + (buffers[i]-COLOR0);
+	}
+	glDrawBuffers(size, drawBuffers); // "ntbo" is the size of DrawBuffers
+}
+
+void FBO::setDrawBuffers() {
+	drawBuffers = new GLenum[16];
+	int drawBuffersSize = 16;
+	for(int i=COLOR0; i<=COLOR15; i++) {
+		if(textures[i] = NULL) drawBuffers[i-COLOR0] = GL_NONE;
+		else drawBuffers[i-COLOR0] = GL_COLOR_ATTACHMENT0+(i-COLOR0);
+	}
+}
+
+void FBO::viewPort() {
+	glGetIntegerv(GL_VIEWPORT, previousViewPort);
+	glViewport(offsetX, offsetY, width, height);						//set viewport
+}
+
+void FBO::popViewPort() {
+	glViewport(previousViewPort[0], previousViewPort[1],
+			   previousViewPort[2], previousViewPort[3]);
+}
+
+void FBO::clearAll(GLbitfield mask /* = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT */) {
+	glClear(mask);
+}
+
 void FBO::attachTexture(Texture* t, FBOAttachment type, int mipmapLevel/* =0 */, int layer/* =0 */) {
 	//Get type of attachment given FBOAttachment type.
 	GLenum attachmentPoint;
 	if(type == DEPTH) {
 		attachmentPoint = GL_DEPTH_ATTACHMENT;
+		clearFlag = clearFlag | GL_DEPTH_BUFFER_BIT;
 	} else if (type == STENCIL) {
 		attachmentPoint = GL_STENCIL_ATTACHMENT;
+		clearFlag = clearFlag | GL_STENCIL_BUFFER_BIT;
+	} else if (type == DEPTHSTENCIL) {
+		attachmentPoint = GL_DEPTH_STENCIL_ATTACHMENT;
+		clearFlag = clearFlag | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
 	} else {
 		attachmentPoint = GL_COLOR_ATTACHMENT0 + (type-COLOR0);
 	}
 
-	bind();
 	t->bind();
 
 	if(t->target == GL_TEXTURE_1D || t->target == GL_TEXTURE_BUFFER) {
@@ -51,6 +105,120 @@ void FBO::attachTexture(Texture* t, FBOAttachment type, int mipmapLevel/* =0 */,
 	this->height = min(this->height, t->height);
 	this->textures[type] = t;
 }
+
+void FBO::attachLayeredTexture(Texture* t, FBOAttachment type, int mipmapLevel/* =0 */) {
+	GLenum attachmentPoint;
+	if(type == DEPTH) {
+		attachmentPoint = GL_DEPTH_ATTACHMENT;
+		clearFlag = clearFlag | GL_DEPTH_BUFFER_BIT;
+	} else if (type == STENCIL) {
+		attachmentPoint = GL_STENCIL_ATTACHMENT;
+		clearFlag = clearFlag | GL_STENCIL_BUFFER_BIT;
+	} else if (type == DEPTHSTENCIL) {
+		attachmentPoint = GL_DEPTH_STENCIL_ATTACHMENT;
+		clearFlag = clearFlag | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
+	} else {
+		attachmentPoint = GL_COLOR_ATTACHMENT0 + (type-COLOR0);
+	}
+
+	t->bind();
+	glFramebufferTexture(GL_FRAMEBUFFER, attachmentPoint, t->id, mipmapLevel);
+
+	this->width = min(this->width, t->width);
+	this->height = min(this->height, t->height);
+	this->depth = t->depth;
+	this->textures[type] = t;
+}
+
+bool FBO::isFBOcomplete() {
+	GLenum check_result = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if(check_result != GL_FRAMEBUFFER_COMPLETE) {
+		switch (check_result) {
+			case GL_FRAMEBUFFER_UNDEFINED:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_UNDEFINED";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
+				break;
+			case GL_FRAMEBUFFER_UNSUPPORTED:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_UNSUPPORTED";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+				Tobago.log->write(ERROR) << "FBO Creation error: GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS";
+				break;
+			case GL_FRAMEBUFFER_COMPLETE:
+				Tobago.log->write(ERROR) << "FBO Creation ok, why is this in LOG?";
+				break;
+			case 0:
+				Tobago.log->write(ERROR) << "FBO Creation error: 0 returned";
+			default:
+				Tobago.log->write(ERROR) << "FBO Creation error: Error not recognised";
+			break;
+		}
+		return false;
+	} return true;
+
+	/* http://www.opengl.org/sdk/docs/man3/xhtml/glCheckFramebufferStatus.xml
+		GL_FRAMEBUFFER_UNDEFINED is returned if target is the default framebuffer, but the default framebuffer does not exist.
+		GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT is returned if any of the framebuffer attachment points are framebuffer incomplete.
+		GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT is returned if the framebuffer does not have at least one image attached to it.
+		GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER is returned if the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for any color attachment point(s) named by GL_DRAWBUFFERi.
+		GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER is returned if GL_READ_BUFFER is not GL_NONE and the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for the color attachment point named by GL_READ_BUFFER.
+		GL_FRAMEBUFFER_UNSUPPORTED is returned if the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.
+		GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is returned if the value of GL_RENDERBUFFER_SAMPLES is not the same for all attached renderbuffers; if the value of GL_TEXTURE_SAMPLES is the not same for all attached textures; or, if the attached images are a mix of renderbuffers and textures, the value of GL_RENDERBUFFER_SAMPLES does not match the value of GL_TEXTURE_SAMPLES.
+		GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is also returned if the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not the same for all attached textures; or, if the attached images are a mix of renderbuffers and textures, the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not GL_TRUE for all attached textures.
+		GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS is returned if any framebuffer attachment is layered, and any populated attachment is not layered, or if all populated color attachments are not from textures of the same target.
+	*/
+}
+
+void FBO::copyTo(FBO* fbo,
+				 FBOAttachment readBuff,
+				 FBOAttachment* writeBuffs, int size,
+				 int srcX0, int srcY0, int srcX1, int srcY1,
+				 int dstX0, int dstY0, int dstX1, int dstY1,
+				 GLenum filter /* = GL_NEAREST */,
+				 bool copyDepth /* = false */, bool copyStencil /* = false */) {
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, id);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo->id);
+
+	GLbitfield mask = 0x0;
+	if(readBuff != NONE) mask = GL_COLOR_BUFFER_BIT;
+	else glReadBuffer(GL_COLOR_ATTACHMENT0 + (readBuff-COLOR0));
+
+	if(copyDepth) mask = mask | GL_DEPTH_BUFFER_BIT;
+	if(copyStencil) mask = mask | GL_STENCIL_BUFFER_BIT;
+
+	GLenum *drawBuffers = new GLenum[size];
+	for(int i=0; i<size; i++) {
+		if(writeBuffs[i] == NONE) drawBuffers[i] = GL_NONE;
+		else drawBuffers[i] = GL_COLOR_ATTACHMENT0 + (writeBuffs[i]-COLOR0);
+	}
+	glDrawBuffers(size, drawBuffers);
+
+	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1,
+					  dstX0, dstY0, dstX1, srcY1,
+					  mask, filter);
+
+	glDrawBuffers(fbo->drawBuffersSize, fbo->drawBuffers);
+}
+
+
+
+
+
+
 
 oldFBO::oldFBO(GLsizei width, GLsizei height, bool dbo, int ntbo, bool *qualite) 
 {
@@ -148,7 +316,7 @@ void oldFBO::bind(bool erase)
 	glGetIntegerv(GL_VIEWPORT, viewport);
 //	glPushAttrib(GL_VIEWPORT_BIT | GL_ENABLE_BIT);			//push viewport and enable config
 	glViewport(0, 0, width, height);						//set viewport
-	if(erase) glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clean things
+	if(erase) glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	//clean things
 }
 
 void oldFBO::unbind() 

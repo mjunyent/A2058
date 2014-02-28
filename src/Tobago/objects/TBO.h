@@ -73,7 +73,7 @@ public:
 				GL_RGBA (normalized integer or floating point color)
 				GL_RGBA_INTEGER (non normalized integer)
 				GL_DEPTH_COMPONENT
-				GL_STENCIL_INDEX (OGL 4.4)
+atoi()				GL_STENCIL_INDEX (OGL 4.4)
 				GL_DEPTH_STENCIL
 				*RGBA can be changed for RED, GREEN, BLUE, RG, RGB, BGR, BGRA.
 
