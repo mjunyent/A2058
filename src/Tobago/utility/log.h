@@ -10,7 +10,7 @@
 using namespace std;
 //http://stackoverflow.com/questions/5028302/small-logger-class
 
-enum LogLevel { ERROR, WARNING, INFO, DEBUG };
+enum LogLevel { ERROR, WARNING, INFO };
 
 class Log {
 public:

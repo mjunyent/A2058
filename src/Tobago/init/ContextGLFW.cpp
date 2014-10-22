@@ -21,6 +21,38 @@ ContextGLFW::ContextGLFW(int width, int height, const char* name, GLFWmonitor* m
 	this->windowName = name;
 	this->monitor = monitor;
 	this->shared = shared;
+
+    this->resizeCallback = NULL;
+    this->refreshCallback = NULL;
+    this->FBresizeCallback = NULL;
+
+    this->keyCallback = NULL;
+    this->mouseButtonCallback = NULL;
+    this->cursorMoveCallback = NULL;
+}
+
+void ContextGLFW::setWindowResizeCallback(std::tr1::function<void(int,int)> resizeCallback) {
+    this->resizeCallback = resizeCallback;
+}
+
+void ContextGLFW::setWindowRefreshCallback(std::tr1::function<void()> refreshCallback) {
+    this->refreshCallback = refreshCallback;
+}
+
+void ContextGLFW::setWindowFrameBufferResizeCallback(std::tr1::function<void(int, int)> FBresizeCallback) {
+    this->FBresizeCallback = FBresizeCallback;
+}
+
+void ContextGLFW::setKeyCallback(std::tr1::function<void(int, int, int, int)> keyCallback) {
+    this->keyCallback = keyCallback;
+}
+
+void ContextGLFW::setMouseButtonCallback(std::tr1::function<void(int, int, int)> mouseButtonCallback) {
+    this->mouseButtonCallback = mouseButtonCallback;
+}
+
+void ContextGLFW::setCursorPosCallback(std::tr1::function<void(double, double)> cursorMoveCallback) {
+    this->cursorMoveCallback = cursorMoveCallback;
 }
 
 void ContextGLFW::init() {
@@ -29,7 +61,15 @@ void ContextGLFW::init() {
 	else sharedWin = shared->window;
 
 	window = glfwCreateWindow(width, height, windowName.c_str(), monitor, sharedWin);
+
 	glfwSetFramebufferSizeCallback(window, glfw_framebuffersize_callback);
+    glfwSetWindowSizeCallback(window, glfw_windowResize_callback);
+    glfwSetWindowRefreshCallback(window, glfw_windowRefresh_callback);
+
+    glfwSetKeyCallback(window, glfw_key_callback);
+    glfwSetMouseButtonCallback(window, glfw_mouseButton_callback);
+    glfwSetCursorPosCallback(window, glfw_cursorPos_callback);
+//    glfwSetCursorPosCallback(window, glfw_cursorPos_callback);
 
 	if(!window) {
 		Tobago.log->write(ERROR) << "GLFW could not create window " << windowName.c_str();
@@ -64,7 +104,68 @@ void glfw_framebuffersize_callback(GLFWwindow* window, int width, int height) {
 			if(cg->window == window) {
 				cg->width = width;
 				cg->height = height;
+                if(cg->FBresizeCallback != NULL) cg->FBresizeCallback(width, height);
 				//makecontext && glViewport(0, 0, width, height);
+			}
+		}
+	}
+}
+
+void glfw_windowResize_callback(GLFWwindow* window, int width, int height) {
+	for(Context* c : Tobago.contexts) {
+		ContextGLFW* cg;
+		cg = dynamic_cast<ContextGLFW*>(c);
+		if(cg != NULL) {
+			if(cg->window == window) {
+                if(cg->resizeCallback != NULL) cg->resizeCallback(width, height);
+			}
+		}
+	}
+}
+
+void glfw_windowRefresh_callback(GLFWwindow* window) {
+    for(Context* c : Tobago.contexts) {
+		ContextGLFW* cg;
+		cg = dynamic_cast<ContextGLFW*>(c);
+		if(cg != NULL) {
+			if(cg->window == window) {
+                if(cg->refreshCallback != NULL) cg->refreshCallback();
+			}
+		}
+	}
+}
+
+void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    for(Context* c : Tobago.contexts) {
+		ContextGLFW* cg;
+		cg = dynamic_cast<ContextGLFW*>(c);
+		if(cg != NULL) {
+			if(cg->window == window) {
+                if(cg->keyCallback != NULL) cg->keyCallback(key, scancode, action, mods);
+			}
+		}
+	}
+}
+
+void glfw_mouseButton_callback(GLFWwindow* window, int button, int action, int mods) {
+    for(Context* c : Tobago.contexts) {
+		ContextGLFW* cg;
+		cg = dynamic_cast<ContextGLFW*>(c);
+		if(cg != NULL) {
+			if(cg->window == window) {
+                if(cg->mouseButtonCallback != NULL) cg->mouseButtonCallback(button, action, mods);
+			}
+		}
+	}
+}
+
+void glfw_cursorPos_callback(GLFWwindow* window, double xpos, double ypos) {
+    for(Context* c : Tobago.contexts) {
+		ContextGLFW* cg;
+		cg = dynamic_cast<ContextGLFW*>(c);
+		if(cg != NULL) {
+			if(cg->window == window) {
+                if(cg->cursorMoveCallback != NULL) cg->cursorMoveCallback(xpos, ypos);
 			}
 		}
 	}

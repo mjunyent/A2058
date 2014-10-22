@@ -2,12 +2,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "lodepng/lodepng.h"
+#include "jpeg-compressor/jpgd.h"
 #include "../utility/log.h"
 #include "../init/initTobago.h"
 #include "Buffer_Object.h"
 
 class Texture {
 public:
+    enum IMAGE_TYPE { PNG, JPG };
 	/* Types of texture:
 		GL_TEXTURE_1D							<- glTexImage1D
 		GL_TEXTURE_2D							<- glTexImage2D
@@ -21,7 +23,7 @@ public:
 		(and others).
 	*/
 	Texture(GLenum target);
-	Texture(const char* filename);
+	Texture(const char* filename, IMAGE_TYPE type);
 	~Texture();
 
 	void bind();
@@ -33,7 +35,7 @@ public:
 	void bindToGLSL(unsigned int id);
 
 	void loadFromPNG(const char* filename);
-
+    void loadFromJPG(const char* filename);
 	/* Allocates memory in GPU and transfers texture data to it.
 	 * width, height, depth: size of texture
 	 * data: pointer to array of data. NULL by default.

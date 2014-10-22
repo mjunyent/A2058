@@ -19,7 +19,6 @@ ofstream& Log::write(LogLevel ERRNO) {
 	if(ERRNO == ERROR)			(*m_out) << "ERROR";
 	else if (ERRNO == WARNING) 	(*m_out) << "WARNING";
 	else if (ERRNO == INFO) 	(*m_out) << "INFO";
-	else if (ERRNO == DEBUG) 	(*m_out) << "DEBUG";
 	(*m_out) << ": ";
 	return (*m_out);
 }

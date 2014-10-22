@@ -9,13 +9,14 @@ Texture::Texture(GLenum target) {
 	glGenTextures(1, &id);
 }
 
-Texture::Texture(const char* filename) {
+Texture::Texture(const char* filename, IMAGE_TYPE type) {
 	this->target = GL_TEXTURE_2D;
 	width = height = depth = 0;
 	samples = 1;
 	multisample = false;
 	glGenTextures(1, &id);
-	loadFromPNG(filename);
+    if(type == PNG) loadFromPNG(filename);
+    else loadFromJPG(filename);
 }
 
 Texture::~Texture() {
@@ -49,7 +50,19 @@ void Texture::loadFromPNG(const char* filename) {
 	if(error) Tobago.log->write(ERROR) << "Error loading PNG texture: " << filename;
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	setData(w, h, image);
+	setData((int)w, (int)h, image);
+	free(image);
+}
+
+void Texture::loadFromJPG(const char* filename) {
+    unsigned char* image;
+	int w, h, comps;
+    
+    image = jpgd::decompress_jpeg_image_from_file(filename, &w, &h, &comps, 3);
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+    if(comps == 1) setData(w, h, image, 0, GL_UNSIGNED_BYTE, GL_RGBA, GL_RED);
+    else setData(w, h, image, 0, GL_UNSIGNED_BYTE, GL_RGBA, GL_RGB);
 	free(image);
 }
 

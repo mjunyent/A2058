@@ -12,7 +12,7 @@ public:
 	 * GLenum mode: drawing mode, GL_LINES, GL_TRIANGLES, GL_QUADS, ......
 	 */
 	VAO(GLenum mode);
-	~VAO();
+	~VAO(); //TODO VAO DESTRUCTOR DON'T DELETE VBOS! (or is it?)
 
 	//Bind VAO to state
 	void bind();
