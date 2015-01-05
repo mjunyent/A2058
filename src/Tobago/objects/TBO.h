@@ -24,6 +24,7 @@ public:
 	*/
 	Texture(GLenum target);
 	Texture(const char* filename, IMAGE_TYPE type);
+    Texture(GLenum target, int width, int height, int depth, GLuint id);
 	~Texture();
 
 	void bind();

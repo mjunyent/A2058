@@ -19,6 +19,17 @@ Texture::Texture(const char* filename, IMAGE_TYPE type) {
     else loadFromJPG(filename);
 }
 
+Texture::Texture(GLenum target, int width, int height, int depth, GLuint id) {
+    this->id = id;
+    this->target = target;
+    if(target == GL_TEXTURE_2D_MULTISAMPLE || target == GL_TEXTURE_2D_MULTISAMPLE_ARRAY) multisample = true;
+    else multisample = false;
+    this->width = width;
+    this->height = height;
+    this->depth = depth;
+    samples = 1;
+}
+
 Texture::~Texture() {
 	glDeleteTextures(1, &id);
 }
